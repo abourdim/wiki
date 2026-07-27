@@ -55,8 +55,8 @@
       <div class="infobox">
         <div class="infobox-title">Network Setup</div>
         <table>
-          <tr><th>Ubuntu host</th><td>192.168.1.78</td></tr>
-          <tr><th>Windows host</th><td>192.168.1.54</td></tr>
+          <tr><th>Ubuntu host</th><td><span class="key-value">192.168.1.78</span></td></tr>
+          <tr><th>Windows host</th><td><span class="key-value">192.168.1.54</span></td></tr>
           <tr><th>OS (Ubuntu)</th><td>22.04 LTS</td></tr>
           <tr><th>OS (Windows)</th><td>11 Pro</td></tr>
           <tr><th>Protocol</th><td>SMB / CIFS</td></tr>
@@ -125,7 +125,7 @@ sudo ufw allow samba          # only if ufw is active</code></pre>
       <pre><code>net use Z: /delete
 net use Z: \\192.168.1.78\home_abdelhak /user:abdelhak /persistent:yes</code></pre>
 
-      <p>Open File Explorer &mdash; the drive appears under "This PC" as <code>home_abdelhak (Z:)</code>.</p>
+      <p>Open File Explorer &mdash; the drive appears under "This PC" as <span class="key-value">home_abdelhak (Z:)</span>.</p>
 
       <div class="ambox">
         <strong>Known issue:</strong> If Explorer shows "impossible d'acc&eacute;der" (can't access) but <code>net use</code> works fine, it's usually because the Windows network profile is set to <strong>Public</strong> instead of <strong>Private</strong>. Public profiles restrict SMB browsing in Explorer even though direct connections still work. Fix it under <em>Settings &rarr; Network &amp; Internet &rarr; your connection &rarr; Network profile type &rarr; Private</em>.
