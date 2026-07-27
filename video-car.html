@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VideoCar - Wiki</title>
+<link rel="stylesheet" href="wiki.css">
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-inner">
+    <a class="wiki-logo" href="https://workshop-diy.org"><img src="logo.png" alt="Wiki logo"></a>
+    <a class="masthead-site-link" href="https://workshop-diy.org">workshop-diy.org</a>
+    <div class="masthead-title">
+      Wiki
+      <span class="sub">The free personal knowledge base</span>
+    </div>
+    <div class="masthead-search">
+      <input type="text" placeholder="Search Wiki" disabled>
+    </div>
+  </div>
+</div>
+
+<div class="wiki-layout">
+
+  <div class="sidebar">
+    <h3>Navigation</h3>
+    <ul>
+      <li><a href="index.html">Main page</a></li>
+      <li><a href="#">Recent changes</a></li>
+      <li><a href="#">Random page</a></li>
+    </ul>
+    <h3>Categories</h3>
+    <ul>
+      <li><a href="index.html">Networking</a></li>
+      <li><a href="index.html">Linux</a></li>
+      <li><a href="index.html">Windows</a></li>
+      <li><a href="index.html">Electronics</a></li>
+      <li><a href="index.html">ESP32</a></li>
+    </ul>
+    <h3>Tools</h3>
+    <ul>
+      <li><a href="https://github.com/abourdim/video-car">View source repo</a></li>
+    </ul>
+  </div>
+
+  <div class="content-wrap">
+    <div class="article-tabs">
+      <span class="active">Article</span>
+      <span>Talk</span>
+    </div>
+
+    <article>
+      <h1 class="page-title">VideoCar</h1>
+
+      <div class="infobox">
+        <div class="infobox-title">VideoCar</div>
+        <table>
+          <tr><th>Board</th><td>ESP32-CAM (AI-Thinker)</td></tr>
+          <tr><th>Kit</th><td>keyestudio KS5017</td></tr>
+          <tr><th>Build systems</th><td>PlatformIO &amp; Arduino IDE</td></tr>
+          <tr><th>Control</th><td>Web UI over WiFi (AP or station mode)</td></tr>
+          <tr><th>Repository</th><td><a href="https://github.com/abourdim/video-car">github.com/abourdim/video-car</a></td></tr>
+        </table>
+      </div>
+
+      <p class="hatnote">This article covers the enhanced firmware and web control page for the keyestudio ESP32-CAM Video Smart Car, built on top of the stock keyestudio sketch.</p>
+
+      <div class="toc">
+        <div class="toc-title">Contents</div>
+        <ol>
+          <li><a href="#overview">Overview</a></li>
+          <li><a href="#quickstart">Quick start</a></li>
+          <li><a href="#features">Features vs. stock sketch</a></li>
+          <li><a href="#layout">Repository layout</a></li>
+          <li><a href="#builds">Build systems</a></li>
+          <li><a href="#troubleshooting">Troubleshooting</a></li>
+        </ol>
+      </div>
+
+      <h2 id="overview">Overview</h2>
+      <p><strong>VideoCar</strong> is an enhanced firmware and web control page for the keyestudio ESP32-CAM Video Smart Car. It builds on keyestudio's stock sketch, adding a virtual joystick, a connection-loss failsafe, snapshot/video capture, a redesigned control UI, and a PlatformIO build system alongside the original Arduino IDE sketch.</p>
+
+      <div class="ambox ambox-notice">
+        <strong>Hardware assembly:</strong> the official <a href="https://docs.keyestudio.com/projects/KS5017/en/latest/docs/Tutorial.html">keyestudio KS5017 tutorial</a> covers the kit list, assembly steps, pinout, and the original stock code this project builds on. Start there for physical assembly; this repo picks up once the car is built and the stock sketch runs.
+      </div>
+
+      <div class="ambox">
+        <strong>Vision features need internet:</strong> the default AP mode (<code>ap = 1</code>) hosts an isolated <code>keyes1</code> network with no internet. Pose, Hand tracking, Facial expression, Plates, AI Vision, and the jsQR fallback all download models from a CDN on first use, so they fail to start on the car's own AP. Driving, video streaming, snapshots, and recording all work fine there. To use the model-backed features, set <code>ap = 0</code> with your router's SSID/password and reflash. The exception is <strong>QR / Barcode</strong> on Chrome/Edge/Android Chrome, which uses the browser's built-in <code>BarcodeDetector</code> and needs no network at all.
+      </div>
+
+      <h2 id="quickstart">Quick start</h2>
+      <p><strong>Arduino IDE</strong> (known-good baseline): open <code>Codes/4_VideoCar/4_VideoCar.ino</code>, select your <code>esp32</code> board package version under <em>Tools &gt; Board &gt; Boards Manager</em>, enable <em>Tools &gt; PSRAM: Enabled</em>, select the AI-Thinker ESP32-CAM board, and flash as usual.</p>
+
+      <p><strong>PlatformIO</strong>:</p>
+      <pre><code>./launch.sh</code></pre>
+      <p>Walks you through checking/installing PlatformIO, building, flashing, and opening a serial monitor.</p>
+
+      <p>Once flashed, connect to the <code>keyes1</code> WiFi network (password <code>88888888</code>) and open <code>http://192.168.4.1</code> in a browser.</p>
+
+      <div class="ambox ambox-notice">
+        New to this, or want to drive the car from your own scripts? <code>ports.html</code> in the repo is a step-by-step guide to both servers &mdash; what port 80 and port 81 each do, every endpoint with its value ranges, and the 500ms failsafe that catches people out the first time they try to drive it with <code>curl</code>.
+      </div>
+
+      <h2 id="features">Features (vs. the stock keyestudio sketch)</h2>
+      <table class="wikitable">
+        <tr><th>Feature</th><th>Description</th></tr>
+        <tr><td>Joystick control</td><td>Draggable on-screen joystick (<code>/joystick?x=&amp;y=</code>), arcade-mixed to per-wheel PWM, alongside the original D-pad/keyboard controls.</td></tr>
+        <tr><td>Connection-loss failsafe</td><td>Auto-stops if no command is received for 500ms. WiFi auto-reconnect, MJPEG stream auto-recovery, live connection indicator.</td></tr>
+        <tr><td>Settings persistence</td><td>Speed, Trim, Lights, Quality, Resolution, Flip, and Mirror remembered on-device (NVS flash) and in the browser (<code>localStorage</code>).</td></tr>
+        <tr><td>Live flip/mirror toggles</td><td>Fix camera orientation live via <code>set_vflip</code>/<code>set_hmirror</code>, no reflash needed.</td></tr>
+        <tr><td>Pose detection</td><td>MoveNet skeleton tracking over up to a few people at once.</td></tr>
+        <tr><td>Hand tracking</td><td>MediaPipe Hands via TF.js, 21 keypoints per hand plus left/right handedness.</td></tr>
+        <tr><td>Facial expression</td><td>happy/sad/angry/surprised/etc. via <code>@vladmandic/face-api</code>.</td></tr>
+        <tr><td>QR / Barcode</td><td>Browser's native <code>BarcodeDetector</code> where available (no network needed); jsQR fallback otherwise.</td></tr>
+        <tr><td>Plates</td><td>Experimental license-plate reader: COCO-SSD car/truck/bus boxes + Tesseract.js OCR on the cropped region. Heuristic, not a trained detector.</td></tr>
+        <tr><td>AI Vision</td><td>Toggleable overlay detecting objects (COCO-SSD) and faces (BlazeFace) live over the viewfinder, entirely in-browser.</td></tr>
+        <tr><td>Build stamp</td><td>Firmware version, build timestamp, and git revision reported in the control page footer, <code>/status</code>, and serial console (with a <code>-dirty</code> suffix for uncommitted changes).</td></tr>
+        <tr><td>Classic CV (no models, no internet)</td><td><strong>Motion</strong> (frame differencing), <strong>Line</strong> follower (adaptive threshold, dark-on-light or light-on-dark), and <strong>Colour chase</strong> (rg-chromaticity blob tracking) &mdash; all plain pixel maths, running at full frame rate.</td></tr>
+        <tr><td>Offline model cache</td><td>Vision features cache CDN scripts/models in IndexedDB after first use over a network with internet, then work from the car's own AP afterward.</td></tr>
+        <tr><td>Follow-me (autonomous)</td><td>Proportional controller drives the car toward a chosen COCO-SSD target (person, ball, dog, cat, bottle, chair) via the same <code>/joystick</code> endpoint manual driving uses, so the 500ms failsafe covers it too. Disarmed by default; any manual input takes over instantly.</td></tr>
+        <tr><td>Snapshot &amp; video recording</td><td>Capture panel downloads a still JPEG or records <code>.webm</code>/<code>.mp4</code> client-side (Canvas + MediaRecorder).</td></tr>
+        <tr><td>Redesigned control page</td><td>Dark mission-control / camera-viewfinder HUD theme, grouped panels, live slider readouts, responsive layout.</td></tr>
+        <tr><td>Camera init resilience</td><td>Retries at a lower XCLK before giving up, blinks a visible LED error pattern, enables the brownout-detector workaround.</td></tr>
+      </table>
+
+      <p>Line and Colour chase drive the car and share Follow-me's arbiter and safety rules: manual input always wins, only one autonomous mode runs at a time, and a lost target stops the car and then disarms. Motion is passive and keeps running alongside whatever else is steering.</p>
+
+      <h2 id="layout">Repository layout</h2>
+      <pre><code>Codes/                  Original Arduino-IDE-style sketch layout (all 4 sketches)
+  4_VideoCar/            The enhanced sketch -- flash this one from Arduino IDE
+firmware/                PlatformIO projects, one per sketch
+  1_blink/                Onboard LED blink demo
+  2_breathing_light/      PWM LED fade demo
+  3_motor/                Motor driver test sequence (drives on boot -- give it room!)
+  4_videocar/              Mirrors Codes/4_VideoCar -- the main project
+launch.sh                Interactive PlatformIO menu, lets you pick which app to build/flash/monitor
+README.html               Rendered version of the README
+ports.html                Beginner's step-by-step guide to the port 80 / port 81 servers
+report.html               Detailed change report -- what changed, why, and what's still open</code></pre>
+
+      <p><code>Codes/4_VideoCar</code> and <code>firmware/4_videocar/src</code> are kept in sync &mdash; same source, two build systems. The other three sketches (<code>1_blink</code>, <code>2_breathing_light</code>, <code>3_motor</code>) are simple unmodified demos included for a complete workshop package.</p>
+
+      <h2 id="builds">Build systems</h2>
+
+      <h3>PlatformIO (<code>firmware/</code>)</h3>
+      <p>Each sketch is its own PlatformIO project under <code>firmware/&lt;name&gt;/</code>, all targeting <code>env:esp32cam</code> (AI-Thinker pinout).</p>
+      <table class="wikitable">
+        <tr><th>Setting</th><th>Value</th><th>Why</th></tr>
+        <tr><td><code>platform</code></td><td><code>espressif32@6.5.0</code></td><td>Pinned so PlatformIO doesn't silently pull a different <code>esp32-camera</code> driver version than Arduino IDE has, which changes camera sensor-probe behavior.</td></tr>
+        <tr><td><code>board_build.partitions</code></td><td><code>huge_app.csv</code></td><td>The camera+WiFi+webserver binary doesn't fit the default partition table.</td></tr>
+        <tr><td><code>build_flags</code></td><td><code>-DBOARD_HAS_PSRAM</code>, <code>-mfix-esp32-psram-cache-issue</code></td><td>Arduino IDE's <em>PSRAM: Enabled</em> menu sets these behind the scenes; PlatformIO's generic board definition does not. Root cause of "works in Arduino IDE, camera fails in PlatformIO" (<code>Camera init failed with error 0x106</code>).</td></tr>
+        <tr><td><code>upload_speed</code></td><td><code>460800</code></td><td>Safer default than 921600 for boards flashed through a bare FTDI adapter with no auto-reset circuit.</td></tr>
+      </table>
+
+      <p><code>launch.sh</code> menu:</p>
+      <pre><code>0) Select app               5) Build + Flash + Monitor
+1) Check installation       6) Serial monitor
+2) Install PlatformIO       7) List serial ports
+3) Build firmware           8) Clean build
+4) Flash firmware</code></pre>
+
+      <h3>Arduino IDE (<code>Codes/4_VideoCar/</code>)</h3>
+      <p>Standard Arduino IDE flow. Make sure <em>Tools &gt; PSRAM</em> is set to <strong>Enabled</strong> and <em>Tools &gt; Partition Scheme</em> is set to a scheme with enough app space (e.g. "Huge APP (3MB No OTA/1MB SPIFFS)").</p>
+
+      <h2 id="troubleshooting">Troubleshooting</h2>
+      <table class="wikitable">
+        <tr><th>Symptom</th><th>Cause / fix</th></tr>
+        <tr>
+          <td><code>Camera init failed with error 0x106</code> (PlatformIO only, works in Arduino IDE)</td>
+          <td><code>ESP_ERR_NOT_SUPPORTED</code> from the camera sensor probe &mdash; a toolchain/build-flag mismatch, not hardware. Run <code>./launch.sh</code> option 8 (Clean) and confirm the pinned platform version roughly matches your Arduino IDE's <code>esp32</code> core version.</td>
+        </tr>
+        <tr>
+          <td>Repeated resets right after a camera error</td>
+          <td>Usually a marginal power supply &mdash; camera + WiFi init draws a current spike many FTDI adapters can't supply cleanly. Use a proper 5V/2A source.</td>
+        </tr>
+        <tr>
+          <td>Car doesn't stop when the browser tab closes / WiFi drops</td>
+          <td>Shouldn't happen &mdash; check the build stamp in the footer; <code>nogit</code> or an unexpected commit means you may be running stock keyestudio firmware with no failsafe.</td>
+        </tr>
+        <tr>
+          <td>A Vision feature can't load, on the car's own WiFi</td>
+          <td>Expected the first time &mdash; the car's AP has no internet. Join a router, enable the feature once so it caches, then return to the car's AP.</td>
+        </tr>
+        <tr>
+          <td>Video feed dies when a Vision/autonomy feature starts</td>
+          <td>CORS mismatch between the page and port 81's stream. The page detects this and reconnects without CORS after two failures, falling back to <code>/capture</code> polling.</td>
+        </tr>
+        <tr>
+          <td>Line follower doesn't move at all</td>
+          <td>Put the Speed slider at maximum &mdash; it multiplies with the mode's own cap. Raise <code>LINE_SPEED</code> in <code>app_server.h</code> if still stuck.</td>
+        </tr>
+        <tr>
+          <td>Line follower weaves or loses the line</td>
+          <td>Lower <code>LINE_KP</code> rather than raising it (latency-dominated loop). Raise <code>LINE_TURN_CUT</code> if it misses corners.</td>
+        </tr>
+      </table>
+
+      <div class="ambox">
+        <strong>No authentication on the control endpoints:</strong> known, unaddressed limitation carried over from the original sketch. Anyone on the <code>keyes1</code> WiFi network (default password <code>88888888</code>) can drive the car.
+      </div>
+
+      <div class="catlinks">
+        Categories: <a href="index.html">Electronics</a> | <a href="index.html">ESP32</a> | <a href="index.html">Robotics</a>
+      </div>
+    </article>
+  </div>
+</div>
+
+<div class="footer-wiki">
+  This page was created on 27 July 2026 and last edited on 27 July 2026. Content adapted from the <a href="https://github.com/abourdim/video-car">video-car</a> repository README.
+</div>
+
+</body>
+</html>
