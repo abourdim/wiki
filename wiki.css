@@ -45,6 +45,14 @@ a.new { color: #ba0000; }
   object-fit: contain;
   padding: 4px;
 }
+.masthead-site-link {
+  font-size: 0.78rem;
+  color: #54595d;
+  white-space: nowrap;
+}
+.masthead-site-link:hover {
+  color: #0645ad;
+}
 .masthead-title {
   font-family: Georgia, "Times New Roman", serif;
   font-size: 1.5rem;
