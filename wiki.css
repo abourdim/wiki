@@ -31,16 +31,19 @@ a.new { color: #ba0000; }
 .wiki-logo {
   width: 42px; height: 42px;
   border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, #fff, #cfd8e3 60%, #a2a9b1);
+  background: #fff;
   border: 1px solid #a2a9b1;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: Georgia, "Times New Roman", serif;
-  font-weight: bold;
-  font-size: 1.3rem;
-  color: #202122;
   flex-shrink: 0;
+  overflow: hidden;
+}
+.wiki-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 4px;
 }
 .masthead-title {
   font-family: Georgia, "Times New Roman", serif;
