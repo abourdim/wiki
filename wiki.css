@@ -206,6 +206,16 @@ pre, code {
   font-family: monospace;
   font-size: 0.85rem;
 }
+.key-value {
+  font-family: monospace;
+  font-size: 0.85rem;
+  font-weight: bold;
+  background: #fef6e7;
+  border: 1px solid #f0a30a;
+  color: #7a4c00;
+  padding: 1px 6px;
+  border-radius: 2px;
+}
 pre {
   background: #f8f9fa;
   border: 1px solid #eaecf0;
