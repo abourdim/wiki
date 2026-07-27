@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sharing Files Between Ubuntu and Windows 11 (SMB Guide)</title>
+<style>
+  :root {
+    --bg: #0f1115;
+    --card: #161a22;
+    --accent: #4f8cff;
+    --accent2: #ffb454;
+    --text: #e6e8ee;
+    --muted: #9aa4b2;
+    --code-bg: #0b0d12;
+    --border: #262b36;
+    --success: #3ddc97;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+  }
+  header {
+    padding: 48px 24px 32px;
+    text-align: center;
+    background: radial-gradient(ellipse at top, #1b2130 0%, var(--bg) 70%);
+    border-bottom: 1px solid var(--border);
+  }
+  header h1 {
+    margin: 0 0 8px;
+    font-size: 2.1rem;
+    background: linear-gradient(90deg, var(--accent), var(--success));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  header p { color: var(--muted); margin: 0; }
+  .container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 32px 20px 80px;
+  }
+  nav.toc {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 40px;
+  }
+  nav.toc h2 { margin-top: 0; font-size: 1.1rem; color: var(--accent2); }
+  nav.toc ol { margin: 0; padding-left: 20px; }
+  nav.toc a { color: var(--text); text-decoration: none; }
+  nav.toc a:hover { color: var(--accent); text-decoration: underline; }
+
+  section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 28px 28px 24px;
+    margin-bottom: 28px;
+  }
+  section h2 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.35rem;
+    margin-top: 0;
+    color: var(--accent);
+  }
+  section h2 .badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #08101f;
+    font-size: 0.9rem;
+    font-weight: 700;
+  }
+  h3 { color: var(--accent2); font-size: 1.05rem; margin-bottom: 8px; }
+  p { color: var(--text); }
+  .muted { color: var(--muted); font-size: 0.92rem; }
+
+  pre {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+    overflow-x: auto;
+    font-size: 0.88rem;
+    position: relative;
+  }
+  code {
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    color: #c9e6ff;
+  }
+  p code, li code {
+    background: var(--code-bg);
+    padding: 2px 6px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    color: #ffd479;
+    font-size: 0.9em;
+  }
+
+  .steps { counter-reset: step; list-style: none; padding-left: 0; margin: 16px 0; }
+  .steps > li {
+    counter-increment: step;
+    margin-bottom: 16px;
+    padding-left: 40px;
+    position: relative;
+  }
+  .steps > li::before {
+    content: counter(step);
+    position: absolute;
+    left: 0; top: 0;
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: var(--accent2);
+    color: #1a1200;
+    font-weight: 700;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .callout {
+    border-left: 4px solid var(--accent);
+    background: #10233f;
+    padding: 12px 16px;
+    border-radius: 6px;
+    margin: 16px 0;
+    font-size: 0.92rem;
+  }
+  .callout.warn { border-left-color: #ff6b6b; background: #2c1414; }
+  .callout.tip { border-left-color: var(--success); background: #0f2a22; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-size: 0.9rem;
+  }
+  th, td {
+    text-align: left;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  th { color: var(--accent2); }
+
+  .status {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+  .status.done { background: rgba(61,220,151,0.15); color: var(--success); border: 1px solid var(--success); }
+  .status.pending { background: rgba(255,180,84,0.15); color: var(--accent2); border: 1px solid var(--accent2); }
+
+  footer {
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.85rem;
+    padding: 24px;
+  }
+  a { color: var(--accent); }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Sharing Files Between Ubuntu &amp; Windows 11</h1>
+  <p>A step-by-step tutorial based on setting up SMB file sharing in both directions on a local network</p>
+</header>
+
+<div class="container">
+
+  <nav class="toc">
+    <h2>Contents</h2>
+    <ol>
+      <li><a href="#overview">Overview &amp; Network Info</a></li>
+      <li><a href="#ubuntu-to-windows">Share an Ubuntu folder to Windows</a></li>
+      <li><a href="#windows-to-ubuntu">Share a Windows folder to Ubuntu</a></li>
+      <li><a href="#explorer-access">Browsing shares from each file manager</a></li>
+      <li><a href="#troubleshooting">Troubleshooting notes</a></li>
+    </ol>
+  </nav>
+
+  <section id="overview">
+    <h2><span class="badge">1</span> Overview &amp; Network Info</h2>
+    <p>Both machines were on the same local network (LAN), which is required for this setup (no port forwarding or VPN needed).</p>
+    <table>
+      <tr><th>Machine</th><th>OS</th><th>IP Address</th><th>Role</th></tr>
+      <tr><td>Ubuntu PC</td><td>Ubuntu 22.04 LTS</td><td><code>192.168.1.78</code></td><td>Samba server &amp; client</td></tr>
+      <tr><td>Windows PC</td><td>Windows 11 Pro</td><td><code>192.168.1.54</code></td><td>SMB server &amp; client</td></tr>
+    </table>
+    <div class="callout tip">
+      <strong>Why this works:</strong> Both Ubuntu (via Samba) and Windows (natively) speak the SMB/CIFS protocol, so each OS can act as both a file server and a client to the other — no third-party software required.
+    </div>
+  </section>
+
+  <section id="ubuntu-to-windows">
+    <h2><span class="badge">2</span> Share an Ubuntu folder <em>to</em> Windows</h2>
+    <p>Goal: make an Ubuntu folder (e.g. the home directory) show up as a network drive on Windows.</p>
+
+    <h3>On Ubuntu — install &amp; configure Samba</h3>
+    <ol class="steps">
+      <li>Install Samba (skip if already installed):
+        <pre><code>sudo apt-get update
+sudo apt-get install -y samba</code></pre>
+      </li>
+      <li>Add a share definition to <code>/etc/samba/smb.conf</code>:
+        <pre><code>sudo tee -a /etc/samba/smb.conf > /dev/null <<'EOF'
+
+[home_abdelhak]
+   comment = Abdelhak Home Folder
+   path = /home/abdelhak
+   browseable = yes
+   read only = no
+   guest ok = no
+   valid users = abdelhak
+   create mask = 0664
+   directory mask = 0775
+EOF</code></pre>
+      </li>
+      <li>Set a Samba password for your Linux user (separate credential store from your login password):
+        <pre><code>sudo smbpasswd -a abdelhak</code></pre>
+      </li>
+      <li>Restart the Samba services and allow it through the firewall:
+        <pre><code>sudo systemctl restart smbd nmbd
+sudo ufw allow samba          # only if ufw is active</code></pre>
+      </li>
+      <li>Make sure Samba starts automatically on boot:
+        <pre><code>sudo systemctl enable smbd nmbd</code></pre>
+      </li>
+    </ol>
+
+    <h3>On Windows — connect to the share</h3>
+    <ol class="steps">
+      <li>Open <strong>Command Prompt</strong> or <strong>PowerShell</strong> and test the connection:
+        <pre><code>net use Z: \\192.168.1.78\home_abdelhak /user:abdelhak</code></pre>
+        Enter the Samba password when prompted.
+      </li>
+      <li>Make the mapping <strong>permanent</strong> (survives reboot, auto-reconnects at login):
+        <pre><code>net use Z: /delete
+net use Z: \\192.168.1.78\home_abdelhak /user:abdelhak /persistent:yes</code></pre>
+      </li>
+      <li>Open <strong>File Explorer</strong> — the drive appears under "This PC" as <code>home_abdelhak (Z:)</code>.</li>
+    </ol>
+
+    <div class="callout warn">
+      <strong>Gotcha:</strong> If Explorer shows "impossible d'accéder" (can't access) but <code>net use</code> works fine, it's usually because the Windows network profile is set to <strong>Public</strong> instead of <strong>Private</strong>. Public profiles restrict SMB browsing in Explorer even though direct connections still work. Fix it under <em>Settings → Network &amp; Internet → your connection → Network profile type → Private</em>.
+    </div>
+  </section>
+
+  <section id="windows-to-ubuntu">
+    <h2><span class="badge">3</span> Share a Windows folder <em>to</em> Ubuntu</h2>
+    <p>Goal: mount a Windows folder (e.g. the user profile) as a local directory on Ubuntu.</p>
+
+    <h3>On Windows — enable sharing</h3>
+    <ol class="steps">
+      <li>Confirm network discovery &amp; file sharing are on: <em>Settings → Network &amp; Internet → Advanced network settings → Advanced sharing settings</em>, toggle <strong>Network discovery</strong> and <strong>File and printer sharing</strong> to On for the Private profile.</li>
+      <li>Right-click the folder to share (e.g. <code>C:\Users\Win10</code>) → <strong>Properties</strong> → <strong>Sharing</strong> tab → <strong>Advanced Sharing</strong>.</li>
+      <li>Check <strong>"Share this folder"</strong>, give it a share name (e.g. <code>Win10</code>).</li>
+      <li>Click <strong>Permissions</strong> → grant your user <strong>Full Control</strong> → OK → OK → Close.</li>
+      <li>Verify from PowerShell:
+        <pre><code>net share</code></pre>
+        Confirms the share name and path.
+      </li>
+    </ol>
+
+    <h3>On Ubuntu — mount the share</h3>
+    <ol class="steps">
+      <li>Install the CIFS client tools:
+        <pre><code>sudo apt-get install -y cifs-utils</code></pre>
+      </li>
+      <li>Create a mount point and test-mount it:
+        <pre><code>sudo mkdir -p /mnt/win10share
+sudo mount -t cifs //192.168.1.54/Win10 /mnt/win10share \
+  -o username=Win10,uid=$(id -u),gid=$(id -g)</code></pre>
+        Enter the Windows account password when prompted, then confirm with:
+        <pre><code>ls /mnt/win10share</code></pre>
+      </li>
+      <li>Make it <strong>permanent</strong> using a credentials file (safer than a plaintext password in <code>/etc/fstab</code>, which is world-readable):
+        <pre><code>sudo mkdir -p /etc/samba/creds
+sudo nano /etc/samba/creds/win10share</code></pre>
+        Add:
+        <pre><code>username=Win10
+password=YOUR_WINDOWS_PASSWORD</code></pre>
+        Lock down the file permissions:
+        <pre><code>sudo chmod 600 /etc/samba/creds/win10share</code></pre>
+      </li>
+      <li>Add a permanent auto-mount entry to <code>/etc/fstab</code>:
+        <pre><code>echo "//192.168.1.54/Win10 /mnt/win10share cifs credentials=/etc/samba/creds/win10share,uid=$(id -u),gid=$(id -g),iocharset=utf8,x-systemd.automount,x-systemd.requires=network-online.target,_netdev 0 0" | sudo tee -a /etc/fstab</code></pre>
+      </li>
+      <li>Reload and test:
+        <pre><code>sudo systemctl daemon-reload
+sudo mount -a
+ls /mnt/win10share</code></pre>
+      </li>
+    </ol>
+
+    <div class="callout tip">
+      <strong>Why <code>x-systemd.automount</code> + <code>_netdev</code>?</strong> These options mount the share on-demand once the network is ready, instead of blocking boot if the Windows PC happens to be off or unreachable.
+    </div>
+  </section>
+
+  <section id="explorer-access">
+    <h2><span class="badge">4</span> Browsing shares from each file manager</h2>
+
+    <h3>From Ubuntu (Nautilus / "Files")</h3>
+    <p>Once mounted, browse it like any local folder:</p>
+    <ol class="steps">
+      <li>Open <strong>Files</strong>, press <code>Ctrl+L</code>, type <code>/mnt/win10share</code>, press Enter.</li>
+      <li>Optionally drag the folder into the sidebar to bookmark it for one-click access.</li>
+      <li>Alternatively, connect live over the network without the fstab mount:
+        press <code>Ctrl+L</code> and enter <code>smb://192.168.1.54/Win10</code> — this prompts for credentials via a GUI dialog.</li>
+    </ol>
+
+    <h3>From Windows (File Explorer)</h3>
+    <ol class="steps">
+      <li>The mapped drive appears automatically under <strong>This PC</strong> once set up with <code>/persistent:yes</code>.</li>
+      <li>You can also type the UNC path directly in the address bar: <code>\\192.168.1.78\home_abdelhak</code>.</li>
+    </ol>
+  </section>
+
+  <section id="troubleshooting">
+    <h2><span class="badge">5</span> Troubleshooting notes</h2>
+    <table>
+      <tr><th>Symptom</th><th>Likely cause</th><th>Fix</th></tr>
+      <tr>
+        <td>Explorer can't browse the share, but <code>net use</code> works</td>
+        <td>Network profile set to Public</td>
+        <td>Switch to Private profile in Windows network settings</td>
+      </tr>
+      <tr>
+        <td>RDP connection "lost connection" immediately</td>
+        <td>Port 3389 blocked by Windows Firewall, or RDP not actually enabled</td>
+        <td>Check Firewall → allow Remote Desktop; confirm the toggle is On in Settings → System → Remote Desktop</td>
+      </tr>
+      <tr>
+        <td>Two RDP servers conflict on Ubuntu (xrdp vs. GNOME Remote Desktop)</td>
+        <td>Both try to bind port 3389</td>
+        <td>Disable the unused one: <code>sudo systemctl disable --now xrdp</code></td>
+      </tr>
+      <tr>
+        <td><code>mount.cifs: command not found</code></td>
+        <td>Missing package</td>
+        <td><code>sudo apt-get install -y cifs-utils</code></td>
+      </tr>
+    </table>
+  </section>
+
+  <p class="muted" style="text-align:center; margin-top: 40px;">
+    Status: Ubuntu → Windows share <span class="status done">done</span> &nbsp;
+    Windows → Ubuntu share <span class="status done">done</span> &nbsp;
+    RDP screen control <span class="status pending">pending / partial</span>
+  </p>
+
+</div>
+
+<footer>
+  Generated as a personal reference from a live troubleshooting session. Adjust IPs, usernames, and paths to match your own machines.
+</footer>
+
+</body>
+</html>
