@@ -72,6 +72,7 @@
         <ol>
           <li><a href="#overview">Overview</a></li>
           <li><a href="#quickstart">Quick start</a></li>
+          <li><a href="#walkthrough">Step-by-step: clone, flash &amp; test</a></li>
           <li><a href="#features">Features vs. stock sketch</a></li>
           <li><a href="#layout">Repository layout</a></li>
           <li><a href="#builds">Build systems</a></li>
@@ -100,8 +101,176 @@
       <p>Once flashed, connect to the <span class="key-value">keyes1</span> WiFi network (password <span class="key-value">88888888</span>) and open <span class="key-value">http://192.168.4.1</span> in a browser.</p>
 
       <div class="ambox ambox-notice">
-        New to this, or want to drive the car from your own scripts? <code>ports.html</code> in the repo is a step-by-step guide to both servers &mdash; what port 80 and port 81 each do, every endpoint with its value ranges, and the 500ms failsafe that catches people out the first time they try to drive it with <code>curl</code>.
+        New to this, or want to drive the car from your own scripts? <code>ports.html</code> in the repo is a step-by-step guide to both servers &mdash; what port 80 and port 81 each do, every endpoint with its value ranges, and the 500ms failsafe that catches people out the first time they try to drive it with <code>curl</code>. The full walkthrough below is adapted from it.
       </div>
+
+      <h2 id="walkthrough">Step-by-step: clone, flash &amp; test</h2>
+      <p>This walkthrough takes you from a bare checkout to a car driving on the desk and both web servers verified working. No prior knowledge of HTTP assumed; nothing here requires editing or recompiling the firmware.</p>
+
+      <div class="ambox">
+        <strong>Put the car on blocks before any of the driving steps.</strong> A book under each side, wheels clear of the desk. You are about to send it commands by hand, and it is easy to send "forward" and then go looking for the stop command while it drives off the table.
+      </div>
+
+      <h3>1. Clone the repository</h3>
+      <pre><code>git clone https://github.com/abourdim/video-car.git
+cd video-car</code></pre>
+      <p>A car with the KS5017 kit already assembled per the <a href="https://docs.keyestudio.com/projects/KS5017/en/latest/docs/Tutorial.html">official keyestudio tutorial</a>, and a USB cable to the ESP32-CAM's FTDI adapter.</p>
+
+      <h3>2. Pick a build system and flash</h3>
+      <p><strong>Option A &mdash; Arduino IDE</strong> (known-good baseline): open <code>Codes/4_VideoCar/4_VideoCar.ino</code>, select your <code>esp32</code> board package version under <em>Tools &gt; Board &gt; Boards Manager</em>, enable <em>Tools &gt; PSRAM: Enabled</em>, set <em>Tools &gt; Partition Scheme</em> to one with enough app space (e.g. "Huge APP (3MB No OTA/1MB SPIFFS)"), select the AI-Thinker ESP32-CAM board, and click Upload.</p>
+      <p><strong>Option B &mdash; PlatformIO</strong>:</p>
+      <pre><code>./launch.sh</code></pre>
+      <p>Walks you through checking/installing PlatformIO, selecting the <code>4_videocar</code> app, building, flashing, and opening a serial monitor (menu options 0 through 8).</p>
+      <p>Watch the serial monitor (115200 baud) while it boots. A healthy boot looks like:</p>
+      <pre><code>VideoCar v1.5.0  |  built Jul 26 2026 12:47:05  |  33fd730
+Starting web server on port: '80'
+Starting stream server on port: '81'
+Camera Ready! Use 'http://192.168.4.1' to connect</code></pre>
+
+      <h3>3. Get on the same network as the car</h3>
+      <p><strong>Default (access point mode).</strong> The car makes its own WiFi network. On your phone or laptop, join:</p>
+      <pre><code>network:  keyes1
+password: 88888888</code></pre>
+      <p>The car is then always at <span class="key-value">192.168.4.1</span>. It has no internet connection &mdash; it is a network of exactly two devices, you and the car. On a phone, expect (and ignore) a warning that the network has no internet.</p>
+      <p>If you reflashed with station mode (<code>ap = 0</code>), the car joins your router instead and the router decides its address &mdash; read the boot message on the serial console for the actual IP and use that in place of <code>192.168.4.1</code> below.</p>
+
+      <h3>4. Open the control page &mdash; port 80</h3>
+      <pre><code>http://192.168.4.1/</code></pre>
+      <p>No port number needed; the browser fills in 80 silently. You should see the dark control page, live video within a second or two, and a build stamp in the footer.</p>
+      <div class="ambox ambox-notice">Blank page or a spinner forever? Confirm you typed <code>http://</code> and not <code>https://</code> &mdash; the car speaks plain HTTP only, and some browsers try HTTPS first and give up quietly.</div>
+
+      <h3>5. Watch the raw video &mdash; port 81</h3>
+      <p>Open a new tab and go to:</p>
+      <pre><code>http://192.168.4.1:81/stream</code></pre>
+      <p>You get the video on its own, filling the window, with no page around it &mdash; the same MJPEG data the control page wraps in an <code>&lt;img&gt;</code> tag. If this tab shows video, the camera and both servers are fine and any problem is in the page. The tab spinner never stops &mdash; that's correct, the response never finishes. Close this tab before driving; every open stream consumes one of the camera's limited frame buffers.</p>
+
+      <h3>6. Take a single photo</h3>
+      <pre><code>http://192.168.4.1/capture</code></pre>
+      <p>One JPEG taken the moment you ask, then the connection closes normally &mdash; the opposite of the stream. From a terminal:</p>
+      <pre><code># save one frame as shot.jpg
+curl http://192.168.4.1/capture -o shot.jpg</code></pre>
+
+      <h3>7. Ask the car what it is doing</h3>
+      <pre><code>http://192.168.4.1/status</code></pre>
+      <p>Returns JSON with every current setting plus firmware version, build time, and git revision:</p>
+      <pre><code>{"framesize":5,"quality":10,"vflip":1,"hmirror":1,
+ "speed":8,"trim":0,"flash":0,
+ "version":"1.5.0","build":"Jul 26 2026 12:47:05","gitrev":"33fd730"}</code></pre>
+      <p>This is what the control page itself calls on load to restore your sliders, and every two seconds after as a connection check.</p>
+
+      <h3>8. Change a setting by hand</h3>
+      <p>Settings use one endpoint with two parameters: <code>var</code> (what to change) and <code>val</code> (the new value). Try the headlight, which is harmless and obvious:</p>
+      <pre><code># half brightness
+http://192.168.4.1/control?var=flash&val=128
+
+# off again
+http://192.168.4.1/control?var=flash&val=0</code></pre>
+      <p>From a terminal, note the quotes &mdash; <code>&amp;</code> means something special to most shells, so the URL must be quoted:</p>
+      <pre><code>curl "http://192.168.4.1/control?var=flash&val=128"</code></pre>
+      <p>The white LED on the front should come on, then off. Settings are saved to the car's flash and survive a reboot.</p>
+
+      <h3>9. Drive it &mdash; and meet the failsafe</h3>
+      <p>Driving uses the same endpoint with <code>var=car</code>:</p>
+      <pre><code>val=1  forward     val=4  turn right
+val=2  backward    val=5  stop
+val=3  turn left</code></pre>
+      <pre><code>curl "http://192.168.4.1/control?var=car&val=1"</code></pre>
+      <p>The wheels turn for about half a second and stop &mdash; nothing is broken. The firmware stops the motors if <strong>500ms</strong> pass with no new command, so a dropped WiFi connection or a closed laptop can't leave it driving forever. One command is a lease, not an instruction &mdash; to keep moving, keep renewing it, which is exactly what the control page does every 100ms. To drive forward for three seconds from a terminal:</p>
+      <pre><code># macOS / Linux
+end=$((SECONDS+3))
+while [ $SECONDS -lt $end ]; do
+  curl -s "http://192.168.4.1/control?var=car&val=1" &gt; /dev/null
+  sleep 0.1
+done
+curl -s "http://192.168.4.1/control?var=car&val=5" &gt; /dev/null   # stop</code></pre>
+
+      <h3>10. Steer smoothly instead of in four directions</h3>
+      <p><code>/control?var=car</code> only knows four directions and stop. For proportional control &mdash; any direction, any speed &mdash; use the joystick endpoint (both values <code>-100</code> to <code>100</code>; <code>x</code> is steering, <code>y</code> is throttle):</p>
+      <pre><code>http://192.168.4.1/joystick?x=0&amp;y=100      full speed ahead
+http://192.168.4.1/joystick?x=100&amp;y=0      spin right on the spot
+http://192.168.4.1/joystick?x=-50&amp;y=60     forward, curving left
+http://192.168.4.1/joystick?x=0&amp;y=0        stop</code></pre>
+      <p>The same 500ms failsafe applies &mdash; repeat it roughly ten times a second for as long as you want to move.</p>
+
+      <h3>11. Run the quick test script</h3>
+      <p>Checks both servers and reports what it finds (wheels on blocks &mdash; it drives briefly):</p>
+      <pre><code>#!/bin/bash
+CAR=http://192.168.4.1
+
+echo "--- port 80: status ---"
+curl -s $CAR/status || echo "NO RESPONSE on port 80"
+echo
+
+echo "--- port 80: still photo ---"
+curl -s $CAR/capture -o /tmp/shot.jpg && ls -l /tmp/shot.jpg
+
+echo "--- port 81: stream (first 2 seconds) ---"
+curl -s --max-time 2 $CAR:81/stream -o /tmp/stream.bin
+echo "received $(wc -c &lt; /tmp/stream.bin) bytes of video"
+
+echo "--- drive forward 1s, then stop ---"
+end=$((SECONDS+1))
+while [ $SECONDS -lt $end ]; do
+  curl -s "$CAR/control?var=car&val=1" &gt; /dev/null; sleep 0.1
+done
+curl -s "$CAR/control?var=car&val=5" &gt; /dev/null
+echo "done"</code></pre>
+      <p>A healthy car gives you a line of JSON, a <code>shot.jpg</code> of a few kilobytes, tens of kilobytes of video, and one second of wheel movement. If the JSON arrives but the video doesn't, the stream server failed to start &mdash; check the serial console at boot for both <code>port: '80'</code> and <code>port: '81'</code> lines.</p>
+
+      <h3>Full endpoint reference &mdash; port 80</h3>
+      <table class="wikitable">
+        <tr><th>Request</th><th>Returns</th><th>Notes</th></tr>
+        <tr><td><code>GET /</code></td><td>HTML</td>
+          <td>The control page. Sent with <code>Cache-Control: no-store</code>, so you always get the page belonging to the firmware that is actually running.</td></tr>
+        <tr><td><code>GET /status</code></td><td>JSON</td>
+          <td>All current settings plus firmware version, build time and git revision.</td></tr>
+        <tr><td><code>GET /capture</code></td><td>JPEG</td>
+          <td>One still frame at the current resolution and quality.</td></tr>
+        <tr><td><code>GET /control?var=&hellip;&amp;val=&hellip;</code></td><td>empty</td>
+          <td>Settings and basic driving. See the values table below.</td></tr>
+        <tr><td><code>GET /joystick?x=&hellip;&amp;y=&hellip;</code></td><td>empty</td>
+          <td>Proportional driving. Both &minus;100 to 100; out-of-range values are clamped, not rejected.</td></tr>
+      </table>
+
+      <p>Values for <code>/control</code>:</p>
+      <table class="wikitable">
+        <tr><th>var</th><th>val</th><th>Effect</th></tr>
+        <tr><td><code>car</code></td><td>1&ndash;5</td>
+          <td>1 forward, 2 backward, 3 left, 4 right, 5 stop. Subject to the 500ms failsafe &mdash; repeat to keep moving.</td></tr>
+        <tr><td><code>speed</code></td><td>0&ndash;8</td>
+          <td>Overall speed cap. Multiplied by 31 internally, so 8 means a PWM ceiling of 248 out of 255.</td></tr>
+        <tr><td><code>trim</code></td><td>&minus;32&ndash;32</td>
+          <td>Corrects a car that drifts when it should go straight. Negative favours one motor, positive the other.</td></tr>
+        <tr><td><code>flash</code></td><td>0&ndash;255</td>
+          <td>Front LED brightness.</td></tr>
+        <tr><td><code>framesize</code></td><td>0&ndash;6</td>
+          <td>Resolution. 0 = 96&times;96, 1 = QQVGA, 2 = QCIF, 3 = HQVGA, 4 = 240&times;240, 5 = QVGA 320&times;240 (default), 6 = CIF. Bigger is slower.</td></tr>
+        <tr><td><code>quality</code></td><td>10&ndash;63</td>
+          <td>JPEG quality, runs backwards: lower numbers look better and produce bigger frames.</td></tr>
+        <tr><td><code>vflip</code></td><td>0 or 1</td><td>Flip the picture vertically.</td></tr>
+        <tr><td><code>hmirror</code></td><td>0 or 1</td><td>Mirror the picture horizontally.</td></tr>
+      </table>
+      <p>Everything except <code>car</code> is saved to the car's flash memory and survives a power cycle. Only <code>car</code> and <code>/joystick</code> reset the failsafe timer &mdash; changing a setting does not count as "I am still here".</p>
+
+      <h3>Full endpoint reference &mdash; port 81</h3>
+      <table class="wikitable">
+        <tr><th>Request</th><th>Returns</th><th>Notes</th></tr>
+        <tr><td><code>GET :81/stream</code></td>
+          <td><code>multipart/x-mixed-replace</code></td>
+          <td>Endless JPEG frames. The only endpoint on this port.</td></tr>
+      </table>
+      <p>Frames are separated by a fixed boundary marker, each with its own <code>Content-Type: image/jpeg</code> and length, and the server sends <code>Access-Control-Allow-Origin: *</code> so a web page on port 80 is allowed to read the pixels &mdash; which is how the vision features work.</p>
+
+      <h3>Things that will trip you up</h3>
+      <ul>
+        <li><strong>Only one device can join the car's WiFi.</strong> The access point is configured for a single client. An ungraceful disconnect can hold the slot for a minute or two &mdash; if you can't reconnect, wait, or power-cycle the car.</li>
+        <li><strong>One stream viewer at a time, in practice.</strong> Nothing stops you opening two, but they compete for camera buffers and both suffer.</li>
+        <li><strong>There is no password on any of this.</strong> Anyone on the network can drive the car, and every command is a plain URL. Treat the car's network as untrusted and don't leave it running unattended.</li>
+        <li><strong><code>&amp;</code> needs quoting in a shell.</strong> An unquoted <code>&amp;</code> tells most shells to run the command in the background, so only the first parameter arrives. Always quote the whole URL.</li>
+        <li><strong>Don't write <code>:80</code> explicitly.</strong> Some of the page's JavaScript builds the stream URL from the current address, and an explicit <code>:80</code> turns into a broken <code>:80:81</code>. Just omit it.</li>
+        <li><strong>Higher resolution is not free.</strong> <code>framesize=6</code> quadruples the data over the same WiFi. If the stream turns into a slideshow, go back to 5.</li>
+        <li><strong>Settings persist, so surprises persist too.</strong> If the car boots with the light on or the picture upside down, that's a saved setting from last time, not a fault.</li>
+      </ul>
 
       <h2 id="features">Features (vs. the stock keyestudio sketch)</h2>
       <table class="wikitable">
