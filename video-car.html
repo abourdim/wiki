@@ -73,6 +73,7 @@
           <li><a href="#overview">Overview</a></li>
           <li><a href="#quickstart">Quick start</a></li>
           <li><a href="#walkthrough">Step-by-step: clone, flash &amp; test</a></li>
+          <li><a href="#understanding">Understanding the code (for newbies)</a></li>
           <li><a href="#features">Features vs. stock sketch</a></li>
           <li><a href="#layout">Repository layout</a></li>
           <li><a href="#builds">Build systems</a></li>
@@ -271,6 +272,246 @@ echo "done"</code></pre>
         <li><strong>Higher resolution is not free.</strong> <code>framesize=6</code> quadruples the data over the same WiFi. If the stream turns into a slideshow, go back to 5.</li>
         <li><strong>Settings persist, so surprises persist too.</strong> If the car boots with the light on or the picture upside down, that's a saved setting from last time, not a fault.</li>
       </ul>
+
+      <h2 id="understanding">Understanding the code (for newbie developers)</h2>
+      <p class="hatnote">This section is for anyone who has flashed and driven the car and now wants to open the source and change something. It assumes no prior embedded/C++ experience. If you only want to use the car, you can skip this entirely &mdash; nothing below is required reading.</p>
+
+      <div class="ambox ambox-notice">
+        <strong>You don't need to understand any of this to build, flash, and drive the car.</strong> Everything in this section is here for when you're ready to start modifying the firmware, not before.
+      </div>
+
+      <h3>The three files that matter</h3>
+      <p>The project has many files, but only three contain logic you're likely to touch. Everything else (build configs, the stock demo sketches) is boilerplate.</p>
+      <div class="diagram"><pre style="margin:0;border:0;padding:0;background:none;">  4_VideoCar.ino   <b>&mdash; the main program.</b> Runs once at boot (setup),
+        │             then forever in a loop (loop). The only file you compile
+        │             and flash directly.
+        │
+        ├──includes──▶  SetMotor.h    <b>&mdash; talks to the motor driver chip.</b>
+        │                 Five tiny functions: forward, backwards, left, right, stop.
+        │                 Want a new driving behaviour (e.g. "spin in place")?
+        │                 Start here.
+        │
+        └──includes──▶  app_server.h  <b>&mdash; runs the website and the URL commands.</b>
+                          Defines every <i>/endpoint</i> (/status, /control, /capture...)
+                          and the HTML control page itself.
+                          Want a new URL or a new setting? Start here.</pre></div>
+      <p><code>.ino</code> is the entry point; the two <code>.h</code> files are libraries it pulls in with <code>#include</code>. This is a common Arduino project shape: keep <code>setup()</code>/<code>loop()</code> short and readable, push everything else into headers.</p>
+
+      <h3>What happens once, at power-on: <code>setup()</code></h3>
+      <p><code>setup()</code> runs exactly one time, right after the board powers up or resets. Here is the actual order of operations in <code>4_VideoCar.ino</code>, with the real code and what each part is for:</p>
+
+      <div class="diagram"><pre style="margin:0;border:0;padding:0;background:none;">  power on
+     │
+     ▼
+  <b>1</b> disable brownout detector  ──▶  <b>2</b> init camera pins/config
+     │                                        │
+     ▼                                        ▼
+  <b>6</b> start web server  ◀──  <b>5</b> connect WiFi  ◀──  <b>4</b> load saved settings  ◀──  <b>3</b> camera init (retry once if it fails)
+     │
+     ▼
+  <b>7</b> blink LED 5x ("ready")</pre></div>
+
+      <p><strong>1. Turn off the brownout detector</strong> &mdash; this is the very first line executed:</p>
+      <pre><code>WRITE_PERI_REG(RTC_CNTL_BROWN_OUT_REG, 0);</code></pre>
+      <p>The camera draws a brief current spike when it initializes. On a marginal power supply this can sag the voltage enough to trip the ESP32's built-in brownout safety reset. Disabling it lets a slightly weak supply still boot &mdash; but it only hides the symptom. If you still get camera failures, the real fix is a better 5V/2A supply, not code.</p>
+
+      <p><strong>2&ndash;3. Configure and initialize the camera</strong>, with a fallback retry:</p>
+      <pre><code>config.xclk_freq_hz = 20000000;
+esp_err_t err = esp_camera_init(&amp;config);
+if (err != ESP_OK) {
+  Serial.printf("Camera init failed at 20MHz (0x%x), retrying at 10MHz...\n", err);
+  config.xclk_freq_hz = 10000000;
+  err = esp_camera_init(&amp;config);
+}</code></pre>
+      <p>This is a pattern you'll see throughout the codebase: <em>try something, check the error code, retry once with a safer setting before giving up.</em> Some camera modules don't reliably lock onto a 20MHz clock; dropping to 10MHz on the first failure recovers many of them without an infinite retry loop. If both attempts fail, the code drops into a visible-forever error state:</p>
+      <pre><code>pinMode(LED_GPIO_NUM, OUTPUT);
+while (true) {
+  for (int i = 0; i &lt; 3; i++) {
+    digitalWrite(LED_GPIO_NUM, HIGH); delay(100);
+    digitalWrite(LED_GPIO_NUM, LOW);  delay(100);
+  }
+  delay(800);
+}</code></pre>
+      <p>A fast triple-flash, repeating &mdash; so a camera fault is visible even with no laptop or serial cable attached. This is intentionally an infinite loop: <code>setup()</code> never returns and <code>loop()</code> never starts, because there is nothing useful the car can do without a working camera.</p>
+
+      <p><strong>4. Load settings you saved earlier</strong> from flash memory (called NVS &mdash; Non-Volatile Storage), so Speed/Trim/Flip/Mirror/Quality survive a reboot instead of resetting every time:</p>
+      <pre><code>prefs.begin("videocar", false);
+s->set_framesize(s, (framesize_t)prefs.getInt("framesize", FRAMESIZE_QVGA));
+vflipState = prefs.getInt("vflip", 1);
+speed = prefs.getInt("speed", speed);</code></pre>
+      <p><code>prefs.getInt("key", fallback)</code> reads a saved value, or uses <code>fallback</code> if nothing was ever saved (e.g. a brand-new board). This is why the car "remembers" your settings after you close the browser tab &mdash; every <code>/control</code> request that changes a setting also calls the matching <code>prefs.putInt(...)</code> to write it back (covered below in <a href="#events">How events flow through the code</a>).</p>
+
+      <p><strong>5. Connect to WiFi</strong> &mdash; either join a router, or create the car's own network, with a bounded timeout so it can never get stuck:</p>
+      <pre><code>bool ap = 1;
+const char* ssid = "keyes1";
+const char* password = "88888888";</code></pre>
+      <p>These three lines near the top of the file are the ones you'll edit most often. <code>ap = 1</code> means "the car creates its own WiFi access point" (what the walkthrough above uses). Change it to <code>ap = 0</code> and the car instead tries to join <em>your</em> router using the SSID/password you set here.</p>
+      <pre><code>unsigned long staStart = millis();
+while (WiFi.status() != WL_CONNECTED &amp;&amp; (millis() - staStart) &lt; STA_CONNECT_TIMEOUT_MS) {
+  delay(500);
+  Serial.print(".");
+}
+if (WiFi.status() != WL_CONNECTED) {
+  Serial.println("Could not join the router within STA_CONNECT_TIMEOUT_MS.");
+  ap = 1;  // fall back to standalone AP mode
+}</code></pre>
+      <p>Station mode waits up to <code>STA_CONNECT_TIMEOUT_MS</code> (20 seconds) for the router, then automatically falls back to AP mode if it can't connect &mdash; a wrong password or an out-of-range router can never leave the car unreachable.</p>
+
+      <p><strong>6. Start the web server</strong> &mdash; a single call, <code>startCameraServer()</code>, whose internals are the subject of the next section. <strong>7. Blink the LED 5 times</strong> as a simple "I'm ready" signal you can see without a serial monitor.</p>
+
+      <h3>What happens forever, many times a second: <code>loop()</code></h3>
+      <p>Once <code>setup()</code> finishes, <code>loop()</code> runs over and over for as long as the car is powered. Here it is in full &mdash; it is deliberately short:</p>
+      <pre><code>void loop() {
+  // --- Safety failsafe: stop the car if the client has gone quiet ---
+  if (actstate != stp &amp;&amp; (millis() - lastCommandMillis &gt; CONTROL_TIMEOUT_MS)) {
+    Car_stop();
+    actstate = stp;
+    Serial.println("Failsafe: no command received recently, stopping car");
+  }
+
+  // --- Station mode: watch the WiFi link and reconnect if it drops ---
+  if (!ap &amp;&amp; WiFi.status() != WL_CONNECTED) {
+    static unsigned long lastReconnectAttempt = 0;
+    if (millis() - lastReconnectAttempt &gt; WIFI_RECONNECT_INTERVAL_MS) {
+      WiFi.disconnect();
+      WiFi.begin(ssid, password);
+      lastReconnectAttempt = millis();
+    }
+  }
+
+  delay(50);
+}</code></pre>
+      <div class="ambox ambox-notice">
+        <strong>Important for beginners:</strong> <code>loop()</code> never <em>drives</em> the car. Driving happens entirely inside the web server's request handlers (next section), triggered by an incoming URL. <code>loop()</code> only ever <em>stops</em> it (the 500ms failsafe, if no command arrives in time) or reconnects WiFi. If you go looking for "where does forward/backward actually happen", it is not here.
+      </div>
+
+      <h3 id="events">How events flow through the code (request &rarr; handler)</h3>
+      <p>This is the part most relevant if you want to add a new command or URL. The event model is simple: nothing "listens" continuously for your clicks. Each browser request is a one-off <strong>event</strong> that the ESP32's tiny web server hands to exactly one function, then forgets. There is no session and no queue &mdash; URL in, function call out.</p>
+
+      <h4>Registering an event: the <code>httpd_uri_t</code> pattern</h4>
+      <p>Every endpoint is declared the same way in <code>app_server.h</code>, inside <code>startCameraServer()</code>:</p>
+      <pre><code>httpd_uri_t cmd_uri = {
+  .uri      = "/control",
+  .method   = HTTP_GET,
+  .handler  = cmd_handler,
+  .user_ctx = NULL
+};
+...
+httpd_register_uri_handler(camera_httpd, &amp;cmd_uri);</code></pre>
+      <p>Four fields: the URL path, the HTTP method, which function handles it, and an optional context pointer (unused here). Registering just tells the server "when a GET request for this path arrives, call this function." All five port-80 endpoints are registered this way, right before the server starts:</p>
+
+      <div class="diagram"><pre style="margin:0;border:0;padding:0;background:none;">                         ┌──▶  <b>/</b>          index_handler     (the control page HTML)
+                         ├──▶  <b>/status</b>    status_handler    (JSON of current settings)
+  port 80 server ────────┼──▶  <b>/control</b>   cmd_handler       (settings + driving)
+                         ├──▶  <b>/capture</b>   capture_handler   (one JPEG)
+                         └──▶  <b>/joystick</b>  joystick_handler  (proportional driving)
+
+  port 81 server ────────────▶  <b>/stream</b>    stream_handler    (endless JPEG frames)</pre></div>
+      <p>Want a new endpoint? This diagram is literally the list of things to add to: write a new handler function, then add one more <code>httpd_uri_t</code> + <code>httpd_register_uri_handler(...)</code> pair for it.</p>
+
+      <h4>Inside a handler: reading the event's data</h4>
+      <p>Walking through <code>cmd_handler</code> &mdash; the function behind <code>/control?var=...&amp;val=...</code> &mdash; in the order it actually runs:</p>
+      <pre><code>buf_len = httpd_req_get_url_query_len(req) + 1;
+buf = (char *)malloc(buf_len);
+httpd_req_get_url_query_str(req, buf, buf_len);
+httpd_query_key_value(buf, "var", variable, sizeof(variable));
+httpd_query_key_value(buf, "val", value,     sizeof(value));</code></pre>
+      <p>This block is the entire job of parsing <code>?var=car&amp;val=1</code> out of the URL: get the raw query string, then pull the two named values (<code>var</code>, <code>val</code>) out of it into two small character buffers. Everything after this point is just "if <code>variable</code> equals X, do Y":</p>
+      <pre><code>int val = atoi(value);
+...
+if (!strcmp(variable, "framesize")) {
+  res = s->set_framesize(s, (framesize_t)val);
+  prefs.putInt("framesize", val);
+}
+else if (!strcmp(variable, "flash")) {
+  analogWrite(12, val);
+  flashLevel = val;
+  prefs.putInt("flash", val);
+}
+else if (!strcmp(variable, "car")) {
+  lastCommandMillis = millis();
+  if (val == 1) {           // Forward
+    int speed1 = trimmed(speed, -trim);
+    int speed2 = trimmed(speed, +trim);
+    actstate = fwd;
+    i2c_Write(M1_PWM, speed1); i2c_Write(M1_IN, 0);
+    i2c_Write(M2_PWM, 0);      i2c_Write(M2_IN, speed2);
+  }
+  ...
+}</code></pre>
+      <p><code>atoi(value)</code> turns the text <code>"1"</code> into the number <code>1</code>. <code>strcmp</code> compares C-style strings (it returns 0 when they're equal, hence <code>!strcmp(...)</code> reads as "if equal"). Two things worth noticing before you add your own branch here:</p>
+      <ul>
+        <li><strong><code>lastCommandMillis = millis()</code> is reset only inside the <code>"car"</code> branch.</strong> This is what tells <code>loop()</code>'s failsafe "a driving command just arrived, don't stop yet." If you add a new drive-like command, you must reset this timer too, or the 500ms failsafe will fight you and stop the car mid-command.</li>
+        <li><strong>Most settings call <code>prefs.putInt(...)</code> right after applying the value.</strong> That's the save-to-flash half of the load-on-boot code from <code>setup()</code> above. Skip it and your new setting will reset to its default every time the car reboots.</li>
+      </ul>
+      <p>At the very end, every successful request gets the same minimal response:</p>
+      <pre><code>httpd_resp_set_hdr(req, "Access-Control-Allow-Origin", "*");
+return httpd_resp_send(req, NULL, 0);</code></pre>
+      <p>An empty <code>200 OK</code> &mdash; the browser doesn't need any data back, only confirmation the command was received. The CORS header is what lets a page served from port 80 send requests without the browser blocking them.</p>
+
+      <h4>The full request &rarr; response sequence</h4>
+      <div class="diagram"><pre style="margin:0;border:0;padding:0;background:none;">  Browser                                    ESP32
+    │   GET /control?var=car&amp;val=1
+    ├──────────────────────────────────▶   cmd_handler() runs
+    │                                         ├─ parses var="car", val="1"
+    │                                         ├─ lastCommandMillis = millis()  (resets failsafe)
+    │                                         ├─ i2c_Write(...) four times  ──▶  motor driver chip
+    │                                         └─ builds empty 200 OK response
+    │   ◀──────────────────────────────────  200 OK, empty body
+    │
+    │   (control page repeats this same request every 100ms while a direction is held)</pre></div>
+
+      <h4>Adding your own event &mdash; the mechanical steps</h4>
+      <div class="ambox ambox-notice">
+        <p>To add a brand-new <strong>setting or drive command</strong> (reusing <code>/control</code>):</p>
+        <ol>
+          <li>Add one more <code>else if (!strcmp(variable, "yourname"))</code> block in <code>cmd_handler</code>.</li>
+          <li>If it changes something that should survive a reboot, call <code>prefs.putInt("yourname", val)</code>.</li>
+          <li>If it's a driving action, reset <code>lastCommandMillis = millis()</code> so the failsafe doesn't cut it short.</li>
+        </ol>
+        <p>To add a brand-new <strong>URL / endpoint</strong>:</p>
+        <ol>
+          <li>Write a new handler function with the signature <code>static esp_err_t my_handler(httpd_req_t *req)</code>.</li>
+          <li>Declare an <code>httpd_uri_t</code> for it (copy the <code>cmd_uri</code> block above and change the <code>.uri</code> and <code>.handler</code> fields).</li>
+          <li>Call <code>httpd_register_uri_handler(camera_httpd, &amp;your_uri)</code> in <code>startCameraServer()</code>, alongside the existing ones.</li>
+        </ol>
+        <p>This section only covers the mechanics of wiring up an event &mdash; what your new handler should actually <em>do</em> is up to your feature.</p>
+      </div>
+
+      <h3>How a direction becomes motor motion: <code>SetMotor.h</code></h3>
+      <p>Once <code>cmd_handler</code> decides "forward", the actual driving is four calls to <code>i2c_Write</code>, which sends two bytes &mdash; <em>which pin on the motor driver chip</em> and <em>what value to give it</em> &mdash; over the I2C bus to a separate motor-driver board:</p>
+      <pre><code>void i2c_Write(uint8_t motor, uint8_t pwmvalue) {
+  Wire.beginTransmission(slave_addr);
+  Wire.write(motor);
+  Wire.write(pwmvalue);
+  Wire.endTransmission();
+}
+
+void Car_forward() {
+  i2c_Write(M1_PWM, 255); i2c_Write(M1_IN, 0);
+  i2c_Write(M2_PWM, 255); i2c_Write(M2_IN, 0);
+}</code></pre>
+      <p>Each motor has two channels: a <code>_PWM</code> value (0&ndash;255, how fast) and an <code>_IN</code> value (which direction). Setting one motor's <code>_IN</code> high and the other's low, with both spinning at full <code>_PWM</code>, is what turns "both wheels forward" into "the car turns in place" &mdash; there is no separate turning mechanism, just the two wheels working against each other.</p>
+
+      <div class="diagram"><pre style="margin:0;border:0;padding:0;background:none;">        FORWARD                BACKWARD               LEFT                   RIGHT
+     ┌─────────────┐        ┌─────────────┐        ┌─────────────┐        ┌─────────────┐
+     │  M1 ▲   ▲ M2 │        │  M1 ▼   ▼ M2 │        │  M1 ▼   ▲ M2 │        │  M1 ▲   ▼ M2 │
+     │   (both      │        │   (both      │        │  (left back, │        │ (right back, │
+     │   spin fwd)  │        │  spin back)  │        │  right fwd)  │        │  left fwd)   │
+     └─────────────┘        └─────────────┘        └─────────────┘        └─────────────┘
+        car body   ▲            car body   ▼         car spins  ↺           car spins  ↻</pre></div>
+
+      <p>All five direction functions, side by side:</p>
+      <table class="wikitable">
+        <tr><th>Function</th><th>M1_PWM</th><th>M1_IN</th><th>M2_PWM</th><th>M2_IN</th><th>Result</th></tr>
+        <tr><td><code>Car_forward()</code></td><td>255</td><td>0</td><td>255</td><td>0</td><td>Both wheels spin forward</td></tr>
+        <tr><td><code>Car_backwards()</code></td><td>0</td><td>255</td><td>0</td><td>255</td><td>Both wheels spin backward</td></tr>
+        <tr><td><code>Car_left()</code></td><td>0</td><td>255</td><td>255</td><td>0</td><td>Left wheel back, right wheel forward &mdash; spins left</td></tr>
+        <tr><td><code>Car_right()</code></td><td>255</td><td>0</td><td>0</td><td>255</td><td>Right wheel back, left wheel forward &mdash; spins right</td></tr>
+        <tr><td><code>Car_stop()</code></td><td>0</td><td>0</td><td>0</td><td>0</td><td>Both motors off</td></tr>
+      </table>
+      <p>Note that <code>cmd_handler</code>'s actual forward/left/right code (shown above) doesn't call these named functions directly &mdash; it inlines the same <code>i2c_Write</code> calls with a <em>variable</em> speed (<code>speed1</code>/<code>speed2</code>, adjusted by the trim setting) instead of the hardcoded <code>255</code> you see in <code>SetMotor.h</code>. The named functions in this file are the simple originals from the stock keyestudio sketch; <code>Car_stop()</code> is the one still called directly, from both <code>cmd_handler</code> and the failsafe in <code>loop()</code>.</p>
+      <p>Adding a new movement (e.g. a diagonal creep, or a slow-spin) means writing a new function following this same four-line pattern, then wiring it up to a new <code>var</code> value as described in the "adding your own event" box above.</p>
 
       <h2 id="features">Features (vs. the stock keyestudio sketch)</h2>
       <table class="wikitable">

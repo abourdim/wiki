@@ -231,6 +231,21 @@ code {
 }
 pre code { border: none; padding: 0; background: none; }
 
+.diagram {
+  background: #f8f9fa;
+  border: 1px solid #a2a9b1;
+  border-radius: 2px;
+  padding: 14px 16px;
+  margin: 10px 0 16px;
+  overflow-x: auto;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: #54595d;
+}
+.diagram pre { font-family: monospace; }
+.diagram b { color: #202122; font-weight: bold; }
+.diagram i { color: #7a4c00; font-style: normal; }
+
 table.wikitable {
   border-collapse: collapse;
   margin: 12px 0 20px;
