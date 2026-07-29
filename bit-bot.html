@@ -76,6 +76,8 @@
         <ol>
           <li><a href="#overview">Overview</a></li>
           <li><a href="#quickstart">Quick start</a></li>
+          <li><a href="#walkthrough">Step-by-step: clone, flash &amp; test</a></li>
+          <li><a href="#understanding">Understanding the code (for newbies)</a></li>
           <li><a href="#onboarding">First launch: onboarding</a></li>
           <li><a href="#personality">Robot name &amp; personality</a></li>
           <li><a href="#ai">AI providers</a></li>
@@ -99,6 +101,191 @@
         <li>Walk through the 4-step onboarding: name your robot, pick a personality, optionally connect a micro:bit.</li>
         <li>Tap the 🎤 microphone or type a message, then hit send. The robot answers in the chat bubble and speaks it out loud.</li>
       </ol>
+
+      <h2 id="walkthrough">Step-by-step: clone, flash &amp; test</h2>
+      <p>This walkthrough takes a bare checkout to a fully working robot &mdash; text chat, voice, and (optionally) a paired micro:bit &mdash; with nothing assumed beyond having Chrome or Edge installed.</p>
+
+      <h3>1. Clone the repository</h3>
+      <pre><code>git clone https://github.com/abourdim/bit-bot.git
+cd bit-bot</code></pre>
+
+      <h3>2. Serve it locally</h3>
+      <p>There's no build step &mdash; it's plain HTML/CSS/JS &mdash; but the Web Speech and Web Bluetooth APIs both refuse to run from a bare <code>file:///</code> path, so serve the folder over HTTP:</p>
+      <pre><code>python3 -m http.server 8000</code></pre>
+      <p>Then open <span class="key-value">http://localhost:8000</span> in Chrome or Edge.</p>
+
+      <h3>3. Get the micro:bit firmware (optional)</h3>
+      <p>Skip this step entirely if you just want to test text/voice chat. Otherwise, open <a href="https://abourdim.github.io/bit-bot/flash.html">flash.html</a>, tap <strong>Copy micro:bit Code</strong>, paste it into a new <a href="https://makecode.microbit.org">makecode.microbit.org</a> project's JavaScript tab, add the <code>bluetooth</code> extension, set Project Settings &rarr; "No Pairing Required", and flash it to the board.</p>
+
+      <h3>4. Test text chat</h3>
+      <p>With no API key configured, the app runs in 🎮 Demo mode automatically &mdash; type a message and press send; you should get a canned but on-personality reply with no network calls at all. This confirms the UI and state machine work before involving any real AI provider.</p>
+
+      <h3>5. Test voice</h3>
+      <p>Tap the 🎤 button, allow the microphone, and speak. A healthy run shows the transcribed text appear, then a spoken reply with the robot's mouth/eyes animating while it talks.</p>
+
+      <h3>6. Test the micro:bit connection</h3>
+      <p>Tap the connection badge in the header, pick your board from the Bluetooth device picker, and wait for a happy face &mdash; both on screen and on the micro:bit's own LED grid. If it never appears, see <a href="#troubleshooting">Troubleshooting</a>.</p>
+
+      <h3>7. Test a game</h3>
+      <p>Open the 🎮 panel and start <strong>Smart Tilt Quiz</strong>. Even with no AI key and no micro:bit connected, it should still ask a question from the built-in fallback bank (tap the on-screen A/B labels, or tilt the micro:bit if paired) &mdash; confirming the game logic and fallback content work independently of any network call.</p>
+
+      <div class="ambox ambox-success">A working baseline looks like: Demo-mode replies with no key, voice in and out, a happy face on the micro:bit after pairing, and a quiz question you can answer either way. Only after that works is it worth troubleshooting a specific AI provider's key.</div>
+
+      <h2 id="understanding">Understanding the code (for newbies)</h2>
+      <p class="hatnote">This section is for anyone who has the app running and wants to open <code>index.html</code> and start changing something. It assumes basic JavaScript but no prior knowledge of this codebase. Skip it entirely if you only want to use the app.</p>
+
+      <h3>The shape of the file</h3>
+      <p>Everything &mdash; markup, CSS, and JavaScript &mdash; lives in one <code>index.html</code>, several thousand lines long, in three blocks: a <code>&lt;style&gt;</code> block, the HTML body (header, onboarding card, chat UI, settings panel, help modal, games/commands panels), and one big <code>&lt;script&gt;</code> at the end with no module system &mdash; every function is a plain top-level <code>function</code> declaration, callable directly from inline <code>onclick="..."</code> attributes in the HTML.</p>
+
+      <h3>The <code>state</code> object</h3>
+      <p>One plain object holds everything that needs to persist or drive the UI: connection status, the current AI provider and its keys, the robot's name and personality, chat history per personality, and UI preferences like language and theme. It's saved to <code>localStorage</code> as JSON on every relevant change (<code>saveSettings()</code>) and restored on load (<code>loadSettings()</code>) &mdash; there's no other persistence layer.</p>
+
+      <h3>The translation system: <code>I18N</code> &rarr; <code>tr()</code> &rarr; <code>data-i18n</code></h3>
+      <p>Every user-facing string lives in an <code>I18N</code> object keyed by language (<code>en</code>/<code>fr</code>/<code>ar</code>), then by a short key:</p>
+      <pre><code>const I18N = {
+  en: { onb_welcome_title: "Welcome!", ... },
+  fr: { onb_welcome_title: "Bienvenue !", ... },
+  ar: { onb_welcome_title: "مرحباً!", ... }
+};
+function tr(key) { return I18N[state.lang][key] ?? I18N.en[key] ?? key; }
+function trg(key, vars) { /* tr() plus {placeholder} substitution */ }</code></pre>
+      <p>Static HTML elements are tagged <code>data-i18n="onb_welcome_title"</code>; <code>applyLang(lang)</code> walks every tagged element and sets its text from <code>tr()</code>. Dynamic strings (toasts, log lines, AI-game narration) call <code>tr()</code>/<code>trg()</code> directly from JavaScript instead. Switching language is one function call, <code>setLanguage(lang)</code>, which re-runs <code>applyLang()</code> and persists the choice.</p>
+
+      <h3>How a chat message flows: user input &rarr; AI &rarr; robot</h3>
+      <div class="diagram"><pre style="margin:0;border:0;padding:0;background:none;">  user types/speaks
+       │
+       ▼
+  <b>sendMessage()</b>  ──▶  addBubble('user', text)
+       │
+       ▼
+  <b>callAI(text)</b>  ──▶  branches on state.provider:
+       │                     Demo → getDemoResponse() (canned, offline)
+       │                     Groq / Gemini / Cohere / Mistral / OpenRouter
+       │                       → fetch() to that provider's REST API
+       ▼
+  parse reply, strip [command] tags
+       │
+       ▼
+  addBubble('robot', text)  +  speak(text)  +  sendCommand(emotion)</pre></div>
+      <p>The AI's system prompt always ends with a language directive built from <code>tr('ai_lang_directive')</code>, so the model itself replies in the currently selected UI language rather than only the fixed interface text being translated. <code>sendCommand()</code> both updates the on-screen face and, if a micro:bit is connected, writes the same command over Bluetooth.</p>
+
+      <h3>Talking to the micro:bit: <code>connect()</code>, <code>sendCommand()</code>, <code>handleRx()</code></h3>
+      <p><code>connect()</code> calls <code>navigator.bluetooth.requestDevice()</code> filtered to the Nordic UART service, then discovers the TX (notify, micro:bit&rarr;browser) and RX (write, browser&rarr;micro:bit) characteristics. Every outgoing command &mdash; an emotion, a game input, a servo move &mdash; goes through one function, <code>sendCommand(cmd)</code>, which writes it as a UTF-8 line to the RX characteristic. Anything the micro:bit sends back (button presses, sensor readings) arrives as a <code>characteristicvaluechanged</code> event handled by <code>handleRx()</code>, which parses the line and dispatches it &mdash; e.g. into <code>processScienceReading()</code> during the Science Detective game.</p>
+
+      <h3>The onboarding step machine</h3>
+      <p>Onboarding is four HTML cards, only one visible at a time, driven by a single <code>currentOnboardingStep</code> integer. <code>nextOnboardingStep()</code>/<code>prevOnboardingStep()</code> just increment/decrement it and toggle which card has the <code>.active</code> class; <code>completeOnboarding()</code> sets <code>state.onboardingComplete = true</code>, saves it, and hides the whole overlay so it never shows again on that browser.</p>
+
+      <h3>System architecture, illustrated</h3>
+      <p>Two independent, optional round-trips meet in the middle of one browser tab &mdash; the AI call and the micro:bit link never talk to each other directly, only through the app's own state:</p>
+      <div class="diagram"><pre style="margin:0;border:0;padding:0;background:none;">                        ┌─────────────────────────┐
+                        │   index.html (browser)  │
+                        │  ─────────────────────  │
+   🎤 mic / ⌨ keyboard ─▶│  sendMessage()          │
+                        │       │                 │
+                        │       ▼                 │
+   AI provider API   ◀──▶  callAI(text)           │
+   (Groq/Gemini/...)     │       │                 │
+                        │       ▼                 │
+                        │  addBubble()+speak()    │
+                        │       │                 │
+                        │       ▼                 │
+   BBC micro:bit     ◀──▶  sendCommand(emotion)   │
+   (Bluetooth LE)        │  handleRx() ◀── sensors│
+                        └─────────────────────────┘</pre></div>
+      <p>The AI leg is HTTP over WiFi/data (skipped entirely in Demo mode); the micro:bit leg is Bluetooth LE, paired once per browser session. Either can be absent &mdash; the app is fully usable with neither, one, or both connected.</p>
+
+      <h3>The HTML layout, illustrated</h3>
+      <p>Inside <code>&lt;body&gt;</code>, the markup is a flat stack of independently-shown/hidden overlays plus the always-visible chat screen underneath:</p>
+      <div class="diagram"><pre style="margin:0;border:0;padding:0;background:none;">  &lt;body&gt;
+   ├─ #onboarding        <b>first-run wizard, 4 cards, one .active at a time</b>
+   ├─ #helpOverlay        <b>❓ quick-reference modal</b>
+   ├─ header              <b>lang flags · robot/AI badges · connect · firmware · help · ☰</b>
+   ├─ main                <b>robot face + chat bubbles + text/mic input</b>
+   ├─ #settingsPanel      <b>slide-in: Fun / Setup / Advanced tabs</b>
+   ├─ #commandsPanel      <b>📋 quick-command cheat sheet, by category</b>
+   └─ #gamesPanel         <b>🎮 Smart Tilt Quiz / Adventure / Science Detective</b></pre></div>
+      <p>Every one of those panels/overlays is just a <code>&lt;div&gt;</code> that toggles an <code>.open</code> (or <code>.active</code>) CSS class via a small <code>toggleX()</code> function &mdash; there's no routing, no virtual DOM, no framework. <code>&lt;head&gt;</code> holds one big inline <code>&lt;style&gt;</code> block with CSS custom properties (<code>--primary</code>, <code>--surface</code>, etc.) that <code>[data-theme="dark"]</code> overrides &mdash; that's the entire theming system.</p>
+
+      <h3>The micro:bit firmware: <code>microbit_makecode_v3.js</code></h3>
+      <p>This is the program you flash onto the board itself &mdash; a separate, much smaller world than the web app, written in MakeCode's JavaScript/TypeScript-like dialect. It has no concept of "AI" or "chat"; all it knows is a flat vocabulary of one-word text commands arriving over Bluetooth UART, and how to react to each one on the 5&times;5 LED grid.</p>
+
+      <h4>LED pictures are just text</h4>
+      <p>Every face/icon is an <code>images.createImage()</code> call over a 5&times;5 grid of <code>.</code> (off) and <code>#</code> (on):</p>
+      <pre><code>const HAPPY = images.createImage(`
+    . . . . .
+    . # . # .    ← eyes
+    . . . . .
+    # . . . #
+    . # # # .    ← smile
+    `)</code></pre>
+      <p>There are 15 of these bitmaps in the file &mdash; emotions (HAPPY, SAD, ANGRY, SURPRISED, LOVE, SLEEPY, SILLY, WOW, HAHA, COOL), two animals (CAT, DOG), and five game icons (arrows, question mark, check, cross, thermometer, light bulb). Want a new face? Copy the pattern of dots and hashes for any existing one and change the shape &mdash; nothing else in the file needs to know about it until you also add it to the command handler below.</p>
+
+      <h4>Keeping the browser's LED mirror in sync</h4>
+      <p>Every time the micro:bit changes what it's showing, it also streams the full 25-pixel grid back over Bluetooth as one text line, which is what powers the ⚫ LED-mirror widget in the web app:</p>
+      <pre><code>function sendLEDState() {
+    let state = "LED:"
+    for (let y = 0; y &lt; 5; y++)
+        for (let x = 0; x &lt; 5; x++)
+            state += led.point(x, y) ? "1" : "0"
+    bluetooth.uartWriteString(state + "\n")
+}
+function showAndSync(img: Image) {
+    img.showImage(0)
+    basic.pause(50)   // let the image actually latch before reading it back
+    sendLEDState()
+}</code></pre>
+      <p>Almost every animation calls <code>showAndSync()</code> rather than the raw MakeCode <code>showImage()</code>, specifically so the browser's mirror never drifts out of sync with the physical board.</p>
+
+      <h4>The command dispatch table</h4>
+      <p>One function, <code>handleCommand(cmd)</code>, receives every line the browser sends and runs it through a long <code>if / else if</code> chain matched by exact lowercase string &mdash; there's no JSON, no structured protocol, just plain words:</p>
+      <table class="wikitable">
+        <tr><th>Command(s)</th><th>What happens on the board</th></tr>
+        <tr><td><code>happy</code>, <code>sad</code>, <code>angry</code>, <code>surprised</code>/<code>wow</code>, <code>love</code>, <code>sleepy</code>, <code>silly</code>, <code>haha</code>, <code>cool</code>, <code>cat</code>, <code>dog</code></td><td>Show the matching static face/icon.</td></tr>
+        <tr><td><code>wave</code>, <code>dance</code>, <code>spin</code>, <code>party</code>, <code>magic</code></td><td>Run a short multi-frame animation, then settle back on HAPPY.</td></tr>
+        <tr><td><code>quiz</code> / <code>correct</code>,<code>yes</code> / <code>wrong</code>,<code>no</code> / <code>thinking</code></td><td>Game-state faces: question mark, check + party, cross + sad, "confused" icon.</td></tr>
+        <tr><td><code>read_temp</code> / <code>read_light</code></td><td>Shows an icon, reads the real sensor with <code>input.temperature()</code>/<code>input.lightLevel()</code>, sends it back as <code>TEMP:&lt;n&gt;</code>/<code>LIGHT:&lt;n&gt;</code>, and displays the number on the LEDs.</td></tr>
+        <tr><td><code>left</code>/<code>right</code>/<code>forward</code>/<code>backward</code>, <code>count</code>, <code>dice</code>, <code>rainbow</code></td><td>Misc. game/utility visuals (arrows, counting 1&ndash;5, a random die roll, a flashing full-grid rainbow).</td></tr>
+        <tr><td>anything unrecognised</td><td>Shows a <code>QUESTION</code> mark &mdash; the firmware never errors out on an unknown word.</td></tr>
+      </table>
+
+      <h4>Sensing the world: tilt, shake, buttons</h4>
+      <p>Three input sources run independently of the command handler and only ever <em>send</em> data, never receive it &mdash; this is how the browser-side games get real sensor input:</p>
+      <pre><code>basic.forever(function () {   // polled every loop, ~cooldown-gated
+    let x = input.acceleration(Dimension.X)
+    if (x &lt; -TILT_THRESHOLD) bluetooth.uartWriteString("TILT_LEFT\n")
+    else if (x &gt; TILT_THRESHOLD) bluetooth.uartWriteString("TILT_RIGHT\n")
+})
+input.onGesture(Gesture.Shake, function () {
+    bluetooth.uartWriteString("SHAKE\n")
+})
+input.onButtonPressed(Button.A, function () {
+    bluetooth.uartWriteString("BTN_A\n")
+    // ...also shows an icon locally
+})</code></pre>
+      <p>A shared <code>INPUT_COOLDOWN</code> (500ms) and per-input "last fired" timestamps stop a single physical tilt or shake from flooding multiple duplicate events &mdash; the same debouncing idea as the browser's 500ms driving failsafe in the sibling VideoCar project, just applied to gestures instead of motor commands.</p>
+
+      <h4>The full round trip</h4>
+      <div class="diagram"><pre style="margin:0;border:0;padding:0;background:none;">  browser: sendCommand("happy")
+       │
+       ▼  bluetooth write (UART RX characteristic)
+  micro:bit: onUartDataReceived
+       │
+       ▼
+  handleCommand("happy")  ──▶  showAndSync(HAPPY)
+       │                            │
+       │                            ▼
+       │                      sendLEDState()
+       ▼                            │
+  (nothing sent back for            ▼  bluetooth notify (UART TX characteristic)
+   plain emotions — LED            │
+   state is the only reply)   browser: handleRx()  ──▶  updates LED-mirror widget
+
+  ── meanwhile, independently ──
+  micro:bit: tilt/shake/button  ──▶  bluetooth notify  ──▶  browser: handleRx()
+                                                                  │
+                                                                  ▼
+                                                          routed into the active
+                                                          game's input handler</pre></div>
 
       <h2 id="onboarding">First launch: onboarding</h2>
       <p>New visitors see a 4-step onboarding card before the main app:</p>
