@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Micro:bit Remote Builder (rxy) - Wiki</title>
+<link rel="stylesheet" href="wiki.css">
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-inner">
+    <a class="wiki-logo" href="https://workshop-diy.org"><img src="logo.png" alt="Wiki logo"></a>
+    <a class="masthead-site-link" href="https://workshop-diy.org">workshop-diy.org</a>
+    <div class="masthead-title">
+      Wiki
+      <span class="sub">The free personal knowledge base</span>
+    </div>
+    <div class="masthead-search">
+      <input type="text" placeholder="Search Wiki" disabled>
+    </div>
+  </div>
+</div>
+
+<div class="wiki-layout">
+
+  <div class="sidebar">
+    <h3>Navigation</h3>
+    <ul>
+      <li><a href="index.html">Main page</a></li>
+      <li><a href="#">Recent changes</a></li>
+      <li><a href="#">Random page</a></li>
+    </ul>
+    <h3>Categories</h3>
+    <ul>
+      <li><a href="index.html">Networking</a></li>
+      <li><a href="index.html">Linux</a></li>
+      <li><a href="index.html">Windows</a></li>
+      <li><a href="index.html">Electronics</a></li>
+      <li><a href="index.html">ESP32</a></li>
+      <li><a href="index.html">micro:bit</a></li>
+    </ul>
+    <h3>Tools</h3>
+    <ul>
+      <li><a href="https://github.com/abourdim/rxy">View source repo</a></li>
+    </ul>
+  </div>
+
+  <div class="content-wrap">
+    <div class="article-tabs">
+      <span class="active">Article</span>
+      <span>Talk</span>
+    </div>
+
+    <article>
+      <h1 class="page-title">Micro:bit Remote Builder (rxy)</h1>
+
+      <div class="infobox">
+        <div class="infobox-title">Micro:bit Remote Builder</div>
+        <table>
+          <tr><th>Type</th><td>Drag-and-drop BLE remote-control builder + MakeCode generator</td></tr>
+          <tr><th>Hardware</th><td>BBC micro:bit V1 or V2</td></tr>
+          <tr><th>Widgets</th><td>12 types: 7 input, 5 output</td></tr>
+          <tr><th>Languages</th><td>English, Français, العربية</td></tr>
+          <tr><th>Runs on</th><td>Chrome / Edge, no install</td></tr>
+          <tr><th>Version</th><td>v1.0.0</td></tr>
+          <tr><th>Repository</th><td><a href="https://github.com/abourdim/rxy">github.com/abourdim/rxy</a></td></tr>
+          <tr><th>Live demo</th><td><a href="https://abourdim.github.io/rxy/">abourdim.github.io/rxy</a></td></tr>
+        </table>
+      </div>
+
+      <p class="hatnote">This article covers rxy (Micro:bit Remote Builder), a no-code drag-and-drop tool for designing custom Bluetooth remote controllers for the BBC micro:bit &mdash; unique in this app family for generating its own MakeCode firmware on the fly, and for being able to flash that firmware straight from the browser over Bluetooth.</p>
+
+      <div class="toc">
+        <div class="toc-title">Contents</div>
+        <ol>
+          <li><a href="#overview">Overview</a></li>
+          <li><a href="#quickstart">Quick start</a></li>
+          <li><a href="#walkthrough">Step-by-step: clone, flash &amp; test</a></li>
+          <li><a href="#understanding">Understanding the code (for newbies)</a></li>
+          <li><a href="#widgets">Widget catalog</a></li>
+          <li><a href="#protocol">Bluetooth protocol reference</a></li>
+          <li><a href="#i18n">Languages</a></li>
+          <li><a href="#troubleshooting">Troubleshooting</a></li>
+        </ol>
+      </div>
+
+      <h2 id="overview">Overview</h2>
+      <p><strong>rxy</strong> lets you design a custom Bluetooth remote &mdash; buttons, sliders, joysticks, gauges, whatever you need &mdash; by dragging widgets onto a canvas, then generates the matching MakeCode firmware for you automatically. Unlike Bit-Bot, Talking Robot, and micro:bit Playground (which all ship one fixed firmware protocol), here the protocol itself is generated per-design: every widget you place becomes a handler block in the exported code, and the whole layout is embedded into the firmware as a Base64 string so the micro:bit can hand its own configuration back to any app that asks for it.</p>
+      <p>It also goes a step further than the other apps in this family: instead of only offering "copy this code into MakeCode," it can compile the generated code and flash it to the board directly from the browser, either over Bluetooth (using the micro:bit's built-in Partial Flashing Service) or over WebUSB.</p>
+
+      <h2 id="quickstart">Quick start</h2>
+      <ol>
+        <li>Open <a href="https://abourdim.github.io/rxy/">the live app</a> in Chrome or Edge.</li>
+        <li>On the <strong>✏️ Build</strong> tab, drag widgets onto the canvas (or start from a template).</li>
+        <li>Click <strong>📄 Code</strong>, copy the generated MakeCode, paste it into <a href="https://makecode.microbit.org">makecode.microbit.org</a>, and flash via USB &mdash; or use the in-app flash button to do it over Bluetooth/WebUSB instead.</li>
+        <li>Switch to the <strong>▶️ Play</strong> tab, tap <strong>📡 Tap to Connect!</strong>, and start controlling your micro:bit.</li>
+      </ol>
+
+      <h2 id="walkthrough">Step-by-step: clone, flash &amp; test</h2>
+      <p>This walkthrough takes a bare checkout to a verified-working remote: one widget sent successfully in each direction.</p>
+
+      <h3>1. Clone the repository</h3>
+      <pre><code>git clone https://github.com/abourdim/rxy.git
+cd rxy</code></pre>
+
+      <h3>2. Serve it locally</h3>
+      <p>No build step, but Web Bluetooth/WebUSB refuse a bare <code>file:///</code> path:</p>
+      <pre><code>npx serve .</code></pre>
+      <p>Open the printed <span class="key-value">http://localhost:...</span> URL in Chrome or Edge (the live GitHub Pages copy works the same way with no setup).</p>
+
+      <h3>3. Build a minimal remote</h3>
+      <p>On the <strong>✏️ Build</strong> tab, drag one <strong>Button</strong> widget and one <strong>LED</strong> widget onto the canvas. This is the smallest possible round-trip test: one input, one output.</p>
+
+      <h3>4. Get and flash the code</h3>
+      <p>Click <strong>📄 Code</strong> to open the generated MakeCode. Either copy it into <a href="https://makecode.microbit.org">makecode.microbit.org</a> and flash via USB the normal way, or try the in-app <strong>Flash</strong> button, which attempts to compile the code and push it straight to a connected board over Bluetooth or WebUSB (see <a href="#understanding">Understanding the code</a> for how this works, and its fallback path if compilation fails).</p>
+
+      <h3>5. Test the input direction (app &rarr; micro:bit)</h3>
+      <p>Switch to <strong>▶️ Play</strong>, tap <strong>📡 Tap to Connect!</strong>, pick your board, then press your Button widget. The micro:bit should react immediately (the default generated handler shows a heart icon).</p>
+
+      <h3>6. Test the output direction (micro:bit &rarr; app)</h3>
+      <p>In the MakeCode editor, add one line to send a value back: <code>sendValue("your_led_id", "1")</code> inside a button-press or forever block, reflash, and confirm your LED widget lights up in the app when triggered.</p>
+
+      <div class="ambox ambox-success">A working baseline looks like: the micro:bit shows a heart when you tap the Button widget, and the LED widget in the app lights up when the firmware calls <code>sendValue()</code> &mdash; both directions of the protocol confirmed independently.</div>
+
+      <h2 id="understanding">Understanding the code (for newbies)</h2>
+      <p class="hatnote">For anyone with the app running who wants to open the source and start changing something. Assumes basic JavaScript but nothing about this codebase specifically. Skip it if you only want to use the app.</p>
+
+      <h3>System architecture, illustrated</h3>
+      <div class="diagram"><pre style="margin:0;border:0;padding:0;background:none;">┌─────────────────┐         Bluetooth          ┌─────────────────┐
+│                 │  ◄───────────────────────► │                 │
+│   📱 Your App   │         BLE UART           │  🔲 micro:bit   │
+│   (Phone/PC)    │                            │                 │
+└─────────────────┘                            └─────────────────┘
+        │                                              │
+        │  You press a widget                         │
+        │  ─────────────────►  SET btn_fire 1         │
+        │                                              │
+        │                      firmware runs your      │
+        │                      handleWidget() code,    │
+        │                      can call sendValue():   │
+        │  UPD led_status 1   ◄─────────────────      │
+        │                                              │
+        │  On connect: GETCFG ───────────────►        │
+        │  CFGBEGIN / CFG.../ CFGEND ◄──────────      │
+        │  (the layout you designed, replayed back     │
+        │   from the firmware itself)                  │</pre></div>
+      <p>The key difference from the other three apps in this family: the micro:bit isn't just a fixed remote peripheral &mdash; it's carrying its own configuration. Connect any copy of this app to a flashed board and it will faithfully redraw whatever layout was baked in at flash time.</p>
+
+      <h3>The code generator: from canvas to firmware</h3>
+      <p><code>generateDemoCode(cfg)</code> takes the current widget list and, for each widget, emits a matching <code>if (id == "...")</code> handler block into a firmware template &mdash; a Button widget gets an "on press, show a heart" block; a Slider gets a "parse the value, plot a bar graph" block; and so on for all 12 widget types. Every generated handler is deliberately simple and commented <code>// Add your code here!</code> &mdash; it's meant to be a starting point you edit in MakeCode, not a finished program.</p>
+      <pre><code>function generateDemoCode(cfg) {
+  const b64 = btoa(unescape(encodeURIComponent(JSON.stringify(cfg))));  // Unicode-safe (handles emoji labels!)
+  const buttons = cfg.widgets.filter(w => w.t === 'button');
+  const sliders = cfg.widgets.filter(w => w.t === 'slider');
+  // ...one filter per widget type...
+
+  let buttonCode = buttons.map(w => `    if (id == "${w.id}" && val == "1") {
+        basic.showIcon(IconNames.Heart)
+        // Add your code here!
+    }`).join('\n');
+  // ...same pattern for every other widget type, then stitched into
+  // the firmware template alongside the embedded CFG Base64 string...
+}</code></pre>
+
+      <h3>How the layout survives on the micro:bit itself</h3>
+      <p>The entire widget layout is JSON-stringified, Base64-encoded (via a Unicode-safe <code>btoa(unescape(encodeURIComponent(...)))</code> chain so emoji labels survive), and baked directly into the generated firmware as a string constant. The firmware then knows how to hand that string back over Bluetooth in 18-byte chunks whenever asked:</p>
+      <pre><code>const CFG = "${b64}"   // baked in at generation time
+
+bluetooth.onUartDataReceived(serial.delimiters(Delimiters.NewLine), function() {
+    let cmd = bluetooth.uartReadUntil(serial.delimiters(Delimiters.NewLine))
+    if (cmd == "GETCFG") {
+        bluetooth.uartWriteLine("CFGBEGIN")
+        for (let i = 0; i < CFG.length; i += 18) {
+            bluetooth.uartWriteLine("CFG " + CFG.substr(i, 18))
+        }
+        bluetooth.uartWriteLine("CFGEND")
+    } else if (cmd.indexOf("SET ") == 0) {
+        let parts = cmd.substr(4).split(" ")
+        handleWidget(parts[0], parts.slice(1).join(" "))
+    }
+})</code></pre>
+      <p>18 bytes per chunk keeps every line comfortably under the ~20-byte BLE MTU used throughout this app family. On the browser side, the reassembled Base64 is decoded back into the exact widget layout you built &mdash; which is how the Play tab can render your remote correctly even in a browser session that never touched the Build tab.</p>
+
+      <h3>One-click flashing: Partial Flashing Service and WebUSB</h3>
+      <p>Beyond the standard "copy code into MakeCode" path, <code>flashToMicrobit()</code> attempts to compile the generated code via a MakeCode compiler helper and push the resulting <code>.hex</code> straight to the board over Bluetooth, using the micro:bit's <strong>Partial Flashing Service</strong> &mdash; a real DAL feature (UUID <code>e97dd91d-...</code>) that lets a previously-USB-flashed board accept program updates over BLE without a cable:</p>
+      <pre><code>const PFS_SERVICE = 'e97dd91d-251d-470a-a062-fa1922dfa9a8';
+const PFS_CHAR    = 'e97d3b10-251d-470a-a062-fa1922dfa9a8';
+const PFS_CMD = { REGION_INFO: 0x00, FLASH_DATA: 0x01, END_OF_TX: 0x02, STATUS: 0xEE, RESET: 0xFF };</code></pre>
+      <p>If the compile step fails for any reason, the app doesn't just give up &mdash; it falls back to opening MakeCode in a new tab so the user can compile and flash manually. A separate <code>flashViaUSB()</code> path offers the same "flash without leaving the browser" convenience over a direct USB (WebUSB) connection instead of Bluetooth, for boards that haven't been paired yet.</p>
+
+      <h2 id="widgets">Widget catalog</h2>
+      <p>Seven input widgets (app &rarr; micro:bit) and five output widgets (micro:bit &rarr; app), each with its own message format:</p>
+      <table class="wikitable">
+        <tr><th>Direction</th><th>Widget</th><th>Message</th><th>Use it for</th></tr>
+        <tr><td rowspan="7">Input</td><td>👆 Button</td><td><code>SET id 1</code> / <code>SET id 0</code></td><td>Shooting, sound effects, lights on/off</td></tr>
+        <tr><td>🎚️ Slider</td><td><code>SET id 75</code> (0&ndash;100 or custom range)</td><td>Speed, volume, brightness, servo angle</td></tr>
+        <tr><td>🔘 Toggle</td><td><code>SET id 1</code> / <code>SET id 0</code></td><td>Turbo mode, shield, flashlight</td></tr>
+        <tr><td>🕹️ Joystick</td><td><code>SET id angle dist</code> (0&ndash;360°, 0&ndash;100%)</td><td>Robot steering, drone/pan-tilt control</td></tr>
+        <tr><td>✛ D-Pad</td><td><code>SET id direction state</code></td><td>Menu navigation, retro-game movement</td></tr>
+        <tr><td>📍 XY Pad</td><td><code>SET id x y</code> (0&ndash;100 each)</td><td>Aiming, pan/tilt camera, drawing</td></tr>
+        <tr><td>⏱️ Timer</td><td><code>SET id seconds</code> (every 5s)</td><td>Game timers, countdowns</td></tr>
+        <tr><td rowspan="5">Output</td><td>💡 LED</td><td><code>sendValue(id, "1"/"0")</code></td><td>Warnings, status indicators</td></tr>
+        <tr><td>🏷️ Label</td><td><code>sendValue(id, "any text")</code></td><td>Scores, sensor readings, messages</td></tr>
+        <tr><td>🧭 Gauge</td><td><code>sendValue(id, "75")</code></td><td>Temperature, sound level, compass, speed</td></tr>
+        <tr><td>📈 Graph</td><td><code>sendValue(id, "42,78,15")</code> (comma = multi-series)</td><td>Sensor trends over time</td></tr>
+        <tr><td>🔋 Battery</td><td><code>sendValue(id, "75")</code> (0&ndash;100)</td><td>Battery/fuel/water level, signal strength</td></tr>
+      </table>
+
+      <h2 id="protocol">Bluetooth protocol reference</h2>
+      <p>Nordic UART over BLE, same service/characteristic UUIDs as the rest of this app family (<code>6e400001/2/3-...</code>):</p>
+      <table class="wikitable">
+        <tr><th>Direction</th><th>Message</th><th>Meaning</th></tr>
+        <tr><td>App &rarr; micro:bit</td><td><code>SET widget_id value</code></td><td>A widget was interacted with.</td></tr>
+        <tr><td>micro:bit &rarr; App</td><td><code>UPD widget_id value</code></td><td>The firmware pushed a new value to display.</td></tr>
+        <tr><td>App &rarr; micro:bit</td><td><code>GETCFG</code></td><td>Request the embedded layout config.</td></tr>
+        <tr><td>micro:bit &rarr; App</td><td><code>CFGBEGIN</code> / <code>CFG &lt;chunk&gt;</code> / <code>CFGEND</code></td><td>The layout, streamed back as 18-byte Base64 chunks.</td></tr>
+      </table>
+
+      <h2 id="i18n">Languages</h2>
+      <p>English, French, and Arabic, following the same <code>t()</code>-style lookup pattern as the rest of this app family, with automatic browser-language detection on first visit (<code>detectBrowserLang()</code>) and the choice persisted under its own <code>kid_lang</code> localStorage key.</p>
+
+      <h2 id="troubleshooting">Troubleshooting</h2>
+      <table class="wikitable">
+        <tr><th>Symptom</th><th>Cause / fix</th></tr>
+        <tr><td>Can't connect to micro:bit</td><td>Confirm Bluetooth is on, the board shows a ❤️ (ready), and only one device is connected at a time &mdash; refresh and retry if a previous session didn't disconnect cleanly.</td></tr>
+        <tr><td>Widgets don't do anything</td><td>Confirm the generated code was actually flashed, and that widget IDs in the firmware match the IDs shown in the Code panel &mdash; regenerate and reflash after any layout change.</td></tr>
+        <tr><td>One-click Bluetooth flash fails</td><td>The Partial Flashing Service requires a board that's already running a compatible MakeCode runtime from a prior USB flash; if the compile step fails outright, the app opens MakeCode in a new tab so you can flash manually instead.</td></tr>
+        <tr><td>micro:bit disconnects randomly</td><td>Stay within Bluetooth range (~10m), check the battery, and reduce how often <code>sendValue()</code> is called if you're flooding the link.</td></tr>
+        <tr><td>D-Pad shows no arrow</td><td>Regenerate the code after any Build-tab change and reflash &mdash; stale firmware won't know about a widget added afterward.</td></tr>
+      </table>
+
+      <div class="catlinks">
+        Categories: <a href="index.html">micro:bit</a> | <a href="index.html">Bluetooth</a> | <a href="index.html">Web apps</a>
+      </div>
+    </article>
+  </div>
+</div>
+
+<div class="footer-wiki">
+  This page was created on 29 July 2026. Content based on the <a href="https://github.com/abourdim/rxy">rxy</a> repository (README and source) and first-hand code review.
+</div>
+
+</body>
+</html>
