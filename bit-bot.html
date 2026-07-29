@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bit-Bot - Wiki</title>
+<link rel="stylesheet" href="wiki.css">
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-inner">
+    <a class="wiki-logo" href="https://workshop-diy.org"><img src="logo.png" alt="Wiki logo"></a>
+    <a class="masthead-site-link" href="https://workshop-diy.org">workshop-diy.org</a>
+    <div class="masthead-title">
+      Wiki
+      <span class="sub">The free personal knowledge base</span>
+    </div>
+    <div class="masthead-search">
+      <input type="text" placeholder="Search Wiki" disabled>
+    </div>
+  </div>
+</div>
+
+<div class="wiki-layout">
+
+  <div class="sidebar">
+    <h3>Navigation</h3>
+    <ul>
+      <li><a href="index.html">Main page</a></li>
+      <li><a href="#">Recent changes</a></li>
+      <li><a href="#">Random page</a></li>
+    </ul>
+    <h3>Categories</h3>
+    <ul>
+      <li><a href="index.html">Networking</a></li>
+      <li><a href="index.html">Linux</a></li>
+      <li><a href="index.html">Windows</a></li>
+      <li><a href="index.html">Electronics</a></li>
+      <li><a href="index.html">ESP32</a></li>
+      <li><a href="index.html">micro:bit</a></li>
+      <li><a href="index.html">AI</a></li>
+    </ul>
+    <h3>Tools</h3>
+    <ul>
+      <li><a href="https://github.com/abourdim/bit-bot">View source repo</a></li>
+    </ul>
+  </div>
+
+  <div class="content-wrap">
+    <div class="article-tabs">
+      <span class="active">Article</span>
+      <span>Talk</span>
+    </div>
+
+    <article>
+      <h1 class="page-title">Bit-Bot</h1>
+
+      <div class="infobox">
+        <div class="infobox-title">Bit-Bot</div>
+        <table>
+          <tr><th>Type</th><td>AI robot companion, kid-friendly</td></tr>
+          <tr><th>Hardware</th><td>BBC micro:bit V2 (optional, over Bluetooth)</td></tr>
+          <tr><th>AI providers</th><td>Groq, Gemini, Cohere, Mistral, OpenRouter, or offline Demo mode</td></tr>
+          <tr><th>Languages</th><td>English, Français, العربية (RTL)</td></tr>
+          <tr><th>Runs on</th><td>Chrome / Edge, no install</td></tr>
+          <tr><th>Repository</th><td><a href="https://github.com/abourdim/bit-bot">github.com/abourdim/bit-bot</a></td></tr>
+          <tr><th>Live demo</th><td><a href="https://abourdim.github.io/bit-bot/">abourdim.github.io/bit-bot</a></td></tr>
+        </table>
+      </div>
+
+      <p class="hatnote">This article covers Bit-Bot, a single-page AI chat companion for kids that talks, listens, shows emotions, and optionally drives a BBC micro:bit over Bluetooth.</p>
+
+      <div class="toc">
+        <div class="toc-title">Contents</div>
+        <ol>
+          <li><a href="#overview">Overview</a></li>
+          <li><a href="#quickstart">Quick start</a></li>
+          <li><a href="#onboarding">First launch: onboarding</a></li>
+          <li><a href="#personality">Robot name &amp; personality</a></li>
+          <li><a href="#ai">AI providers</a></li>
+          <li><a href="#microbit">Connecting a micro:bit</a></li>
+          <li><a href="#firmware">Getting the firmware code</a></li>
+          <li><a href="#games">Commands &amp; AI-powered games</a></li>
+          <li><a href="#i18n">Languages &amp; translation system</a></li>
+          <li><a href="#help">In-app Help</a></li>
+          <li><a href="#privacy">Data &amp; privacy</a></li>
+          <li><a href="#troubleshooting">Troubleshooting</a></li>
+        </ol>
+      </div>
+
+      <h2 id="overview">Overview</h2>
+      <p><strong>Bit-Bot</strong> is a zero-install, single HTML file web app: an animated robot face you talk to by voice or text, which answers using an AI provider of your choice (or a fully offline demo mode). It optionally pairs with a BBC micro:bit over Web Bluetooth, mirroring emotions and commands onto the micro:bit's 5&times;5 LED display and reading back its sensors during games.</p>
+      <p>The whole app &mdash; UI, translation system, AI calls, Bluetooth handling &mdash; lives in one <code>index.html</code>, plus a separate <code>flash.html</code> page for getting the companion micro:bit firmware and a few <code>microbit_makecode_*.js</code> files with that firmware's source.</p>
+
+      <h2 id="quickstart">Quick start</h2>
+      <ol>
+        <li>Open <a href="https://abourdim.github.io/bit-bot/">the live app</a> in Chrome or Edge (Web Bluetooth and Speech APIs are required, so Safari/Firefox won't fully work).</li>
+        <li>Walk through the 4-step onboarding: name your robot, pick a personality, optionally connect a micro:bit.</li>
+        <li>Tap the 🎤 microphone or type a message, then hit send. The robot answers in the chat bubble and speaks it out loud.</li>
+      </ol>
+
+      <h2 id="onboarding">First launch: onboarding</h2>
+      <p>New visitors see a 4-step onboarding card before the main app:</p>
+      <table class="wikitable">
+        <tr><th>Step</th><th>What happens</th></tr>
+        <tr><td>1. Welcome</td><td>Intro to the three headline features: Voice Chat, Micro:bit, Personalities.</td></tr>
+        <tr><td>2. Personalize</td><td>Type a robot name and pick one of 12 personalities.</td></tr>
+        <tr><td>3. Connect Micro:bit</td><td>Optional Bluetooth pairing, or "Skip for now".</td></tr>
+        <tr><td>4. All done</td><td>A tip card, then "Start Chatting" drops you into the main app with a spoken welcome message.</td></tr>
+      </table>
+      <p>Completion is saved to <code>localStorage</code>, so onboarding only runs once per browser.</p>
+
+      <h2 id="personality">Robot name &amp; personality</h2>
+      <p>Available personalities: <strong>Playful</strong> (default), Helpful, Pirate, Space, Hero, Dino, Fairy, Ninja, Wizard, Cowboy, Alien, Mermaid. Each has its own system prompt tone and its own separate chat history (up to the last several messages per personality), so switching personality doesn't lose the conversation you were having with another one.</p>
+      <p>The robot's name is editable any time in <strong>Settings (☰) &rarr; Fun</strong>. The name field saves on every keystroke (not just on blur) and shows a confirmation toast, so it can never silently fail to persist.</p>
+
+      <h2 id="ai">AI providers</h2>
+      <table class="wikitable">
+        <tr><th>Provider</th><th>Notes</th></tr>
+        <tr><td>🎮 Demo</td><td>Fully offline canned responses. No API key, no network.</td></tr>
+        <tr><td>⚡ Groq</td><td>Fast Llama-family model. Ships with a working default key so it works out of the box.</td></tr>
+        <tr><td>💎 Gemini</td><td>Google's model. Needs your own free key from aistudio.google.com.</td></tr>
+        <tr><td>🧠 Cohere</td><td>Needs your own API key.</td></tr>
+        <tr><td>🌀 Mistral</td><td>Needs your own API key.</td></tr>
+        <tr><td>🔀 OpenRouter</td><td>Needs your own API key.</td></tr>
+      </table>
+      <p>Every AI prompt &mdash; the main chat and all three mini-games &mdash; has a language directive appended based on the currently selected UI language, so the model's own generated replies come back in English, French, or Arabic rather than only the fixed interface text being translated.</p>
+
+      <h2 id="microbit">Connecting a micro:bit</h2>
+      <p>Tap the connection badge in the header (or during onboarding step 3) to pair over Web Bluetooth. Once connected, the robot's emotions and spoken commands are mirrored live onto the micro:bit's 5&times;5 LED grid, and the micro:bit's accelerometer/buttons/sensors can drive the games (see below).</p>
+      <div class="ambox ambox-notice">Web Bluetooth requires a secure context: <code>https://</code> or <code>localhost</code>. It will not work opened as a bare <code>file:///</code> HTML file.</div>
+
+      <h2 id="firmware">Getting the firmware code</h2>
+      <p>The micro:bit side needs a small MakeCode program flashed once. Rather than sending people to GitHub to copy raw source by hand, <a href="https://abourdim.github.io/bit-bot/flash.html">flash.html</a> is a dedicated page that:</p>
+      <ul>
+        <li>Fetches the current <code>microbit_makecode_v3.js</code> at load time and displays it in a scrollable code block.</li>
+        <li>Has a single big <strong>Copy micro:bit Code</strong> button (clipboard API with an <code>execCommand</code> fallback).</li>
+        <li>Lists the six steps to paste it into <a href="https://makecode.microbit.org">makecode.microbit.org</a>, add the <code>bluetooth</code> extension, enable "No Pairing Required", and flash.</li>
+      </ul>
+      <p>It's linked from the main app's <strong>Settings &rarr; Setup</strong> tab and from a dedicated <strong>Firmware</strong> badge in the header.</p>
+
+      <h2 id="games">Commands &amp; AI-powered games</h2>
+      <p>The 📋 button above the message box opens a categorized command cheat-sheet (Emotions, Animals, Actions, Sounds, Party, Powers) &mdash; tap any word to trigger it instantly.</p>
+      <p>The 🎮 button opens three AI-powered mini-games, all playable with a connected micro:bit's tilt/shake/buttons as input:</p>
+      <table class="wikitable">
+        <tr><th>Game</th><th>What it does</th></tr>
+        <tr><td>🎯 Smart Tilt Quiz</td><td>AI-generated multiple-choice quiz questions (with a hardcoded fallback bank if the AI call fails); tilt left/right to answer; difficulty adapts to your streak.</td></tr>
+        <tr><td>🗺️ Adventure Explorer</td><td>An AI-narrated branching story in a randomly chosen theme (forest, space, ocean, castle, jungle); shake to look around, tilt to choose.</td></tr>
+        <tr><td>🔬 Science Detective</td><td>Real sensor readings (temperature or light) from the micro:bit, explained by the AI in kid-friendly language, with a fallback explanation if the AI call fails.</td></tr>
+      </table>
+
+      <h2 id="i18n">Languages &amp; translation system</h2>
+      <p>The UI, all toast/status/log messages, and all game narration are fully translated across English, French, and Arabic (with right-to-left layout for Arabic) via an in-app <code>I18N</code> object and <code>tr()</code>/<code>trg()</code> helper functions keyed by <code>data-i18n</code> attributes. French is the default language. A flag-based switcher sits in the header; the choice persists to <code>localStorage</code>.</p>
+
+      <h2 id="help">In-app Help</h2>
+      <p>A ❓ button in the header opens a quick-reference modal (Talk to your robot, Name &amp; personality, Connect a micro:bit, Commands &amp; games, Tips), translated the same as the rest of the UI. Closes via the × button, <kbd>Escape</kbd>, or clicking outside the card.</p>
+
+      <div class="ambox ambox-success">
+        <strong>Privacy by design:</strong> in Demo mode nothing leaves the browser. In any other AI mode, only your typed/spoken messages are sent to that provider's API &mdash; settings, robot name, and chat history stay in <code>localStorage</code> only.
+      </div>
+
+      <h2 id="privacy">Data &amp; privacy</h2>
+      <ul>
+        <li><strong>Demo mode</strong> works entirely offline.</li>
+        <li><strong>AI modes</strong> send your messages to the selected provider's servers (Groq/Google/Cohere/Mistral/OpenRouter).</li>
+        <li>Settings, robot name/personality, and chat history are stored only in the browser's <code>localStorage</code> &mdash; nothing is uploaded anywhere else.</li>
+        <li>No analytics, no tracking scripts.</li>
+      </ul>
+
+      <h2 id="troubleshooting">Troubleshooting</h2>
+      <table class="wikitable">
+        <tr><th>Symptom</th><th>Cause / fix</th></tr>
+        <tr><td>Mic or Bluetooth don't work</td><td>Needs Chrome or Edge, and a secure context (<code>https://</code> or <code>localhost</code>) &mdash; not <code>file:///</code>.</td></tr>
+        <tr><td>Robot name doesn't seem to save</td><td>Fixed: the name field now saves on every keystroke with a confirmation toast, so this shouldn't reoccur on current builds.</td></tr>
+        <tr><td>App stuck in English after choosing another flag</td><td>Check that JavaScript isn't blocked; the flag buttons call <code>setLanguage()</code>, which also persists the choice to <code>localStorage</code>.</td></tr>
+        <tr><td>micro:bit not reacting</td><td>Reflash with the code from <a href="https://abourdim.github.io/bit-bot/flash.html">flash.html</a> &mdash; make sure the <code>bluetooth</code> extension and "No Pairing Required" are both set in MakeCode.</td></tr>
+      </table>
+
+      <div class="catlinks">
+        Categories: <a href="index.html">AI</a> | <a href="index.html">micro:bit</a> | <a href="index.html">Kids</a> | <a href="index.html">Web apps</a>
+      </div>
+    </article>
+  </div>
+</div>
+
+<div class="footer-wiki">
+  This page was created on 29 July 2026. Content based on the <a href="https://github.com/abourdim/bit-bot">bit-bot</a> repository and first-hand testing of the live app.
+</div>
+
+</body>
+</html>

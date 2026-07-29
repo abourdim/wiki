@@ -6,6 +6,8 @@ Personal notes and how-to guides.
 
 - [Sharing Files Between Ubuntu & Windows 11](windows-ubuntu-file-sharing-tutorial.html) — Step-by-step guide to setting up SMB file sharing in both directions on a local network, plus RDP and troubleshooting notes.
 - [VideoCar](video-car.html) — Enhanced firmware and web control page for the keyestudio ESP32-CAM Video Smart Car: joystick control, failsafe, live Vision overlays, autonomous Follow-me/Line/Colour-chase modes.
+- [Bit-Bot](bit-bot.html) — AI robot companion for kids: voice chat with a choice of AI providers, 12 personalities, AI-powered mini-games, and an optional BBC micro:bit link over Bluetooth. Full EN/FR/AR translation.
+- [Talking Robot](talking-robot.html) — Browser speech & emotion robot: text-to-speech, speech recognition, 13 animated emotions, and an optional BBC micro:bit link over Bluetooth. No AI provider, fully offline.
 
 ## Index
 
