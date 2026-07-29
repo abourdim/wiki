@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Micro:bit Remote Builder (rxy) - Wiki</title>
+<title>Micro:bit Remote Builder (bit-rxy) - Wiki</title>
 <link rel="stylesheet" href="wiki.css">
 </head>
 <body>
@@ -42,7 +42,7 @@
     </ul>
     <h3>Tools</h3>
     <ul>
-      <li><a href="https://github.com/abourdim/rxy">View source repo</a></li>
+      <li><a href="https://github.com/abourdim/bit-rxy">View source repo</a></li>
     </ul>
   </div>
 
@@ -53,7 +53,7 @@
     </div>
 
     <article>
-      <h1 class="page-title">Micro:bit Remote Builder (rxy)</h1>
+      <h1 class="page-title">Micro:bit Remote Builder (bit-rxy)</h1>
 
       <div class="infobox">
         <div class="infobox-title">Micro:bit Remote Builder</div>
@@ -64,8 +64,8 @@
           <tr><th>Languages</th><td>English, Français, العربية</td></tr>
           <tr><th>Runs on</th><td>Chrome / Edge, no install</td></tr>
           <tr><th>Version</th><td>v1.0.0</td></tr>
-          <tr><th>Repository</th><td><a href="https://github.com/abourdim/rxy">github.com/abourdim/rxy</a></td></tr>
-          <tr><th>Live demo</th><td><a href="https://abourdim.github.io/rxy/">abourdim.github.io/rxy</a></td></tr>
+          <tr><th>Repository</th><td><a href="https://github.com/abourdim/bit-rxy">github.com/abourdim/bit-rxy</a></td></tr>
+          <tr><th>Live demo</th><td><a href="https://abourdim.github.io/bit-rxy/">abourdim.github.io/bit-rxy</a></td></tr>
         </table>
       </div>
 
@@ -86,12 +86,12 @@
       </div>
 
       <h2 id="overview">Overview</h2>
-      <p><strong>rxy</strong> lets you design a custom Bluetooth remote &mdash; buttons, sliders, joysticks, gauges, whatever you need &mdash; by dragging widgets onto a canvas, then generates the matching MakeCode firmware for you automatically. Unlike Bit-Bot, Talking Robot, and micro:bit Playground (which all ship one fixed firmware protocol), here the protocol itself is generated per-design: every widget you place becomes a handler block in the exported code, and the whole layout is embedded into the firmware as a Base64 string so the micro:bit can hand its own configuration back to any app that asks for it.</p>
+      <p><strong>bit-rxy</strong> lets you design a custom Bluetooth remote &mdash; buttons, sliders, joysticks, gauges, whatever you need &mdash; by dragging widgets onto a canvas, then generates the matching MakeCode firmware for you automatically. Unlike Bit-Bot, Talking Robot, and micro:bit Playground (which all ship one fixed firmware protocol), here the protocol itself is generated per-design: every widget you place becomes a handler block in the exported code, and the whole layout is embedded into the firmware as a Base64 string so the micro:bit can hand its own configuration back to any app that asks for it.</p>
       <p>It also goes a step further than the other apps in this family: instead of only offering "copy this code into MakeCode," it can compile the generated code and flash it to the board directly from the browser, either over Bluetooth (using the micro:bit's built-in Partial Flashing Service) or over WebUSB.</p>
 
       <h2 id="quickstart">Quick start</h2>
       <ol>
-        <li>Open <a href="https://abourdim.github.io/rxy/">the live app</a> in Chrome or Edge.</li>
+        <li>Open <a href="https://abourdim.github.io/bit-rxy/">the live app</a> in Chrome or Edge.</li>
         <li>On the <strong>✏️ Build</strong> tab, drag widgets onto the canvas (or start from a template).</li>
         <li>Click <strong>📄 Code</strong>, copy the generated MakeCode, paste it into <a href="https://makecode.microbit.org">makecode.microbit.org</a>, and flash via USB &mdash; or use the in-app flash button to do it over Bluetooth/WebUSB instead.</li>
         <li>Switch to the <strong>▶️ Play</strong> tab, tap <strong>📡 Tap to Connect!</strong>, and start controlling your micro:bit.</li>
@@ -101,7 +101,7 @@
       <p>This walkthrough takes a bare checkout to a verified-working remote: one widget sent successfully in each direction.</p>
 
       <h3>1. Clone the repository</h3>
-      <pre><code>git clone https://github.com/abourdim/rxy.git
+      <pre><code>git clone https://github.com/abourdim/bit-rxy.git
 cd rxy</code></pre>
 
       <h3>2. Serve it locally</h3>
@@ -238,7 +238,7 @@ const PFS_CMD = { REGION_INFO: 0x00, FLASH_DATA: 0x01, END_OF_TX: 0x02, STATUS: 
 </div>
 
 <div class="footer-wiki">
-  This page was created on 29 July 2026. Content based on the <a href="https://github.com/abourdim/rxy">rxy</a> repository (README and source) and first-hand code review.
+  This page was created on 29 July 2026. Content based on the <a href="https://github.com/abourdim/bit-rxy">bit-rxy</a> repository (README and source) and first-hand code review.
 </div>
 
 </body>
