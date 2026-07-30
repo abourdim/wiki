@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>micro:bit Playground - Wiki</title>
+<link rel="stylesheet" href="wiki.css">
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-inner">
+    <a class="wiki-logo" href="https://workshop-diy.org"><img src="logo.png" alt="شعار الويكي"></a>
+    <a class="masthead-site-link" href="https://workshop-diy.org">workshop-diy.org</a>
+    <div class="masthead-title">
+      الويكي
+      <span class="sub">قاعدة المعرفة الشخصية والمجانية</span>
+    </div>
+    <div class="masthead-actions">
+      <div class="lang-switch" role="group" aria-label="اللغة">
+        <a href="bit-playground.html" class="lang-switch-btn" title="Français"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="20" height="40" fill="#002395"/><rect x="20" width="20" height="40" fill="#fff"/><rect x="40" width="20" height="40" fill="#ED2939"/></svg></a>
+        <a href="bit-playground-en.html" class="lang-switch-btn" title="English"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="60" height="40" fill="#012169"/><path d="M0 0L60 40M60 0L0 40" stroke="#fff" stroke-width="6.5"/><path d="M0 0L60 40M60 0L0 40" stroke="#C8102E" stroke-width="3.5"/><path d="M30 0V40M0 20H60" stroke="#fff" stroke-width="11"/><path d="M30 0V40M0 20H60" stroke="#C8102E" stroke-width="6.5"/></svg></a>
+        <a href="bit-playground-ar.html" class="lang-switch-btn active" title="العربية"><svg width="24" height="16" viewBox="0 0 900 600"><defs><clipPath id="glBPar"><rect width="450" height="600"/></clipPath></defs><rect width="450" height="600" fill="#006233"/><rect x="450" width="450" height="600" fill="#FFF"/><g fill="#D21034" transform="translate(450,300)"><circle r="125"/><circle cx="25" r="100" fill="#FFF"/><g clip-path="url(#glBPar)" transform="translate(-450,-300)"><circle cx="475" cy="300" r="100" fill="#006233"/></g><path d="M85-12l22 67h71l-57 42 22 67-58-42-57 42 21-67-57-42h71z"/></g></svg></a>
+      </div>
+      <div class="masthead-search">
+        <input type="text" placeholder="ابحث في الويكي" disabled>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wiki-layout">
+
+  <div class="sidebar">
+    <h3>التصفح</h3>
+    <ul>
+      <li><a href="index.html">الصفحة الرئيسية</a></li>
+      <li><a href="#">التعديلات الأخيرة</a></li>
+      <li><a href="#">صفحة عشوائية</a></li>
+    </ul>
+    <h3>التصنيفات</h3>
+    <ul>
+      <li><a href="index.html">الشبكات</a></li>
+      <li><a href="index.html">Linux</a></li>
+      <li><a href="index.html">Windows</a></li>
+      <li><a href="index.html">الإلكترونيات</a></li>
+      <li><a href="index.html">ESP32</a></li>
+      <li><a href="index.html">micro:bit</a></li>
+    </ul>
+    <h3>أدوات</h3>
+    <ul>
+      <li><a href="https://github.com/abourdim/bit-playground">عرض مستودع الكود المصدري</a></li>
+    </ul>
+  </div>
+
+  <div class="content-wrap">
+    <div class="article-tabs">
+      <span class="active">المقالة</span>
+      <span>النقاش</span>
+    </div>
+
+    <article>
+      <h1 class="page-title">micro:bit Playground</h1>
+
+      <div class="infobox">
+        <div class="infobox-title">micro:bit Playground</div>
+        <table>
+          <tr><th>النوع</th><td>لوحة تحكم/حساسات عبر BLE</td></tr>
+          <tr><th>العتاد</th><td>BBC micro:bit V2 (النسخة V1 تفتقر لحساس الصوت)</td></tr>
+          <tr><th>التبويبات</th><td>8: التحكم، الحساسات، المحركات، ذراع التحكم، الرسم البياني، اللوحة ثلاثية الأبعاد، المختبر، المزيد</td></tr>
+          <tr><th>اللغات</th><td>English, Français, العربية (RTL)</td></tr>
+          <tr><th>يعمل على</th><td>Chrome / Edge، بدون تثبيت، قابل للتثبيت كـ PWA</td></tr>
+          <tr><th>الإصدار</th><td>التطبيق v1.2.0 &middot; الفيرموير V8.1</td></tr>
+          <tr><th>المستودع</th><td><a href="https://github.com/abourdim/bit-playground">github.com/abourdim/bit-playground</a></td></tr>
+          <tr><th>العرض المباشر</th><td><a href="https://abourdim.github.io/bit-playground/">abourdim.github.io/bit-playground</a></td></tr>
+        </table>
+      </div>
+
+      <p class="hatnote">تتناول هذه المقالة micro:bit Playground، أكثر تطبيقات الويب اكتمالًا بالميزات في هذه المجموعة الخاصة بـ micro:bit: لوحة تحكم BLE بـ8 تبويبات مع رسم بياني حي للحساسات، خمسة نماذج روبوت ثلاثية الأبعاد تفاعلية، وبروتوكول فيرموير مخصص يغطي أكثر من 30 أمرًا مختلفًا.</p>
+
+      <div class="toc">
+        <div class="toc-title">المحتويات</div>
+        <ol>
+          <li><a href="#overview">نظرة عامة</a></li>
+          <li><a href="#quickstart">البدء السريع</a></li>
+          <li><a href="#walkthrough">خطوة بخطوة: الاستنساخ والتحميل والاختبار</a></li>
+          <li><a href="#understanding">فهم الكود (للمبتدئين)</a></li>
+          <li><a href="#tabs">دليل التبويبات</a></li>
+          <li><a href="#protocol">مرجع بروتوكول BLE</a></li>
+          <li><a href="#board3d">نماذج اللوحة ثلاثية الأبعاد</a></li>
+          <li><a href="#calibration">نظام المعايرة</a></li>
+          <li><a href="#i18n">السمات &amp; اللغات</a></li>
+          <li><a href="#firmware">الحصول على الفيرموير</a></li>
+          <li><a href="#troubleshooting">حل المشكلات</a></li>
+        </ol>
+      </div>
+
+      <h2 id="overview">نظرة عامة</h2>
+      <p><strong>micro:bit Playground</strong> لوحة تحكم قائمة على الويب لـ BBC micro:bit V2 عبر البلوتوث منخفض الطاقة: ثمانية تبويبات تغطي التحكم بـLED/النص/الجرس، قراءات حساسات حية مع رسوم صغيرة، قناتا سيرفو، لوحة اتجاه على طراز ذراع التحكم، رسم بياني حي بـChart.js مع تسجيل/إعادة تشغيل/تصدير CSV، خمسة نماذج روبوت ثلاثية الأبعاد تفاعلية بـThree.js متزامنة مع بيانات حساسات حقيقية، مختبر أوامر خام للخبراء، وتبويب «المزيد» المتنوع من الأدوات الإضافية (عصا تحكم، لوحة مفاتيح، لوحة XY، تحكم بالمنافذ، والمزيد). على عكس شقيقيه الأبسط (Bit-Bot، Talking Robot)، ليس له أي مزوّد ذكاء اصطناعي ولا أي ميزات صوتية إطلاقًا &mdash; تركيزه بالكامل هو تحويل كل حساس ومخرج في micro:bit إلى شيء يمكنك رؤيته ورسمه بيانيًا وتشغيله من المتصفح.</p>
+      <p>وهو أيضًا الأنضج معماريًا من الثلاثة: بدلًا من <code>&lt;script&gt;</code> واحد ضخم مضمّن، ينقسم JavaScript إلى تسعة ملفات مركّزة تحت <code>js/</code>، مُحمّلة بترتيب اعتماد ثابت، بالإضافة إلى خمسة ملفات أخرى تحت <code>js/models/</code> للروبوتات ثلاثية الأبعاد.</p>
+
+      <h2 id="quickstart">البدء السريع</h2>
+      <ol>
+        <li>حمّل <code>makecode.ts</code> على BBC micro:bit V2 عبر <a href="https://makecode.microbit.org">makecode.microbit.org</a> (انظر <a href="#firmware">الحصول على الفيرموير</a>).</li>
+        <li>افتح <a href="https://abourdim.github.io/bit-playground/">التطبيق المباشر</a> في Chrome أو Edge.</li>
+        <li>اضغط <strong>اتصال</strong> واختر micro:bit الخاص بك من منتقي أجهزة البلوتوث &mdash; تتحول شارة الحالة إلى الأخضر بمجرد الاتصال.</li>
+        <li>استكشف التبويبات الثمانية (أو اضغط <kbd>1</kbd>&ndash;<kbd>8</kbd> للانتقال مباشرة إلى أحدها).</li>
+      </ol>
+
+      <h2 id="walkthrough">خطوة بخطوة: الاستنساخ والتحميل والاختبار</h2>
+      <p>يأخذك هذا الدليل من نسخة فارغة إلى لوحة تحكم مُتحقَّق من عملها: حساسات تتحدث حيًّا، LED قابلة للتحكم، ونموذج ثلاثي الأبعاد يتحرك بتزامن.</p>
+
+      <h3>1. استنساخ المستودع</h3>
+      <pre><code>git clone https://github.com/abourdim/bit-playground.git
+cd bit-playground</code></pre>
+
+      <h3>2. تحميل الفيرموير</h3>
+      <p>افتح <a href="https://makecode.microbit.org">makecode.microbit.org</a>، أنشئ مشروعًا، انتقل إلى تبويب <strong>JavaScript</strong>، الصق محتوى <code>makecode.ts</code>، ثم نزّله وحمّله على micro:bit V2 الخاص بك. شغّله عبر USB أو بطاريات &mdash; يعرض أيقونة <strong>X</strong> بمجرد أن يبدأ البث عبر البلوتوث وينتظر اتصالًا.</p>
+
+      <h3>3. تشغيل التطبيق محليًا</h3>
+      <p>لا حاجة لخطوة بناء، لكن Web Bluetooth يرفض مسار <code>file:///</code> مباشرًا:</p>
+      <pre><code>npm run serve</code></pre>
+      <p>(غلاف بسيط حول <code>npx serve .</code>، موجود بالفعل في <code>package.json</code>) وافتح رابط <span class="key-value">http://localhost:...</span> المعروض في Chrome أو Edge. النسخة المباشرة على GitHub Pages تعمل بنفس الطريقة دون أي إعداد محلي.</p>
+
+      <h3>4. الاتصال وتأكيد القياس عن بُعد</h3>
+      <p>اضغط <strong>اتصال</strong>، اختر لوحتك. في تبويب <strong>الحساسات</strong>، يجب أن تبدأ الحرارة/الضوء/الصوت/مقياس التسارع/البوصلة جميعها بالتحديث خلال ثانية، كل منها برسم صغير حي خاص به.</p>
+
+      <h3>5. اختبار مخرج: مصفوفة LED</h3>
+      <p>في تبويب <strong>التحكم</strong>، اضغط بضع خلايا في شبكة 5×5، أو المس الإعداد المسبق ❤️ قلب، وتأكد من تطابق LED الفعلية على اللوحة مع ما هو مرسوم على الشاشة.</p>
+
+      <h3>6. اختبار نموذج ثلاثي الأبعاد</h3>
+      <p>افتح تبويب <strong>اللوحة ثلاثية الأبعاد</strong>، اختر نموذج <strong>micro:bit V2</strong>، وأمِل اللوحة الفعلية &mdash; يجب أن يميل النموذج ثلاثي الأبعاد ليطابق خلال جزء من الثانية، ويجب أن تعكس LED الخاصة به أي نمط معروض حاليًا.</p>
+
+      <h3>7. اختبار الرسم البياني دون الحاجة لتغيير الفيرموير</h3>
+      <p>في تبويب <strong>الرسم البياني</strong>، اضغط <strong>🎲 محاكاة</strong> &mdash; يبدأ الفيرموير في بث بيانات جيبية/عشوائية/متدرجة اصطناعية كل 200 مللي ثانية دون أي حساس أو توصيل &mdash; وهي أسرع طريقة لتأكيد أن خط أنابيب BLE←رسم بياني بأكمله يعمل قبل الوثوق بقراءة حساس حقيقية.</p>
+
+      <div class="ambox ambox-success">يبدو الأساس الناجح كالتالي: خمسة رسوم صغيرة حية للحساسات، نقرات LED تنعكس فورًا على اللوحة الفعلية، النموذج ثلاثي الأبعاد يميل مع اللوحة الحقيقية، ورسم بياني متحرك في وضع المحاكاة &mdash; كل هذا قبل حتى أن تلمس سيرفو أو ذراع التحكم أو تبويب المزيد.</div>
+
+      <h2 id="understanding">فهم الكود (للمبتدئين)</h2>
+      <p class="hatnote">لمن لديه التطبيق قيد التشغيل ويريد فتح الكود المصدري والبدء بتعديل شيء ما. يفترض معرفة أساسية بـJavaScript لكن لا شيء خاص بهذا الكود تحديدًا. تخطَّه إذا كنت تريد فقط استخدام التطبيق.</p>
+
+      <h3>معمارية النظام، بالرسم التوضيحي</h3>
+      <div class="diagram" dir="ltr"><pre style="margin:0;border:0;padding:0;background:none;">┌──────────────┐     BLE UART      ┌────────────────────────┐
+│  micro:bit   │ ◄──────────────► │   Browser App            │
+│ (makecode.ts)│   20-byte chunks  │                          │
+│   V8.1       │                   │  core.js    (bus, toasts)│
+│              │                   │  ble.js     (connect)    │
+│  Sensors ──────── TEMP:23 ──────►  sensors.js (parse)      │
+│  LEDs    ◄──────  LM:1F0E... ───  controls.js (UI)        │
+│  LEDs    ──────── LEDS:10,31.. ►  sensors.js → board3d    │
+│  Servos  ◄──────  SERVO1:90 ────  servos.js  → board3d    │
+│  Graph   ──────── GRAPH:X:42 ──►  graph.js   (chart)      │
+└──────────────┘                   └────────────────────────┘
+                                          │
+                                   board3d.js (3D engine)
+                                   ┌──────┴──────┐
+                                   │ model registry│
+                                   │ microbit/buggy│
+                                   │ arm/balance/  │
+                                   │ weather.js    │
+                                   └──────────────┘</pre></div>
+      <p>هذا الرسم التوضيحي مأخوذ مباشرة من ملف README الخاص بالمشروع، وهو دقيق وكامل بشكل غير معتاد لهذا الكود &mdash; يستحق القراءة كاملًا جنبًا إلى جنب مع هذه المقالة.</p>
+
+      <h3>تخطيط وحدات JS وترتيب التحميل</h3>
+      <p>تسعة ملفات تحت <code>js/</code>، مُحمّلة عبر وسوم <code>&lt;script&gt;</code> مؤجلة بسيطة بترتيب ثابت لأن الملفات اللاحقة تفترض أن السابقة قد عملت بالفعل:</p>
+      <table class="wikitable">
+        <tr><th>#</th><th>الملف</th><th>المسؤولية</th></tr>
+        <tr><td>1</td><td><code>lang.js</code></td><td>i18n: قاموس <code>LANG</code> (en/fr/ar) + بحث <code>t(key)</code>. يُحمَّل أولًا &mdash; كل شيء آخر يستدعي <code>t()</code>.</td></tr>
+        <tr><td>2</td><td><code>core.js</code></td><td>مراجع DOM، ناقل الأحداث، إشعارات toast، التسجيل، اختصارات لوحة المفاتيح.</td></tr>
+        <tr><td>3</td><td><code>ble.js</code></td><td>الاتصال/قطع الاتصال/إعادة الاتصال، إرسالات UART مجزّأة، توزيع الأسطر الواردة.</td></tr>
+        <tr><td>4</td><td><code>sensors.js</code></td><td>يحلل أسطر القياس عن بُعد، يحدّث واجهة الحساسات + الرسوم الصغيرة، يغذّي الرسم البياني والثلاثي الأبعاد.</td></tr>
+        <tr><td>5</td><td><code>controls.js</code></td><td>مصفوفة LED، الجرس، تبديل التبويبات، المختبر، منتقي السمة، تهيئة الصفحة.</td></tr>
+        <tr><td>6</td><td><code>servos.js</code></td><td>منزلقات/مقاييس/ضبط السيرفو، التفعيل/التعطيل حسب الاتصال.</td></tr>
+        <tr><td>7</td><td><code>others.js</code></td><td>تبويب «المزيد»: عصا التحكم، المؤقت، الإعدادات المسبقة، وحدة تصحيح الأخطاء، التقاط البيانات، لوحة XY.</td></tr>
+        <tr><td>8</td><td><code>graph.js</code></td><td>إعداد Chart.js، مجموعات البيانات، التسجيل/إعادة التشغيل، التعليقات التوضيحية، تصدير PNG/CSV.</td></tr>
+        <tr><td>9</td><td><code>models/*.js</code>، ثم <code>board3d.js</code></td><td>خمسة ملفات نماذج تسجّل نفسها على <code>window.board3dModels</code>؛ يُحمَّل المحرك أخيرًا ويبدأ حلقة العرض.</td></tr>
+      </table>
+      <p>لا يوجد مجمّع ولا نظام وحدات (لا <code>import</code>/<code>export</code>) &mdash; كل ملف يعلن ببساطة دوالًا ومتغيرات من المستوى الأعلى تقرأها السكربتات اللاحقة مباشرة، لذا ترتيب الملفات في <code>index.html</code> <em>هو</em> رسم الاعتمادية.</p>
+
+      <h3>الإرسال إلى micro:bit: <code>sendLine()</code> والتجزئة</h3>
+      <p>كل أمر صادر يمر عبر دالة واحدة في <code>ble.js</code>:</p>
+      <pre><code>const BLE_MTU_PAYLOAD = 20; // typical BLE ATT payload limit
+
+function sendLine(line) {
+    const data = new TextEncoder().encode(line + '\n');
+    if (data.byteLength &lt;= BLE_MTU_PAYLOAD) {
+        writeChar.writeValue(data);          // fits in one write
+    } else {
+        // split into 20-byte pieces, write sequentially via a Promise chain
+        // so a long command (e.g. a long TEXT: string) can't corrupt mid-flight
+    }
+}</code></pre>
+      <p>إعادة الاتصال التلقائي آلة حالة صغيرة: حتى <code>MAX_RECONNECT_ATTEMPTS</code> (3) محاولات، بفاصل <code>RECONNECT_DELAY_MS</code> (2000 مللي ثانية)، متتبَّعة بعدّاد <code>reconnectAttempts</code> وعلامة <code>userDisconnected</code> &mdash; هذه العلامة هي ما يمنع التطبيق من مقاومة نقرة قطع اتصال متعمدة بمحاولة إعادة الاتصال فورًا.</p>
+
+      <h3>نظام i18n: <code>lang.js</code> و<code>t()</code></h3>
+      <p>1389 سطرًا، تقريبًا بالكامل كائن <code>LANG</code> كبير واحد مفهرس <code>en</code>/<code>fr</code>/<code>ar</code>، كل منها قاموس مسطح من مفاتيح نصية (<code>app_title</code>، <code>connect_btn</code>، وعشرات أخرى). يستدعي كل ملف آخر <code>t(key)</code> عامًا واحدًا للبحث عن نص اللغة النشطة، مع الرجوع للإنجليزية إذا كان المفتاح مفقودًا في اللغة الحالية &mdash; نفس نمط <code>tr()</code> المستخدم في Bit-Bot وTalking Robot، تم التوصل إليه بشكل مستقل لنفس السبب: دالة بحث واحدة، مصدر حقيقة واحد، سهل البحث فيه (grep) عن المفاتيح المفقودة. يعيد زر العلم العربي استخدام نفس SVG العلم الجزائري الدقيق (نصفان أخضر/أبيض، هلال ونجمة حمراوان) المستخدم في التطبيقين الآخرين من هذه المجموعة.</p>
+
+      <h3>فيرموير الـ micro:bit: أوامر مطابقة بالبادئة</h3>
+      <p>مع أكثر من 30 أمرًا مختلفًا، لا يستخدم هذا الفيرموير سلسلة طويلة واحدة من فحوصات <code>if (cmd == "...")</code> بمطابقة دقيقة كالفيرموير الأبسط للتطبيقات الشقيقة &mdash; بل يطابق حسب <em>البادئة</em>، لأن معظم الأوامر تحمل معاملًا بعد نقطتين:</p>
+      <pre><code>bluetooth.onUartDataReceived(serial.delimiters(Delimiters.NewLine), function () {
+    let line = bluetooth.uartReadUntil(serial.delimiters(Delimiters.NewLine)).trim()
+    bluetooth.uartWriteLine("ECHO:" + line)        // every line is echoed for debugging
+
+    if (line.substr(0, 5) == "TEXT:") { basic.showString(line.substr(5)); return }
+    if (line.substr(0, 3) == "LM:")   { handleLedMatrixHex(line.substr(3)); return }
+    if (line.substr(0, 4) == "TAB:")  { currentTab = line.substr(4).toLowerCase(); ... return }
+    if (line == "SERVO1:OFF")         { pins.analogWritePin(AnalogPin.P1, 0); ... return }
+    // ...continues for SERVO1:&lt;angle&gt;, SERVO2:*, BUZZ:*, CMD:*, OTHER:*, BENCH:*, JSON:*, ...
+})</code></pre>
+      <p>كل فرع يقوم بـ<code>return</code> فورًا عند التطابق، لذا تتصرف القائمة كجدول بحث رغم أنها مكتوبة كـ<code>if</code> متسلسلة &mdash; الترتيب لا يهم غالبًا لأن كل بادئة فريدة.</p>
+
+      <h4>فك ترميز مصفوفة LED: <code>LM:&lt;hex10&gt;</code></h4>
+      <p>يرمّز المتصفح شبكة 5×5 بأكملها إلى 10 أحرف سداسية عشرية (بايت واحد لكل صف، 5 صفوف)، ويفكّ الفيرموير ترميزها بت تلو الآخر:</p>
+      <pre><code>function handleLedMatrixHex(hex2: string) {
+    if (hex2.length != 10) { bluetooth.uartWriteLine("LOG:LM_BAD_LENGTH:" + hex2.length); return }
+    for (let row = 0; row &lt;= 4; row++) {
+        let value = hexPairToByte(hex2.substr(row * 2, 2))   // "1F" → 31
+        for (let col = 0; col &lt;= 4; col++) {
+            const mask = 1 &lt;&lt; col
+            if ((value &amp; mask) != 0) led.plot(col, row)
+            else led.unplot(col, row)
+        }
+    }
+    bluetooth.uartWriteLine("LOG:LM_OK:" + hex2)
+}</code></pre>
+      <p>تتطابق البتات الخمس المنخفضة لكل بايت صف واحدًا لواحد مع أعمدة LED الخمسة في ذلك الصف عبر قناع بتات &mdash; نفس الترميز الذي يستخدمه سطر القياس عن بُعد <code>LEDS:&lt;r0&gt;,&lt;r1&gt;,&lt;r2&gt;,&lt;r3&gt;,&lt;r4&gt;</code> بالعكس لإبلاغ حالة LED للمتصفح كي يعكسها النموذج ثلاثي الأبعاد.</p>
+
+      <h3>ضوابط تعارض المنافذ</h3>
+      <p>يشترك السيرفو والجرس في منافذ فعلية مع حساسات اللمس (P1/P2/P0). بدلًا من تركهما يتصارعان، يضبط الفيرموير علامة منطقية (<code>servo1Active</code>، <code>servo2Active</code>، <code>buzzerActive</code>) كلما استُخدمت تلك الميزة، وتتحقق حلقة استطلاع اللمس من العلامة قبل القراءة &mdash; إرسال <code>SERVO1:OFF</code> يمسح العلامة ويعيد المنفذ لاستشعار اللمس. مثال صغير لكنه توضيحي لطرفية micro:bit واحدة تحتاج للتنازل صراحة عن مورد مشترك لأخرى.</p>
+
+      <h3>الرحلة الكاملة ذهابًا وإيابًا</h3>
+      <div class="diagram" dir="ltr"><pre style="margin:0;border:0;padding:0;background:none;">  browser: click a LED-matrix cell
+       │
+       ▼
+  controls.js builds hex10 string  ──▶  sendLine("LM:1F0E040000")
+       │
+       ▼  bluetooth write, chunked if &gt;20 bytes (UART RX characteristic)
+  micro:bit: onUartDataReceived
+       │
+       ▼
+  line.substr(0,3)=="LM:" → handleLedMatrixHex("1F0E040000")
+       │                         │
+       │                         ▼  led.plot()/unplot() per bit
+       │                    physical LEDs update
+       ▼
+  uartWriteLine("LOG:LM_OK:...")
+       │
+       ▼  bluetooth notify (UART TX characteristic)
+  browser: onUartNotification → handleUartLine() → Debug Console / Log
+
+  ── meanwhile, independently, every ~250ms ──
+  micro:bit: sendLEDState-equivalent  ──▶  LEDS:10,31,31,14,4  ──▶  sensors.js → board3d
+                                                                        │
+                                                                        ▼
+                                                              3D micro:bit model's own
+                                                              LED mesh updates to match</pre></div>
+
+      <h2 id="tabs">دليل التبويبات</h2>
+      <table class="wikitable">
+        <tr><th>#</th><th>التبويب</th><th>وظيفته</th></tr>
+        <tr><td>1</td><td>التحكم</td><td>نص متحرك، مصفوفة LED 5×5 (نقر/سحب للرسم، إعدادات مسبقة، إرسال سداسي عشري)، جرس، JSON خام مخصص (خبير).</td></tr>
+        <tr><td>2</td><td>الحساسات</td><td>حرارة/ضوء/صوت/مقياس تسارع/بوصلة/أزرار/لمس حية مع رسوم صغيرة، بالإضافة إلى ضوابط المعايرة.</td></tr>
+        <tr><td>3</td><td>المحركات</td><td>منزلقا سيرفو (P1/P2) مع مقاييس، إدخال رقمي، وزر OFF يحرر المنفذ للمس مرة أخرى.</td></tr>
+        <tr><td>4</td><td>ذراع التحكم</td><td>لوحة اتجاه + زر إطلاق، يرسل <code>CMD:UP</code>/<code>DOWN</code>/<code>LEFT</code>/<code>RIGHT</code>/<code>FIRE</code>.</td></tr>
+        <tr><td>5</td><td>الرسم البياني</td><td>رسم حي بـChart.js (5 أنواع رسوم)، وضع محاكاة، تسجيل/إعادة تشغيل، تصدير PNG/CSV، تعليقات توضيحية، ملء الشاشة.</td></tr>
+        <tr><td>6</td><td>اللوحة ثلاثية الأبعاد</td><td>خمسة نماذج Three.js متزامنة مع بيانات حساسات حية؛ اسحب للتدوير، مرر/قرص للتكبير.</td></tr>
+        <tr><td>7</td><td>المختبر (خبير)</td><td>أوامر خام <code>BENCH:PING</code>/<code>STATUS</code>/<code>RESET</code> واستجابات الفيرموير، للنمذجة الأولية.</td></tr>
+        <tr><td>8</td><td>المزيد</td><td>مجموعة متنوعة من الأدوات الإضافية &mdash; زر، مفتاح، منزلق، لوحة مفاتيح، عصا تحكم (مرئية دائمًا)؛ مؤشر LED، شريط مستوى، رسوم صغيرة، وحدة تصحيح أخطاء، التقاط بيانات، جرس، مؤقت، إجراء مؤجل، عشوائي، منتقي وضع، إدخال رقمي، نطاق مزدوج، منتقي لون، إعدادات مسبقة، لوحة XY، شبكة LED صغيرة، محاكيات حساسات، تحكم بالمنافذ، سيرفو، عنصر نائب لشريط RGB، إدخال/إخراج ملفات (خبير فقط).</td></tr>
+      </table>
+
+      <h2 id="protocol">مرجع بروتوكول BLE</h2>
+      <p>Nordic UART عبر BLE، بحد MTU 20 بايت مع تجزئة تلقائية، فلتر اسم الجهاز <code>BBC micro:bit</code>. عينة تمثيلية من مجموعة الأوامر الكاملة (انظر <a href="https://github.com/abourdim/bit-playground/blob/main/README.md">README</a> للجدول الكامل لنحو 30 أمر <code>OTHER:*</code>):</p>
+      <table class="wikitable">
+        <tr><th>الاتجاه</th><th>الرسالة</th><th>المعنى</th></tr>
+        <tr><td>micro:bit ← المتصفح</td><td><code>TEMP:&lt;C&gt;</code>, <code>LIGHT:&lt;0-255&gt;</code>, <code>SOUND:&lt;0-255&gt;</code>, <code>ACC:&lt;x&gt;,&lt;y&gt;,&lt;z&gt;</code>, <code>COMPASS:&lt;0-360&gt;</code></td><td>قياس عن بُعد حي، كل منها مُقيَّد التردد ويُرسل فقط عند التغيير.</td></tr>
+        <tr><td>micro:bit ← المتصفح</td><td><code>LEDS:&lt;r0&gt;,&lt;r1&gt;,&lt;r2&gt;,&lt;r3&gt;,&lt;r4&gt;</code></td><td>حالة LED الفعلية (كل صف 0&ndash;31)، تبقي النموذج ثلاثي الأبعاد متزامنًا.</td></tr>
+        <tr><td>المتصفح ← micro:bit</td><td><code>LM:&lt;hex10&gt;</code></td><td>يضبط مصفوفة LED 5×5 بأكملها في رسالة واحدة.</td></tr>
+        <tr><td>المتصفح ← micro:bit</td><td><code>SERVO1:&lt;angle&gt;</code> / <code>SERVO1:OFF</code></td><td>يحرك السيرفو 1 (0&ndash;180°، خطوات سلسة) أو يحرر PWM الخاص به.</td></tr>
+        <tr><td>المتصفح ← micro:bit</td><td><code>SIMULATE:ON</code>/<code>OFF</code></td><td>يبث الفيرموير بيانات رسم بياني اصطناعية جيبية/عشوائية/متدرجة كل 200 مللي ثانية.</td></tr>
+        <tr><td>المتصفح ← micro:bit</td><td><code>CAL:COMPASS</code></td><td>يشغّل لعبة المعايرة المدمجة «إمالة لملء الشاشة».</td></tr>
+      </table>
+
+      <h2 id="board3d">نماذج اللوحة ثلاثية الأبعاد</h2>
+      <table class="wikitable">
+        <tr><th>النموذج</th><th>يحرّك</th><th>مدفوع بواسطة</th></tr>
+        <tr><td>🎲 micro:bit V2</td><td>LED، الإمالة، الأزرار، المنافذ، الشعار، درجة لون الحرارة</td><td>جميع الحساسات</td></tr>
+        <tr><td>🚗 عربة الروبوت</td><td>دوران العجلات، التوجيه، المصابيح الأمامية، شاشة LED</td><td>سيرفو 1، مقياس التسارع، LED، الضوء، الزر A</td></tr>
+        <tr><td>🦾 ذراع الروبوت</td><td>دوران القاعدة، رفع الذراع، الماسك</td><td>سيرفو 1، سيرفو 2، الزر A/B</td></tr>
+        <tr><td>🎯 لعبة التوازن</td><td>كرة تتدحرج على منصة مائلة (محاكاة فيزيائية)</td><td>مقياس التسارع X/Y</td></tr>
+        <tr><td>🌦️ محطة الطقس</td><td>ميزان حرارة، شمس/غيمة/مطر، دوارة الرياح، أشرطة الصوت</td><td>الحرارة، الضوء، الصوت، البوصلة</td></tr>
+      </table>
+      <p>كل نموذج ملف مستقل يعرض <code>create()</code> و<code>update()</code> و<code>destroy()</code>، مسجَّل على <code>window.board3dModels</code> كي يتمكن <code>board3d.js</code> من التبديل بينها فورًا دون إعادة تحميل الصفحة.</p>
+
+      <h2 id="calibration">نظام المعايرة</h2>
+      <p>كل معايرة يُشغّلها المستخدم &mdash; لا شيء يعمل تلقائيًا عند البدء، وكل نتيجة تستمر في <code>localStorage</code>:</p>
+      <table class="wikitable">
+        <tr><th>المعايرة</th><th>الطريقة</th><th>تُخزَّن أين</th></tr>
+        <tr><td>🧭 البوصلة</td><td>اضغط معايرة ← يرسل <code>CAL:COMPASS</code> ← لعبة الإمالة المدمجة في الفيرموير ← <code>CAL:COMPASS:DONE</code></td><td>جانب الفيرموير؛ يبقى استطلاع البوصلة متوقفًا حتى يعمل هذا.</td></tr>
+        <tr><td>⚖️ صفر مقياس التسارع</td><td>ضع اللوحة أفقيًا ← «ضبط المستوى» يلتقط X/Y/Z كإزاحة تُطرح من القراءات المستقبلية</td><td><code>localStorage</code> المتصفح فقط.</td></tr>
+        <tr><td>🔊/💡 خط أساس الصوت &amp; الضوء</td><td>«ضبط المحيط» في الظروف الحالية ← القراءات اللاحقة تُعرض كفرق</td><td><code>localStorage</code> المتصفح فقط.</td></tr>
+        <tr><td>🔧 ضبط السيرفو (خبير)</td><td>منزلق −15° إلى +15° يُضاف إلى كل زاوية قبل الإرسال</td><td>لكل سيرفو، <code>localStorage</code> المتصفح فقط.</td></tr>
+      </table>
+
+      <h2 id="i18n">السمات &amp; اللغات</h2>
+      <p>أربع سمات مرئية (Stealth الداكنة الافتراضية، Neon سايبربانك، Arctic الفاتحة، Blaze الفاتحة الدافئة) مبنية على أكثر من 30 خاصية CSS مخصصة، محفوظة في <code>localStorage</code>. ترجمة كاملة للواجهة إلى الإنجليزية/الفرنسية/العربية عبر <code>lang.js</code>، مع نفس العلم الجزائري الدقيق المستخدم في هذه المجموعة من التطبيقات للعربية ودعم التخطيط من اليمين إلى اليسار.</p>
+
+      <h2 id="firmware">الحصول على الفيرموير</h2>
+      <p>على عكس Bit-Bot وTalking Robot، لا يمتلك هذا المشروع بعد صفحة <code>flash.html</code> مخصصة للنسخ واللصق &mdash; يعيش الفيرموير مباشرة في <code>makecode.ts</code> في جذر المستودع، مع البروتوكول الكامل موثّقًا في تعليق ترويسته الخاص. افتحه على GitHub، انسخ المحتوى، والصقه في مشروع JavaScript جديد على <a href="https://makecode.microbit.org">makecode.microbit.org</a> كما هو موصوف في <a href="#walkthrough">خطوة بخطوة</a> أعلاه.</p>
+
+      <h2 id="troubleshooting">حل المشكلات</h2>
+      <table class="wikitable">
+        <tr><th>العرض</th><th>السبب / الحل</th></tr>
+        <tr><td>زر الاتصال لا يفعل شيئًا</td><td>يتطلب Chrome أو Edge وسياقًا آمنًا (HTTPS أو <code>localhost</code>) &mdash; لا يدعم Safari وFirefox بروتوكول Web Bluetooth إطلاقًا.</td></tr>
+        <tr><td>السيرفو يتصارع مع اللمس على نفس المنفذ</td><td>متوقَّع طالما السيرفو نشط؛ أرسل <code>SERVO1:OFF</code>/<code>SERVO2:OFF</code> لإعادة المنفذ لاستشعار اللمس.</td></tr>
+        <tr><td>البوصلة لا تتحدث أبدًا</td><td>حسب التصميم &mdash; الاستطلاع متوقف حتى تشغّل المعايرة مرة من تبويب الحساسات.</td></tr>
+        <tr><td>النموذج ثلاثي الأبعاد لا يتحرك</td><td>تحقق من تفعيل «المزامنة الحية» في تبويب اللوحة ثلاثية الأبعاد، وأن النموذج الصحيح مختار للحساس الذي تراقبه (مثلًا نموذج العربة يتجاهل البوصلة).</td></tr>
+        <tr><td>إعادة الاتصال تفشل باستمرار</td><td>ربما تغيّر الفيرموير منذ الاقتران؛ أعد تحميل <code>makecode.ts</code> وانسَ/أعد اقتران الجهاز في إعدادات بلوتوث نظامك إذا استمر رفض الاتصال بعد 3 محاولات تلقائية.</td></tr>
+      </table>
+
+      <div class="catlinks">
+        التصنيفات: <a href="index.html">micro:bit</a> | <a href="index.html">الروبوتات</a> | <a href="index.html">رسوميات ثلاثية الأبعاد</a> | <a href="index.html">تطبيقات الويب</a>
+      </div>
+    </article>
+  </div>
+</div>
+
+<div class="footer-wiki">
+  أُنشئت هذه الصفحة في 29 يوليو 2026. المحتوى مبني على مستودع <a href="https://github.com/abourdim/bit-playground">bit-playground</a> (README، الكود المصدري، وترويسة الفيرموير) ومراجعة مباشرة للكود.
+</div>
+
+</body>
+</html>

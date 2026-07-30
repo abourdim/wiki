@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Talking Robot - Wiki</title>
+<link rel="stylesheet" href="wiki.css">
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-inner">
+    <a class="wiki-logo" href="https://workshop-diy.org"><img src="logo.png" alt="Wiki logo"></a>
+    <a class="masthead-site-link" href="https://workshop-diy.org">workshop-diy.org</a>
+    <div class="masthead-title">
+      Wiki
+      <span class="sub">The free personal knowledge base</span>
+    </div>
+    <div class="masthead-actions">
+      <div class="lang-switch" role="group" aria-label="Language">
+        <a href="talking-robot.html" class="lang-switch-btn" title="Français"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="20" height="40" fill="#002395"/><rect x="20" width="20" height="40" fill="#fff"/><rect x="40" width="20" height="40" fill="#ED2939"/></svg></a>
+        <a href="talking-robot-en.html" class="lang-switch-btn active" title="English"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="60" height="40" fill="#012169"/><path d="M0 0L60 40M60 0L0 40" stroke="#fff" stroke-width="6.5"/><path d="M0 0L60 40M60 0L0 40" stroke="#C8102E" stroke-width="3.5"/><path d="M30 0V40M0 20H60" stroke="#fff" stroke-width="11"/><path d="M30 0V40M0 20H60" stroke="#C8102E" stroke-width="6.5"/></svg></a>
+        <a href="talking-robot-ar.html" class="lang-switch-btn" title="العربية"><svg width="24" height="16" viewBox="0 0 900 600"><defs><clipPath id="glTRen"><rect width="450" height="600"/></clipPath></defs><rect width="450" height="600" fill="#006233"/><rect x="450" width="450" height="600" fill="#FFF"/><g fill="#D21034" transform="translate(450,300)"><circle r="125"/><circle cx="25" r="100" fill="#FFF"/><g clip-path="url(#glTRen)" transform="translate(-450,-300)"><circle cx="475" cy="300" r="100" fill="#006233"/></g><path d="M85-12l22 67h71l-57 42 22 67-58-42-57 42 21-67-57-42h71z"/></g></svg></a>
+      </div>
+      <div class="masthead-search">
+        <input type="text" placeholder="Search Wiki" disabled>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wiki-layout">
+
+  <div class="sidebar">
+    <h3>Navigation</h3>
+    <ul>
+      <li><a href="index.html">Main page</a></li>
+      <li><a href="#">Recent changes</a></li>
+      <li><a href="#">Random page</a></li>
+    </ul>
+    <h3>Categories</h3>
+    <ul>
+      <li><a href="index.html">Networking</a></li>
+      <li><a href="index.html">Linux</a></li>
+      <li><a href="index.html">Windows</a></li>
+      <li><a href="index.html">Electronics</a></li>
+      <li><a href="index.html">ESP32</a></li>
+      <li><a href="index.html">micro:bit</a></li>
+    </ul>
+    <h3>Tools</h3>
+    <ul>
+      <li><a href="https://github.com/abourdim/talking-robot">View source repo</a></li>
+    </ul>
+  </div>
+
+  <div class="content-wrap">
+    <div class="article-tabs">
+      <span class="active">Article</span>
+      <span>Talk</span>
+    </div>
+
+    <article>
+      <h1 class="page-title">Talking Robot</h1>
+
+      <div class="infobox">
+        <div class="infobox-title">Talking Robot</div>
+        <table>
+          <tr><th>Type</th><td>Browser speech &amp; emotion robot, kid-friendly</td></tr>
+          <tr><th>Hardware</th><td>BBC micro:bit (optional, over Bluetooth)</td></tr>
+          <tr><th>AI / cloud</th><td>None &mdash; no LLM, no accounts, nothing leaves the browser</td></tr>
+          <tr><th>Languages</th><td>UI: English, Français, العربية (RTL)<br>Voice: also Spanish, German, Italian, Japanese</td></tr>
+          <tr><th>Runs on</th><td>Chrome / Edge, no install</td></tr>
+          <tr><th>Repository</th><td><a href="https://github.com/abourdim/talking-robot">github.com/abourdim/talking-robot</a></td></tr>
+          <tr><th>Live demo</th><td><a href="https://abourdim.github.io/talking-robot/">abourdim.github.io/talking-robot</a></td></tr>
+        </table>
+      </div>
+
+      <p class="hatnote">This article covers Talking Robot, a single-page web robot that speaks typed text out loud, transcribes what it hears, animates 13 emotions, and can send words to a BBC micro:bit over Bluetooth &mdash; with no AI provider or account involved.</p>
+
+      <div class="toc">
+        <div class="toc-title">Contents</div>
+        <ol>
+          <li><a href="#overview">Overview</a></li>
+          <li><a href="#quickstart">Quick start</a></li>
+          <li><a href="#walkthrough">Step-by-step: clone, flash &amp; test</a></li>
+          <li><a href="#understanding">Understanding the code (for newbies)</a></li>
+          <li><a href="#speak">Make it talk</a></li>
+          <li><a href="#listen">Make it listen</a></li>
+          <li><a href="#emotions">Emotions</a></li>
+          <li><a href="#microbit">Connecting a micro:bit</a></li>
+          <li><a href="#firmware">Getting the firmware code</a></li>
+          <li><a href="#i18n">Languages &amp; translation system</a></li>
+          <li><a href="#help">In-app Help</a></li>
+          <li><a href="#options">Options</a></li>
+          <li><a href="#troubleshooting">Troubleshooting</a></li>
+        </ol>
+      </div>
+
+      <h2 id="overview">Overview</h2>
+      <p><strong>Talking Robot</strong> is the simpler, earlier sibling of Bit-Bot: no AI provider, no chat history, no accounts &mdash; just the browser's built-in <strong>Speech Synthesis</strong> (text&rarr;voice) and <strong>Speech Recognition</strong> (voice&rarr;text) APIs, an animated SVG robot face with 13 emotions, and an optional BBC micro:bit link over Web Bluetooth UART. Everything runs client-side; nothing is ever sent to a server.</p>
+      <p>The app is spread across a few files rather than one: <code>index.html</code> (markup + all app logic inline), <code>styles.css</code>, and <code>makecode.ts</code> (the companion micro:bit firmware source), plus a standalone <code>flash.html</code> for getting that firmware onto a board.</p>
+
+      <h2 id="quickstart">Quick start</h2>
+      <ol>
+        <li>Open <a href="https://abourdim.github.io/talking-robot/">the live app</a> in Chrome or Edge.</li>
+        <li>Type something in the text box and click <strong>Speak</strong> &mdash; the robot talks and its mouth animates.</li>
+        <li>Click <strong>Listen</strong>, allow the microphone, and talk &mdash; your words appear in the box.</li>
+      </ol>
+
+      <h2 id="walkthrough">Step-by-step: clone, flash &amp; test</h2>
+      <p>Takes a bare checkout to a fully working robot &mdash; speech in both directions and, optionally, a paired micro:bit &mdash; assuming nothing beyond Chrome or Edge.</p>
+
+      <h3>1. Clone the repository</h3>
+      <pre><code>git clone https://github.com/abourdim/talking-robot.git
+cd talking-robot</code></pre>
+
+      <h3>2. Serve it locally</h3>
+      <p>No build step, but Speech Recognition and Web Bluetooth both refuse a bare <code>file:///</code> path:</p>
+      <pre><code>python3 -m http.server 8000</code></pre>
+      <p>Open <span class="key-value">http://localhost:8000</span> in Chrome or Edge.</p>
+
+      <h3>3. Get the micro:bit firmware (optional)</h3>
+      <p>Skip this if you only want to test speech. Otherwise open <a href="https://abourdim.github.io/talking-robot/flash.html">flash.html</a>, tap <strong>Copy micro:bit Code</strong>, paste into a new <a href="https://makecode.microbit.org">makecode.microbit.org</a> project's JavaScript tab, add the <code>bluetooth</code> extension, and flash &mdash; or use the "Open shared MakeCode project" shortcut on the same page to skip the copy-paste entirely.</p>
+
+      <h3>4. Test Speak</h3>
+      <p>Type a sentence, pick a voice under Voice &amp; Language, click <strong>Speak</strong>. A healthy run plays audio and animates the mouth in sync &mdash; no network call is involved, so this works even offline.</p>
+
+      <h3>5. Test Listen</h3>
+      <p>Click <strong>Listen</strong>, allow the microphone, speak clearly. The transcribed text should appear in the box within a second or two.</p>
+
+      <h3>6. Test emotions</h3>
+      <p>Click through a few of the 13 emotion buttons under the robot and confirm the face changes instantly for each.</p>
+
+      <h3>7. Test the micro:bit connection</h3>
+      <p>Click <strong>Connect</strong>, pick your board, then type a word and click <strong>Send</strong> (or just let Auto send handle it). Watch the Log panel: you should see a <code>BLE TX &rarr; N_word</code> line followed by an <code>OK N_word</code> acknowledgement echoed back from the micro:bit.</p>
+
+      <div class="ambox ambox-success">A working baseline looks like: audio out with mouth animation, transcribed text in, all 13 faces changing on click, and a matching TX/ACK pair in the Log after connecting a micro:bit.</div>
+
+      <h2 id="understanding">Understanding the code (for newbies)</h2>
+      <p class="hatnote">For anyone with the app running who wants to open <code>index.html</code> and start changing something. Assumes basic JavaScript but nothing about this codebase specifically. Skip it if you only want to use the app.</p>
+
+      <h3>The shape of the file</h3>
+      <p>All app logic lives inline in <code>index.html</code>, wrapped in a single self-executing function &mdash; <code>(() =&gt; { ... })();</code> &mdash; so nothing it declares leaks into the global scope except the two things explicitly attached to <code>window</code> for use by inline <code>onclick</code> attributes: <code>setUILanguage</code> and <code>toggleHelp</code>. Everything else (speak, listen, BLE, emotions) is a plain function inside that closure, wired up at the bottom with <code>addEventListener</code> calls rather than inline handlers.</p>
+
+      <h3>The translation system: <code>I18N</code> &rarr; <code>tr()</code> &rarr; <code>data-i18n</code></h3>
+      <p>Same pattern as Bit-Bot: an <code>I18N</code> object keyed by language then by string key, a <code>tr(key)</code> lookup with English fallback, and a <code>trg(key, vars)</code> variant that substitutes <code>{placeholder}</code> tokens for dynamic values (voice names, error messages, counts). Static markup is tagged <code>data-i18n="btn_speak"</code>; a small number of elements that need embedded <code>&lt;b&gt;</code>/<code>&lt;br&gt;</code> markup (like the BLE hint text) use <code>data-i18n-html</code> instead, which sets <code>innerHTML</code> rather than <code>textContent</code>. <code>applyLang(lang)</code> walks both attribute sets, flips <code>document.documentElement.dir</code> to <code>rtl</code> for Arabic, and re-derives every piece of dynamic UI text (status pill, mic button label, connection badge) from the same state variables that drove it originally &mdash; so switching language mid-session never leaves stale English behind.</p>
+
+      <h3>How Speak works: text &rarr; voice &rarr; mouth</h3>
+      <div class="diagram"><pre style="margin:0;border:0;padding:0;background:none;">  click Speak
+       │
+       ▼
+  <b>speak()</b>  ──▶  new SpeechSynthesisUtterance(text)
+       │                 · Random voice checked? pick any matching voice
+       │                 · else: use the selected dropdown voice
+       │                 · else, if language is Arabic: force the first
+       │                   Arabic voice found (falls back with a log
+       │                   warning if none is installed)
+       ▼
+  speechSynthesis.speak(u)
+       │
+       ├─ u.onstart  ──▶  animateMouth() loop (random height/scale per frame)
+       └─ u.onend    ──▶  resetMouth()  +  autoSendToMicrobit('speak')</pre></div>
+      <p>The Arabic-voice fallback exists because most desktop OSes ship with far fewer Arabic TTS voices than English/French ones installed by default &mdash; the app actively checks for this on load and logs a specific "install an Arabic voice" hint rather than silently speaking in the wrong language.</p>
+
+      <h3>How Listen works: mic &rarr; text &rarr; (optional) BLE</h3>
+      <p><code>listen()</code> creates a <code>SpeechRecognition</code> instance and, depending on the <strong>Continuous listening</strong> checkbox, sets <code>rec.continuous</code>/<code>rec.interimResults</code> accordingly. Every result event walks <code>event.results</code> from <code>resultIndex</code> onward, keeping the latest interim transcript separate from anything marked <code>isFinal</code>; in continuous mode only a final result triggers <code>autoSendToMicrobit()</code>, so live interim captions don't spam the micro:bit mid-sentence. If <strong>Auto speak</strong> is on, the heard text is spoken back via <code>speak()</code> instead, which sends to the micro:bit itself once that utterance ends.</p>
+
+      <h3>Talking to the micro:bit: <code>bleConnect()</code> and syllable tokens</h3>
+      <p><code>bleConnect()</code> calls <code>navigator.bluetooth.requestDevice()</code> filtered to devices named <code>BBC micro:bit</code>, then discovers the Nordic UART service's write and notify characteristics directly by their properties rather than fixed UUIDs (so it tolerates minor firmware differences). Every send goes through <code>tokensFromInput()</code>, which splits the text into words and tags each with a rough syllable count from <code>countSyllables()</code> &mdash; e.g. <code>"elephant"</code> becomes <code>"3_elephant"</code> &mdash; then <code>bleWriteLine()</code> sends each token as its own line, chunked to 20 bytes at a time because BLE UART has a small per-write limit. The micro:bit echoes each one back prefixed <code>OK</code>, visible in the Log via the notify characteristic's <code>characteristicvaluechanged</code> handler.</p>
+
+      <h3>System architecture, illustrated</h3>
+      <div class="diagram"><pre style="margin:0;border:0;padding:0;background:none;">                        ┌───────────────────────────┐
+                        │    index.html (browser)   │
+  ⌨ type + Speak   ────▶│  speak()                  │
+                        │    │  Web Speech Synthesis │
+                        │    ▼  (on-device, no server)
+                        │  🔊 audio + mouth anim     │
+                        │                            │
+  🎤 mic + Listen  ────▶│  listen()                 │
+                        │    │  Web Speech Recognition│
+                        │    ▼  (on-device, no server)
+                        │  text box filled           │
+                        │       │                    │
+                        │       ▼                    │
+   BBC micro:bit    ◀──▶│  bleConnect()/bleWriteLine()│
+   (Bluetooth LE)       └───────────────────────────┘</pre></div>
+      <p>Unlike Bit-Bot, <em>nothing</em> here calls out to a remote server &mdash; Speech Synthesis and Speech Recognition are both built into the browser and run entirely on-device. The only outbound network traffic this app ever generates is the Bluetooth link to the micro:bit, which isn't "network" in the internet sense at all.</p>
+
+      <h3>The HTML layout, illustrated</h3>
+      <div class="diagram"><pre style="margin:0;border:0;padding:0;background:none;">  &lt;body&gt;
+   └─ .app
+       ├─ .header          <b>logo · title · lang flags · ❓ help · status chip</b>
+       ├─ #helpOverlay      <b>❓ quick-reference modal</b>
+       └─ .rows-container
+           ├─ .col-left     <b>Speech Controls · BLE card · Options · Voice &amp; Language · Project Links</b>
+           └─ .col-right    <b>animated robot face + emotion buttons · Log panel</b></pre></div>
+      <p>There's no settings panel or onboarding overlay like Bit-Bot &mdash; every control is visible on the page at once, in two columns, which is why this sibling app feels "simpler": less is hidden behind menus.</p>
+
+      <h3>The micro:bit firmware: <code>makecode.ts</code></h3>
+      <p>Where Bit-Bot's firmware expects a single fixed vocabulary of one-word commands, this firmware's whole trick is understanding <em>plain sentences</em> in English or French, in addition to the older <code>EMO:</code> protocol it grew from &mdash; useful because the web app streams whatever you actually typed or said, not a pre-picked command word.</p>
+
+      <h4>Stripping a sentence down to something matchable</h4>
+      <p><code>normalizeText()</code> lowercases the line and replaces every character that isn't <code>a&ndash;z</code>, a digit, or a space with a space &mdash; which is what lets <code>"J'ai peur!"</code> and <code>"jai peur"</code> match the same keyword despite the apostrophe and accent-adjacent spelling:</p>
+      <pre><code>function normalizeText(s: string): string {
+    let t = s.toLowerCase()
+    let out = ""
+    for (let i = 0; i &lt; t.length; i++) {
+        let c = t.charCodeAt(i)
+        if (c == 32) { out += " "; continue }        // space
+        if (c &gt;= 97 &amp;&amp; c &lt;= 122) { out += t.charAt(i); continue }  // a-z
+        if (c &gt;= 48 &amp;&amp; c &lt;= 57) { out += t.charAt(i); continue }   // 0-9
+        out += " "                                    // anything else → space
+    }
+    while (out.indexOf("  ") &gt;= 0) out = out.split("  ").join(" ")
+    return out.trim()
+}
+function hasWord(t: string, w: string): boolean {
+    return (" " + t + " ").indexOf(" " + w + " ") &gt;= 0   // whole-word match, not substring
+}</code></pre>
+      <p><code>hasWord()</code> pads both sides with spaces before searching, specifically so matching <code>"sad"</code> doesn't also fire on <code>"sadly"</code> or <code>"embassador"</code> &mdash; a small but easy bug to introduce if you ever add a keyword yourself.</p>
+
+      <h4>Bilingual keyword tables</h4>
+      <p><code>detectEmotion()</code> and <code>detectDirection()</code> are both just ordered lists of <code>hasWord()</code> checks, English and French keywords side by side, first match wins:</p>
+      <table class="wikitable">
+        <tr><th>Function</th><th>Returns</th><th>Matches (EN / FR)</th></tr>
+        <tr><td rowspan="5"><code>detectEmotion()</code></td><td><code>happy</code></td><td>happy, joy, content / heureux</td></tr>
+        <tr><td><code>sad</code></td><td>sad / triste</td></tr>
+        <tr><td><code>silly</code></td><td>silly, funny / rigolo, bete</td></tr>
+        <tr><td><code>scared</code></td><td>scared, afraid / peur</td></tr>
+        <tr><td><em>(+ angry, surprised, sleepy, laugh, party, robot)</em></td><td>&hellip;</td></tr>
+        <tr><td rowspan="3"><code>detectDirection()</code></td><td><code>up</code></td><td>up, forward / haut, monte, avance</td></tr>
+        <tr><td><code>stop</code></td><td>stop / arrete, arret</td></tr>
+        <tr><td><em>(+ down, left, right, spin)</em></td><td>&hellip;</td></tr>
+      </table>
+      <p>A third function, <code>funEffects()</code>, layers Easter eggs on top without affecting the emotion/direction result at all &mdash; saying "banana" plays two notes and shows a silly face, "boom" flashes a checkerboard with a low tone, "dance"/"danse" alternates heart icons.</p>
+
+      <h4>The handler: direction wins, then emotion, then always ACK</h4>
+      <pre><code>function handleLine(line: string) {
+    line = line.trim()
+    if (line.length == 0) return
+
+    if (line.indexOf("EMO:") == 0) {          // explicit protocol, unchanged
+        showEmotion(line.substr(4).trim())
+        bluetooth.uartWriteLine("OK " + line)
+        return
+    }
+
+    let d = detectDirection(line)
+    if (d.length &gt; 0) { showDirection(d); bluetooth.uartWriteLine("OK " + line); return }
+
+    let e = detectEmotion(line)
+    if (e.length &gt; 0) showEmotion(e)
+
+    funEffects(line)
+    bluetooth.uartWriteLine("OK " + line)     // every line gets an ACK, matched or not
+}</code></pre>
+      <p>Direction is checked before emotion and returns immediately if found &mdash; a sentence can't be both "go left" and "happy" on the same line as far as the LED display is concerned, direction takes priority. Critically, the very last line always fires: even a sentence matching nothing at all still gets <code>"OK " + line</code> echoed back, which is what the browser's Log panel uses to confirm every single word made the round trip, matched or not.</p>
+
+      <h4>The full round trip</h4>
+      <div class="diagram"><pre style="margin:0;border:0;padding:0;background:none;">  browser: bleWriteLine("3_scared")
+       │
+       ▼  bluetooth write (UART RX characteristic)
+  micro:bit: onUartDataReceived → handleLine("3_scared")
+       │
+       ├─ not "EMO:"           → skip
+       ├─ detectDirection() → ""  → no direction keyword found
+       ├─ detectEmotion()   → "scared"  → showEmotion("scared")
+       ├─ funEffects()      → no easter-egg word found
+       ▼
+  bluetooth.uartWriteLine("OK 3_scared")
+       │
+       ▼  bluetooth notify (UART TX characteristic)
+  browser: characteristicvaluechanged → logLine("micro:bit: OK 3_scared")</pre></div>
+
+      <h2 id="speak">Make it talk</h2>
+      <p>Type text, pick a language and a voice under <strong>Voice &amp; Language</strong>, then click <strong>Speak</strong> (or press <kbd>Ctrl</kbd>/<kbd>Cmd</kbd>+<kbd>Enter</kbd>). Rate and pitch sliders adjust delivery; a <strong>Random voice each speak</strong> option picks a different installed voice every time for variety.</p>
+
+      <h2 id="listen">Make it listen</h2>
+      <p>Click <strong>Listen</strong> and allow the microphone. Two modes:</p>
+      <ul>
+        <li><strong>Single-shot</strong> (default) &mdash; captures one utterance, then stops.</li>
+        <li><strong>Continuous listening (hands-free)</strong> &mdash; keeps restarting automatically after each phrase, showing interim text live as you talk.</li>
+      </ul>
+      <p><strong>Auto speak after listening</strong> makes the robot immediately repeat back what it heard.</p>
+
+      <h2 id="emotions">Emotions</h2>
+      <p>Thirteen emotion buttons under the robot face &mdash; Neutral, Happy, Sad, Angry, Angry+, Surprised, Laugh, Silly, Scared, Party, Robot, Nerdy, Sleepy &mdash; each instantly swap the eyes/eyebrows/mouth/cheeks CSS state. If a micro:bit is connected, the same emotion is sent to it as an <code>EMO:&lt;name&gt;</code> command.</p>
+
+      <h2 id="microbit">Connecting a micro:bit</h2>
+      <p>Click <strong>Connect</strong> under BLE micro:bit (UART) and pick your board. Once paired, the robot automatically sends every spoken/typed/heard word to the micro:bit as one token per line, tagged with a syllable count (e.g. <code>3_elephant</code>), and the micro:bit acknowledges each with <code>OK 3_elephant</code> back over the same UART link &mdash; visible in the on-page Log.</p>
+      <div class="ambox ambox-notice">Listen and Bluetooth both require a secure context: <code>https://</code> or <code>localhost</code>, not a bare <code>file:///</code> page.</div>
+
+      <h2 id="firmware">Getting the firmware code</h2>
+      <p><a href="https://abourdim.github.io/talking-robot/flash.html">flash.html</a> fetches the current <code>makecode.ts</code> and shows it with a one-tap <strong>Copy micro:bit Code</strong> button, plus the steps to paste it into <a href="https://makecode.microbit.org">makecode.microbit.org</a>, add the <code>bluetooth</code> extension, and flash. It also links straight to an already-programmed shared MakeCode project for anyone who'd rather skip the copy-paste entirely. It's linked from a <strong>Get Firmware Code</strong> button under Project Links on the main page.</p>
+
+      <h2 id="i18n">Languages &amp; translation system</h2>
+      <p>Unlike Bit-Bot, this app originally had <em>no</em> UI translation at all &mdash; only the speech language dropdown was multilingual. It now has a full <code>I18N</code> object (English/French/Arabic) with a flag-based switcher in the header, covering every button, card, hint, and the ~50 dynamic log/status messages, with right-to-left layout for Arabic. The language choice is stored under its own <code>localStorage</code> key, separate from Bit-Bot's, since both apps share the <code>abourdim.github.io</code> origin.</p>
+
+      <h2 id="help">In-app Help</h2>
+      <p>A ❓ button in the header opens a modal covering Make it talk, Make it listen, Change emotions, Connect a micro:bit, and Tips &mdash; translated the same as the rest of the UI, closable via × / <kbd>Escape</kbd> / clicking outside.</p>
+
+      <h2 id="options">Options</h2>
+      <table class="wikitable">
+        <tr><th>Option</th><th>Effect</th></tr>
+        <tr><td>Auto speak after listening</td><td>Repeats back what it just heard.</td></tr>
+        <tr><td>Auto send to micro:bit</td><td>Sends every listen/speak/typed word to a connected micro:bit automatically.</td></tr>
+        <tr><td>Continuous listening</td><td>Hands-free mode; restarts recognition automatically.</td></tr>
+        <tr><td>Random voice each speak</td><td>Picks a different installed voice (matching the chosen language where possible) every time.</td></tr>
+        <tr><td>Eyes follow mouse</td><td>The robot's pupils track the cursor.</td></tr>
+        <tr><td>Mouth sensitivity</td><td>How dramatically the mouth animates while talking.</td></tr>
+      </table>
+
+      <h2 id="troubleshooting">Troubleshooting</h2>
+      <table class="wikitable">
+        <tr><th>Symptom</th><th>Cause / fix</th></tr>
+        <tr><td>Listen does nothing</td><td>Use Chrome/Edge, allow the microphone, and open via <code>http://localhost</code> or <code>https://</code> &mdash; not <code>file:///</code>.</td></tr>
+        <tr><td>No Arabic voice available</td><td>The OS needs an Arabic text-to-speech voice installed; the app logs a specific warning and falls back to another voice if none is found.</td></tr>
+        <tr><td>Bluetooth connect fails</td><td>Needs HTTPS/localhost and a browser with Web Bluetooth (Chrome/Edge). The micro:bit must be advertising and in range.</td></tr>
+        <tr><td>micro:bit never sends an ACK</td><td>Reflash with the current code from <a href="https://abourdim.github.io/talking-robot/flash.html">flash.html</a> and make sure the <code>bluetooth</code> extension is added in MakeCode.</td></tr>
+      </table>
+
+      <div class="catlinks">
+        Categories: <a href="index.html">micro:bit</a> | <a href="index.html">Kids</a> | <a href="index.html">Web apps</a> | <a href="index.html">Web Speech API</a>
+      </div>
+    </article>
+  </div>
+</div>
+
+<div class="footer-wiki">
+  This page was created on 29 July 2026. Content based on the <a href="https://github.com/abourdim/talking-robot">talking-robot</a> repository and first-hand testing of the live app.
+</div>
+
+</body>
+</html>

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sharing Files Between Ubuntu &amp; Windows 11 - Wiki</title>
+<link rel="stylesheet" href="wiki.css">
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-inner">
+    <a class="wiki-logo" href="https://workshop-diy.org"><img src="logo.png" alt="Wiki logo"></a>
+    <a class="masthead-site-link" href="https://workshop-diy.org">workshop-diy.org</a>
+    <div class="masthead-title">
+      Wiki
+      <span class="sub">The free personal knowledge base</span>
+    </div>
+    <div class="masthead-actions">
+      <div class="lang-switch" role="group" aria-label="Language">
+        <a href="windows-ubuntu-file-sharing-tutorial.html" class="lang-switch-btn" title="Français"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="20" height="40" fill="#002395"/><rect x="20" width="20" height="40" fill="#fff"/><rect x="40" width="20" height="40" fill="#ED2939"/></svg></a>
+        <a href="windows-ubuntu-file-sharing-tutorial-en.html" class="lang-switch-btn active" title="English"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="60" height="40" fill="#012169"/><path d="M0 0L60 40M60 0L0 40" stroke="#fff" stroke-width="6.5"/><path d="M0 0L60 40M60 0L0 40" stroke="#C8102E" stroke-width="3.5"/><path d="M30 0V40M0 20H60" stroke="#fff" stroke-width="11"/><path d="M30 0V40M0 20H60" stroke="#C8102E" stroke-width="6.5"/></svg></a>
+        <a href="windows-ubuntu-file-sharing-tutorial-ar.html" class="lang-switch-btn" title="العربية"><svg width="24" height="16" viewBox="0 0 900 600"><defs><clipPath id="glWUen"><rect width="450" height="600"/></clipPath></defs><rect width="450" height="600" fill="#006233"/><rect x="450" width="450" height="600" fill="#FFF"/><g fill="#D21034" transform="translate(450,300)"><circle r="125"/><circle cx="25" r="100" fill="#FFF"/><g clip-path="url(#glWUen)" transform="translate(-450,-300)"><circle cx="475" cy="300" r="100" fill="#006233"/></g><path d="M85-12l22 67h71l-57 42 22 67-58-42-57 42 21-67-57-42h71z"/></g></svg></a>
+      </div>
+      <div class="masthead-search">
+        <input type="text" placeholder="Search Wiki" disabled>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wiki-layout">
+
+  <div class="sidebar">
+    <h3>Navigation</h3>
+    <ul>
+      <li><a href="index.html">Main page</a></li>
+      <li><a href="#">Recent changes</a></li>
+      <li><a href="#">Random page</a></li>
+    </ul>
+    <h3>Categories</h3>
+    <ul>
+      <li><a href="index.html">Networking</a></li>
+      <li><a href="index.html">Linux</a></li>
+      <li><a href="index.html">Windows</a></li>
+    </ul>
+    <h3>Tools</h3>
+    <ul>
+      <li><a href="https://github.com/abourdim/wiki">View source repo</a></li>
+    </ul>
+  </div>
+
+  <div class="content-wrap">
+    <div class="article-tabs">
+      <span class="active">Article</span>
+      <span>Talk</span>
+    </div>
+
+    <article>
+      <h1 class="page-title">Sharing Files Between Ubuntu &amp; Windows 11</h1>
+
+      <div class="infobox">
+        <div class="infobox-title">Network Setup</div>
+        <table>
+          <tr><th>Ubuntu host</th><td><span class="key-value">192.168.1.78</span></td></tr>
+          <tr><th>Windows host</th><td><span class="key-value">192.168.1.54</span></td></tr>
+          <tr><th>OS (Ubuntu)</th><td>22.04 LTS</td></tr>
+          <tr><th>OS (Windows)</th><td>11 Pro</td></tr>
+          <tr><th>Protocol</th><td>SMB / CIFS</td></tr>
+          <tr><th>Scope</th><td>Same LAN</td></tr>
+        </table>
+      </div>
+
+      <p class="hatnote">This article documents a step-by-step procedure for setting up bidirectional file sharing on a local network.</p>
+
+      <div class="toc">
+        <div class="toc-title">Contents</div>
+        <ol>
+          <li><a href="#overview">Overview</a></li>
+          <li><a href="#ubuntu-to-windows">Share an Ubuntu folder to Windows</a></li>
+          <li><a href="#windows-to-ubuntu">Share a Windows folder to Ubuntu</a></li>
+          <li><a href="#explorer-access">Browsing shares from each file manager</a></li>
+          <li><a href="#troubleshooting">Troubleshooting</a></li>
+        </ol>
+      </div>
+
+      <h2 id="overview">Overview</h2>
+      <p>Both machines were on the same local network (LAN), which is required for this setup (no port forwarding or VPN needed). Ubuntu (via Samba) and Windows (natively) both speak the SMB/CIFS protocol, so each OS can act as both a file server and a client to the other &mdash; no third-party software required.</p>
+
+      <div class="ambox ambox-notice">
+        <strong>Note:</strong> Replace the IP addresses, usernames, and share names below with your own machines' values.
+      </div>
+
+      <h2 id="ubuntu-to-windows">Share an Ubuntu folder to Windows</h2>
+      <p>Goal: make an Ubuntu folder (e.g. the home directory) show up as a network drive on Windows.</p>
+
+      <h3>On Ubuntu &mdash; install &amp; configure Samba</h3>
+      <p>Install Samba (skip if already installed):</p>
+      <pre><code>sudo apt-get update
+sudo apt-get install -y samba</code></pre>
+
+      <p>Add a share definition to <code>/etc/samba/smb.conf</code>:</p>
+      <pre><code>sudo tee -a /etc/samba/smb.conf > /dev/null <<'EOF'
+
+[home_abdelhak]
+   comment = Abdelhak Home Folder
+   path = /home/abdelhak
+   browseable = yes
+   read only = no
+   guest ok = no
+   valid users = abdelhak
+   create mask = 0664
+   directory mask = 0775
+EOF</code></pre>
+
+      <p>Set a Samba password for your Linux user (separate credential store from your login password):</p>
+      <pre><code>sudo smbpasswd -a abdelhak</code></pre>
+
+      <p>Restart the Samba services and allow it through the firewall:</p>
+      <pre><code>sudo systemctl restart smbd nmbd
+sudo ufw allow samba          # only if ufw is active</code></pre>
+
+      <p>Make sure Samba starts automatically on boot:</p>
+      <pre><code>sudo systemctl enable smbd nmbd</code></pre>
+
+      <h3>On Windows &mdash; connect to the share</h3>
+      <p>Open Command Prompt or PowerShell and test the connection:</p>
+      <pre><code>net use Z: \\192.168.1.78\home_abdelhak /user:abdelhak</code></pre>
+      <p>Enter the Samba password when prompted.</p>
+
+      <p>Make the mapping <strong>permanent</strong> (survives reboot, auto-reconnects at login):</p>
+      <pre><code>net use Z: /delete
+net use Z: \\192.168.1.78\home_abdelhak /user:abdelhak /persistent:yes</code></pre>
+
+      <p>Open File Explorer &mdash; the drive appears under "This PC" as <span class="key-value">home_abdelhak (Z:)</span>.</p>
+
+      <div class="ambox">
+        <strong>Known issue:</strong> If Explorer shows "impossible d'acc&eacute;der" (can't access) but <code>net use</code> works fine, it's usually because the Windows network profile is set to <strong>Public</strong> instead of <strong>Private</strong>. Public profiles restrict SMB browsing in Explorer even though direct connections still work. Fix it under <em>Settings &rarr; Network &amp; Internet &rarr; your connection &rarr; Network profile type &rarr; Private</em>.
+      </div>
+
+      <h2 id="windows-to-ubuntu">Share a Windows folder to Ubuntu</h2>
+      <p>Goal: mount a Windows folder (e.g. the user profile) as a local directory on Ubuntu.</p>
+
+      <h3>On Windows &mdash; enable sharing</h3>
+      <p>Confirm network discovery &amp; file sharing are on: <em>Settings &rarr; Network &amp; Internet &rarr; Advanced network settings &rarr; Advanced sharing settings</em>, toggle <strong>Network discovery</strong> and <strong>File and printer sharing</strong> to On for the Private profile.</p>
+      <p>Right-click the folder to share (e.g. <code>C:\Users\Win10</code>) &rarr; <strong>Properties</strong> &rarr; <strong>Sharing</strong> tab &rarr; <strong>Advanced Sharing</strong>. Check <strong>"Share this folder"</strong>, give it a share name (e.g. <code>Win10</code>). Click <strong>Permissions</strong> &rarr; grant your user <strong>Full Control</strong> &rarr; OK &rarr; OK &rarr; Close.</p>
+      <p>Verify from PowerShell:</p>
+      <pre><code>net share</code></pre>
+
+      <h3>On Ubuntu &mdash; mount the share</h3>
+      <p>Install the CIFS client tools:</p>
+      <pre><code>sudo apt-get install -y cifs-utils</code></pre>
+
+      <p>Create a mount point and test-mount it:</p>
+      <pre><code>sudo mkdir -p /mnt/win10share
+sudo mount -t cifs //192.168.1.54/Win10 /mnt/win10share \
+  -o username=Win10,uid=$(id -u),gid=$(id -g)</code></pre>
+      <p>Enter the Windows account password when prompted, then confirm with:</p>
+      <pre><code>ls /mnt/win10share</code></pre>
+
+      <p>Make it <strong>permanent</strong> using a credentials file (safer than a plaintext password in <code>/etc/fstab</code>, which is world-readable):</p>
+      <pre><code>sudo mkdir -p /etc/samba/creds
+sudo nano /etc/samba/creds/win10share</code></pre>
+      <p>Add:</p>
+      <pre><code>username=Win10
+password=YOUR_WINDOWS_PASSWORD</code></pre>
+      <p>Lock down the file permissions:</p>
+      <pre><code>sudo chmod 600 /etc/samba/creds/win10share</code></pre>
+
+      <p>Add a permanent auto-mount entry to <code>/etc/fstab</code>:</p>
+      <pre><code>echo "//192.168.1.54/Win10 /mnt/win10share cifs credentials=/etc/samba/creds/win10share,uid=$(id -u),gid=$(id -g),iocharset=utf8,x-systemd.automount,x-systemd.requires=network-online.target,_netdev 0 0" | sudo tee -a /etc/fstab</code></pre>
+
+      <p>Reload and test:</p>
+      <pre><code>sudo systemctl daemon-reload
+sudo mount -a
+ls /mnt/win10share</code></pre>
+
+      <div class="ambox ambox-notice">
+        <strong>Why <code>x-systemd.automount</code> + <code>_netdev</code>?</strong> These options mount the share on-demand once the network is ready, instead of blocking boot if the Windows PC happens to be off or unreachable.
+      </div>
+
+      <h2 id="explorer-access">Browsing shares from each file manager</h2>
+
+      <h3>From Ubuntu (Nautilus / "Files")</h3>
+      <p>Once mounted, browse it like any local folder: open Files, press <code>Ctrl+L</code>, type <code>/mnt/win10share</code>, press Enter. Optionally drag the folder into the sidebar to bookmark it.</p>
+      <p>Alternatively, connect live over the network without the fstab mount: press <code>Ctrl+L</code> and enter <span class="key-value">smb://192.168.1.54/Win10</span> &mdash; this prompts for credentials via a GUI dialog.</p>
+
+      <h3>From Windows (File Explorer)</h3>
+      <p>The mapped drive appears automatically under <strong>This PC</strong> once set up with <code>/persistent:yes</code>. You can also type the UNC path directly in the address bar: <span class="key-value">\\192.168.1.78\home_abdelhak</span>.</p>
+
+      <h2 id="troubleshooting">Troubleshooting</h2>
+      <table class="wikitable">
+        <tr><th>Symptom</th><th>Likely cause</th><th>Fix</th></tr>
+        <tr>
+          <td>Explorer can't browse the share, but <code>net use</code> works</td>
+          <td>Network profile set to Public</td>
+          <td>Switch to Private profile in Windows network settings</td>
+        </tr>
+        <tr>
+          <td>RDP connection "lost connection" immediately</td>
+          <td>Port 3389 blocked by Windows Firewall, or RDP not actually enabled</td>
+          <td>Check Firewall &rarr; allow Remote Desktop; confirm the toggle is On in Settings &rarr; System &rarr; Remote Desktop</td>
+        </tr>
+        <tr>
+          <td>Two RDP servers conflict on Ubuntu (xrdp vs. GNOME Remote Desktop)</td>
+          <td>Both try to bind port 3389</td>
+          <td>Disable the unused one: <code>sudo systemctl disable --now xrdp</code></td>
+        </tr>
+        <tr>
+          <td><code>mount.cifs: command not found</code></td>
+          <td>Missing package</td>
+          <td><code>sudo apt-get install -y cifs-utils</code></td>
+        </tr>
+      </table>
+
+      <p>
+        Status: Ubuntu &rarr; Windows share <span class="status-tag done">done</span> &nbsp;
+        Windows &rarr; Ubuntu share <span class="status-tag done">done</span> &nbsp;
+        RDP screen control <span class="status-tag pending">pending / partial</span>
+      </p>
+
+      <div class="catlinks">
+        Categories: <a href="index.html">Networking</a> | <a href="index.html">Linux</a> | <a href="index.html">Windows</a>
+      </div>
+    </article>
+  </div>
+</div>
+
+<div class="footer-wiki">
+  This page was created on 27 July 2026 and last edited on 27 July 2026. Content is available for personal reference.
+</div>
+
+</body>
+</html>

@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bit-Bot - Wiki</title>
+<link rel="stylesheet" href="wiki.css">
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-inner">
+    <a class="wiki-logo" href="https://workshop-diy.org"><img src="logo.png" alt="شعار الويكي"></a>
+    <a class="masthead-site-link" href="https://workshop-diy.org">workshop-diy.org</a>
+    <div class="masthead-title">
+      الويكي
+      <span class="sub">قاعدة المعرفة الشخصية والمجانية</span>
+    </div>
+    <div class="masthead-actions">
+      <div class="lang-switch" role="group" aria-label="اللغة">
+        <a href="bit-bot.html" class="lang-switch-btn" title="Français"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="20" height="40" fill="#002395"/><rect x="20" width="20" height="40" fill="#fff"/><rect x="40" width="20" height="40" fill="#ED2939"/></svg></a>
+        <a href="bit-bot-en.html" class="lang-switch-btn" title="English"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="60" height="40" fill="#012169"/><path d="M0 0L60 40M60 0L0 40" stroke="#fff" stroke-width="6.5"/><path d="M0 0L60 40M60 0L0 40" stroke="#C8102E" stroke-width="3.5"/><path d="M30 0V40M0 20H60" stroke="#fff" stroke-width="11"/><path d="M30 0V40M0 20H60" stroke="#C8102E" stroke-width="6.5"/></svg></a>
+        <a href="bit-bot-ar.html" class="lang-switch-btn active" title="العربية"><svg width="24" height="16" viewBox="0 0 900 600"><defs><clipPath id="glBitBotAr"><rect width="450" height="600"/></clipPath></defs><rect width="450" height="600" fill="#006233"/><rect x="450" width="450" height="600" fill="#FFF"/><g fill="#D21034" transform="translate(450,300)"><circle r="125"/><circle cx="25" r="100" fill="#FFF"/><g clip-path="url(#glBitBotAr)" transform="translate(-450,-300)"><circle cx="475" cy="300" r="100" fill="#006233"/></g><path d="M85-12l22 67h71l-57 42 22 67-58-42-57 42 21-67-57-42h71z"/></g></svg></a>
+      </div>
+      <div class="masthead-search">
+        <input type="text" placeholder="ابحث في الويكي" disabled>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wiki-layout">
+
+  <div class="sidebar">
+    <h3>التصفح</h3>
+    <ul>
+      <li><a href="index.html">الصفحة الرئيسية</a></li>
+      <li><a href="#">التعديلات الأخيرة</a></li>
+      <li><a href="#">صفحة عشوائية</a></li>
+    </ul>
+    <h3>التصنيفات</h3>
+    <ul>
+      <li><a href="index.html">الشبكات</a></li>
+      <li><a href="index.html">Linux</a></li>
+      <li><a href="index.html">Windows</a></li>
+      <li><a href="index.html">الإلكترونيات</a></li>
+      <li><a href="index.html">ESP32</a></li>
+      <li><a href="index.html">micro:bit</a></li>
+      <li><a href="index.html">الذكاء الاصطناعي</a></li>
+    </ul>
+    <h3>أدوات</h3>
+    <ul>
+      <li><a href="https://github.com/abourdim/bit-bot">عرض مستودع الكود المصدري</a></li>
+    </ul>
+  </div>
+
+  <div class="content-wrap">
+    <div class="article-tabs">
+      <span class="active">المقالة</span>
+      <span>النقاش</span>
+    </div>
+
+    <article>
+      <h1 class="page-title">Bit-Bot</h1>
+
+      <div class="infobox">
+        <div class="infobox-title">Bit-Bot</div>
+        <table>
+          <tr><th>النوع</th><td>رفيق روبوت بالذكاء الاصطناعي، مناسب للأطفال</td></tr>
+          <tr><th>العتاد</th><td>BBC micro:bit V2 (اختياري، عبر البلوتوث)</td></tr>
+          <tr><th>مزوّدو الذكاء الاصطناعي</th><td>Groq، Gemini، Cohere، Mistral، OpenRouter، أو وضع العرض التجريبي دون اتصال</td></tr>
+          <tr><th>اللغات</th><td>English, Français, العربية (RTL)</td></tr>
+          <tr><th>يعمل على</th><td>Chrome / Edge، بدون تثبيت</td></tr>
+          <tr><th>المستودع</th><td><a href="https://github.com/abourdim/bit-bot">github.com/abourdim/bit-bot</a></td></tr>
+          <tr><th>العرض المباشر</th><td><a href="https://abourdim.github.io/bit-bot/">abourdim.github.io/bit-bot</a></td></tr>
+        </table>
+      </div>
+
+      <p class="hatnote">تتناول هذه المقالة Bit-Bot، رفيق دردشة بالذكاء الاصطناعي على صفحة واحدة للأطفال يتحدث ويستمع ويُظهر مشاعر، ويمكنه تشغيل BBC micro:bit عبر البلوتوث.</p>
+
+      <div class="toc">
+        <div class="toc-title">المحتويات</div>
+        <ol>
+          <li><a href="#overview">نظرة عامة</a></li>
+          <li><a href="#quickstart">البدء السريع</a></li>
+          <li><a href="#walkthrough">خطوة بخطوة: الاستنساخ والتحميل والاختبار</a></li>
+          <li><a href="#understanding">فهم الكود (للمبتدئين)</a></li>
+          <li><a href="#onboarding">أول تشغيل: التهيئة</a></li>
+          <li><a href="#personality">اسم الروبوت &amp; الشخصية</a></li>
+          <li><a href="#ai">مزوّدو الذكاء الاصطناعي</a></li>
+          <li><a href="#microbit">توصيل micro:bit</a></li>
+          <li><a href="#firmware">الحصول على كود الفيرموير</a></li>
+          <li><a href="#games">الأوامر &amp; الألعاب المدعومة بالذكاء الاصطناعي</a></li>
+          <li><a href="#i18n">اللغات &amp; نظام الترجمة</a></li>
+          <li><a href="#help">المساعدة داخل التطبيق</a></li>
+          <li><a href="#privacy">البيانات &amp; الخصوصية</a></li>
+          <li><a href="#troubleshooting">حل المشكلات</a></li>
+        </ol>
+      </div>
+
+      <h2 id="overview">نظرة عامة</h2>
+      <p><strong>Bit-Bot</strong> هو تطبيق ويب بدون تثبيت، ملف HTML واحد: وجه روبوت متحرك تتحدث معه بالصوت أو النص، يجيب باستخدام مزوّد ذكاء اصطناعي من اختيارك (أو وضع عرض تجريبي دون اتصال بالإنترنت تمامًا). يقترن اختياريًا بـ BBC micro:bit عبر Web Bluetooth، ليعكس المشاعر والأوامر على شاشة LED مقاس 5×5 الخاصة بالـ micro:bit ويقرأ حساساته أثناء الألعاب.</p>
+      <p>التطبيق بأكمله &mdash; الواجهة، نظام الترجمة، استدعاءات الذكاء الاصطناعي، إدارة البلوتوث &mdash; يعيش في ملف <code>index.html</code> واحد، بالإضافة إلى صفحة <code>flash.html</code> منفصلة للحصول على فيرموير الـ micro:bit المرافق، وبضعة ملفات <code>microbit_makecode_*.js</code> تحتوي على الكود المصدري لذلك الفيرموير.</p>
+
+      <h2 id="quickstart">البدء السريع</h2>
+      <ol>
+        <li>افتح <a href="https://abourdim.github.io/bit-bot/">التطبيق المباشر</a> في Chrome أو Edge (واجهات Web Bluetooth وSpeech مطلوبتان، لذا لن يعمل Safari/Firefox بشكل كامل).</li>
+        <li>مرّ بخطوات التهيئة الأربع: سمِّ روبوتك، اختر شخصية، وصِل micro:bit اختياريًا.</li>
+        <li>اضغط على الميكروفون 🎤 أو اكتب رسالة، ثم أرسل. يجيب الروبوت في فقاعة الدردشة وينطقها بصوت عالٍ.</li>
+      </ol>
+
+      <h2 id="walkthrough">خطوة بخطوة: الاستنساخ والتحميل والاختبار</h2>
+      <p>يأخذك هذا الدليل من نسخة فارغة إلى روبوت يعمل بشكل كامل &mdash; دردشة نصية وصوتية، و(اختياريًا) micro:bit مقترن &mdash; دون افتراض أي شيء سوى تثبيت Chrome أو Edge.</p>
+
+      <h3>1. استنساخ المستودع</h3>
+      <pre><code>git clone https://github.com/abourdim/bit-bot.git
+cd bit-bot</code></pre>
+
+      <h3>2. تشغيل الموقع محليًا</h3>
+      <p>لا توجد خطوة بناء &mdash; إنه HTML/CSS/JS خالص &mdash; لكن واجهتَي Web Speech وWeb Bluetooth ترفضان العمل من مسار <code>file:///</code> مباشر، لذا شغّل المجلد عبر HTTP:</p>
+      <pre><code>python3 -m http.server 8000</code></pre>
+      <p>ثم افتح <span class="key-value">http://localhost:8000</span> في Chrome أو Edge.</p>
+
+      <h3>3. الحصول على فيرموير الـ micro:bit (اختياري)</h3>
+      <p>تخطَّ هذه الخطوة تمامًا إذا كنت تريد فقط اختبار الدردشة النصية/الصوتية. وإلا، افتح <a href="https://abourdim.github.io/bit-bot/flash.html">flash.html</a>، اضغط <strong>نسخ كود micro:bit</strong>، الصقه في تبويب JavaScript لمشروع جديد على <a href="https://makecode.microbit.org">makecode.microbit.org</a>، أضف إضافة <code>bluetooth</code>، اضبط إعدادات المشروع ← «لا حاجة للاقتران»، وحمّله على اللوحة.</p>
+
+      <h3>4. اختبار الدردشة النصية</h3>
+      <p>بدون تهيئة مفتاح API، يعمل التطبيق تلقائيًا في وضع 🎮 العرض التجريبي &mdash; اكتب رسالة واضغط إرسال؛ يجب أن تحصل على رد معدّ مسبقًا لكنه يناسب الشخصية، دون أي اتصال بالشبكة إطلاقًا. هذا يؤكد أن الواجهة وآلة الحالة تعملان قبل إشراك أي مزوّد ذكاء اصطناعي حقيقي.</p>
+
+      <h3>5. اختبار الصوت</h3>
+      <p>اضغط زر 🎤، اسمح بالميكروفون، وتحدث. التشغيل السليم يُظهر النص المكتوب، ثم ردًا منطوقًا مع تحرك فم/عيني الروبوت أثناء الحديث.</p>
+
+      <h3>6. اختبار الاتصال بالـ micro:bit</h3>
+      <p>اضغط شارة الاتصال في الترويسة، اختر لوحتك من منتقي أجهزة البلوتوث، وانتظر وجهًا سعيدًا &mdash; على الشاشة وعلى شبكة LED الخاصة بالـ micro:bit نفسها. إذا لم يظهر أبدًا، راجع <a href="#troubleshooting">حل المشكلات</a>.</p>
+
+      <h3>7. اختبار لعبة</h3>
+      <p>افتح لوحة 🎮 وابدأ <strong>Smart Tilt Quiz</strong>. حتى بدون مفتاح ذكاء اصطناعي ودون اتصال بـ micro:bit، يجب أن يطرح سؤالًا من بنك الاحتياط المدمج (اضغط تسميات A/B على الشاشة، أو أمِل الـ micro:bit إن كان مقترنًا) &mdash; مؤكدًا أن منطق اللعبة والمحتوى الاحتياطي يعملان بشكل مستقل عن أي اتصال بالشبكة.</p>
+
+      <div class="ambox ambox-success">يبدو الأساس الناجح كالتالي: ردود في وضع العرض التجريبي بدون مفتاح، صوت في الاتجاهين، وجه سعيد على الـ micro:bit بعد الاقتران، وسؤال اختبار يمكنك الإجابة عليه بأي طريقة. فقط بعد أن يعمل كل هذا يستحق الأمر حل مشكلات مفتاح مزوّد ذكاء اصطناعي معيّن.</div>
+
+      <h2 id="understanding">فهم الكود (للمبتدئين)</h2>
+      <p class="hatnote">هذا القسم لمن لديه التطبيق قيد التشغيل ويريد فتح <code>index.html</code> والبدء بتعديل شيء ما. يفترض معرفة أساسية بـ JavaScript لكن لا معرفة مسبقة بهذا الكود. تخطَّه تمامًا إذا كنت تريد فقط استخدام التطبيق.</p>
+
+      <h3>شكل الملف</h3>
+      <p>كل شيء &mdash; البنية، CSS، وJavaScript &mdash; يعيش في ملف <code>index.html</code> واحد، يمتد لآلاف الأسطر، في ثلاث كتل: كتلة <code>&lt;style&gt;</code>، جسم HTML (الترويسة، بطاقة التهيئة، واجهة الدردشة، لوحة الإعدادات، نافذة المساعدة، لوحات الألعاب/الأوامر)، وكتلة <code>&lt;script&gt;</code> كبيرة في النهاية بدون نظام وحدات &mdash; كل دالة هي تصريح <code>function</code> بسيط من المستوى الأعلى، يمكن استدعاؤها مباشرة من سمات <code>onclick="..."</code> المضمّنة في HTML.</p>
+
+      <h3>كائن <code>state</code></h3>
+      <p>كائن واحد بسيط يحمل كل ما يحتاج للاستمرار أو لدفع الواجهة: حالة الاتصال، مزوّد الذكاء الاصطناعي الحالي ومفاتيحه، اسم الروبوت وشخصيته، سجل الدردشة لكل شخصية، وتفضيلات الواجهة مثل اللغة والسمة. يُحفظ في <code>localStorage</code> كـ JSON عند كل تغيير ذي صلة (<code>saveSettings()</code>) ويُستعاد عند التحميل (<code>loadSettings()</code>) &mdash; لا توجد طبقة استمرارية أخرى.</p>
+
+      <h3>نظام الترجمة: <code>I18N</code> ← <code>tr()</code> ← <code>data-i18n</code></h3>
+      <p>كل نص يظهر للمستخدم يعيش في كائن <code>I18N</code> مفهرس حسب اللغة (<code>en</code>/<code>fr</code>/<code>ar</code>)، ثم بمفتاح قصير:</p>
+      <pre><code>const I18N = {
+  en: { onb_welcome_title: "Welcome!", ... },
+  fr: { onb_welcome_title: "Bienvenue !", ... },
+  ar: { onb_welcome_title: "مرحباً!", ... }
+};
+function tr(key) { return I18N[state.lang][key] ?? I18N.en[key] ?? key; }
+function trg(key, vars) { /* tr() plus {placeholder} substitution */ }</code></pre>
+      <p>عناصر HTML الثابتة مُعلَّمة بـ <code>data-i18n="onb_welcome_title"</code>؛ تمرّ <code>applyLang(lang)</code> على كل عنصر معلَّم وتضبط نصه من <code>tr()</code>. النصوص الديناميكية (الإشعارات، أسطر السجل، سرد ألعاب الذكاء الاصطناعي) تستدعي <code>tr()</code>/<code>trg()</code> مباشرة من JavaScript. تغيير اللغة هو استدعاء دالة واحد، <code>setLanguage(lang)</code>، الذي يعيد تشغيل <code>applyLang()</code> ويحفظ الاختيار.</p>
+
+      <h3>كيف تتدفق رسالة الدردشة: إدخال المستخدم ← الذكاء الاصطناعي ← الروبوت</h3>
+      <div class="diagram" dir="ltr"><pre style="margin:0;border:0;padding:0;background:none;">  user types/speaks
+       │
+       ▼
+  <b>sendMessage()</b>  ──▶  addBubble('user', text)
+       │
+       ▼
+  <b>callAI(text)</b>  ──▶  branches on state.provider:
+       │                     Demo → getDemoResponse() (canned, offline)
+       │                     Groq / Gemini / Cohere / Mistral / OpenRouter
+       │                       → fetch() to that provider's REST API
+       ▼
+  parse reply, strip [command] tags
+       │
+       ▼
+  addBubble('robot', text)  +  speak(text)  +  sendCommand(emotion)</pre></div>
+      <p>ينتهي موجّه النظام الخاص بالذكاء الاصطناعي دائمًا بتوجيه لغوي مبني من <code>tr('ai_lang_directive')</code>، حتى يجيب النموذج نفسه بلغة الواجهة المختارة حاليًا بدلًا من ترجمة نص الواجهة الثابت فقط. تُحدّث <code>sendCommand()</code> الوجه المعروض على الشاشة، وإذا كان الـ micro:bit متصلًا، تكتب نفس الأمر عبر البلوتوث.</p>
+
+      <h3>التحدث إلى micro:bit: <code>connect()</code>، <code>sendCommand()</code>، <code>handleRx()</code></h3>
+      <p>تستدعي <code>connect()</code> الدالة <code>navigator.bluetooth.requestDevice()</code> مُصفّاة على خدمة Nordic UART، ثم تكتشف خاصيتَي TX (إشعار، من micro:bit إلى المتصفح) وRX (كتابة، من المتصفح إلى micro:bit). كل أمر صادر &mdash; مشاعر، إدخال لعبة، حركة محرك &mdash; يمر عبر دالة واحدة، <code>sendCommand(cmd)</code>، التي تكتبه كسطر UTF-8 إلى خاصية RX. كل ما يرسله الـ micro:bit للخلف (ضغطات الأزرار، قراءات الحساسات) يصل كحدث <code>characteristicvaluechanged</code> تعالجه <code>handleRx()</code>، التي تحلّل السطر وتوجّهه &mdash; مثلًا إلى <code>processScienceReading()</code> أثناء لعبة المحقق العلمي.</p>
+
+      <h3>آلة حالة التهيئة</h3>
+      <p>التهيئة هي أربع بطاقات HTML، واحدة فقط ظاهرة في كل مرة، تُدار بعدد صحيح واحد <code>currentOnboardingStep</code>. تكتفي <code>nextOnboardingStep()</code>/<code>prevOnboardingStep()</code> بزيادته/إنقاصه وتبديل أي بطاقة تحمل فئة <code>.active</code>؛ تضبط <code>completeOnboarding()</code> القيمة <code>state.onboardingComplete = true</code>، تحفظها، وتخفي كامل الطبقة العلوية حتى لا تظهر مجددًا أبدًا على هذا المتصفح.</p>
+
+      <h3>معمارية النظام، بالرسم التوضيحي</h3>
+      <p>رحلتا ذهاب وإياب مستقلتان واختياريتان تلتقيان في منتصف تبويب متصفح واحد &mdash; استدعاء الذكاء الاصطناعي ورابط micro:bit لا يتحدثان أبدًا مباشرة، فقط عبر حالة التطبيق نفسها:</p>
+      <div class="diagram" dir="ltr"><pre style="margin:0;border:0;padding:0;background:none;">                        ┌─────────────────────────┐
+                        │   index.html (browser)  │
+                        │  ─────────────────────  │
+   🎤 mic / ⌨ keyboard ─▶│  sendMessage()          │
+                        │       │                 │
+                        │       ▼                 │
+   AI provider API   ◀──▶  callAI(text)           │
+   (Groq/Gemini/...)     │       │                 │
+                        │       ▼                 │
+                        │  addBubble()+speak()    │
+                        │       │                 │
+                        │       ▼                 │
+   BBC micro:bit     ◀──▶  sendCommand(emotion)   │
+   (Bluetooth LE)        │  handleRx() ◀── sensors│
+                        └─────────────────────────┘</pre></div>
+      <p>ساق الذكاء الاصطناعي هي HTTP عبر واي فاي/بيانات (تُتخطى تمامًا في وضع العرض التجريبي)؛ ساق micro:bit هي Bluetooth LE، تُقترن مرة واحدة لكل جلسة متصفح. يمكن أن تغيب أي منهما &mdash; التطبيق قابل للاستخدام الكامل بدون أي منهما، أو بواحدة، أو بكلتيهما متصلتين.</p>
+
+      <h3>تخطيط HTML، بالرسم التوضيحي</h3>
+      <p>داخل <code>&lt;body&gt;</code>، البنية هي كومة مسطحة من الطبقات المعروضة/المخفية بشكل مستقل، بالإضافة إلى شاشة الدردشة الظاهرة دائمًا في الأسفل:</p>
+      <div class="diagram" dir="ltr"><pre style="margin:0;border:0;padding:0;background:none;">  &lt;body&gt;
+   ├─ #onboarding        <b>first-run wizard, 4 cards, one .active at a time</b>
+   ├─ #helpOverlay        <b>❓ quick-reference modal</b>
+   ├─ header              <b>lang flags · robot/AI badges · connect · firmware · help · ☰</b>
+   ├─ main                <b>robot face + chat bubbles + text/mic input</b>
+   ├─ #settingsPanel      <b>slide-in: Fun / Setup / Advanced tabs</b>
+   ├─ #commandsPanel      <b>📋 quick-command cheat sheet, by category</b>
+   └─ #gamesPanel         <b>🎮 Smart Tilt Quiz / Adventure / Science Detective</b></pre></div>
+      <p>كل واحدة من هذه اللوحات/الطبقات هي مجرد <code>&lt;div&gt;</code> تبدّل فئة CSS <code>.open</code> (أو <code>.active</code>) عبر دالة صغيرة <code>toggleX()</code> &mdash; لا يوجد توجيه، ولا DOM افتراضي، ولا إطار عمل. يحتوي <code>&lt;head&gt;</code> كتلة <code>&lt;style&gt;</code> واحدة كبيرة مضمّنة بخصائص CSS مخصصة (<code>--primary</code>، <code>--surface</code>، إلخ) يُعيد <code>[data-theme="dark"]</code> تعريفها &mdash; هذا هو نظام السمات بأكمله.</p>
+
+      <h3>فيرموير الـ micro:bit: <code>microbit_makecode_v3.js</code></h3>
+      <p>هذا هو البرنامج الذي تحمّله على اللوحة نفسها &mdash; عالم منفصل، أصغر بكثير من تطبيق الويب، مكتوب بلهجة JavaScript/TypeScript الخاصة بـ MakeCode. ليس لديه أي مفهوم عن «الذكاء الاصطناعي» أو «الدردشة»؛ كل ما يعرفه هو مفردات مسطحة من أوامر نصية بكلمة واحدة تصل عبر Bluetooth UART، وكيفية التفاعل مع كل منها على شبكة LED مقاس 5×5.</p>
+
+      <h4>صور LED مجرد نص</h4>
+      <p>كل وجه/أيقونة هو استدعاء <code>images.createImage()</code> على شبكة 5×5 من <code>.</code> (مطفأ) و<code>#</code> (مضاء):</p>
+      <pre><code>const HAPPY = images.createImage(`
+    . . . . .
+    . # . # .    ← eyes
+    . . . . .
+    # . . . #
+    . # # # .    ← smile
+    `)</code></pre>
+      <p>يوجد 15 من هذه الصور النقطية في الملف &mdash; مشاعر (HAPPY، SAD، ANGRY، SURPRISED، LOVE، SLEEPY، SILLY، WOW، HAHA، COOL)، حيوانان (CAT، DOG)، وخمس أيقونات ألعاب (أسهم، علامة استفهام، علامة صح، علامة خطأ، ميزان حرارة، مصباح). تريد وجهًا جديدًا؟ انسخ نمط النقاط والمربعات لأي وجه موجود وغيّر الشكل &mdash; لا شيء آخر في الملف يحتاج لمعرفته حتى تضيفه أيضًا إلى معالج الأوامر أدناه.</p>
+
+      <h4>إبقاء مرآة LED في المتصفح متزامنة</h4>
+      <p>في كل مرة يغيّر فيها الـ micro:bit ما يعرضه، يبث أيضًا شبكة الـ25 بكسل كاملة عبر البلوتوث كسطر نصي واحد، وهذا ما يشغّل أداة مرآة LED ⚫ في تطبيق الويب:</p>
+      <pre><code>function sendLEDState() {
+    let state = "LED:"
+    for (let y = 0; y &lt; 5; y++)
+        for (let x = 0; x &lt; 5; x++)
+            state += led.point(x, y) ? "1" : "0"
+    bluetooth.uartWriteString(state + "\n")
+}
+function showAndSync(img: Image) {
+    img.showImage(0)
+    basic.pause(50)   // let the image actually latch before reading it back
+    sendLEDState()
+}</code></pre>
+      <p>تستدعي كل الرسوم المتحركة تقريبًا <code>showAndSync()</code> بدلًا من <code>showImage()</code> الخام من MakeCode، خصيصًا حتى لا تنحرف مرآة المتصفح أبدًا عن اللوحة الفعلية.</p>
+
+      <h4>جدول توزيع الأوامر</h4>
+      <p>دالة واحدة، <code>handleCommand(cmd)</code>، تستقبل كل سطر يرسله المتصفح وتمرره عبر سلسلة <code>if / else if</code> طويلة تُقارن حرفيًا بأحرف صغيرة &mdash; لا يوجد JSON، ولا بروتوكول منظم، فقط كلمات بسيطة:</p>
+      <table class="wikitable">
+        <tr><th>الأمر/الأوامر</th><th>ما يحدث على اللوحة</th></tr>
+        <tr><td><code>happy</code>, <code>sad</code>, <code>angry</code>, <code>surprised</code>/<code>wow</code>, <code>love</code>, <code>sleepy</code>, <code>silly</code>, <code>haha</code>, <code>cool</code>, <code>cat</code>, <code>dog</code></td><td>يعرض الوجه/الأيقونة الثابتة المطابقة.</td></tr>
+        <tr><td><code>wave</code>, <code>dance</code>, <code>spin</code>, <code>party</code>, <code>magic</code></td><td>يشغّل رسمًا متحركًا قصيرًا متعدد الإطارات، ثم يستقر على HAPPY.</td></tr>
+        <tr><td><code>quiz</code> / <code>correct</code>,<code>yes</code> / <code>wrong</code>,<code>no</code> / <code>thinking</code></td><td>وجوه حالة اللعبة: علامة استفهام، صح + احتفال، خطأ + حزن، أيقونة «حائر».</td></tr>
+        <tr><td><code>read_temp</code> / <code>read_light</code></td><td>يعرض أيقونة، يقرأ الحساس الحقيقي بـ <code>input.temperature()</code>/<code>input.lightLevel()</code>، يرسله للخلف كـ <code>TEMP:&lt;n&gt;</code>/<code>LIGHT:&lt;n&gt;</code>، ويعرض الرقم على LED.</td></tr>
+        <tr><td><code>left</code>/<code>right</code>/<code>forward</code>/<code>backward</code>, <code>count</code>, <code>dice</code>, <code>rainbow</code></td><td>مرئيات ألعاب/أدوات متنوعة (أسهم، عد من 1 إلى 5، رمي نرد عشوائي، قوس قزح وامض على كامل الشبكة).</td></tr>
+        <tr><td>أي شيء غير معروف</td><td>يعرض علامة استفهام <code>QUESTION</code> &mdash; الفيرموير لا يتعطل أبدًا عند كلمة غير معروفة.</td></tr>
+      </table>
+
+      <h4>استشعار العالم: الإمالة، الاهتزاز، الأزرار</h4>
+      <p>ثلاثة مصادر إدخال تعمل بشكل مستقل عن معالج الأوامر ولا تفعل سوى <em>إرسال</em> البيانات، لا استقبالها أبدًا &mdash; هكذا تحصل الألعاب في المتصفح على إدخال حساس حقيقي:</p>
+      <pre><code>basic.forever(function () {   // polled every loop, ~cooldown-gated
+    let x = input.acceleration(Dimension.X)
+    if (x &lt; -TILT_THRESHOLD) bluetooth.uartWriteString("TILT_LEFT\n")
+    else if (x &gt; TILT_THRESHOLD) bluetooth.uartWriteString("TILT_RIGHT\n")
+})
+input.onGesture(Gesture.Shake, function () {
+    bluetooth.uartWriteString("SHAKE\n")
+})
+input.onButtonPressed(Button.A, function () {
+    bluetooth.uartWriteString("BTN_A\n")
+    // ...also shows an icon locally
+})</code></pre>
+      <p>فترة تهدئة مشتركة <code>INPUT_COOLDOWN</code> (500 مللي ثانية) وطوابع زمنية لـ«آخر إطلاق» لكل إدخال تمنع إمالة أو اهتزازًا فعليًا واحدًا من إغراق أحداث مكررة متعددة &mdash; نفس فكرة إزالة الارتداد المستخدمة في آلية الأمان بـ500 مللي ثانية في مشروع VideoCar الشقيق، لكن مطبَّقة على الإيماءات بدلًا من أوامر المحرك.</p>
+
+      <h4>الرحلة الكاملة ذهابًا وإيابًا</h4>
+      <div class="diagram" dir="ltr"><pre style="margin:0;border:0;padding:0;background:none;">  browser: sendCommand("happy")
+       │
+       ▼  bluetooth write (UART RX characteristic)
+  micro:bit: onUartDataReceived
+       │
+       ▼
+  handleCommand("happy")  ──▶  showAndSync(HAPPY)
+       │                            │
+       │                            ▼
+       │                      sendLEDState()
+       ▼                            │
+  (nothing sent back for            ▼  bluetooth notify (UART TX characteristic)
+   plain emotions — LED            │
+   state is the only reply)   browser: handleRx()  ──▶  updates LED-mirror widget
+
+  ── meanwhile, independently ──
+  micro:bit: tilt/shake/button  ──▶  bluetooth notify  ──▶  browser: handleRx()
+                                                                  │
+                                                                  ▼
+                                                          routed into the active
+                                                          game's input handler</pre></div>
+
+      <h2 id="onboarding">أول تشغيل: التهيئة</h2>
+      <p>يرى الزوار الجدد بطاقة تهيئة من 4 خطوات قبل التطبيق الرئيسي:</p>
+      <table class="wikitable">
+        <tr><th>الخطوة</th><th>ما يحدث</th></tr>
+        <tr><td>1. الترحيب</td><td>مقدمة عن الميزات الرئيسية الثلاث: الدردشة الصوتية، micro:bit، الشخصيات.</td></tr>
+        <tr><td>2. التخصيص</td><td>اكتب اسم روبوت واختر واحدة من 12 شخصية.</td></tr>
+        <tr><td>3. توصيل الـ Micro:bit</td><td>اقتران بلوتوث اختياري، أو «تخطَّ الآن».</td></tr>
+        <tr><td>4. اكتمل كل شيء</td><td>بطاقة نصيحة، ثم «ابدأ الدردشة» يأخذك إلى التطبيق الرئيسي برسالة ترحيب منطوقة.</td></tr>
+      </table>
+      <p>يُحفظ الاكتمال في <code>localStorage</code>، لذا تعمل التهيئة مرة واحدة فقط لكل متصفح.</p>
+
+      <h2 id="personality">اسم الروبوت &amp; الشخصية</h2>
+      <p>الشخصيات المتاحة: <strong>مرحة</strong> (افتراضي)، مفيدة، قرصان، فضائية، بطل، دينو، جنية، نينجا، ساحر، راعي بقر، غريب فضائي، حورية بحر. لكل منها نبرة موجّه نظام خاصة بها وسجل دردشة منفصل خاص بها (حتى آخر عدة رسائل لكل شخصية)، لذا تغيير الشخصية لا يفقد المحادثة التي كنت تجريها مع أخرى.</p>
+      <p>اسم الروبوت قابل للتعديل في أي وقت من <strong>الإعدادات (☰) ← Fun</strong>. يُحفظ حقل الاسم عند كل ضغطة مفتاح (وليس فقط عند فقدان التركيز) ويعرض إشعار تأكيد، لذا لا يمكنه أبدًا الفشل في الحفظ بصمت.</p>
+
+      <h2 id="ai">مزوّدو الذكاء الاصطناعي</h2>
+      <table class="wikitable">
+        <tr><th>المزوّد</th><th>ملاحظات</th></tr>
+        <tr><td>🎮 عرض تجريبي</td><td>ردود معدّة مسبقًا دون اتصال بالإنترنت تمامًا. بدون مفتاح API، بدون شبكة.</td></tr>
+        <tr><td>⚡ Groq</td><td>نموذج سريع من عائلة Llama. يأتي بمفتاح افتراضي يعمل، جاهز للاستخدام مباشرة.</td></tr>
+        <tr><td>💎 Gemini</td><td>نموذج Google. يحتاج مفتاحك المجاني الخاص من aistudio.google.com.</td></tr>
+        <tr><td>🧠 Cohere</td><td>يحتاج مفتاح API الخاص بك.</td></tr>
+        <tr><td>🌀 Mistral</td><td>يحتاج مفتاح API الخاص بك.</td></tr>
+        <tr><td>🔀 OpenRouter</td><td>يحتاج مفتاح API الخاص بك.</td></tr>
+      </table>
+      <p>كل موجّه ذكاء اصطناعي &mdash; الدردشة الرئيسية والألعاب المصغرة الثلاث &mdash; له توجيه لغوي مُضاف حسب لغة الواجهة المختارة حاليًا، حتى تعود ردود النموذج المولَّدة نفسها بالإنجليزية أو الفرنسية أو العربية بدلًا من ترجمة نص الواجهة الثابت فقط.</p>
+
+      <h2 id="microbit">توصيل micro:bit</h2>
+      <p>اضغط شارة الاتصال في الترويسة (أو أثناء الخطوة 3 من التهيئة) للاقتران عبر Web Bluetooth. بمجرد الاتصال، تنعكس مشاعر الروبوت وأوامره المنطوقة مباشرة على شبكة LED مقاس 5×5 الخاصة بالـ micro:bit، ويمكن لمقياس التسارع/الأزرار/الحساسات الخاصة بالـ micro:bit تشغيل الألعاب (انظر أدناه).</p>
+      <div class="ambox ambox-notice">يتطلب Web Bluetooth سياقًا آمنًا: <code>https://</code> أو <code>localhost</code>. لن يعمل عند فتحه كملف HTML مباشر <code>file:///</code>.</div>
+
+      <h2 id="firmware">الحصول على كود الفيرموير</h2>
+      <p>يحتاج جانب micro:bit إلى برنامج MakeCode صغير يُحمَّل مرة واحدة. بدلًا من إرسال الناس إلى GitHub لنسخ الكود المصدري الخام يدويًا، <a href="https://abourdim.github.io/bit-bot/flash.html">flash.html</a> هي صفحة مخصصة:</p>
+      <ul>
+        <li>تجلب <code>microbit_makecode_v3.js</code> الحالي عند التحميل وتعرضه في كتلة كود قابلة للتمرير.</li>
+        <li>تحتوي زرًا كبيرًا واحدًا <strong>نسخ كود micro:bit</strong> (واجهة الحافظة مع بديل <code>execCommand</code>).</li>
+        <li>تسرد الخطوات الست للصقه في <a href="https://makecode.microbit.org">makecode.microbit.org</a>، إضافة إضافة <code>bluetooth</code>، تفعيل «لا حاجة للاقتران»، والتحميل.</li>
+      </ul>
+      <p>مرتبطة من تبويب <strong>الإعدادات ← Setup</strong> في التطبيق الرئيسي ومن شارة <strong>Firmware</strong> مخصصة في الترويسة.</p>
+
+      <h2 id="games">الأوامر &amp; الألعاب المدعومة بالذكاء الاصطناعي</h2>
+      <p>يفتح زر 📋 فوق مربع الرسالة ورقة غش أوامر مصنفة (المشاعر، الحيوانات، الأفعال، الأصوات، الحفلة، القوى) &mdash; اضغط أي كلمة لتشغيلها فورًا.</p>
+      <p>يفتح زر 🎮 ثلاث ألعاب مصغرة مدعومة بالذكاء الاصطناعي، كلها قابلة للعب بإمالة/اهتزاز/أزرار micro:bit المتصل كإدخال:</p>
+      <table class="wikitable">
+        <tr><th>اللعبة</th><th>ما تفعله</th></tr>
+        <tr><td>🎯 Smart Tilt Quiz</td><td>أسئلة اختبار متعددة الخيارات مولَّدة بالذكاء الاصطناعي (مع بنك احتياط مضمّن إذا فشل استدعاء الذكاء الاصطناعي)؛ أمِل يسارًا/يمينًا للإجابة؛ تتكيف الصعوبة مع سلسلة إجاباتك الصحيحة.</td></tr>
+        <tr><td>🗺️ Adventure Explorer</td><td>قصة متفرعة يرويها الذكاء الاصطناعي بموضوع مختار عشوائيًا (غابة، فضاء، محيط، قلعة، أدغال)؛ اهتز للنظر حولك، أمِل للاختيار.</td></tr>
+        <tr><td>🔬 Science Detective</td><td>قراءات حساسات حقيقية (حرارة أو ضوء) من الـ micro:bit، يشرحها الذكاء الاصطناعي بلغة مناسبة للأطفال، مع شرح احتياطي إذا فشل استدعاء الذكاء الاصطناعي.</td></tr>
+      </table>
+
+      <h2 id="i18n">اللغات &amp; نظام الترجمة</h2>
+      <p>الواجهة، وكل رسائل الإشعارات/الحالة/السجل، وكل سرد الألعاب مترجمة بالكامل إلى الإنجليزية والفرنسية والعربية (مع تخطيط من اليمين إلى اليسار للعربية) عبر كائن <code>I18N</code> مدمج ودوال مساعدة <code>tr()</code>/<code>trg()</code> مفهرسة بسمات <code>data-i18n</code>. الفرنسية هي اللغة الافتراضية. يوجد منتقي قائم على الأعلام في الترويسة؛ يُحفظ الاختيار في <code>localStorage</code>.</p>
+
+      <h2 id="help">المساعدة داخل التطبيق</h2>
+      <p>يفتح زر ❓ في الترويسة نافذة مرجعية سريعة (تحدث مع روبوتك، الاسم &amp; الشخصية، توصيل micro:bit، الأوامر &amp; الألعاب، نصائح)، مترجمة مثل بقية الواجهة. تُغلق عبر زر ×، مفتاح <kbd>Escape</kbd>، أو النقر خارج البطاقة.</p>
+
+      <div class="ambox ambox-success">
+        <strong>الخصوصية بالتصميم:</strong> في وضع العرض التجريبي، لا شيء يغادر المتصفح. في أي وضع ذكاء اصطناعي آخر، تُرسَل فقط رسائلك المكتوبة/المنطوقة إلى واجهة برمجة ذلك المزوّد &mdash; الإعدادات، اسم الروبوت، وسجل الدردشة تبقى في <code>localStorage</code> فقط.
+      </div>
+
+      <h2 id="privacy">البيانات &amp; الخصوصية</h2>
+      <ul>
+        <li>يعمل <strong>وضع العرض التجريبي</strong> دون اتصال بالإنترنت تمامًا.</li>
+        <li>ترسل <strong>أوضاع الذكاء الاصطناعي</strong> رسائلك إلى خوادم المزوّد المختار (Groq/Google/Cohere/Mistral/OpenRouter).</li>
+        <li>تُخزَّن الإعدادات واسم/شخصية الروبوت وسجل الدردشة فقط في <code>localStorage</code> الخاص بالمتصفح &mdash; لا شيء يُرفع في أي مكان آخر.</li>
+        <li>لا تحليلات، لا سكربتات تتبّع.</li>
+      </ul>
+
+      <h2 id="troubleshooting">حل المشكلات</h2>
+      <table class="wikitable">
+        <tr><th>العرض</th><th>السبب / الحل</th></tr>
+        <tr><td>الميكروفون أو البلوتوث لا يعملان</td><td>يتطلب Chrome أو Edge، وسياقًا آمنًا (<code>https://</code> أو <code>localhost</code>) &mdash; وليس <code>file:///</code>.</td></tr>
+        <tr><td>اسم الروبوت لا يبدو أنه يُحفظ</td><td>تم الإصلاح: يُحفظ حقل الاسم الآن عند كل ضغطة مفتاح مع إشعار تأكيد، لذا لا ينبغي أن يتكرر هذا في الإصدارات الحالية.</td></tr>
+        <tr><td>التطبيق عالق بالإنجليزية بعد اختيار علم آخر</td><td>تحقق من أن JavaScript غير محظور؛ تستدعي أزرار الأعلام <code>setLanguage()</code>، التي تحفظ أيضًا الاختيار في <code>localStorage</code>.</td></tr>
+        <tr><td>الـ micro:bit لا يستجيب</td><td>أعد التحميل بالكود من <a href="https://abourdim.github.io/bit-bot/flash.html">flash.html</a> &mdash; تأكد من ضبط إضافة <code>bluetooth</code> و«لا حاجة للاقتران» كلاهما في MakeCode.</td></tr>
+      </table>
+
+      <div class="catlinks">
+        التصنيفات: <a href="index.html">الذكاء الاصطناعي</a> | <a href="index.html">micro:bit</a> | <a href="index.html">الأطفال</a> | <a href="index.html">تطبيقات الويب</a>
+      </div>
+    </article>
+  </div>
+</div>
+
+<div class="footer-wiki">
+  أُنشئت هذه الصفحة في 29 يوليو 2026. المحتوى مبني على مستودع <a href="https://github.com/abourdim/bit-bot">bit-bot</a> واختبار مباشر للتطبيق المباشر.
+</div>
+
+</body>
+</html>

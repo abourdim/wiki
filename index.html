@@ -1,23 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Main Page - Wiki</title>
+<title>Page principale - Wiki</title>
 <link rel="stylesheet" href="wiki.css">
 </head>
 <body>
 
 <div class="masthead">
   <div class="masthead-inner">
-    <a class="wiki-logo" href="https://workshop-diy.org"><img src="logo.png" alt="Wiki logo"></a>
+    <a class="wiki-logo" href="https://workshop-diy.org"><img src="logo.png" alt="Logo du wiki"></a>
     <a class="masthead-site-link" href="https://workshop-diy.org">workshop-diy.org</a>
     <div class="masthead-title">
       Wiki
-      <span class="sub">The free personal knowledge base</span>
+      <span class="sub">La base de connaissances personnelle et gratuite</span>
     </div>
-    <div class="masthead-search">
-      <input type="text" placeholder="Search Wiki" disabled>
+    <div class="masthead-actions">
+      <div class="lang-switch" role="group" aria-label="Langue">
+        <a href="index.html" class="lang-switch-btn active" title="Français"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="20" height="40" fill="#002395"/><rect x="20" width="20" height="40" fill="#fff"/><rect x="40" width="20" height="40" fill="#ED2939"/></svg></a>
+        <a href="index-en.html" class="lang-switch-btn" title="English"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="60" height="40" fill="#012169"/><path d="M0 0L60 40M60 0L0 40" stroke="#fff" stroke-width="6.5"/><path d="M0 0L60 40M60 0L0 40" stroke="#C8102E" stroke-width="3.5"/><path d="M30 0V40M0 20H60" stroke="#fff" stroke-width="11"/><path d="M30 0V40M0 20H60" stroke="#C8102E" stroke-width="6.5"/></svg></a>
+        <a href="index-ar.html" class="lang-switch-btn" title="العربية"><svg width="24" height="16" viewBox="0 0 900 600"><defs><clipPath id="glIXfr"><rect width="450" height="600"/></clipPath></defs><rect width="450" height="600" fill="#006233"/><rect x="450" width="450" height="600" fill="#FFF"/><g fill="#D21034" transform="translate(450,300)"><circle r="125"/><circle cx="25" r="100" fill="#FFF"/><g clip-path="url(#glIXfr)" transform="translate(-450,-300)"><circle cx="475" cy="300" r="100" fill="#006233"/></g><path d="M85-12l22 67h71l-57 42 22 67-58-42-57 42 21-67-57-42h71z"/></g></svg></a>
+      </div>
+      <div class="masthead-search">
+        <input type="text" placeholder="Rechercher dans le wiki" disabled>
+      </div>
     </div>
   </div>
 </div>
@@ -27,127 +34,130 @@
   <div class="sidebar">
     <h3>Navigation</h3>
     <ul>
-      <li><a href="index.html">Main page</a></li>
-      <li><a href="#">Recent changes</a></li>
-      <li><a href="#">Random page</a></li>
+      <li><a href="index.html">Page principale</a></li>
+      <li><a href="#">Modifications récentes</a></li>
+      <li><a href="#">Page au hasard</a></li>
     </ul>
-    <h3>Categories</h3>
+    <h3>Catégories</h3>
     <ul>
-      <li><a href="#">Networking</a></li>
+      <li><a href="#">Réseaux</a></li>
       <li><a href="#">Linux</a></li>
       <li><a href="#">Windows</a></li>
-      <li><a href="#">Electronics</a></li>
+      <li><a href="#">Électronique</a></li>
       <li><a href="#">ESP32</a></li>
     </ul>
-    <h3>Tools</h3>
+    <h3>Outils</h3>
     <ul>
-      <li><a href="https://github.com/abourdim/wiki">View source repo</a></li>
+      <li><a href="https://github.com/abourdim/wiki">Voir le dépôt du code source</a></li>
     </ul>
   </div>
 
   <div class="content-wrap">
     <div class="article-tabs">
       <span class="active">Article</span>
-      <span>Talk</span>
+      <span>Discussion</span>
     </div>
 
     <article>
-      <h1 class="page-title">Main Page</h1>
+      <h1 class="page-title">Page principale</h1>
 
-      <p>Welcome to <strong>Wiki</strong>, a personal knowledge base of guides and notes.</p>
+      <p>Bienvenue sur <strong>Wiki</strong>, une base de connaissances personnelle de guides et de notes.</p>
 
-      <h2>Featured articles</h2>
+      <h2>Articles à la une</h2>
       <ul>
         <li>
-          <a href="windows-ubuntu-file-sharing-tutorial.html">Sharing Files Between Ubuntu &amp; Windows 11</a>
-          &mdash; Step-by-step guide to setting up SMB file sharing in both directions on a local network,
-          plus RDP setup and troubleshooting notes.
-          <span class="status-tag done">complete</span>
+          <a href="windows-ubuntu-file-sharing-tutorial.html">Partage de fichiers entre Ubuntu &amp; Windows 11</a>
+          &mdash; Guide étape par étape pour mettre en place le partage de fichiers SMB dans les deux sens sur un
+          réseau local, ainsi que la configuration RDP et des notes de dépannage.
+          <span class="status-tag done">terminé</span>
         </li>
         <li>
           <a href="video-car.html">VideoCar</a>
-          &mdash; Enhanced firmware and web control page for the keyestudio ESP32-CAM Video Smart Car:
-          joystick control, failsafe, live Vision overlays, autonomous Follow-me/Line/Colour-chase modes.
-          <span class="status-tag done">complete</span>
+          &mdash; Firmware amélioré et page de contrôle web pour la keyestudio ESP32-CAM Video Smart Car :
+          contrôle par joystick, dispositif de sécurité, superpositions de vision en direct, modes autonomes
+          Suivi automatique/Ligne/Poursuite de couleur.
+          <span class="status-tag done">terminé</span>
         </li>
         <li>
           <a href="bit-bot.html">Bit-Bot</a>
-          &mdash; AI robot companion for kids: voice chat with a choice of AI providers, 12 personalities,
-          AI-powered mini-games, and an optional BBC micro:bit link over Bluetooth. Full EN/FR/AR translation.
-          <span class="status-tag done">complete</span>
+          &mdash; Compagnon robot IA pour enfants : discussion vocale avec un choix de fournisseurs IA, 12
+          personnalités, mini-jeux propulsés par l'IA, et une liaison optionnelle BBC micro:bit via Bluetooth.
+          Traduction complète EN/FR/AR.
+          <span class="status-tag done">terminé</span>
         </li>
         <li>
           <a href="talking-robot.html">Talking Robot</a>
-          &mdash; Browser speech &amp; emotion robot: text-to-speech, speech recognition, 13 animated
-          emotions, and an optional BBC micro:bit link over Bluetooth. No AI provider, fully offline.
-          <span class="status-tag done">complete</span>
+          &mdash; Robot de parole &amp; d'émotion dans le navigateur : synthèse vocale, reconnaissance vocale,
+          13 émotions animées, et une liaison optionnelle BBC micro:bit via Bluetooth. Aucun fournisseur IA,
+          entièrement hors ligne.
+          <span class="status-tag done">terminé</span>
         </li>
         <li>
           <a href="bit-playground.html">micro:bit Playground</a>
-          &mdash; 8-tab BLE control panel and sensor dashboard for the BBC micro:bit V2: live sensor
-          graphing, servo control, 5 interactive 3D robot models, and a 30+ command firmware protocol.
-          Full EN/FR/AR translation.
-          <span class="status-tag done">complete</span>
+          &mdash; Tableau de bord de contrôle BLE à 8 tabulations et tableau de bord de capteurs pour le BBC
+          micro:bit V2 : rendu graphique de capteurs en direct, contrôle de servo, 5 modèles de robot 3D
+          interactifs, et un protocole de firmware de plus de 30 commandes. Traduction complète EN/FR/AR.
+          <span class="status-tag done">terminé</span>
         </li>
         <li>
           <a href="bit-rxy.html">Micro:bit Remote Builder (bit-rxy)</a>
-          &mdash; Drag-and-drop BLE remote-control builder: design a layout from 12 widget types and it
-          generates matching MakeCode firmware automatically, with one-click flashing over Bluetooth
-          Partial Flashing Service or WebUSB.
-          <span class="status-tag done">complete</span>
+          &mdash; Constructeur de télécommande BLE par glisser-déposer : concevez une mise en page à partir de
+          12 types de widgets et il génère automatiquement le firmware MakeCode correspondant, avec flash en un
+          clic via le service de flash partiel Bluetooth ou WebUSB.
+          <span class="status-tag done">terminé</span>
         </li>
       </ul>
 
-      <h2>Categories</h2>
+      <h2>Catégories</h2>
       <table class="wikitable">
-        <tr><th>Category</th><th>Articles</th><th>Created</th><th>Last edited</th></tr>
+        <tr><th>Catégorie</th><th>Articles</th><th>Créé</th><th>Dernière modification</th></tr>
         <tr>
-          <td>Networking</td>
-          <td><a href="windows-ubuntu-file-sharing-tutorial.html">Sharing Files Between Ubuntu &amp; Windows 11</a></td>
-          <td>27 July 2026</td>
-          <td>27 July 2026</td>
+          <td>Réseaux</td>
+          <td><a href="windows-ubuntu-file-sharing-tutorial.html">Partage de fichiers entre Ubuntu &amp; Windows 11</a></td>
+          <td>27 juillet 2026</td>
+          <td>27 juillet 2026</td>
         </tr>
         <tr>
-          <td>Electronics / ESP32</td>
+          <td>Électronique / ESP32</td>
           <td><a href="video-car.html">VideoCar</a></td>
-          <td>27 July 2026</td>
-          <td>27 July 2026</td>
+          <td>27 juillet 2026</td>
+          <td>27 juillet 2026</td>
         </tr>
         <tr>
-          <td>AI / micro:bit</td>
+          <td>IA / micro:bit</td>
           <td><a href="bit-bot.html">Bit-Bot</a></td>
-          <td>29 July 2026</td>
-          <td>29 July 2026</td>
+          <td>29 juillet 2026</td>
+          <td>29 juillet 2026</td>
         </tr>
         <tr>
           <td>micro:bit / Web Speech API</td>
           <td><a href="talking-robot.html">Talking Robot</a></td>
-          <td>29 July 2026</td>
-          <td>29 July 2026</td>
+          <td>29 juillet 2026</td>
+          <td>29 juillet 2026</td>
         </tr>
         <tr>
-          <td>micro:bit / Robotics / 3D graphics</td>
+          <td>micro:bit / Robotique / Graphisme 3D</td>
           <td><a href="bit-playground.html">micro:bit Playground</a></td>
-          <td>29 July 2026</td>
-          <td>29 July 2026</td>
+          <td>29 juillet 2026</td>
+          <td>29 juillet 2026</td>
         </tr>
         <tr>
           <td>micro:bit / Bluetooth</td>
           <td><a href="bit-rxy.html">Micro:bit Remote Builder (bit-rxy)</a></td>
-          <td>29 July 2026</td>
-          <td>30 July 2026</td>
+          <td>29 juillet 2026</td>
+          <td>30 juillet 2026</td>
         </tr>
       </table>
 
       <div class="catlinks">
-        Categories: <a href="#">Guides</a> | <a href="#">Networking</a> | <a href="#">Home lab</a> | <a href="#">Electronics</a> | <a href="#">ESP32</a> | <a href="#">micro:bit</a> | <a href="#">AI</a> | <a href="#">Robotics</a> | <a href="#">3D graphics</a> | <a href="#">Bluetooth</a>
+        Catégories : <a href="#">Guides</a> | <a href="#">Réseaux</a> | <a href="#">Home lab</a> | <a href="#">Électronique</a> | <a href="#">ESP32</a> | <a href="#">micro:bit</a> | <a href="#">IA</a> | <a href="#">Robotique</a> | <a href="#">Graphisme 3D</a> | <a href="#">Bluetooth</a>
       </div>
     </article>
   </div>
 </div>
 
 <div class="footer-wiki">
-  This page was last edited on 27 July 2026. Content is available for personal reference.
+  Cette page a été modifiée pour la dernière fois le 30 juillet 2026. Contenu disponible pour référence personnelle.
 </div>
 
 </body>

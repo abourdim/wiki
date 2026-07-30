@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VideoCar - Wiki</title>
+<link rel="stylesheet" href="wiki.css">
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-inner">
+    <a class="wiki-logo" href="https://workshop-diy.org"><img src="logo.png" alt="Wiki logo"></a>
+    <a class="masthead-site-link" href="https://workshop-diy.org">workshop-diy.org</a>
+    <div class="masthead-title">
+      Wiki
+      <span class="sub">The free personal knowledge base</span>
+    </div>
+    <div class="masthead-actions">
+      <div class="lang-switch" role="group" aria-label="Language">
+        <a href="video-car.html" class="lang-switch-btn" title="Français"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="20" height="40" fill="#002395"/><rect x="20" width="20" height="40" fill="#fff"/><rect x="40" width="20" height="40" fill="#ED2939"/></svg></a>
+        <a href="video-car-en.html" class="lang-switch-btn active" title="English"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="60" height="40" fill="#012169"/><path d="M0 0L60 40M60 0L0 40" stroke="#fff" stroke-width="6.5"/><path d="M0 0L60 40M60 0L0 40" stroke="#C8102E" stroke-width="3.5"/><path d="M30 0V40M0 20H60" stroke="#fff" stroke-width="11"/><path d="M30 0V40M0 20H60" stroke="#C8102E" stroke-width="6.5"/></svg></a>
+        <a href="video-car-ar.html" class="lang-switch-btn" title="العربية"><svg width="24" height="16" viewBox="0 0 900 600"><defs><clipPath id="glVCen"><rect width="450" height="600"/></clipPath></defs><rect width="450" height="600" fill="#006233"/><rect x="450" width="450" height="600" fill="#FFF"/><g fill="#D21034" transform="translate(450,300)"><circle r="125"/><circle cx="25" r="100" fill="#FFF"/><g clip-path="url(#glVCen)" transform="translate(-450,-300)"><circle cx="475" cy="300" r="100" fill="#006233"/></g><path d="M85-12l22 67h71l-57 42 22 67-58-42-57 42 21-67-57-42h71z"/></g></svg></a>
+      </div>
+      <div class="masthead-search">
+        <input type="text" placeholder="Search Wiki" disabled>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wiki-layout">
+
+  <div class="sidebar">
+    <h3>Navigation</h3>
+    <ul>
+      <li><a href="index.html">Main page</a></li>
+      <li><a href="#">Recent changes</a></li>
+      <li><a href="#">Random page</a></li>
+    </ul>
+    <h3>Categories</h3>
+    <ul>
+      <li><a href="index.html">Networking</a></li>
+      <li><a href="index.html">Linux</a></li>
+      <li><a href="index.html">Windows</a></li>
+      <li><a href="index.html">Electronics</a></li>
+      <li><a href="index.html">ESP32</a></li>
+    </ul>
+    <h3>Tools</h3>
+    <ul>
+      <li><a href="https://github.com/abourdim/video-car">View source repo</a></li>
+    </ul>
+  </div>
+
+  <div class="content-wrap">
+    <div class="article-tabs">
+      <span class="active">Article</span>
+      <span>Talk</span>
+    </div>
+
+    <article>
+      <h1 class="page-title">VideoCar</h1>
+
+      <div class="infobox">
+        <div class="infobox-title">VideoCar</div>
+        <table>
+          <tr><th>Board</th><td>ESP32-CAM (AI-Thinker)</td></tr>
+          <tr><th>Kit</th><td>keyestudio KS5017</td></tr>
+          <tr><th>Build systems</th><td>PlatformIO &amp; Arduino IDE</td></tr>
+          <tr><th>Control</th><td>Web UI over WiFi (AP or station mode)</td></tr>
+          <tr><th>Repository</th><td><a href="https://github.com/abourdim/video-car">github.com/abourdim/video-car</a></td></tr>
+        </table>
+      </div>
+
+      <p class="hatnote">This article covers the enhanced firmware and web control page for the keyestudio ESP32-CAM Video Smart Car, built on top of the stock keyestudio sketch.</p>
+
+      <div class="toc">
+        <div class="toc-title">Contents</div>
+        <ol>
+          <li><a href="#overview">Overview</a></li>
+          <li><a href="#quickstart">Quick start</a></li>
+          <li><a href="#walkthrough">Step-by-step: clone, flash &amp; test</a></li>
+          <li><a href="#understanding">Understanding the code (for newbies)</a></li>
+          <li><a href="#features">Features vs. stock sketch</a></li>
+          <li><a href="#layout">Repository layout</a></li>
+          <li><a href="#builds">Build systems</a></li>
+          <li><a href="#troubleshooting">Troubleshooting</a></li>
+        </ol>
+      </div>
+
+      <h2 id="overview">Overview</h2>
+      <p><strong>VideoCar</strong> is an enhanced firmware and web control page for the keyestudio ESP32-CAM Video Smart Car. It builds on keyestudio's stock sketch, adding a virtual joystick, a connection-loss failsafe, snapshot/video capture, a redesigned control UI, and a PlatformIO build system alongside the original Arduino IDE sketch.</p>
+
+      <div class="ambox ambox-notice">
+        <strong>Hardware assembly:</strong> the official <a href="https://docs.keyestudio.com/projects/KS5017/en/latest/docs/Tutorial.html">keyestudio KS5017 tutorial</a> covers the kit list, assembly steps, pinout, and the original stock code this project builds on. Start there for physical assembly; this repo picks up once the car is built and the stock sketch runs.
+      </div>
+
+      <div class="ambox">
+        <strong>Vision features need internet:</strong> the default AP mode (<code>ap = 1</code>) hosts an isolated <code>keyes1</code> network with no internet. Pose, Hand tracking, Facial expression, Plates, AI Vision, and the jsQR fallback all download models from a CDN on first use, so they fail to start on the car's own AP. Driving, video streaming, snapshots, and recording all work fine there. To use the model-backed features, set <code>ap = 0</code> with your router's SSID/password and reflash. The exception is <strong>QR / Barcode</strong> on Chrome/Edge/Android Chrome, which uses the browser's built-in <code>BarcodeDetector</code> and needs no network at all.
+      </div>
+
+      <h2 id="quickstart">Quick start</h2>
+      <p><strong>Arduino IDE</strong> (known-good baseline): open <code>Codes/4_VideoCar/4_VideoCar.ino</code>, select your <code>esp32</code> board package version under <em>Tools &gt; Board &gt; Boards Manager</em>, enable <em>Tools &gt; PSRAM: Enabled</em>, select the AI-Thinker ESP32-CAM board, and flash as usual.</p>
+
+      <p><strong>PlatformIO</strong>:</p>
+      <pre><code>./launch.sh</code></pre>
+      <p>Walks you through checking/installing PlatformIO, building, flashing, and opening a serial monitor.</p>
+
+      <p>Once flashed, connect to the <span class="key-value">keyes1</span> WiFi network (password <span class="key-value">88888888</span>) and open <span class="key-value">http://192.168.4.1</span> in a browser.</p>
+
+      <div class="ambox ambox-notice">
+        New to this, or want to drive the car from your own scripts? <code>ports.html</code> in the repo is a step-by-step guide to both servers &mdash; what port 80 and port 81 each do, every endpoint with its value ranges, and the 500ms failsafe that catches people out the first time they try to drive it with <code>curl</code>. The full walkthrough below is adapted from it.
+      </div>
+
+      <h2 id="walkthrough">Step-by-step: clone, flash &amp; test</h2>
+      <p>This walkthrough takes you from a bare checkout to a car driving on the desk and both web servers verified working. No prior knowledge of HTTP assumed; nothing here requires editing or recompiling the firmware.</p>
+
+      <div class="ambox">
+        <strong>Put the car on blocks before any of the driving steps.</strong> A book under each side, wheels clear of the desk. You are about to send it commands by hand, and it is easy to send "forward" and then go looking for the stop command while it drives off the table.
+      </div>
+
+      <h3>1. Clone the repository</h3>
+      <pre><code>git clone https://github.com/abourdim/video-car.git
+cd video-car</code></pre>
+      <p>A car with the KS5017 kit already assembled per the <a href="https://docs.keyestudio.com/projects/KS5017/en/latest/docs/Tutorial.html">official keyestudio tutorial</a>, and a USB cable to the ESP32-CAM's FTDI adapter.</p>
+
+      <h3>2. Pick a build system and flash</h3>
+      <p><strong>Option A &mdash; Arduino IDE</strong> (known-good baseline): open <code>Codes/4_VideoCar/4_VideoCar.ino</code>, select your <code>esp32</code> board package version under <em>Tools &gt; Board &gt; Boards Manager</em>, enable <em>Tools &gt; PSRAM: Enabled</em>, set <em>Tools &gt; Partition Scheme</em> to one with enough app space (e.g. "Huge APP (3MB No OTA/1MB SPIFFS)"), select the AI-Thinker ESP32-CAM board, and click Upload.</p>
+      <p><strong>Option B &mdash; PlatformIO</strong>:</p>
+      <pre><code>./launch.sh</code></pre>
+      <p>Walks you through checking/installing PlatformIO, selecting the <code>4_videocar</code> app, building, flashing, and opening a serial monitor (menu options 0 through 8).</p>
+      <p>Watch the serial monitor (115200 baud) while it boots. A healthy boot looks like:</p>
+      <pre><code>VideoCar v1.5.0  |  built Jul 26 2026 12:47:05  |  33fd730
+Starting web server on port: '80'
+Starting stream server on port: '81'
+Camera Ready! Use 'http://192.168.4.1' to connect</code></pre>
+
+      <h3>3. Get on the same network as the car</h3>
+      <p><strong>Default (access point mode).</strong> The car makes its own WiFi network. On your phone or laptop, join:</p>
+      <pre><code>network:  keyes1
+password: 88888888</code></pre>
+      <p>The car is then always at <span class="key-value">192.168.4.1</span>. It has no internet connection &mdash; it is a network of exactly two devices, you and the car. On a phone, expect (and ignore) a warning that the network has no internet.</p>
+      <p>If you reflashed with station mode (<code>ap = 0</code>), the car joins your router instead and the router decides its address &mdash; read the boot message on the serial console for the actual IP and use that in place of <code>192.168.4.1</code> below.</p>
+
+      <h3>4. Open the control page &mdash; port 80</h3>
+      <pre><code>http://192.168.4.1/</code></pre>
+      <p>No port number needed; the browser fills in 80 silently. You should see the dark control page, live video within a second or two, and a build stamp in the footer.</p>
+      <div class="ambox ambox-notice">Blank page or a spinner forever? Confirm you typed <code>http://</code> and not <code>https://</code> &mdash; the car speaks plain HTTP only, and some browsers try HTTPS first and give up quietly.</div>
+
+      <h3>5. Watch the raw video &mdash; port 81</h3>
+      <p>Open a new tab and go to:</p>
+      <pre><code>http://192.168.4.1:81/stream</code></pre>
+      <p>You get the video on its own, filling the window, with no page around it &mdash; the same MJPEG data the control page wraps in an <code>&lt;img&gt;</code> tag. If this tab shows video, the camera and both servers are fine and any problem is in the page. The tab spinner never stops &mdash; that's correct, the response never finishes. Close this tab before driving; every open stream consumes one of the camera's limited frame buffers.</p>
+
+      <h3>6. Take a single photo</h3>
+      <pre><code>http://192.168.4.1/capture</code></pre>
+      <p>One JPEG taken the moment you ask, then the connection closes normally &mdash; the opposite of the stream. From a terminal:</p>
+      <pre><code># save one frame as shot.jpg
+curl http://192.168.4.1/capture -o shot.jpg</code></pre>
+
+      <h3>7. Ask the car what it is doing</h3>
+      <pre><code>http://192.168.4.1/status</code></pre>
+      <p>Returns JSON with every current setting plus firmware version, build time, and git revision:</p>
+      <pre><code>{"framesize":5,"quality":10,"vflip":1,"hmirror":1,
+ "speed":8,"trim":0,"flash":0,
+ "version":"1.5.0","build":"Jul 26 2026 12:47:05","gitrev":"33fd730"}</code></pre>
+      <p>This is what the control page itself calls on load to restore your sliders, and every two seconds after as a connection check.</p>
+
+      <h3>8. Change a setting by hand</h3>
+      <p>Settings use one endpoint with two parameters: <code>var</code> (what to change) and <code>val</code> (the new value). Try the headlight, which is harmless and obvious:</p>
+      <pre><code># half brightness
+http://192.168.4.1/control?var=flash&val=128
+
+# off again
+http://192.168.4.1/control?var=flash&val=0</code></pre>
+      <p>From a terminal, note the quotes &mdash; <code>&amp;</code> means something special to most shells, so the URL must be quoted:</p>
+      <pre><code>curl "http://192.168.4.1/control?var=flash&val=128"</code></pre>
+      <p>The white LED on the front should come on, then off. Settings are saved to the car's flash and survive a reboot.</p>
+
+      <h3>9. Drive it &mdash; and meet the failsafe</h3>
+      <p>Driving uses the same endpoint with <code>var=car</code>:</p>
+      <pre><code>val=1  forward     val=4  turn right
+val=2  backward    val=5  stop
+val=3  turn left</code></pre>
+      <pre><code>curl "http://192.168.4.1/control?var=car&val=1"</code></pre>
+      <p>The wheels turn for about half a second and stop &mdash; nothing is broken. The firmware stops the motors if <strong>500ms</strong> pass with no new command, so a dropped WiFi connection or a closed laptop can't leave it driving forever. One command is a lease, not an instruction &mdash; to keep moving, keep renewing it, which is exactly what the control page does every 100ms. To drive forward for three seconds from a terminal:</p>
+      <pre><code># macOS / Linux
+end=$((SECONDS+3))
+while [ $SECONDS -lt $end ]; do
+  curl -s "http://192.168.4.1/control?var=car&val=1" &gt; /dev/null
+  sleep 0.1
+done
+curl -s "http://192.168.4.1/control?var=car&val=5" &gt; /dev/null   # stop</code></pre>
+
+      <h3>10. Steer smoothly instead of in four directions</h3>
+      <p><code>/control?var=car</code> only knows four directions and stop. For proportional control &mdash; any direction, any speed &mdash; use the joystick endpoint (both values <code>-100</code> to <code>100</code>; <code>x</code> is steering, <code>y</code> is throttle):</p>
+      <pre><code>http://192.168.4.1/joystick?x=0&amp;y=100      full speed ahead
+http://192.168.4.1/joystick?x=100&amp;y=0      spin right on the spot
+http://192.168.4.1/joystick?x=-50&amp;y=60     forward, curving left
+http://192.168.4.1/joystick?x=0&amp;y=0        stop</code></pre>
+      <p>The same 500ms failsafe applies &mdash; repeat it roughly ten times a second for as long as you want to move.</p>
+
+      <h3>11. Run the quick test script</h3>
+      <p>Checks both servers and reports what it finds (wheels on blocks &mdash; it drives briefly):</p>
+      <pre><code>#!/bin/bash
+CAR=http://192.168.4.1
+
+echo "--- port 80: status ---"
+curl -s $CAR/status || echo "NO RESPONSE on port 80"
+echo
+
+echo "--- port 80: still photo ---"
+curl -s $CAR/capture -o /tmp/shot.jpg && ls -l /tmp/shot.jpg
+
+echo "--- port 81: stream (first 2 seconds) ---"
+curl -s --max-time 2 $CAR:81/stream -o /tmp/stream.bin
+echo "received $(wc -c &lt; /tmp/stream.bin) bytes of video"
+
+echo "--- drive forward 1s, then stop ---"
+end=$((SECONDS+1))
+while [ $SECONDS -lt $end ]; do
+  curl -s "$CAR/control?var=car&val=1" &gt; /dev/null; sleep 0.1
+done
+curl -s "$CAR/control?var=car&val=5" &gt; /dev/null
+echo "done"</code></pre>
+      <p>A healthy car gives you a line of JSON, a <code>shot.jpg</code> of a few kilobytes, tens of kilobytes of video, and one second of wheel movement. If the JSON arrives but the video doesn't, the stream server failed to start &mdash; check the serial console at boot for both <code>port: '80'</code> and <code>port: '81'</code> lines.</p>
+
+      <h3>Full endpoint reference &mdash; port 80</h3>
+      <table class="wikitable">
+        <tr><th>Request</th><th>Returns</th><th>Notes</th></tr>
+        <tr><td><code>GET /</code></td><td>HTML</td>
+          <td>The control page. Sent with <code>Cache-Control: no-store</code>, so you always get the page belonging to the firmware that is actually running.</td></tr>
+        <tr><td><code>GET /status</code></td><td>JSON</td>
+          <td>All current settings plus firmware version, build time and git revision.</td></tr>
+        <tr><td><code>GET /capture</code></td><td>JPEG</td>
+          <td>One still frame at the current resolution and quality.</td></tr>
+        <tr><td><code>GET /control?var=&hellip;&amp;val=&hellip;</code></td><td>empty</td>
+          <td>Settings and basic driving. See the values table below.</td></tr>
+        <tr><td><code>GET /joystick?x=&hellip;&amp;y=&hellip;</code></td><td>empty</td>
+          <td>Proportional driving. Both &minus;100 to 100; out-of-range values are clamped, not rejected.</td></tr>
+      </table>
+
+      <p>Values for <code>/control</code>:</p>
+      <table class="wikitable">
+        <tr><th>var</th><th>val</th><th>Effect</th></tr>
+        <tr><td><code>car</code></td><td>1&ndash;5</td>
+          <td>1 forward, 2 backward, 3 left, 4 right, 5 stop. Subject to the 500ms failsafe &mdash; repeat to keep moving.</td></tr>
+        <tr><td><code>speed</code></td><td>0&ndash;8</td>
+          <td>Overall speed cap. Multiplied by 31 internally, so 8 means a PWM ceiling of 248 out of 255.</td></tr>
+        <tr><td><code>trim</code></td><td>&minus;32&ndash;32</td>
+          <td>Corrects a car that drifts when it should go straight. Negative favours one motor, positive the other.</td></tr>
+        <tr><td><code>flash</code></td><td>0&ndash;255</td>
+          <td>Front LED brightness.</td></tr>
+        <tr><td><code>framesize</code></td><td>0&ndash;6</td>
+          <td>Resolution. 0 = 96&times;96, 1 = QQVGA, 2 = QCIF, 3 = HQVGA, 4 = 240&times;240, 5 = QVGA 320&times;240 (default), 6 = CIF. Bigger is slower.</td></tr>
+        <tr><td><code>quality</code></td><td>10&ndash;63</td>
+          <td>JPEG quality, runs backwards: lower numbers look better and produce bigger frames.</td></tr>
+        <tr><td><code>vflip</code></td><td>0 or 1</td><td>Flip the picture vertically.</td></tr>
+        <tr><td><code>hmirror</code></td><td>0 or 1</td><td>Mirror the picture horizontally.</td></tr>
+      </table>
+      <p>Everything except <code>car</code> is saved to the car's flash memory and survives a power cycle. Only <code>car</code> and <code>/joystick</code> reset the failsafe timer &mdash; changing a setting does not count as "I am still here".</p>
+
+      <h3>Full endpoint reference &mdash; port 81</h3>
+      <table class="wikitable">
+        <tr><th>Request</th><th>Returns</th><th>Notes</th></tr>
+        <tr><td><code>GET :81/stream</code></td>
+          <td><code>multipart/x-mixed-replace</code></td>
+          <td>Endless JPEG frames. The only endpoint on this port.</td></tr>
+      </table>
+      <p>Frames are separated by a fixed boundary marker, each with its own <code>Content-Type: image/jpeg</code> and length, and the server sends <code>Access-Control-Allow-Origin: *</code> so a web page on port 80 is allowed to read the pixels &mdash; which is how the vision features work.</p>
+
+      <h3>Things that will trip you up</h3>
+      <ul>
+        <li><strong>Only one device can join the car's WiFi.</strong> The access point is configured for a single client. An ungraceful disconnect can hold the slot for a minute or two &mdash; if you can't reconnect, wait, or power-cycle the car.</li>
+        <li><strong>One stream viewer at a time, in practice.</strong> Nothing stops you opening two, but they compete for camera buffers and both suffer.</li>
+        <li><strong>There is no password on any of this.</strong> Anyone on the network can drive the car, and every command is a plain URL. Treat the car's network as untrusted and don't leave it running unattended.</li>
+        <li><strong><code>&amp;</code> needs quoting in a shell.</strong> An unquoted <code>&amp;</code> tells most shells to run the command in the background, so only the first parameter arrives. Always quote the whole URL.</li>
+        <li><strong>Don't write <code>:80</code> explicitly.</strong> Some of the page's JavaScript builds the stream URL from the current address, and an explicit <code>:80</code> turns into a broken <code>:80:81</code>. Just omit it.</li>
+        <li><strong>Higher resolution is not free.</strong> <code>framesize=6</code> quadruples the data over the same WiFi. If the stream turns into a slideshow, go back to 5.</li>
+        <li><strong>Settings persist, so surprises persist too.</strong> If the car boots with the light on or the picture upside down, that's a saved setting from last time, not a fault.</li>
+      </ul>
+
+      <h2 id="understanding">Understanding the code (for newbie developers)</h2>
+      <p class="hatnote">This section is for anyone who has flashed and driven the car and now wants to open the source and change something. It assumes no prior embedded/C++ experience. If you only want to use the car, you can skip this entirely &mdash; nothing below is required reading.</p>
+
+      <div class="ambox ambox-notice">
+        <strong>You don't need to understand any of this to build, flash, and drive the car.</strong> Everything in this section is here for when you're ready to start modifying the firmware, not before.
+      </div>
+
+      <h3>The three files that matter</h3>
+      <p>The project has many files, but only three contain logic you're likely to touch. Everything else (build configs, the stock demo sketches) is boilerplate.</p>
+      <div class="diagram"><pre style="margin:0;border:0;padding:0;background:none;">  4_VideoCar.ino   <b>&mdash; the main program.</b> Runs once at boot (setup),
+        │             then forever in a loop (loop). The only file you compile
+        │             and flash directly.
+        │
+        ├──includes──▶  SetMotor.h    <b>&mdash; talks to the motor driver chip.</b>
+        │                 Five tiny functions: forward, backwards, left, right, stop.
+        │                 Want a new driving behaviour (e.g. "spin in place")?
+        │                 Start here.
+        │
+        └──includes──▶  app_server.h  <b>&mdash; runs the website and the URL commands.</b>
+                          Defines every <i>/endpoint</i> (/status, /control, /capture...)
+                          and the HTML control page itself.
+                          Want a new URL or a new setting? Start here.</pre></div>
+      <p><code>.ino</code> is the entry point; the two <code>.h</code> files are libraries it pulls in with <code>#include</code>. This is a common Arduino project shape: keep <code>setup()</code>/<code>loop()</code> short and readable, push everything else into headers.</p>
+
+      <h3>What happens once, at power-on: <code>setup()</code></h3>
+      <p><code>setup()</code> runs exactly one time, right after the board powers up or resets. Here is the actual order of operations in <code>4_VideoCar.ino</code>, with the real code and what each part is for:</p>
+
+      <div class="diagram"><pre style="margin:0;border:0;padding:0;background:none;">  power on
+     │
+     ▼
+  <b>1</b> disable brownout detector  ──▶  <b>2</b> init camera pins/config
+     │                                        │
+     ▼                                        ▼
+  <b>6</b> start web server  ◀──  <b>5</b> connect WiFi  ◀──  <b>4</b> load saved settings  ◀──  <b>3</b> camera init (retry once if it fails)
+     │
+     ▼
+  <b>7</b> blink LED 5x ("ready")</pre></div>
+
+      <p><strong>1. Turn off the brownout detector</strong> &mdash; this is the very first line executed:</p>
+      <pre><code>WRITE_PERI_REG(RTC_CNTL_BROWN_OUT_REG, 0);</code></pre>
+      <p>The camera draws a brief current spike when it initializes. On a marginal power supply this can sag the voltage enough to trip the ESP32's built-in brownout safety reset. Disabling it lets a slightly weak supply still boot &mdash; but it only hides the symptom. If you still get camera failures, the real fix is a better 5V/2A supply, not code.</p>
+
+      <p><strong>2&ndash;3. Configure and initialize the camera</strong>, with a fallback retry:</p>
+      <pre><code>config.xclk_freq_hz = 20000000;
+esp_err_t err = esp_camera_init(&amp;config);
+if (err != ESP_OK) {
+  Serial.printf("Camera init failed at 20MHz (0x%x), retrying at 10MHz...\n", err);
+  config.xclk_freq_hz = 10000000;
+  err = esp_camera_init(&amp;config);
+}</code></pre>
+      <p>This is a pattern you'll see throughout the codebase: <em>try something, check the error code, retry once with a safer setting before giving up.</em> Some camera modules don't reliably lock onto a 20MHz clock; dropping to 10MHz on the first failure recovers many of them without an infinite retry loop. If both attempts fail, the code drops into a visible-forever error state:</p>
+      <pre><code>pinMode(LED_GPIO_NUM, OUTPUT);
+while (true) {
+  for (int i = 0; i &lt; 3; i++) {
+    digitalWrite(LED_GPIO_NUM, HIGH); delay(100);
+    digitalWrite(LED_GPIO_NUM, LOW);  delay(100);
+  }
+  delay(800);
+}</code></pre>
+      <p>A fast triple-flash, repeating &mdash; so a camera fault is visible even with no laptop or serial cable attached. This is intentionally an infinite loop: <code>setup()</code> never returns and <code>loop()</code> never starts, because there is nothing useful the car can do without a working camera.</p>
+
+      <p><strong>4. Load settings you saved earlier</strong> from flash memory (called NVS &mdash; Non-Volatile Storage), so Speed/Trim/Flip/Mirror/Quality survive a reboot instead of resetting every time:</p>
+      <pre><code>prefs.begin("videocar", false);
+s->set_framesize(s, (framesize_t)prefs.getInt("framesize", FRAMESIZE_QVGA));
+vflipState = prefs.getInt("vflip", 1);
+speed = prefs.getInt("speed", speed);</code></pre>
+      <p><code>prefs.getInt("key", fallback)</code> reads a saved value, or uses <code>fallback</code> if nothing was ever saved (e.g. a brand-new board). This is why the car "remembers" your settings after you close the browser tab &mdash; every <code>/control</code> request that changes a setting also calls the matching <code>prefs.putInt(...)</code> to write it back (covered below in <a href="#events">How events flow through the code</a>).</p>
+
+      <p><strong>5. Connect to WiFi</strong> &mdash; either join a router, or create the car's own network, with a bounded timeout so it can never get stuck:</p>
+      <pre><code>bool ap = 1;
+const char* ssid = "keyes1";
+const char* password = "88888888";</code></pre>
+      <p>These three lines near the top of the file are the ones you'll edit most often. <code>ap = 1</code> means "the car creates its own WiFi access point" (what the walkthrough above uses). Change it to <code>ap = 0</code> and the car instead tries to join <em>your</em> router using the SSID/password you set here.</p>
+      <pre><code>unsigned long staStart = millis();
+while (WiFi.status() != WL_CONNECTED &amp;&amp; (millis() - staStart) &lt; STA_CONNECT_TIMEOUT_MS) {
+  delay(500);
+  Serial.print(".");
+}
+if (WiFi.status() != WL_CONNECTED) {
+  Serial.println("Could not join the router within STA_CONNECT_TIMEOUT_MS.");
+  ap = 1;  // fall back to standalone AP mode
+}</code></pre>
+      <p>Station mode waits up to <code>STA_CONNECT_TIMEOUT_MS</code> (20 seconds) for the router, then automatically falls back to AP mode if it can't connect &mdash; a wrong password or an out-of-range router can never leave the car unreachable.</p>
+
+      <p><strong>6. Start the web server</strong> &mdash; a single call, <code>startCameraServer()</code>, whose internals are the subject of the next section. <strong>7. Blink the LED 5 times</strong> as a simple "I'm ready" signal you can see without a serial monitor.</p>
+
+      <h3>What happens forever, many times a second: <code>loop()</code></h3>
+      <p>Once <code>setup()</code> finishes, <code>loop()</code> runs over and over for as long as the car is powered. Here it is in full &mdash; it is deliberately short:</p>
+      <pre><code>void loop() {
+  // --- Safety failsafe: stop the car if the client has gone quiet ---
+  if (actstate != stp &amp;&amp; (millis() - lastCommandMillis &gt; CONTROL_TIMEOUT_MS)) {
+    Car_stop();
+    actstate = stp;
+    Serial.println("Failsafe: no command received recently, stopping car");
+  }
+
+  // --- Station mode: watch the WiFi link and reconnect if it drops ---
+  if (!ap &amp;&amp; WiFi.status() != WL_CONNECTED) {
+    static unsigned long lastReconnectAttempt = 0;
+    if (millis() - lastReconnectAttempt &gt; WIFI_RECONNECT_INTERVAL_MS) {
+      WiFi.disconnect();
+      WiFi.begin(ssid, password);
+      lastReconnectAttempt = millis();
+    }
+  }
+
+  delay(50);
+}</code></pre>
+      <div class="ambox ambox-notice">
+        <strong>Important for beginners:</strong> <code>loop()</code> never <em>drives</em> the car. Driving happens entirely inside the web server's request handlers (next section), triggered by an incoming URL. <code>loop()</code> only ever <em>stops</em> it (the 500ms failsafe, if no command arrives in time) or reconnects WiFi. If you go looking for "where does forward/backward actually happen", it is not here.
+      </div>
+
+      <h3 id="events">How events flow through the code (request &rarr; handler)</h3>
+      <p>This is the part most relevant if you want to add a new command or URL. The event model is simple: nothing "listens" continuously for your clicks. Each browser request is a one-off <strong>event</strong> that the ESP32's tiny web server hands to exactly one function, then forgets. There is no session and no queue &mdash; URL in, function call out.</p>
+
+      <h4>Registering an event: the <code>httpd_uri_t</code> pattern</h4>
+      <p>Every endpoint is declared the same way in <code>app_server.h</code>, inside <code>startCameraServer()</code>:</p>
+      <pre><code>httpd_uri_t cmd_uri = {
+  .uri      = "/control",
+  .method   = HTTP_GET,
+  .handler  = cmd_handler,
+  .user_ctx = NULL
+};
+...
+httpd_register_uri_handler(camera_httpd, &amp;cmd_uri);</code></pre>
+      <p>Four fields: the URL path, the HTTP method, which function handles it, and an optional context pointer (unused here). Registering just tells the server "when a GET request for this path arrives, call this function." All five port-80 endpoints are registered this way, right before the server starts:</p>
+
+      <div class="diagram"><pre style="margin:0;border:0;padding:0;background:none;">                         ┌──▶  <b>/</b>          index_handler     (the control page HTML)
+                         ├──▶  <b>/status</b>    status_handler    (JSON of current settings)
+  port 80 server ────────┼──▶  <b>/control</b>   cmd_handler       (settings + driving)
+                         ├──▶  <b>/capture</b>   capture_handler   (one JPEG)
+                         └──▶  <b>/joystick</b>  joystick_handler  (proportional driving)
+
+  port 81 server ────────────▶  <b>/stream</b>    stream_handler    (endless JPEG frames)</pre></div>
+      <p>Want a new endpoint? This diagram is literally the list of things to add to: write a new handler function, then add one more <code>httpd_uri_t</code> + <code>httpd_register_uri_handler(...)</code> pair for it.</p>
+
+      <h4>Inside a handler: reading the event's data</h4>
+      <p>Walking through <code>cmd_handler</code> &mdash; the function behind <code>/control?var=...&amp;val=...</code> &mdash; in the order it actually runs:</p>
+      <pre><code>buf_len = httpd_req_get_url_query_len(req) + 1;
+buf = (char *)malloc(buf_len);
+httpd_req_get_url_query_str(req, buf, buf_len);
+httpd_query_key_value(buf, "var", variable, sizeof(variable));
+httpd_query_key_value(buf, "val", value,     sizeof(value));</code></pre>
+      <p>This block is the entire job of parsing <code>?var=car&amp;val=1</code> out of the URL: get the raw query string, then pull the two named values (<code>var</code>, <code>val</code>) out of it into two small character buffers. Everything after this point is just "if <code>variable</code> equals X, do Y":</p>
+      <pre><code>int val = atoi(value);
+...
+if (!strcmp(variable, "framesize")) {
+  res = s->set_framesize(s, (framesize_t)val);
+  prefs.putInt("framesize", val);
+}
+else if (!strcmp(variable, "flash")) {
+  analogWrite(12, val);
+  flashLevel = val;
+  prefs.putInt("flash", val);
+}
+else if (!strcmp(variable, "car")) {
+  lastCommandMillis = millis();
+  if (val == 1) {           // Forward
+    int speed1 = trimmed(speed, -trim);
+    int speed2 = trimmed(speed, +trim);
+    actstate = fwd;
+    i2c_Write(M1_PWM, speed1); i2c_Write(M1_IN, 0);
+    i2c_Write(M2_PWM, 0);      i2c_Write(M2_IN, speed2);
+  }
+  ...
+}</code></pre>
+      <p><code>atoi(value)</code> turns the text <code>"1"</code> into the number <code>1</code>. <code>strcmp</code> compares C-style strings (it returns 0 when they're equal, hence <code>!strcmp(...)</code> reads as "if equal"). Two things worth noticing before you add your own branch here:</p>
+      <ul>
+        <li><strong><code>lastCommandMillis = millis()</code> is reset only inside the <code>"car"</code> branch.</strong> This is what tells <code>loop()</code>'s failsafe "a driving command just arrived, don't stop yet." If you add a new drive-like command, you must reset this timer too, or the 500ms failsafe will fight you and stop the car mid-command.</li>
+        <li><strong>Most settings call <code>prefs.putInt(...)</code> right after applying the value.</strong> That's the save-to-flash half of the load-on-boot code from <code>setup()</code> above. Skip it and your new setting will reset to its default every time the car reboots.</li>
+      </ul>
+      <p>At the very end, every successful request gets the same minimal response:</p>
+      <pre><code>httpd_resp_set_hdr(req, "Access-Control-Allow-Origin", "*");
+return httpd_resp_send(req, NULL, 0);</code></pre>
+      <p>An empty <code>200 OK</code> &mdash; the browser doesn't need any data back, only confirmation the command was received. The CORS header is what lets a page served from port 80 send requests without the browser blocking them.</p>
+
+      <h4>The full request &rarr; response sequence</h4>
+      <div class="diagram"><pre style="margin:0;border:0;padding:0;background:none;">  Browser                                    ESP32
+    │   GET /control?var=car&amp;val=1
+    ├──────────────────────────────────▶   cmd_handler() runs
+    │                                         ├─ parses var="car", val="1"
+    │                                         ├─ lastCommandMillis = millis()  (resets failsafe)
+    │                                         ├─ i2c_Write(...) four times  ──▶  motor driver chip
+    │                                         └─ builds empty 200 OK response
+    │   ◀──────────────────────────────────  200 OK, empty body
+    │
+    │   (control page repeats this same request every 100ms while a direction is held)</pre></div>
+
+      <h4>Adding your own event &mdash; the mechanical steps</h4>
+      <div class="ambox ambox-notice">
+        <p>To add a brand-new <strong>setting or drive command</strong> (reusing <code>/control</code>):</p>
+        <ol>
+          <li>Add one more <code>else if (!strcmp(variable, "yourname"))</code> block in <code>cmd_handler</code>.</li>
+          <li>If it changes something that should survive a reboot, call <code>prefs.putInt("yourname", val)</code>.</li>
+          <li>If it's a driving action, reset <code>lastCommandMillis = millis()</code> so the failsafe doesn't cut it short.</li>
+        </ol>
+        <p>To add a brand-new <strong>URL / endpoint</strong>:</p>
+        <ol>
+          <li>Write a new handler function with the signature <code>static esp_err_t my_handler(httpd_req_t *req)</code>.</li>
+          <li>Declare an <code>httpd_uri_t</code> for it (copy the <code>cmd_uri</code> block above and change the <code>.uri</code> and <code>.handler</code> fields).</li>
+          <li>Call <code>httpd_register_uri_handler(camera_httpd, &amp;your_uri)</code> in <code>startCameraServer()</code>, alongside the existing ones.</li>
+        </ol>
+        <p>This section only covers the mechanics of wiring up an event &mdash; what your new handler should actually <em>do</em> is up to your feature.</p>
+      </div>
+
+      <h3>How a direction becomes motor motion: <code>SetMotor.h</code></h3>
+      <p>Once <code>cmd_handler</code> decides "forward", the actual driving is four calls to <code>i2c_Write</code>, which sends two bytes &mdash; <em>which pin on the motor driver chip</em> and <em>what value to give it</em> &mdash; over the I2C bus to a separate motor-driver board:</p>
+      <pre><code>void i2c_Write(uint8_t motor, uint8_t pwmvalue) {
+  Wire.beginTransmission(slave_addr);
+  Wire.write(motor);
+  Wire.write(pwmvalue);
+  Wire.endTransmission();
+}
+
+void Car_forward() {
+  i2c_Write(M1_PWM, 255); i2c_Write(M1_IN, 0);
+  i2c_Write(M2_PWM, 255); i2c_Write(M2_IN, 0);
+}</code></pre>
+      <p>Each motor has two channels: a <code>_PWM</code> value (0&ndash;255, how fast) and an <code>_IN</code> value (which direction). Setting one motor's <code>_IN</code> high and the other's low, with both spinning at full <code>_PWM</code>, is what turns "both wheels forward" into "the car turns in place" &mdash; there is no separate turning mechanism, just the two wheels working against each other.</p>
+
+      <div class="diagram"><pre style="margin:0;border:0;padding:0;background:none;">        FORWARD                BACKWARD               LEFT                   RIGHT
+     ┌─────────────┐        ┌─────────────┐        ┌─────────────┐        ┌─────────────┐
+     │  M1 ▲   ▲ M2 │        │  M1 ▼   ▼ M2 │        │  M1 ▼   ▲ M2 │        │  M1 ▲   ▼ M2 │
+     │   (both      │        │   (both      │        │  (left back, │        │ (right back, │
+     │   spin fwd)  │        │  spin back)  │        │  right fwd)  │        │  left fwd)   │
+     └─────────────┘        └─────────────┘        └─────────────┘        └─────────────┘
+        car body   ▲            car body   ▼         car spins  ↺           car spins  ↻</pre></div>
+
+      <p>All five direction functions, side by side:</p>
+      <table class="wikitable">
+        <tr><th>Function</th><th>M1_PWM</th><th>M1_IN</th><th>M2_PWM</th><th>M2_IN</th><th>Result</th></tr>
+        <tr><td><code>Car_forward()</code></td><td>255</td><td>0</td><td>255</td><td>0</td><td>Both wheels spin forward</td></tr>
+        <tr><td><code>Car_backwards()</code></td><td>0</td><td>255</td><td>0</td><td>255</td><td>Both wheels spin backward</td></tr>
+        <tr><td><code>Car_left()</code></td><td>0</td><td>255</td><td>255</td><td>0</td><td>Left wheel back, right wheel forward &mdash; spins left</td></tr>
+        <tr><td><code>Car_right()</code></td><td>255</td><td>0</td><td>0</td><td>255</td><td>Right wheel back, left wheel forward &mdash; spins right</td></tr>
+        <tr><td><code>Car_stop()</code></td><td>0</td><td>0</td><td>0</td><td>0</td><td>Both motors off</td></tr>
+      </table>
+      <p>Note that <code>cmd_handler</code>'s actual forward/left/right code (shown above) doesn't call these named functions directly &mdash; it inlines the same <code>i2c_Write</code> calls with a <em>variable</em> speed (<code>speed1</code>/<code>speed2</code>, adjusted by the trim setting) instead of the hardcoded <code>255</code> you see in <code>SetMotor.h</code>. The named functions in this file are the simple originals from the stock keyestudio sketch; <code>Car_stop()</code> is the one still called directly, from both <code>cmd_handler</code> and the failsafe in <code>loop()</code>.</p>
+      <p>Adding a new movement (e.g. a diagonal creep, or a slow-spin) means writing a new function following this same four-line pattern, then wiring it up to a new <code>var</code> value as described in the "adding your own event" box above.</p>
+
+      <h2 id="features">Features (vs. the stock keyestudio sketch)</h2>
+      <table class="wikitable">
+        <tr><th>Feature</th><th>Description</th></tr>
+        <tr><td>Joystick control</td><td>Draggable on-screen joystick (<code>/joystick?x=&amp;y=</code>), arcade-mixed to per-wheel PWM, alongside the original D-pad/keyboard controls.</td></tr>
+        <tr><td>Connection-loss failsafe</td><td>Auto-stops if no command is received for 500ms. WiFi auto-reconnect, MJPEG stream auto-recovery, live connection indicator.</td></tr>
+        <tr><td>Settings persistence</td><td>Speed, Trim, Lights, Quality, Resolution, Flip, and Mirror remembered on-device (NVS flash) and in the browser (<code>localStorage</code>).</td></tr>
+        <tr><td>Live flip/mirror toggles</td><td>Fix camera orientation live via <code>set_vflip</code>/<code>set_hmirror</code>, no reflash needed.</td></tr>
+        <tr><td>Pose detection</td><td>MoveNet skeleton tracking over up to a few people at once.</td></tr>
+        <tr><td>Hand tracking</td><td>MediaPipe Hands via TF.js, 21 keypoints per hand plus left/right handedness.</td></tr>
+        <tr><td>Facial expression</td><td>happy/sad/angry/surprised/etc. via <code>@vladmandic/face-api</code>.</td></tr>
+        <tr><td>QR / Barcode</td><td>Browser's native <code>BarcodeDetector</code> where available (no network needed); jsQR fallback otherwise.</td></tr>
+        <tr><td>Plates</td><td>Experimental license-plate reader: COCO-SSD car/truck/bus boxes + Tesseract.js OCR on the cropped region. Heuristic, not a trained detector.</td></tr>
+        <tr><td>AI Vision</td><td>Toggleable overlay detecting objects (COCO-SSD) and faces (BlazeFace) live over the viewfinder, entirely in-browser.</td></tr>
+        <tr><td>Build stamp</td><td>Firmware version, build timestamp, and git revision reported in the control page footer, <code>/status</code>, and serial console (with a <code>-dirty</code> suffix for uncommitted changes).</td></tr>
+        <tr><td>Classic CV (no models, no internet)</td><td><strong>Motion</strong> (frame differencing), <strong>Line</strong> follower (adaptive threshold, dark-on-light or light-on-dark), and <strong>Colour chase</strong> (rg-chromaticity blob tracking) &mdash; all plain pixel maths, running at full frame rate.</td></tr>
+        <tr><td>Offline model cache</td><td>Vision features cache CDN scripts/models in IndexedDB after first use over a network with internet, then work from the car's own AP afterward.</td></tr>
+        <tr><td>Follow-me (autonomous)</td><td>Proportional controller drives the car toward a chosen COCO-SSD target (person, ball, dog, cat, bottle, chair) via the same <code>/joystick</code> endpoint manual driving uses, so the 500ms failsafe covers it too. Disarmed by default; any manual input takes over instantly.</td></tr>
+        <tr><td>Snapshot &amp; video recording</td><td>Capture panel downloads a still JPEG or records <code>.webm</code>/<code>.mp4</code> client-side (Canvas + MediaRecorder).</td></tr>
+        <tr><td>Redesigned control page</td><td>Dark mission-control / camera-viewfinder HUD theme, grouped panels, live slider readouts, responsive layout.</td></tr>
+        <tr><td>Camera init resilience</td><td>Retries at a lower XCLK before giving up, blinks a visible LED error pattern, enables the brownout-detector workaround.</td></tr>
+      </table>
+
+      <p>Line and Colour chase drive the car and share Follow-me's arbiter and safety rules: manual input always wins, only one autonomous mode runs at a time, and a lost target stops the car and then disarms. Motion is passive and keeps running alongside whatever else is steering.</p>
+
+      <h2 id="layout">Repository layout</h2>
+      <pre><code>Codes/                  Original Arduino-IDE-style sketch layout (all 4 sketches)
+  4_VideoCar/            The enhanced sketch -- flash this one from Arduino IDE
+firmware/                PlatformIO projects, one per sketch
+  1_blink/                Onboard LED blink demo
+  2_breathing_light/      PWM LED fade demo
+  3_motor/                Motor driver test sequence (drives on boot -- give it room!)
+  4_videocar/              Mirrors Codes/4_VideoCar -- the main project
+launch.sh                Interactive PlatformIO menu, lets you pick which app to build/flash/monitor
+README.html               Rendered version of the README
+ports.html                Beginner's step-by-step guide to the port 80 / port 81 servers
+report.html               Detailed change report -- what changed, why, and what's still open</code></pre>
+
+      <p><code>Codes/4_VideoCar</code> and <code>firmware/4_videocar/src</code> are kept in sync &mdash; same source, two build systems. The other three sketches (<code>1_blink</code>, <code>2_breathing_light</code>, <code>3_motor</code>) are simple unmodified demos included for a complete workshop package.</p>
+
+      <h2 id="builds">Build systems</h2>
+
+      <h3>PlatformIO (<code>firmware/</code>)</h3>
+      <p>Each sketch is its own PlatformIO project under <code>firmware/&lt;name&gt;/</code>, all targeting <code>env:esp32cam</code> (AI-Thinker pinout).</p>
+      <table class="wikitable">
+        <tr><th>Setting</th><th>Value</th><th>Why</th></tr>
+        <tr><td><code>platform</code></td><td><code>espressif32@6.5.0</code></td><td>Pinned so PlatformIO doesn't silently pull a different <code>esp32-camera</code> driver version than Arduino IDE has, which changes camera sensor-probe behavior.</td></tr>
+        <tr><td><code>board_build.partitions</code></td><td><code>huge_app.csv</code></td><td>The camera+WiFi+webserver binary doesn't fit the default partition table.</td></tr>
+        <tr><td><code>build_flags</code></td><td><code>-DBOARD_HAS_PSRAM</code>, <code>-mfix-esp32-psram-cache-issue</code></td><td>Arduino IDE's <em>PSRAM: Enabled</em> menu sets these behind the scenes; PlatformIO's generic board definition does not. Root cause of "works in Arduino IDE, camera fails in PlatformIO" (<code>Camera init failed with error 0x106</code>).</td></tr>
+        <tr><td><code>upload_speed</code></td><td><code>460800</code></td><td>Safer default than 921600 for boards flashed through a bare FTDI adapter with no auto-reset circuit.</td></tr>
+      </table>
+
+      <p><code>launch.sh</code> menu:</p>
+      <pre><code>0) Select app               5) Build + Flash + Monitor
+1) Check installation       6) Serial monitor
+2) Install PlatformIO       7) List serial ports
+3) Build firmware           8) Clean build
+4) Flash firmware</code></pre>
+
+      <h3>Arduino IDE (<code>Codes/4_VideoCar/</code>)</h3>
+      <p>Standard Arduino IDE flow. Make sure <em>Tools &gt; PSRAM</em> is set to <strong>Enabled</strong> and <em>Tools &gt; Partition Scheme</em> is set to a scheme with enough app space (e.g. "Huge APP (3MB No OTA/1MB SPIFFS)").</p>
+
+      <h2 id="troubleshooting">Troubleshooting</h2>
+      <table class="wikitable">
+        <tr><th>Symptom</th><th>Cause / fix</th></tr>
+        <tr>
+          <td><code>Camera init failed with error 0x106</code> (PlatformIO only, works in Arduino IDE)</td>
+          <td><code>ESP_ERR_NOT_SUPPORTED</code> from the camera sensor probe &mdash; a toolchain/build-flag mismatch, not hardware. Run <code>./launch.sh</code> option 8 (Clean) and confirm the pinned platform version roughly matches your Arduino IDE's <code>esp32</code> core version.</td>
+        </tr>
+        <tr>
+          <td>Repeated resets right after a camera error</td>
+          <td>Usually a marginal power supply &mdash; camera + WiFi init draws a current spike many FTDI adapters can't supply cleanly. Use a proper 5V/2A source.</td>
+        </tr>
+        <tr>
+          <td>Car doesn't stop when the browser tab closes / WiFi drops</td>
+          <td>Shouldn't happen &mdash; check the build stamp in the footer; <code>nogit</code> or an unexpected commit means you may be running stock keyestudio firmware with no failsafe.</td>
+        </tr>
+        <tr>
+          <td>A Vision feature can't load, on the car's own WiFi</td>
+          <td>Expected the first time &mdash; the car's AP has no internet. Join a router, enable the feature once so it caches, then return to the car's AP.</td>
+        </tr>
+        <tr>
+          <td>Video feed dies when a Vision/autonomy feature starts</td>
+          <td>CORS mismatch between the page and port 81's stream. The page detects this and reconnects without CORS after two failures, falling back to <code>/capture</code> polling.</td>
+        </tr>
+        <tr>
+          <td>Line follower doesn't move at all</td>
+          <td>Put the Speed slider at maximum &mdash; it multiplies with the mode's own cap. Raise <code>LINE_SPEED</code> in <code>app_server.h</code> if still stuck.</td>
+        </tr>
+        <tr>
+          <td>Line follower weaves or loses the line</td>
+          <td>Lower <code>LINE_KP</code> rather than raising it (latency-dominated loop). Raise <code>LINE_TURN_CUT</code> if it misses corners.</td>
+        </tr>
+      </table>
+
+      <div class="ambox">
+        <strong>No authentication on the control endpoints:</strong> known, unaddressed limitation carried over from the original sketch. Anyone on the <span class="key-value">keyes1</span> WiFi network (default password <span class="key-value">88888888</span>) can drive the car.
+      </div>
+
+      <div class="catlinks">
+        Categories: <a href="index.html">Electronics</a> | <a href="index.html">ESP32</a> | <a href="index.html">Robotics</a>
+      </div>
+    </article>
+  </div>
+</div>
+
+<div class="footer-wiki">
+  This page was created on 27 July 2026 and last edited on 27 July 2026. Content adapted from the <a href="https://github.com/abourdim/video-car">video-car</a> repository README.
+</div>
+
+</body>
+</html>

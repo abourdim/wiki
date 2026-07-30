@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Talking Robot - Wiki</title>
+<link rel="stylesheet" href="wiki.css">
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-inner">
+    <a class="wiki-logo" href="https://workshop-diy.org"><img src="logo.png" alt="شعار الويكي"></a>
+    <a class="masthead-site-link" href="https://workshop-diy.org">workshop-diy.org</a>
+    <div class="masthead-title">
+      الويكي
+      <span class="sub">قاعدة المعرفة الشخصية والمجانية</span>
+    </div>
+    <div class="masthead-actions">
+      <div class="lang-switch" role="group" aria-label="اللغة">
+        <a href="talking-robot.html" class="lang-switch-btn" title="Français"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="20" height="40" fill="#002395"/><rect x="20" width="20" height="40" fill="#fff"/><rect x="40" width="20" height="40" fill="#ED2939"/></svg></a>
+        <a href="talking-robot-en.html" class="lang-switch-btn" title="English"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="60" height="40" fill="#012169"/><path d="M0 0L60 40M60 0L0 40" stroke="#fff" stroke-width="6.5"/><path d="M0 0L60 40M60 0L0 40" stroke="#C8102E" stroke-width="3.5"/><path d="M30 0V40M0 20H60" stroke="#fff" stroke-width="11"/><path d="M30 0V40M0 20H60" stroke="#C8102E" stroke-width="6.5"/></svg></a>
+        <a href="talking-robot-ar.html" class="lang-switch-btn active" title="العربية"><svg width="24" height="16" viewBox="0 0 900 600"><defs><clipPath id="glTRar"><rect width="450" height="600"/></clipPath></defs><rect width="450" height="600" fill="#006233"/><rect x="450" width="450" height="600" fill="#FFF"/><g fill="#D21034" transform="translate(450,300)"><circle r="125"/><circle cx="25" r="100" fill="#FFF"/><g clip-path="url(#glTRar)" transform="translate(-450,-300)"><circle cx="475" cy="300" r="100" fill="#006233"/></g><path d="M85-12l22 67h71l-57 42 22 67-58-42-57 42 21-67-57-42h71z"/></g></svg></a>
+      </div>
+      <div class="masthead-search">
+        <input type="text" placeholder="ابحث في الويكي" disabled>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wiki-layout">
+
+  <div class="sidebar">
+    <h3>التصفح</h3>
+    <ul>
+      <li><a href="index.html">الصفحة الرئيسية</a></li>
+      <li><a href="#">التعديلات الأخيرة</a></li>
+      <li><a href="#">صفحة عشوائية</a></li>
+    </ul>
+    <h3>التصنيفات</h3>
+    <ul>
+      <li><a href="index.html">الشبكات</a></li>
+      <li><a href="index.html">Linux</a></li>
+      <li><a href="index.html">Windows</a></li>
+      <li><a href="index.html">الإلكترونيات</a></li>
+      <li><a href="index.html">ESP32</a></li>
+      <li><a href="index.html">micro:bit</a></li>
+    </ul>
+    <h3>أدوات</h3>
+    <ul>
+      <li><a href="https://github.com/abourdim/talking-robot">عرض مستودع الكود المصدري</a></li>
+    </ul>
+  </div>
+
+  <div class="content-wrap">
+    <div class="article-tabs">
+      <span class="active">المقالة</span>
+      <span>النقاش</span>
+    </div>
+
+    <article>
+      <h1 class="page-title">Talking Robot</h1>
+
+      <div class="infobox">
+        <div class="infobox-title">Talking Robot</div>
+        <table>
+          <tr><th>النوع</th><td>روبوت متحدث وذو مشاعر في المتصفح، مناسب للأطفال</td></tr>
+          <tr><th>العتاد</th><td>BBC micro:bit (اختياري، عبر البلوتوث)</td></tr>
+          <tr><th>ذكاء اصطناعي / سحابة</th><td>لا شيء &mdash; بدون نموذج لغوي، بدون حسابات، لا شيء يغادر المتصفح</td></tr>
+          <tr><th>اللغات</th><td>الواجهة: English, Français, العربية (RTL)<br>الصوت: أيضًا الإسبانية والألمانية والإيطالية واليابانية</td></tr>
+          <tr><th>يعمل على</th><td>Chrome / Edge، بدون تثبيت</td></tr>
+          <tr><th>المستودع</th><td><a href="https://github.com/abourdim/talking-robot">github.com/abourdim/talking-robot</a></td></tr>
+          <tr><th>العرض المباشر</th><td><a href="https://abourdim.github.io/talking-robot/">abourdim.github.io/talking-robot</a></td></tr>
+        </table>
+      </div>
+
+      <p class="hatnote">تتناول هذه المقالة Talking Robot، روبوت ويب على صفحة واحدة ينطق النص المكتوب بصوت عالٍ، يفرغ ما يسمعه، يحرّك 13 تعبيرًا للمشاعر، ويمكنه إرسال كلمات إلى BBC micro:bit عبر البلوتوث &mdash; دون أي مزوّد ذكاء اصطناعي أو حساب.</p>
+
+      <div class="toc">
+        <div class="toc-title">المحتويات</div>
+        <ol>
+          <li><a href="#overview">نظرة عامة</a></li>
+          <li><a href="#quickstart">البدء السريع</a></li>
+          <li><a href="#walkthrough">خطوة بخطوة: الاستنساخ والتحميل والاختبار</a></li>
+          <li><a href="#understanding">فهم الكود (للمبتدئين)</a></li>
+          <li><a href="#speak">اجعله يتحدث</a></li>
+          <li><a href="#listen">اجعله يستمع</a></li>
+          <li><a href="#emotions">المشاعر</a></li>
+          <li><a href="#microbit">توصيل micro:bit</a></li>
+          <li><a href="#firmware">الحصول على كود الفيرموير</a></li>
+          <li><a href="#i18n">اللغات &amp; نظام الترجمة</a></li>
+          <li><a href="#help">المساعدة داخل التطبيق</a></li>
+          <li><a href="#options">الخيارات</a></li>
+          <li><a href="#troubleshooting">حل المشكلات</a></li>
+        </ol>
+      </div>
+
+      <h2 id="overview">نظرة عامة</h2>
+      <p><strong>Talking Robot</strong> هو الشقيق الأبسط والأقدم لـ Bit-Bot: بدون مزوّد ذكاء اصطناعي، بدون سجل دردشة، بدون حسابات &mdash; فقط واجهتا المتصفح المدمجتان <strong>Speech Synthesis</strong> (نص←صوت) و<strong>Speech Recognition</strong> (صوت←نص)، وجه روبوت SVG متحرك بـ13 تعبيرًا للمشاعر، ورابط اختياري لـ BBC micro:bit عبر Web Bluetooth UART. كل شيء يعمل من جهة العميل؛ لا شيء يُرسَل أبدًا إلى خادم.</p>
+      <p>التطبيق موزّع على عدة ملفات بدلًا من ملف واحد: <code>index.html</code> (البنية + كل منطق التطبيق مضمّن)، <code>styles.css</code>، و<code>makecode.ts</code> (الكود المصدري لفيرموير الـ micro:bit المرافق)، بالإضافة إلى <code>flash.html</code> مستقل لنقل ذلك الفيرموير إلى لوحة.</p>
+
+      <h2 id="quickstart">البدء السريع</h2>
+      <ol>
+        <li>افتح <a href="https://abourdim.github.io/talking-robot/">التطبيق المباشر</a> في Chrome أو Edge.</li>
+        <li>اكتب شيئًا في مربع النص واضغط <strong>تحدث</strong> &mdash; يتحدث الروبوت ويتحرك فمه.</li>
+        <li>اضغط <strong>استمع</strong>، اسمح بالميكروفون، وتحدث &mdash; تظهر كلماتك في المربع.</li>
+      </ol>
+
+      <h2 id="walkthrough">خطوة بخطوة: الاستنساخ والتحميل والاختبار</h2>
+      <p>يأخذك من نسخة فارغة إلى روبوت يعمل بشكل كامل &mdash; الكلام في الاتجاهين، واختياريًا micro:bit مقترن &mdash; دون افتراض أي شيء سوى Chrome أو Edge.</p>
+
+      <h3>1. استنساخ المستودع</h3>
+      <pre><code>git clone https://github.com/abourdim/talking-robot.git
+cd talking-robot</code></pre>
+
+      <h3>2. تشغيل الموقع محليًا</h3>
+      <p>لا توجد خطوة بناء، لكن Speech Recognition وWeb Bluetooth يرفضان كلاهما مسار <code>file:///</code> مباشر:</p>
+      <pre><code>python3 -m http.server 8000</code></pre>
+      <p>افتح <span class="key-value">http://localhost:8000</span> في Chrome أو Edge.</p>
+
+      <h3>3. الحصول على فيرموير الـ micro:bit (اختياري)</h3>
+      <p>تخطَّ هذا إذا كنت تريد فقط اختبار الكلام. وإلا افتح <a href="https://abourdim.github.io/talking-robot/flash.html">flash.html</a>، اضغط <strong>نسخ كود micro:bit</strong>، الصقه في تبويب JavaScript لمشروع جديد على <a href="https://makecode.microbit.org">makecode.microbit.org</a>، أضف إضافة <code>bluetooth</code>، وحمّل &mdash; أو استخدم اختصار «فتح مشروع MakeCode المشترك» في نفس الصفحة لتخطي النسخ واللصق تمامًا.</p>
+
+      <h3>4. اختبار التحدث</h3>
+      <p>اكتب جملة، اختر صوتًا تحت الصوت واللغة، اضغط <strong>تحدث</strong>. التشغيل السليم يشغّل الصوت ويحرّك الفم بتزامن &mdash; لا يتضمن أي اتصال بالشبكة، لذا يعمل حتى دون اتصال بالإنترنت.</p>
+
+      <h3>5. اختبار الاستماع</h3>
+      <p>اضغط <strong>استمع</strong>، اسمح بالميكروفون، تحدث بوضوح. يجب أن يظهر النص المكتوب في المربع خلال ثانية أو ثانيتين.</p>
+
+      <h3>6. اختبار المشاعر</h3>
+      <p>اضغط عبر بضعة من أزرار المشاعر الـ13 تحت الروبوت وتأكد من تغيّر الوجه فورًا لكل منها.</p>
+
+      <h3>7. اختبار الاتصال بالـ micro:bit</h3>
+      <p>اضغط <strong>اتصال</strong>، اختر لوحتك، ثم اكتب كلمة واضغط <strong>إرسال</strong> (أو دع الإرسال التلقائي يتولى الأمر). راقب لوحة السجل: يجب أن ترى سطر <code>BLE TX ← N_كلمة</code> يتبعه إقرار <code>OK N_كلمة</code> مُعاد صداه من الـ micro:bit.</p>
+
+      <div class="ambox ambox-success">يبدو الأساس الناجح كالتالي: صوت خارج مع حركة الفم، نص مكتوب داخل، جميع الوجوه الـ13 تتغير عند الضغط، وزوج TX/ACK متطابق في السجل بعد توصيل micro:bit.</div>
+
+      <h2 id="understanding">فهم الكود (للمبتدئين)</h2>
+      <p class="hatnote">لمن لديه التطبيق قيد التشغيل ويريد فتح <code>index.html</code> والبدء بتعديل شيء ما. يفترض معرفة أساسية بـ JavaScript لكن لا شيء خاص بهذا الكود تحديدًا. تخطَّه إذا كنت تريد فقط استخدام التطبيق.</p>
+
+      <h3>شكل الملف</h3>
+      <p>كل منطق التطبيق يعيش مضمّنًا في <code>index.html</code>، ملفوفًا في دالة واحدة ذاتية التنفيذ &mdash; <code>(() =&gt; { ... })();</code> &mdash; بحيث لا يتسرب أي شيء تعلنه إلى النطاق العام باستثناء الشيئين المرتبطين صراحة بـ<code>window</code> للاستخدام من سمات <code>onclick</code> المضمّنة: <code>setUILanguage</code> و<code>toggleHelp</code>. كل شيء آخر (التحدث، الاستماع، BLE، المشاعر) هو دالة بسيطة داخل تلك الإغلاقية، مربوطة في الأسفل باستدعاءات <code>addEventListener</code> بدلًا من معالجات مضمّنة.</p>
+
+      <h3>نظام الترجمة: <code>I18N</code> ← <code>tr()</code> ← <code>data-i18n</code></h3>
+      <p>نفس نمط Bit-Bot: كائن <code>I18N</code> مفهرس حسب اللغة ثم بمفتاح نصي، بحث <code>tr(key)</code> مع رجوع للإنجليزية، ومتغيّر <code>trg(key, vars)</code> يستبدل رموز <code>{placeholder}</code> بقيم ديناميكية (أسماء الأصوات، رسائل الخطأ، الأعداد). البنية الثابتة مُعلَّمة بـ<code>data-i18n="btn_speak"</code>؛ عدد صغير من العناصر التي تحتاج بنية <code>&lt;b&gt;</code>/<code>&lt;br&gt;</code> مضمّنة (مثل نص تلميح BLE) تستخدم <code>data-i18n-html</code> بدلًا من ذلك، والتي تضبط <code>innerHTML</code> بدلًا من <code>textContent</code>. تمرّ <code>applyLang(lang)</code> على مجموعتَي السمات، تقلب <code>document.documentElement.dir</code> إلى <code>rtl</code> للعربية، وتعيد اشتقاق كل جزء من نص الواجهة الديناميكي (شارة الحالة، تسمية زر الميكروفون، شارة الاتصال) من نفس متغيرات الحالة التي قادته أصلًا &mdash; لذا تغيير اللغة في منتصف الجلسة لا يترك أبدًا إنجليزية قديمة خلفه.</p>
+
+      <h3>كيف يعمل التحدث: نص ← صوت ← فم</h3>
+      <div class="diagram" dir="ltr"><pre style="margin:0;border:0;padding:0;background:none;">  click Speak
+       │
+       ▼
+  <b>speak()</b>  ──▶  new SpeechSynthesisUtterance(text)
+       │                 · Random voice checked? pick any matching voice
+       │                 · else: use the selected dropdown voice
+       │                 · else, if language is Arabic: force the first
+       │                   Arabic voice found (falls back with a log
+       │                   warning if none is installed)
+       ▼
+  speechSynthesis.speak(u)
+       │
+       ├─ u.onstart  ──▶  animateMouth() loop (random height/scale per frame)
+       └─ u.onend    ──▶  resetMouth()  +  autoSendToMicrobit('speak')</pre></div>
+      <p>يوجد رجوع الصوت العربي لأن معظم أنظمة تشغيل سطح المكتب تأتي بأصوات نطق عربية أقل بكثير من الإنجليزية/الفرنسية المثبتة افتراضيًا &mdash; يتحقق التطبيق فعليًا من هذا عند التحميل ويسجّل تلميحًا محددًا «ثبّت صوتًا عربيًا» بدلًا من التحدث بصمت باللغة الخاطئة.</p>
+
+      <h3>كيف يعمل الاستماع: ميكروفون ← نص ← (اختياري) BLE</h3>
+      <p>تُنشئ <code>listen()</code> نسخة <code>SpeechRecognition</code> و، حسب مربع اختيار <strong>الاستماع المستمر</strong>، تضبط <code>rec.continuous</code>/<code>rec.interimResults</code> وفقًا لذلك. كل حدث نتيجة يمر عبر <code>event.results</code> بدءًا من <code>resultIndex</code>، محتفظًا بأحدث نص مؤقت منفصلًا عن أي شيء موسوم بـ<code>isFinal</code>؛ في الوضع المستمر، فقط نتيجة نهائية تُشغّل <code>autoSendToMicrobit()</code>، لذا لا تُغرق الترجمات المؤقتة الحية الـ micro:bit في منتصف الجملة. إذا كان <strong>التحدث التلقائي</strong> مفعّلًا، يُعاد نطق النص المسموع عبر <code>speak()</code> بدلًا من ذلك، والذي يرسل إلى الـ micro:bit نفسه بمجرد انتهاء ذلك النطق.</p>
+
+      <h3>التحدث إلى micro:bit: <code>bleConnect()</code> ورموز المقاطع</h3>
+      <p>تستدعي <code>bleConnect()</code> الدالة <code>navigator.bluetooth.requestDevice()</code> مُصفّاة على الأجهزة المسمّاة <code>BBC micro:bit</code>، ثم تكتشف خاصيتَي الكتابة والإشعار الخاصتين بخدمة Nordic UART مباشرة عبر خصائصهما بدلًا من معرّفات UUID ثابتة (لذا تتحمّل اختلافات فيرموير طفيفة). كل إرسال يمر عبر <code>tokensFromInput()</code>، التي تقسّم النص إلى كلمات وتُعلّم كل واحدة بعدد تقريبي للمقاطع من <code>countSyllables()</code> &mdash; مثلًا <code>"elephant"</code> تصبح <code>"3_elephant"</code> &mdash; ثم ترسل <code>bleWriteLine()</code> كل رمز كسطر خاص به، مقسّمًا إلى 20 بايت في كل مرة لأن BLE UART له حد صغير لكل كتابة. يعيد الـ micro:bit صدى كل واحد مسبوقًا بـ<code>OK</code>، مرئي في السجل عبر معالج <code>characteristicvaluechanged</code> الخاص بخاصية الإشعار.</p>
+
+      <h3>معمارية النظام، بالرسم التوضيحي</h3>
+      <div class="diagram" dir="ltr"><pre style="margin:0;border:0;padding:0;background:none;">                        ┌───────────────────────────┐
+                        │    index.html (browser)   │
+  ⌨ type + Speak   ────▶│  speak()                  │
+                        │    │  Web Speech Synthesis │
+                        │    ▼  (on-device, no server)
+                        │  🔊 audio + mouth anim     │
+                        │                            │
+  🎤 mic + Listen  ────▶│  listen()                 │
+                        │    │  Web Speech Recognition│
+                        │    ▼  (on-device, no server)
+                        │  text box filled           │
+                        │       │                    │
+                        │       ▼                    │
+   BBC micro:bit    ◀──▶│  bleConnect()/bleWriteLine()│
+   (Bluetooth LE)       └───────────────────────────┘</pre></div>
+      <p>على عكس Bit-Bot، <em>لا شيء</em> هنا يتصل بخادم بعيد &mdash; Speech Synthesis وSpeech Recognition كلاهما مدمج في المتصفح ويعمل بالكامل على الجهاز. حركة الشبكة الصادرة الوحيدة التي يولّدها هذا التطبيق أبدًا هي رابط البلوتوث إلى الـ micro:bit، وهي ليست «شبكة» بمعنى الإنترنت إطلاقًا.</p>
+
+      <h3>تخطيط HTML، بالرسم التوضيحي</h3>
+      <div class="diagram" dir="ltr"><pre style="margin:0;border:0;padding:0;background:none;">  &lt;body&gt;
+   └─ .app
+       ├─ .header          <b>logo · title · lang flags · ❓ help · status chip</b>
+       ├─ #helpOverlay      <b>❓ quick-reference modal</b>
+       └─ .rows-container
+           ├─ .col-left     <b>Speech Controls · BLE card · Options · Voice &amp; Language · Project Links</b>
+           └─ .col-right    <b>animated robot face + emotion buttons · Log panel</b></pre></div>
+      <p>لا توجد لوحة إعدادات أو طبقة تهيئة كما في Bit-Bot &mdash; كل عنصر تحكم مرئي على الصفحة في آنٍ واحد، في عمودين، وهذا سبب شعور هذا التطبيق الشقيق بأنه «أبسط»: أقل مخفي خلف القوائم.</p>
+
+      <h3>فيرموير الـ micro:bit: <code>makecode.ts</code></h3>
+      <p>حيث يتوقع فيرموير Bit-Bot مفردات وحيدة وثابتة من أوامر كلمة واحدة، الحيلة الكاملة لهذا الفيرموير هي فهم <em>جمل عادية</em> بالإنجليزية أو الفرنسية، بالإضافة إلى بروتوكول <code>EMO:</code> الأقدم الذي نشأ منه &mdash; مفيد لأن تطبيق الويب يبث بالضبط ما كتبته أو قلته، وليس كلمة أمر مُختارة مسبقًا.</p>
+
+      <h4>تبسيط جملة إلى شيء قابل للمطابقة</h4>
+      <p>تحوّل <code>normalizeText()</code> السطر إلى أحرف صغيرة وتستبدل كل حرف ليس <code>a-z</code> أو رقمًا أو مسافة بمسافة &mdash; وهذا ما يتيح لـ<code>"J'ai peur!"</code> و<code>"jai peur"</code> مطابقة نفس الكلمة المفتاحية رغم الفاصلة العليا والإملاء القريب من اللكنة:</p>
+      <pre><code>function normalizeText(s: string): string {
+    let t = s.toLowerCase()
+    let out = ""
+    for (let i = 0; i &lt; t.length; i++) {
+        let c = t.charCodeAt(i)
+        if (c == 32) { out += " "; continue }        // space
+        if (c &gt;= 97 &amp;&amp; c &lt;= 122) { out += t.charAt(i); continue }  // a-z
+        if (c &gt;= 48 &amp;&amp; c &lt;= 57) { out += t.charAt(i); continue }   // 0-9
+        out += " "                                    // anything else → space
+    }
+    while (out.indexOf("  ") &gt;= 0) out = out.split("  ").join(" ")
+    return out.trim()
+}
+function hasWord(t: string, w: string): boolean {
+    return (" " + t + " ").indexOf(" " + w + " ") &gt;= 0   // whole-word match, not substring
+}</code></pre>
+      <p>تُضيف <code>hasWord()</code> مسافات على كلا الجانبين قبل البحث، تحديدًا حتى لا تتطابق <code>"sad"</code> أيضًا مع <code>"sadly"</code> أو <code>"embassador"</code> &mdash; خطأ صغير لكن سهل الوقوع فيه إذا أضفت كلمة مفتاحية بنفسك يومًا ما.</p>
+
+      <h4>جداول كلمات مفتاحية ثنائية اللغة</h4>
+      <p><code>detectEmotion()</code> و<code>detectDirection()</code> كلاهما مجرد قوائم مرتبة من فحوصات <code>hasWord()</code>، كلمات مفتاحية إنجليزية وفرنسية جنبًا إلى جنب، أول تطابق يفوز:</p>
+      <table class="wikitable">
+        <tr><th>الدالة</th><th>ترجع</th><th>التطابقات (EN / FR)</th></tr>
+        <tr><td rowspan="5"><code>detectEmotion()</code></td><td><code>happy</code></td><td>happy, joy, content / heureux</td></tr>
+        <tr><td><code>sad</code></td><td>sad / triste</td></tr>
+        <tr><td><code>silly</code></td><td>silly, funny / rigolo, bete</td></tr>
+        <tr><td><code>scared</code></td><td>scared, afraid / peur</td></tr>
+        <tr><td><em>(+ angry, surprised, sleepy, laugh, party, robot)</em></td><td>&hellip;</td></tr>
+        <tr><td rowspan="3"><code>detectDirection()</code></td><td><code>up</code></td><td>up, forward / haut, monte, avance</td></tr>
+        <tr><td><code>stop</code></td><td>stop / arrete, arret</td></tr>
+        <tr><td><em>(+ down, left, right, spin)</em></td><td>&hellip;</td></tr>
+      </table>
+      <p>دالة ثالثة، <code>funEffects()</code>، تضيف مفاجآت خفية دون التأثير إطلاقًا على نتيجة المشاعر/الاتجاه &mdash; قول «banana» يعزف نغمتين ويعرض وجهًا مضحكًا، «boom» يومض رقعة شطرنج بنغمة منخفضة، «dance»/«danse» يبدّل أيقونات القلب.</p>
+
+      <h4>المعالج: الاتجاه يفوز، ثم المشاعر، ثم دائمًا إقرار ACK</h4>
+      <pre><code>function handleLine(line: string) {
+    line = line.trim()
+    if (line.length == 0) return
+
+    if (line.indexOf("EMO:") == 0) {          // explicit protocol, unchanged
+        showEmotion(line.substr(4).trim())
+        bluetooth.uartWriteLine("OK " + line)
+        return
+    }
+
+    let d = detectDirection(line)
+    if (d.length &gt; 0) { showDirection(d); bluetooth.uartWriteLine("OK " + line); return }
+
+    let e = detectEmotion(line)
+    if (e.length &gt; 0) showEmotion(e)
+
+    funEffects(line)
+    bluetooth.uartWriteLine("OK " + line)     // every line gets an ACK, matched or not
+}</code></pre>
+      <p>يُفحَص الاتجاه قبل المشاعر ويعود فورًا إذا وُجد &mdash; لا يمكن أن تكون الجملة «اذهب يسارًا» و«سعيد» في نفس الوقت على نفس السطر فيما يخص عرض LED، الاتجاه له الأولوية. الأهم من ذلك، السطر الأخير يُطلَق دائمًا: حتى جملة لا تطابق أي شيء إطلاقًا تحصل مع ذلك على <code>"OK " + line</code> معاد صداه، وهذا ما تستخدمه لوحة السجل في المتصفح لتأكيد أن كل كلمة أكملت الرحلة ذهابًا وإيابًا، طابقت أم لا.</p>
+
+      <h4>الرحلة الكاملة ذهابًا وإيابًا</h4>
+      <div class="diagram" dir="ltr"><pre style="margin:0;border:0;padding:0;background:none;">  browser: bleWriteLine("3_scared")
+       │
+       ▼  bluetooth write (UART RX characteristic)
+  micro:bit: onUartDataReceived → handleLine("3_scared")
+       │
+       ├─ not "EMO:"           → skip
+       ├─ detectDirection() → ""  → no direction keyword found
+       ├─ detectEmotion()   → "scared"  → showEmotion("scared")
+       ├─ funEffects()      → no easter-egg word found
+       ▼
+  bluetooth.uartWriteLine("OK 3_scared")
+       │
+       ▼  bluetooth notify (UART TX characteristic)
+  browser: characteristicvaluechanged → logLine("micro:bit: OK 3_scared")</pre></div>
+
+      <h2 id="speak">اجعله يتحدث</h2>
+      <p>اكتب نصًا، اختر لغة وصوتًا تحت <strong>الصوت واللغة</strong>، ثم اضغط <strong>تحدث</strong> (أو اضغط <kbd>Ctrl</kbd>/<kbd>Cmd</kbd>+<kbd>Enter</kbd>). أشرطة تمرير السرعة والنبرة تضبط الإلقاء؛ خيار <strong>صوت عشوائي عند كل تحدث</strong> يختار صوتًا مثبتًا مختلفًا في كل مرة للتنويع.</p>
+
+      <h2 id="listen">اجعله يستمع</h2>
+      <p>اضغط <strong>استمع</strong> واسمح بالميكروفون. وضعان:</p>
+      <ul>
+        <li><strong>لقطة واحدة</strong> (افتراضي) &mdash; يلتقط نطقًا واحدًا، ثم يتوقف.</li>
+        <li><strong>استماع مستمر (بدون استخدام اليدين)</strong> &mdash; يعيد التشغيل تلقائيًا بعد كل عبارة، معروضًا نصًا مؤقتًا حيًّا أثناء حديثك.</li>
+      </ul>
+      <p><strong>التحدث التلقائي بعد الاستماع</strong> يجعل الروبوت يكرر فورًا ما سمعه.</p>
+
+      <h2 id="emotions">المشاعر</h2>
+      <p>ثلاثة عشر زر مشاعر تحت وجه الروبوت &mdash; محايد، سعيد، حزين، غاضب، غاضب جدًا، متفاجئ، ضاحك، مضحك، خائف، احتفال، روبوت، مهووس، نعسان &mdash; كل واحد يبدّل فورًا حالة CSS للعينين/الحاجبين/الفم/الخدين. إذا كان micro:bit متصلًا، تُرسَل نفس المشاعر إليه كأمر <code>EMO:&lt;name&gt;</code>.</p>
+
+      <h2 id="microbit">توصيل micro:bit</h2>
+      <p>اضغط <strong>اتصال</strong> تحت BLE micro:bit (UART) واختر لوحتك. بمجرد الاقتران، يرسل الروبوت تلقائيًا كل كلمة منطوقة/مكتوبة/مسموعة إلى الـ micro:bit كرمز واحد لكل سطر، موسوم بعدد مقاطع (مثل <code>3_elephant</code>)، ويقر الـ micro:bit كل واحدة بـ<code>OK 3_elephant</code> معادة عبر نفس رابط UART &mdash; مرئية في السجل على الصفحة.</p>
+      <div class="ambox ambox-notice">يتطلب الاستماع والبلوتوث كلاهما سياقًا آمنًا: <code>https://</code> أو <code>localhost</code>، وليس صفحة <code>file:///</code> مباشرة.</div>
+
+      <h2 id="firmware">الحصول على كود الفيرموير</h2>
+      <p>تجلب <a href="https://abourdim.github.io/talking-robot/flash.html">flash.html</a> ملف <code>makecode.ts</code> الحالي وتعرضه مع زر <strong>نسخ كود micro:bit</strong> بضغطة واحدة، بالإضافة إلى خطوات لصقه في <a href="https://makecode.microbit.org">makecode.microbit.org</a>، إضافة إضافة <code>bluetooth</code>، والتحميل. تربط أيضًا مباشرة بمشروع MakeCode مشترك مبرمج مسبقًا لمن يفضّل تخطي النسخ واللصق تمامًا. مرتبطة من زر <strong>الحصول على كود الفيرموير</strong> تحت روابط المشروع في الصفحة الرئيسية.</p>
+
+      <h2 id="i18n">اللغات &amp; نظام الترجمة</h2>
+      <p>على عكس Bit-Bot، لم يكن لهذا التطبيق في الأصل <em>أي</em> ترجمة للواجهة إطلاقًا &mdash; فقط القائمة المنسدلة للغة الصوت كانت متعددة اللغات. يمتلك الآن كائن <code>I18N</code> كاملًا (إنجليزي/فرنسي/عربي) مع منتقي قائم على الأعلام في الترويسة، يغطي كل زر وبطاقة وتلميح، وحوالي 50 رسالة سجل/حالة ديناميكية، مع تخطيط من اليمين إلى اليسار للعربية. يُخزَّن اختيار اللغة تحت مفتاح <code>localStorage</code> خاص به، منفصل عن مفتاح Bit-Bot، لأن التطبيقين يشتركان في نفس أصل <code>abourdim.github.io</code>.</p>
+
+      <h2 id="help">المساعدة داخل التطبيق</h2>
+      <p>يفتح زر ❓ في الترويسة نافذة تغطي اجعله يتحدث، اجعله يستمع، تغيير المشاعر، توصيل micro:bit، ونصائح &mdash; مترجمة مثل بقية الواجهة، قابلة للإغلاق عبر × / <kbd>Escape</kbd> / النقر خارجها.</p>
+
+      <h2 id="options">الخيارات</h2>
+      <table class="wikitable">
+        <tr><th>الخيار</th><th>التأثير</th></tr>
+        <tr><td>التحدث التلقائي بعد الاستماع</td><td>يكرر ما سمعه للتو.</td></tr>
+        <tr><td>الإرسال التلقائي إلى micro:bit</td><td>يرسل كل كلمة مسموعة/منطوقة/مكتوبة إلى micro:bit متصل تلقائيًا.</td></tr>
+        <tr><td>الاستماع المستمر</td><td>وضع بدون استخدام اليدين؛ يعيد تشغيل التعرف تلقائيًا.</td></tr>
+        <tr><td>صوت عشوائي عند كل تحدث</td><td>يختار صوتًا مثبتًا مختلفًا (يطابق اللغة المختارة قدر الإمكان) في كل مرة.</td></tr>
+        <tr><td>العينان تتبعان الفأرة</td><td>حدقتا الروبوت تتبعان المؤشر.</td></tr>
+        <tr><td>حساسية الفم</td><td>مدى دراماتيكية حركة الفم أثناء الحديث.</td></tr>
+      </table>
+
+      <h2 id="troubleshooting">حل المشكلات</h2>
+      <table class="wikitable">
+        <tr><th>العرض</th><th>السبب / الحل</th></tr>
+        <tr><td>الاستماع لا يفعل شيئًا</td><td>استخدم Chrome/Edge، اسمح بالميكروفون، وافتح عبر <code>http://localhost</code> أو <code>https://</code> &mdash; وليس <code>file:///</code>.</td></tr>
+        <tr><td>لا يوجد صوت عربي متاح</td><td>يحتاج نظام التشغيل صوت تحويل نص إلى كلام عربي مثبتًا؛ يسجّل التطبيق تحذيرًا محددًا ويلجأ إلى صوت آخر إذا لم يُعثر على أي واحد.</td></tr>
+        <tr><td>فشل الاتصال بالبلوتوث</td><td>يحتاج HTTPS/localhost ومتصفحًا يدعم Web Bluetooth (Chrome/Edge). يجب أن يكون الـ micro:bit يبث إعلانه وفي المدى.</td></tr>
+        <tr><td>الـ micro:bit لا يرسل إقرارًا أبدًا</td><td>أعد التحميل بالكود الحالي من <a href="https://abourdim.github.io/talking-robot/flash.html">flash.html</a> وتأكد من إضافة إضافة <code>bluetooth</code> في MakeCode.</td></tr>
+      </table>
+
+      <div class="catlinks">
+        التصنيفات: <a href="index.html">micro:bit</a> | <a href="index.html">الأطفال</a> | <a href="index.html">تطبيقات الويب</a> | <a href="index.html">Web Speech API</a>
+      </div>
+    </article>
+  </div>
+</div>
+
+<div class="footer-wiki">
+  أُنشئت هذه الصفحة في 29 يوليو 2026. المحتوى مبني على مستودع <a href="https://github.com/abourdim/talking-robot">talking-robot</a> واختبار مباشر للتطبيق المباشر.
+</div>
+
+</body>
+</html>

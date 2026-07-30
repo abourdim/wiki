@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الصفحة الرئيسية - Wiki</title>
+<link rel="stylesheet" href="wiki.css">
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-inner">
+    <a class="wiki-logo" href="https://workshop-diy.org"><img src="logo.png" alt="شعار الويكي"></a>
+    <a class="masthead-site-link" href="https://workshop-diy.org">workshop-diy.org</a>
+    <div class="masthead-title">
+      الويكي
+      <span class="sub">قاعدة المعرفة الشخصية والمجانية</span>
+    </div>
+    <div class="masthead-actions">
+      <div class="lang-switch" role="group" aria-label="اللغة">
+        <a href="index.html" class="lang-switch-btn" title="Français"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="20" height="40" fill="#002395"/><rect x="20" width="20" height="40" fill="#fff"/><rect x="40" width="20" height="40" fill="#ED2939"/></svg></a>
+        <a href="index-en.html" class="lang-switch-btn" title="English"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="60" height="40" fill="#012169"/><path d="M0 0L60 40M60 0L0 40" stroke="#fff" stroke-width="6.5"/><path d="M0 0L60 40M60 0L0 40" stroke="#C8102E" stroke-width="3.5"/><path d="M30 0V40M0 20H60" stroke="#fff" stroke-width="11"/><path d="M30 0V40M0 20H60" stroke="#C8102E" stroke-width="6.5"/></svg></a>
+        <a href="index-ar.html" class="lang-switch-btn active" title="العربية"><svg width="24" height="16" viewBox="0 0 900 600"><defs><clipPath id="glIXar"><rect width="450" height="600"/></clipPath></defs><rect width="450" height="600" fill="#006233"/><rect x="450" width="450" height="600" fill="#FFF"/><g fill="#D21034" transform="translate(450,300)"><circle r="125"/><circle cx="25" r="100" fill="#FFF"/><g clip-path="url(#glIXar)" transform="translate(-450,-300)"><circle cx="475" cy="300" r="100" fill="#006233"/></g><path d="M85-12l22 67h71l-57 42 22 67-58-42-57 42 21-67-57-42h71z"/></g></svg></a>
+      </div>
+      <div class="masthead-search">
+        <input type="text" placeholder="ابحث في الويكي" disabled>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wiki-layout">
+
+  <div class="sidebar">
+    <h3>التصفح</h3>
+    <ul>
+      <li><a href="index.html">الصفحة الرئيسية</a></li>
+      <li><a href="#">التعديلات الأخيرة</a></li>
+      <li><a href="#">صفحة عشوائية</a></li>
+    </ul>
+    <h3>التصنيفات</h3>
+    <ul>
+      <li><a href="#">الشبكات</a></li>
+      <li><a href="#">Linux</a></li>
+      <li><a href="#">Windows</a></li>
+      <li><a href="#">الإلكترونيات</a></li>
+      <li><a href="#">ESP32</a></li>
+    </ul>
+    <h3>أدوات</h3>
+    <ul>
+      <li><a href="https://github.com/abourdim/wiki">عرض مستودع الكود المصدري</a></li>
+    </ul>
+  </div>
+
+  <div class="content-wrap">
+    <div class="article-tabs">
+      <span class="active">المقالة</span>
+      <span>النقاش</span>
+    </div>
+
+    <article>
+      <h1 class="page-title">الصفحة الرئيسية</h1>
+
+      <p>مرحبًا بك في <strong>الويكي</strong>، قاعدة معرفة شخصية من الأدلة والملاحظات.</p>
+
+      <h2>مقالات مميزة</h2>
+      <ul>
+        <li>
+          <a href="windows-ubuntu-file-sharing-tutorial-ar.html">مشاركة الملفات بين Ubuntu &amp; Windows 11</a>
+          &mdash; دليل خطوة بخطوة لإعداد مشاركة ملفات SMB في كلا الاتجاهين على شبكة محلية، بالإضافة إلى
+          إعداد RDP وملاحظات حل المشكلات.
+          <span class="status-tag done">مكتمل</span>
+        </li>
+        <li>
+          <a href="video-car-ar.html">VideoCar</a>
+          &mdash; فيرموير مُحسَّن وصفحة تحكم عبر الويب لسيارة keyestudio ESP32-CAM Video Smart Car:
+          تحكم بعصا التحكم، آلية أمان، تراكبات رؤية حية، أوضاع مستقلة للمتابعة الذاتية/الخط/ملاحقة اللون.
+          <span class="status-tag done">مكتمل</span>
+        </li>
+        <li>
+          <a href="bit-bot-ar.html">Bit-Bot</a>
+          &mdash; رفيق روبوت بالذكاء الاصطناعي للأطفال: محادثة صوتية مع اختيار مزوّدي ذكاء اصطناعي، 12 شخصية،
+          ألعاب صغيرة مدعومة بالذكاء الاصطناعي، وربط اختياري بـBBC micro:bit عبر البلوتوث. ترجمة كاملة EN/FR/AR.
+          <span class="status-tag done">مكتمل</span>
+        </li>
+        <li>
+          <a href="talking-robot-ar.html">Talking Robot</a>
+          &mdash; روبوت كلام &amp; مشاعر في المتصفح: تحويل النص إلى كلام، التعرف على الكلام، 13 مشاعر متحركة،
+          وربط اختياري بـBBC micro:bit عبر البلوتوث. بدون أي مزوّد ذكاء اصطناعي، يعمل بالكامل دون اتصال.
+          <span class="status-tag done">مكتمل</span>
+        </li>
+        <li>
+          <a href="bit-playground-ar.html">micro:bit Playground</a>
+          &mdash; لوحة تحكم BLE بـ8 تبويبات ولوحة معلومات حساسات لـBBC micro:bit V2: رسم بياني حي للحساسات،
+          تحكم بالسيرفو، 5 نماذج روبوت ثلاثية الأبعاد تفاعلية، وبروتوكول فيرموير بأكثر من 30 أمرًا. ترجمة كاملة EN/FR/AR.
+          <span class="status-tag done">مكتمل</span>
+        </li>
+        <li>
+          <a href="bit-rxy-ar.html">Micro:bit Remote Builder (bit-rxy)</a>
+          &mdash; أداة بناء تحكم عن بُعد عبر BLE بالسحب والإفلات: صمّم تخطيطًا من 12 نوع أداة وهي تُنشئ
+          فيرموير MakeCode المطابق تلقائيًا، مع تحميل بنقرة واحدة عبر خدمة Bluetooth Partial Flashing أو WebUSB.
+          <span class="status-tag done">مكتمل</span>
+        </li>
+      </ul>
+
+      <h2>التصنيفات</h2>
+      <table class="wikitable">
+        <tr><th>التصنيف</th><th>المقالات</th><th>أُنشئت</th><th>آخر تعديل</th></tr>
+        <tr>
+          <td>الشبكات</td>
+          <td><a href="windows-ubuntu-file-sharing-tutorial-ar.html">مشاركة الملفات بين Ubuntu &amp; Windows 11</a></td>
+          <td>27 يوليو 2026</td>
+          <td>27 يوليو 2026</td>
+        </tr>
+        <tr>
+          <td>الإلكترونيات / ESP32</td>
+          <td><a href="video-car-ar.html">VideoCar</a></td>
+          <td>27 يوليو 2026</td>
+          <td>27 يوليو 2026</td>
+        </tr>
+        <tr>
+          <td>الذكاء الاصطناعي / micro:bit</td>
+          <td><a href="bit-bot-ar.html">Bit-Bot</a></td>
+          <td>29 يوليو 2026</td>
+          <td>29 يوليو 2026</td>
+        </tr>
+        <tr>
+          <td>micro:bit / Web Speech API</td>
+          <td><a href="talking-robot-ar.html">Talking Robot</a></td>
+          <td>29 يوليو 2026</td>
+          <td>29 يوليو 2026</td>
+        </tr>
+        <tr>
+          <td>micro:bit / الروبوتات / رسوميات ثلاثية الأبعاد</td>
+          <td><a href="bit-playground-ar.html">micro:bit Playground</a></td>
+          <td>29 يوليو 2026</td>
+          <td>29 يوليو 2026</td>
+        </tr>
+        <tr>
+          <td>micro:bit / Bluetooth</td>
+          <td><a href="bit-rxy-ar.html">Micro:bit Remote Builder (bit-rxy)</a></td>
+          <td>29 يوليو 2026</td>
+          <td>30 يوليو 2026</td>
+        </tr>
+      </table>
+
+      <div class="catlinks">
+        التصنيفات: <a href="#">أدلة</a> | <a href="#">الشبكات</a> | <a href="#">Home lab</a> | <a href="#">الإلكترونيات</a> | <a href="#">ESP32</a> | <a href="#">micro:bit</a> | <a href="#">الذكاء الاصطناعي</a> | <a href="#">الروبوتات</a> | <a href="#">رسوميات ثلاثية الأبعاد</a> | <a href="#">Bluetooth</a>
+      </div>
+    </article>
+  </div>
+</div>
+
+<div class="footer-wiki">
+  عُدِّلت هذه الصفحة آخر مرة في 30 يوليو 2026. المحتوى متاح للمرجعية الشخصية.
+</div>
+
+</body>
+</html>

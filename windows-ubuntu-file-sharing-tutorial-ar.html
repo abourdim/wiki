@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sharing Files Between Ubuntu &amp; Windows 11 - Wiki</title>
+<link rel="stylesheet" href="wiki.css">
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-inner">
+    <a class="wiki-logo" href="https://workshop-diy.org"><img src="logo.png" alt="شعار الويكي"></a>
+    <a class="masthead-site-link" href="https://workshop-diy.org">workshop-diy.org</a>
+    <div class="masthead-title">
+      الويكي
+      <span class="sub">قاعدة المعرفة الشخصية والمجانية</span>
+    </div>
+    <div class="masthead-actions">
+      <div class="lang-switch" role="group" aria-label="اللغة">
+        <a href="windows-ubuntu-file-sharing-tutorial.html" class="lang-switch-btn" title="Français"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="20" height="40" fill="#002395"/><rect x="20" width="20" height="40" fill="#fff"/><rect x="40" width="20" height="40" fill="#ED2939"/></svg></a>
+        <a href="windows-ubuntu-file-sharing-tutorial-en.html" class="lang-switch-btn" title="English"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="60" height="40" fill="#012169"/><path d="M0 0L60 40M60 0L0 40" stroke="#fff" stroke-width="6.5"/><path d="M0 0L60 40M60 0L0 40" stroke="#C8102E" stroke-width="3.5"/><path d="M30 0V40M0 20H60" stroke="#fff" stroke-width="11"/><path d="M30 0V40M0 20H60" stroke="#C8102E" stroke-width="6.5"/></svg></a>
+        <a href="windows-ubuntu-file-sharing-tutorial-ar.html" class="lang-switch-btn active" title="العربية"><svg width="24" height="16" viewBox="0 0 900 600"><defs><clipPath id="glWUar"><rect width="450" height="600"/></clipPath></defs><rect width="450" height="600" fill="#006233"/><rect x="450" width="450" height="600" fill="#FFF"/><g fill="#D21034" transform="translate(450,300)"><circle r="125"/><circle cx="25" r="100" fill="#FFF"/><g clip-path="url(#glWUar)" transform="translate(-450,-300)"><circle cx="475" cy="300" r="100" fill="#006233"/></g><path d="M85-12l22 67h71l-57 42 22 67-58-42-57 42 21-67-57-42h71z"/></g></svg></a>
+      </div>
+      <div class="masthead-search">
+        <input type="text" placeholder="ابحث في الويكي" disabled>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wiki-layout">
+
+  <div class="sidebar">
+    <h3>التصفح</h3>
+    <ul>
+      <li><a href="index.html">الصفحة الرئيسية</a></li>
+      <li><a href="#">التعديلات الأخيرة</a></li>
+      <li><a href="#">صفحة عشوائية</a></li>
+    </ul>
+    <h3>التصنيفات</h3>
+    <ul>
+      <li><a href="index.html">الشبكات</a></li>
+      <li><a href="index.html">Linux</a></li>
+      <li><a href="index.html">Windows</a></li>
+    </ul>
+    <h3>أدوات</h3>
+    <ul>
+      <li><a href="https://github.com/abourdim/wiki">عرض مستودع الكود المصدري</a></li>
+    </ul>
+  </div>
+
+  <div class="content-wrap">
+    <div class="article-tabs">
+      <span class="active">المقالة</span>
+      <span>النقاش</span>
+    </div>
+
+    <article>
+      <h1 class="page-title">مشاركة الملفات بين Ubuntu &amp; Windows 11</h1>
+
+      <div class="infobox">
+        <div class="infobox-title">إعداد الشبكة</div>
+        <table>
+          <tr><th>مضيف Ubuntu</th><td><span class="key-value">192.168.1.78</span></td></tr>
+          <tr><th>مضيف Windows</th><td><span class="key-value">192.168.1.54</span></td></tr>
+          <tr><th>نظام التشغيل (Ubuntu)</th><td>22.04 LTS</td></tr>
+          <tr><th>نظام التشغيل (Windows)</th><td>11 Pro</td></tr>
+          <tr><th>البروتوكول</th><td>SMB / CIFS</td></tr>
+          <tr><th>النطاق</th><td>نفس الشبكة المحلية</td></tr>
+        </table>
+      </div>
+
+      <p class="hatnote">توثّق هذه المقالة إجراءً خطوة بخطوة لإعداد مشاركة ملفات ثنائية الاتجاه على شبكة محلية.</p>
+
+      <div class="toc">
+        <div class="toc-title">المحتويات</div>
+        <ol>
+          <li><a href="#overview">نظرة عامة</a></li>
+          <li><a href="#ubuntu-to-windows">مشاركة مجلد Ubuntu مع Windows</a></li>
+          <li><a href="#windows-to-ubuntu">مشاركة مجلد Windows مع Ubuntu</a></li>
+          <li><a href="#explorer-access">تصفح المشاركات من كل مدير ملفات</a></li>
+          <li><a href="#troubleshooting">حل المشكلات</a></li>
+        </ol>
+      </div>
+
+      <h2 id="overview">نظرة عامة</h2>
+      <p>كان كلا الجهازين على نفس الشبكة المحلية (LAN)، وهو أمر مطلوب لهذا الإعداد (لا حاجة لإعادة توجيه المنافذ أو VPN). يتحدث كل من Ubuntu (عبر Samba) وWindows (بشكل أصلي) بروتوكول SMB/CIFS، لذا يمكن لكل نظام تشغيل أن يعمل كخادم ملفات وكعميل للآخر في آن واحد &mdash; دون الحاجة لأي برنامج طرف ثالث.</p>
+
+      <div class="ambox ambox-notice">
+        <strong>ملاحظة:</strong> استبدل عناوين IP وأسماء المستخدمين وأسماء المشاركات أدناه بقيم أجهزتك الخاصة.
+      </div>
+
+      <h2 id="ubuntu-to-windows">مشاركة مجلد Ubuntu مع Windows</h2>
+      <p>الهدف: جعل مجلد Ubuntu (مثل الدليل الرئيسي) يظهر كمحرك أقراص شبكي على Windows.</p>
+
+      <h3>على Ubuntu &mdash; تثبيت &amp; تهيئة Samba</h3>
+      <p>ثبّت Samba (تخطَّ هذه الخطوة إذا كانت مثبتة بالفعل):</p>
+      <pre><code>sudo apt-get update
+sudo apt-get install -y samba</code></pre>
+
+      <p>أضف تعريف مشاركة إلى <code>/etc/samba/smb.conf</code>:</p>
+      <pre><code>sudo tee -a /etc/samba/smb.conf > /dev/null <<'EOF'
+
+[home_abdelhak]
+   comment = Abdelhak Home Folder
+   path = /home/abdelhak
+   browseable = yes
+   read only = no
+   guest ok = no
+   valid users = abdelhak
+   create mask = 0664
+   directory mask = 0775
+EOF</code></pre>
+
+      <p>اضبط كلمة مرور Samba لمستخدم Linux الخاص بك (مخزن اعتماد منفصل عن كلمة مرور تسجيل الدخول الخاصة بك):</p>
+      <pre><code>sudo smbpasswd -a abdelhak</code></pre>
+
+      <p>أعد تشغيل خدمات Samba واسمح بها عبر جدار الحماية:</p>
+      <pre><code>sudo systemctl restart smbd nmbd
+sudo ufw allow samba          # فقط إذا كان ufw مفعّلًا</code></pre>
+
+      <p>تأكد من أن Samba تبدأ تلقائيًا عند الإقلاع:</p>
+      <pre><code>sudo systemctl enable smbd nmbd</code></pre>
+
+      <h3>على Windows &mdash; الاتصال بالمشاركة</h3>
+      <p>افتح موجه الأوامر أو PowerShell واختبر الاتصال:</p>
+      <pre><code>net use Z: \\192.168.1.78\home_abdelhak /user:abdelhak</code></pre>
+      <p>أدخل كلمة مرور Samba عند المطالبة بها.</p>
+
+      <p>اجعل الربط <strong>دائمًا</strong> (يبقى بعد إعادة التشغيل، يعيد الاتصال تلقائيًا عند تسجيل الدخول):</p>
+      <pre><code>net use Z: /delete
+net use Z: \\192.168.1.78\home_abdelhak /user:abdelhak /persistent:yes</code></pre>
+
+      <p>افتح مستكشف الملفات &mdash; يظهر محرك الأقراص تحت «هذا الجهاز» كـ<span class="key-value">home_abdelhak (Z:)</span>.</p>
+
+      <div class="ambox">
+        <strong>مشكلة معروفة:</strong> إذا أظهر المستكشف «impossible d'accéder» (تعذر الوصول) لكن <code>net use</code> يعمل بشكل جيد، فعادة يكون السبب أن ملف تعريف شبكة Windows مضبوط على <strong>عام</strong> بدلًا من <strong>خاص</strong>. تُقيّد ملفات التعريف العامة تصفح SMB في المستكشف رغم أن الاتصالات المباشرة لا تزال تعمل. أصلح ذلك تحت <em>الإعدادات &rarr; الشبكة &amp; الإنترنت &rarr; اتصالك &rarr; نوع ملف تعريف الشبكة &rarr; خاص</em>.
+      </div>
+
+      <h2 id="windows-to-ubuntu">مشاركة مجلد Windows مع Ubuntu</h2>
+      <p>الهدف: تحميل (mount) مجلد Windows (مثل ملف تعريف المستخدم) كدليل محلي على Ubuntu.</p>
+
+      <h3>على Windows &mdash; تفعيل المشاركة</h3>
+      <p>تأكد من تفعيل اكتشاف الشبكة &amp; مشاركة الملفات: <em>الإعدادات &rarr; الشبكة &amp; الإنترنت &rarr; إعدادات الشبكة المتقدمة &rarr; إعدادات المشاركة المتقدمة</em>، بدّل <strong>اكتشاف الشبكة</strong> و<strong>مشاركة الملفات والطابعات</strong> إلى تشغيل لملف التعريف الخاص.</p>
+      <p>انقر بزر الفأرة الأيمن على المجلد المراد مشاركته (مثل <code>C:\Users\Win10</code>) &rarr; <strong>خصائص</strong> &rarr; تبويب <strong>مشاركة</strong> &rarr; <strong>مشاركة متقدمة</strong>. حدّد <strong>«مشاركة هذا المجلد»</strong>، أعطه اسم مشاركة (مثل <code>Win10</code>). انقر على <strong>الأذونات</strong> &rarr; امنح مستخدمك <strong>التحكم الكامل</strong> &rarr; موافق &rarr; موافق &rarr; إغلاق.</p>
+      <p>تحقق من PowerShell:</p>
+      <pre><code>net share</code></pre>
+
+      <h3>على Ubuntu &mdash; تحميل المشاركة</h3>
+      <p>ثبّت أدوات عميل CIFS:</p>
+      <pre><code>sudo apt-get install -y cifs-utils</code></pre>
+
+      <p>أنشئ نقطة تحميل واختبرها:</p>
+      <pre><code>sudo mkdir -p /mnt/win10share
+sudo mount -t cifs //192.168.1.54/Win10 /mnt/win10share \
+  -o username=Win10,uid=$(id -u),gid=$(id -g)</code></pre>
+      <p>أدخل كلمة مرور حساب Windows عند المطالبة بها، ثم أكّد بـ:</p>
+      <pre><code>ls /mnt/win10share</code></pre>
+
+      <p>اجعله <strong>دائمًا</strong> باستخدام ملف اعتماد (أكثر أمانًا من كلمة مرور نصية واضحة في <code>/etc/fstab</code>، والتي يمكن لأي شخص قراءتها):</p>
+      <pre><code>sudo mkdir -p /etc/samba/creds
+sudo nano /etc/samba/creds/win10share</code></pre>
+      <p>أضف:</p>
+      <pre><code>username=Win10
+password=YOUR_WINDOWS_PASSWORD</code></pre>
+      <p>قيّد أذونات الملف:</p>
+      <pre><code>sudo chmod 600 /etc/samba/creds/win10share</code></pre>
+
+      <p>أضف إدخال تحميل تلقائي دائم إلى <code>/etc/fstab</code>:</p>
+      <pre><code>echo "//192.168.1.54/Win10 /mnt/win10share cifs credentials=/etc/samba/creds/win10share,uid=$(id -u),gid=$(id -g),iocharset=utf8,x-systemd.automount,x-systemd.requires=network-online.target,_netdev 0 0" | sudo tee -a /etc/fstab</code></pre>
+
+      <p>أعد التحميل واختبر:</p>
+      <pre><code>sudo systemctl daemon-reload
+sudo mount -a
+ls /mnt/win10share</code></pre>
+
+      <div class="ambox ambox-notice">
+        <strong>لماذا <code>x-systemd.automount</code> + <code>_netdev</code>؟</strong> تُحمّل هذه الخيارات المشاركة عند الطلب بمجرد جاهزية الشبكة، بدلًا من إيقاف الإقلاع إذا كان جهاز Windows مطفأً أو غير قابل للوصول.
+      </div>
+
+      <h2 id="explorer-access">تصفح المشاركات من كل مدير ملفات</h2>
+
+      <h3>من Ubuntu (Nautilus / «الملفات»)</h3>
+      <p>بمجرد التحميل، تصفحه مثل أي مجلد محلي: افتح الملفات، اضغط <code>Ctrl+L</code>، اكتب <code>/mnt/win10share</code>، اضغط Enter. اختياريًا، اسحب المجلد إلى الشريط الجانبي لإضافته كإشارة مرجعية.</p>
+      <p>بدلًا من ذلك، اتصل مباشرة عبر الشبكة بدون تحميل fstab: اضغط <code>Ctrl+L</code> وأدخل <span class="key-value">smb://192.168.1.54/Win10</span> &mdash; هذا يطلب بيانات الاعتماد عبر مربع حوار رسومي.</p>
+
+      <h3>من Windows (مستكشف الملفات)</h3>
+      <p>يظهر محرك الأقراص المرتبط تلقائيًا تحت <strong>هذا الجهاز</strong> بمجرد إعداده بـ<code>/persistent:yes</code>. يمكنك أيضًا كتابة مسار UNC مباشرة في شريط العنوان: <span class="key-value">\\192.168.1.78\home_abdelhak</span>.</p>
+
+      <h2 id="troubleshooting">حل المشكلات</h2>
+      <table class="wikitable">
+        <tr><th>العرض</th><th>السبب المحتمل</th><th>الحل</th></tr>
+        <tr>
+          <td>المستكشف لا يمكنه تصفح المشاركة، لكن <code>net use</code> يعمل</td>
+          <td>ملف تعريف الشبكة مضبوط على عام</td>
+          <td>بدّل إلى ملف التعريف الخاص في إعدادات شبكة Windows</td>
+        </tr>
+        <tr>
+          <td>اتصال RDP «فقد الاتصال» فورًا</td>
+          <td>المنفذ 3389 محظور بجدار حماية Windows، أو RDP غير مفعّل فعليًا</td>
+          <td>تحقق من جدار الحماية &rarr; اسمح بسطح المكتب البعيد؛ تأكد من تفعيل المفتاح في الإعدادات &rarr; النظام &rarr; سطح المكتب البعيد</td>
+        </tr>
+        <tr>
+          <td>خادما RDP يتعارضان على Ubuntu (xrdp مقابل GNOME Remote Desktop)</td>
+          <td>كلاهما يحاول الارتباط بالمنفذ 3389</td>
+          <td>عطّل غير المستخدم: <code>sudo systemctl disable --now xrdp</code></td>
+        </tr>
+        <tr>
+          <td><code>mount.cifs: command not found</code></td>
+          <td>حزمة مفقودة</td>
+          <td><code>sudo apt-get install -y cifs-utils</code></td>
+        </tr>
+      </table>
+
+      <p>
+        الحالة: مشاركة Ubuntu &rarr; Windows <span class="status-tag done">مكتمل</span> &nbsp;
+        مشاركة Windows &rarr; Ubuntu <span class="status-tag done">مكتمل</span> &nbsp;
+        التحكم بشاشة RDP <span class="status-tag pending">قيد الانتظار / جزئي</span>
+      </p>
+
+      <div class="catlinks">
+        التصنيفات: <a href="index.html">الشبكات</a> | <a href="index.html">Linux</a> | <a href="index.html">Windows</a>
+      </div>
+    </article>
+  </div>
+</div>
+
+<div class="footer-wiki">
+  أُنشئت هذه الصفحة في 27 يوليو 2026 وعُدِّلت آخر مرة في 30 يوليو 2026. المحتوى متاح للمرجعية الشخصية.
+</div>
+
+</body>
+</html>

@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Micro:bit Remote Builder (bit-rxy) - Wiki</title>
+<link rel="stylesheet" href="wiki.css">
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-inner">
+    <a class="wiki-logo" href="https://workshop-diy.org"><img src="logo.png" alt="شعار الويكي"></a>
+    <a class="masthead-site-link" href="https://workshop-diy.org">workshop-diy.org</a>
+    <div class="masthead-title">
+      الويكي
+      <span class="sub">قاعدة المعرفة الشخصية والمجانية</span>
+    </div>
+    <div class="masthead-actions">
+      <div class="lang-switch" role="group" aria-label="اللغة">
+        <a href="bit-rxy.html" class="lang-switch-btn" title="Français"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="20" height="40" fill="#002395"/><rect x="20" width="20" height="40" fill="#fff"/><rect x="40" width="20" height="40" fill="#ED2939"/></svg></a>
+        <a href="bit-rxy-en.html" class="lang-switch-btn" title="English"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="60" height="40" fill="#012169"/><path d="M0 0L60 40M60 0L0 40" stroke="#fff" stroke-width="6.5"/><path d="M0 0L60 40M60 0L0 40" stroke="#C8102E" stroke-width="3.5"/><path d="M30 0V40M0 20H60" stroke="#fff" stroke-width="11"/><path d="M30 0V40M0 20H60" stroke="#C8102E" stroke-width="6.5"/></svg></a>
+        <a href="bit-rxy-ar.html" class="lang-switch-btn active" title="العربية"><svg width="24" height="16" viewBox="0 0 900 600"><defs><clipPath id="glBitRxyAr"><rect width="450" height="600"/></clipPath></defs><rect width="450" height="600" fill="#006233"/><rect x="450" width="450" height="600" fill="#FFF"/><g fill="#D21034" transform="translate(450,300)"><circle r="125"/><circle cx="25" r="100" fill="#FFF"/><g clip-path="url(#glBitRxyAr)" transform="translate(-450,-300)"><circle cx="475" cy="300" r="100" fill="#006233"/></g><path d="M85-12l22 67h71l-57 42 22 67-58-42-57 42 21-67-57-42h71z"/></g></svg></a>
+      </div>
+      <div class="masthead-search">
+        <input type="text" placeholder="ابحث في الويكي" disabled>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wiki-layout">
+
+  <div class="sidebar">
+    <h3>التصفح</h3>
+    <ul>
+      <li><a href="index.html">الصفحة الرئيسية</a></li>
+      <li><a href="#">التعديلات الأخيرة</a></li>
+      <li><a href="#">صفحة عشوائية</a></li>
+    </ul>
+    <h3>التصنيفات</h3>
+    <ul>
+      <li><a href="index.html">الشبكات</a></li>
+      <li><a href="index.html">Linux</a></li>
+      <li><a href="index.html">Windows</a></li>
+      <li><a href="index.html">الإلكترونيات</a></li>
+      <li><a href="index.html">ESP32</a></li>
+      <li><a href="index.html">micro:bit</a></li>
+    </ul>
+    <h3>أدوات</h3>
+    <ul>
+      <li><a href="https://github.com/abourdim/bit-rxy">عرض مستودع الكود المصدري</a></li>
+    </ul>
+  </div>
+
+  <div class="content-wrap">
+    <div class="article-tabs">
+      <span class="active">المقالة</span>
+      <span>النقاش</span>
+    </div>
+
+    <article>
+      <h1 class="page-title">Micro:bit Remote Builder (bit-rxy)</h1>
+
+      <div class="infobox">
+        <div class="infobox-title">Micro:bit Remote Builder</div>
+        <table>
+          <tr><th>النوع</th><td>أداة سحب وإفلات لبناء جهاز تحكم عبر البلوتوث + مولّد كود MakeCode</td></tr>
+          <tr><th>العتاد</th><td>BBC micro:bit V1 أو V2</td></tr>
+          <tr><th>الأدوات</th><td>12 نوعًا: 7 مدخلات، 5 مخرجات</td></tr>
+          <tr><th>اللغات</th><td>English, Français, العربية</td></tr>
+          <tr><th>يعمل على</th><td>Chrome / Edge، بدون تثبيت</td></tr>
+          <tr><th>الإصدار</th><td>v1.0.0</td></tr>
+          <tr><th>المستودع</th><td><a href="https://github.com/abourdim/bit-rxy">github.com/abourdim/bit-rxy</a></td></tr>
+          <tr><th>العرض المباشر</th><td><a href="https://abourdim.github.io/bit-rxy/">abourdim.github.io/bit-rxy</a></td></tr>
+        </table>
+      </div>
+
+      <p class="hatnote">تتناول هذه المقالة rxy (Micro:bit Remote Builder)، أداة بدون برمجة تعتمد على السحب والإفلات لتصميم أجهزة تحكم بلوتوث مخصصة لـ BBC micro:bit &mdash; وهي فريدة في هذه المجموعة من التطبيقات لأنها تولّد فيرموير MakeCode الخاص بها فوريًا، ولأنها قادرة على تحميل هذا الفيرموير مباشرة من المتصفح عبر البلوتوث.</p>
+
+      <div class="toc">
+        <div class="toc-title">المحتويات</div>
+        <ol>
+          <li><a href="#overview">نظرة عامة</a></li>
+          <li><a href="#quickstart">البدء السريع</a></li>
+          <li><a href="#walkthrough">خطوة بخطوة: الاستنساخ والتحميل والاختبار</a></li>
+          <li><a href="#understanding">فهم الكود (للمبتدئين)</a></li>
+          <li><a href="#widgets">دليل الأدوات</a></li>
+          <li><a href="#protocol">مرجع بروتوكول البلوتوث</a></li>
+          <li><a href="#i18n">اللغات</a></li>
+          <li><a href="#troubleshooting">حل المشكلات</a></li>
+        </ol>
+      </div>
+
+      <h2 id="overview">نظرة عامة</h2>
+      <p><strong>bit-rxy</strong> يتيح لك تصميم جهاز تحكم بلوتوث مخصص &mdash; أزرار، منزلقات، عصي تحكم، مقاييس، أيًا كان ما تحتاجه &mdash; بسحب الأدوات إلى لوحة، ثم يولّد فيرموير MakeCode المطابق تلقائيًا. على عكس Bit-Bot وTalking Robot وmicro:bit Playground (التي تستخدم جميعها بروتوكول فيرموير ثابت)، هنا يتم توليد البروتوكول نفسه حسب التصميم: كل أداة تضعها تصبح كتلة معالجة في الكود المُصدَّر، ويُدمَج التخطيط بأكمله في الفيرموير كسلسلة Base64 حتى يتمكن الـ micro:bit من إعادة إرسال إعداداته الخاصة لأي تطبيق يطلبها.</p>
+      <p>كما يذهب أبعد من التطبيقات الأخرى في هذه المجموعة: بدلًا من الاكتفاء بـ«انسخ هذا الكود إلى MakeCode»، يمكنه تجميع الكود المولَّد وتحميله مباشرة إلى اللوحة من المتصفح، إما عبر البلوتوث (باستخدام خدمة التحميل الجزئي المدمجة في الـ micro:bit) أو عبر WebUSB.</p>
+
+      <h2 id="quickstart">البدء السريع</h2>
+      <ol>
+        <li>افتح <a href="https://abourdim.github.io/bit-rxy/">التطبيق المباشر</a> في Chrome أو Edge.</li>
+        <li>في تبويب <strong>✏️ بناء</strong>، اسحب الأدوات إلى اللوحة (أو ابدأ من قالب جاهز).</li>
+        <li>اضغط <strong>📄 الكود</strong>، انسخ كود MakeCode المولَّد، الصقه في <a href="https://makecode.microbit.org">makecode.microbit.org</a>، وحمِّله عبر USB &mdash; أو استخدم زر التحميل المدمج للقيام بذلك عبر البلوتوث/WebUSB.</li>
+        <li>انتقل إلى تبويب <strong>▶️ تشغيل</strong>، اضغط <strong>📡 اضغط للاتصال!</strong>، وابدأ بالتحكم في الـ micro:bit.</li>
+      </ol>
+
+      <h2 id="walkthrough">خطوة بخطوة: الاستنساخ والتحميل والاختبار</h2>
+      <p>يأخذك هذا الدليل من نسخة فارغة إلى جهاز تحكم مُتحقَّق من عمله: أداة واحدة تُرسَل بنجاح في كل اتجاه.</p>
+
+      <h3>1. استنساخ المستودع</h3>
+      <pre><code>git clone https://github.com/abourdim/bit-rxy.git
+cd rxy</code></pre>
+
+      <h3>2. تشغيل الموقع محليًا</h3>
+      <p>لا توجد خطوة بناء، لكن Web Bluetooth/WebUSB يرفضان مسار <code>file:///</code> المباشر:</p>
+      <pre><code>npx serve .</code></pre>
+      <p>افتح رابط <span class="key-value">http://localhost:...</span> المعروض في Chrome أو Edge (النسخة المباشرة على GitHub Pages تعمل بنفس الطريقة دون أي إعداد).</p>
+
+      <h3>3. بناء جهاز تحكم بسيط</h3>
+      <p>في تبويب <strong>✏️ بناء</strong>، اسحب أداة <strong>زر</strong> واحدة وأداة <strong>LED</strong> واحدة إلى اللوحة. هذا أصغر اختبار ذهاب وإياب ممكن: مدخل واحد، مخرج واحد.</p>
+
+      <h3>4. الحصول على الكود وتحميله</h3>
+      <p>اضغط <strong>📄 الكود</strong> لفتح كود MakeCode المولَّد. إما أن تنسخه إلى <a href="https://makecode.microbit.org">makecode.microbit.org</a> وتحمِّله عبر USB بالطريقة المعتادة، أو جرّب زر <strong>التحميل</strong> المدمج، الذي يحاول تجميع الكود وإرساله مباشرة إلى لوحة متصلة عبر البلوتوث أو WebUSB (راجع <a href="#understanding">فهم الكود</a> لمعرفة آلية العمل ومسار الرجوع عند فشل التجميع).</p>
+
+      <h3>5. اختبار اتجاه الإدخال (التطبيق ← micro:bit)</h3>
+      <p>انتقل إلى <strong>▶️ تشغيل</strong>، اضغط <strong>📡 اضغط للاتصال!</strong>، اختر لوحتك، ثم اضغط على أداة الزر. يجب أن يستجيب الـ micro:bit فورًا (المعالج المولَّد افتراضيًا يعرض أيقونة قلب).</p>
+
+      <h3>6. اختبار اتجاه الإخراج (micro:bit ← التطبيق)</h3>
+      <p>في محرر MakeCode، أضف سطرًا لإرسال قيمة: <code>sendValue("your_led_id", "1")</code> داخل كتلة ضغط زر أو كتلة متكررة، أعد التحميل، وتأكد من إضاءة أداة LED في التطبيق عند تفعيلها.</p>
+
+      <div class="ambox ambox-success">يبدو الأساس الناجح كالتالي: يعرض الـ micro:bit قلبًا عند الضغط على أداة الزر، وتضيء أداة LED في التطبيق عندما يستدعي الفيرموير <code>sendValue()</code> &mdash; تم التحقق من كلا اتجاهي البروتوكول بشكل مستقل.</div>
+
+      <h2 id="understanding">فهم الكود (للمبتدئين)</h2>
+      <p class="hatnote">لمن لديه التطبيق قيد التشغيل ويريد فتح الكود المصدري والبدء بتعديل شيء ما. يفترض معرفة أساسية بـ JavaScript لكن لا شيء خاص بهذا الكود تحديدًا. تخطَّ هذا القسم إذا كنت تريد فقط استخدام التطبيق.</p>
+
+      <h3>معمارية النظام، بالرسم التوضيحي</h3>
+      <div class="diagram" dir="ltr"><pre style="margin:0;border:0;padding:0;background:none;">┌─────────────────┐         Bluetooth          ┌─────────────────┐
+│                 │  ◄───────────────────────► │                 │
+│  📱 Your App    │         BLE UART           │  🔲 micro:bit   │
+│  (Phone/PC)     │                            │                 │
+└─────────────────┘                            └─────────────────┘
+        │                                              │
+        │  You press a widget                         │
+        │  ─────────────────►  SET btn_fire 1         │
+        │                                              │
+        │                      firmware runs your      │
+        │                      handleWidget() code,    │
+        │                      can call sendValue():   │
+        │  UPD led_status 1   ◄─────────────────      │
+        │                                              │
+        │  On connect: GETCFG ───────────────►        │
+        │  CFGBEGIN / CFG.../ CFGEND ◄──────────      │
+        │  (the layout you designed, replayed back     │
+        │   from the firmware itself)                  │</pre></div>
+      <p>الفرق الجوهري عن التطبيقات الثلاثة الأخرى في هذه المجموعة: الـ micro:bit ليس مجرد جهاز تحكم طرفي ثابت &mdash; بل يحمل إعداداته الخاصة. اربط أي نسخة من هذا التطبيق بلوحة مُحمَّلة وستعيد رسم التخطيط الذي تم دمجه فيها بأمانة عند التحميل.</p>
+
+      <h3>مولّد الكود: من اللوحة إلى الفيرموير</h3>
+      <p><code>generateDemoCode(cfg)</code> يأخذ قائمة الأدوات الحالية، ولكل أداة، يُصدر كتلة <code>if (id == "...")</code> مطابقة في قالب الفيرموير &mdash; أداة الزر تحصل على كتلة «عند الضغط، اعرض قلبًا»؛ والمنزلق يحصل على كتلة «اقرأ القيمة، ارسم رسمًا بيانيًا شريطيًا»؛ وهكذا لكل الأنواع الـ12 من الأدوات. كل معالج مولَّد بسيط عمدًا ومُعلَّق عليه بـ <code>// Add your code here!</code> &mdash; فالهدف منه أن يكون نقطة انطلاق تعدّلها في MakeCode، وليس برنامجًا جاهزًا.</p>
+      <pre><code>function generateDemoCode(cfg) {
+  const b64 = btoa(unescape(encodeURIComponent(JSON.stringify(cfg))));  // Unicode-safe (handles emoji labels!)
+  const buttons = cfg.widgets.filter(w => w.t === 'button');
+  const sliders = cfg.widgets.filter(w => w.t === 'slider');
+  // ...one filter per widget type...
+
+  let buttonCode = buttons.map(w => `    if (id == "${w.id}" && val == "1") {
+        basic.showIcon(IconNames.Heart)
+        // Add your code here!
+    }`).join('\n');
+  // ...same pattern for every other widget type, then stitched into
+  // the firmware template alongside the embedded CFG Base64 string...
+}</code></pre>
+
+      <h3>كيف يبقى التخطيط محفوظًا على الـ micro:bit نفسه</h3>
+      <p>يتم تحويل تخطيط الأدوات بأكمله إلى JSON، ثم ترميزه بـ Base64 (عبر سلسلة <code>btoa(unescape(encodeURIComponent(...)))</code> متوافقة مع Unicode كي تنجو التسميات التي تحتوي على رموز تعبيرية)، ثم دمجه مباشرة في الفيرموير المولَّد كثابت نصي. يعرف الفيرموير بعدها كيفية إعادة إرسال تلك السلسلة عبر البلوتوث على شكل أجزاء من 18 بايت كلما طُلب منه ذلك:</p>
+      <pre><code>const CFG = "${b64}"   // baked in at generation time
+
+bluetooth.onUartDataReceived(serial.delimiters(Delimiters.NewLine), function() {
+    let cmd = bluetooth.uartReadUntil(serial.delimiters(Delimiters.NewLine))
+    if (cmd == "GETCFG") {
+        bluetooth.uartWriteLine("CFGBEGIN")
+        for (let i = 0; i < CFG.length; i += 18) {
+            bluetooth.uartWriteLine("CFG " + CFG.substr(i, 18))
+        }
+        bluetooth.uartWriteLine("CFGEND")
+    } else if (cmd.indexOf("SET ") == 0) {
+        let parts = cmd.substr(4).split(" ")
+        handleWidget(parts[0], parts.slice(1).join(" "))
+    }
+})</code></pre>
+      <p>18 بايت لكل جزء يبقي كل سطر ضمن حد MTU للبلوتوث (حوالي 20 بايت) المستخدم في كل هذه المجموعة من التطبيقات. من جهة المتصفح، يُفكّ ترميز الـ Base64 المُعاد تجميعه ليعود إلى تخطيط الأدوات بالضبط كما بنيته &mdash; وهذا ما يتيح لتبويب التشغيل عرض جهاز التحكم بشكل صحيح حتى في جلسة متصفح لم تفتح تبويب البناء إطلاقًا.</p>
+
+      <h3>التحميل بضغطة واحدة: خدمة التحميل الجزئي وWebUSB</h3>
+      <p>بالإضافة إلى المسار المعتاد «انسخ الكود إلى MakeCode»، تحاول <code>flashToMicrobit()</code> تجميع الكود المولَّد عبر خدمة تجميع MakeCode ودفع ملف <code>.hex</code> الناتج مباشرة إلى اللوحة عبر البلوتوث، باستخدام <strong>خدمة التحميل الجزئي</strong> في الـ micro:bit &mdash; وهي ميزة DAL حقيقية (المعرّف UUID <code>e97dd91d-...</code>) تتيح للوحة سبق تحميلها عبر USB قبول تحديثات البرنامج عبر BLE دون كابل:</p>
+      <pre><code>const PFS_SERVICE = 'e97dd91d-251d-470a-a062-fa1922dfa9a8';
+const PFS_CHAR    = 'e97d3b10-251d-470a-a062-fa1922dfa9a8';
+const PFS_CMD = { REGION_INFO: 0x00, FLASH_DATA: 0x01, END_OF_TX: 0x02, STATUS: 0xEE, RESET: 0xFF };</code></pre>
+      <p>إذا فشلت خطوة التجميع لأي سبب، لا يستسلم التطبيق &mdash; بل يفتح MakeCode في تبويب جديد ليتمكن المستخدم من التجميع والتحميل يدويًا. يوفر مسار منفصل <code>flashViaUSB()</code> نفس راحة «التحميل دون مغادرة المتصفح» عبر اتصال USB مباشر (WebUSB) بدلًا من البلوتوث، للوحات التي لم تُقترَن بعد.</p>
+
+      <h2 id="widgets">دليل الأدوات</h2>
+      <p>سبع أدوات إدخال (التطبيق ← micro:bit) وخمس أدوات إخراج (micro:bit ← التطبيق)، لكل منها تنسيق رسالتها الخاص:</p>
+      <table class="wikitable">
+        <tr><th>الاتجاه</th><th>الأداة</th><th>الرسالة</th><th>تُستخدم من أجل</th></tr>
+        <tr><td rowspan="7">إدخال</td><td>👆 زر</td><td><code>SET id 1</code> / <code>SET id 0</code></td><td>الإطلاق، المؤثرات الصوتية، الإضاءة تشغيل/إطفاء</td></tr>
+        <tr><td>🎚️ منزلق</td><td><code>SET id 75</code> (0&ndash;100 أو نطاق مخصص)</td><td>السرعة، الصوت، السطوع، زاوية المحرك</td></tr>
+        <tr><td>🔘 مفتاح</td><td><code>SET id 1</code> / <code>SET id 0</code></td><td>وضع التيربو، الدرع، المصباح</td></tr>
+        <tr><td>🕹️ عصا التحكم</td><td><code>SET id angle dist</code> (0&ndash;360°، 0&ndash;100%)</td><td>توجيه الروبوت، التحكم في الطائرة/الكاميرا</td></tr>
+        <tr><td>✛ لوحة اتجاه</td><td><code>SET id direction state</code></td><td>التنقل في القوائم، حركة الألعاب الكلاسيكية</td></tr>
+        <tr><td>📍 لوحة XY</td><td><code>SET id x y</code> (0&ndash;100 لكل منهما)</td><td>التصويب، كاميرا pan/tilt، الرسم</td></tr>
+        <tr><td>⏱️ مؤقت</td><td><code>SET id seconds</code> (كل 5 ثوان)</td><td>مؤقتات الألعاب، العد التنازلي</td></tr>
+        <tr><td rowspan="5">إخراج</td><td>💡 LED</td><td><code>sendValue(id, "1"/"0")</code></td><td>التنبيهات، مؤشرات الحالة</td></tr>
+        <tr><td>🏷️ تسمية</td><td><code>sendValue(id, "any text")</code></td><td>النقاط، قراءات الحساسات، الرسائل</td></tr>
+        <tr><td>🧭 مقياس</td><td><code>sendValue(id, "75")</code></td><td>درجة الحرارة، مستوى الصوت، البوصلة، السرعة</td></tr>
+        <tr><td>📈 رسم بياني</td><td><code>sendValue(id, "42,78,15")</code> (فاصلة = عدة سلاسل)</td><td>اتجاهات الحساسات عبر الزمن</td></tr>
+        <tr><td>🔋 بطارية</td><td><code>sendValue(id, "75")</code> (0&ndash;100)</td><td>مستوى البطارية/الوقود/الماء، قوة الإشارة</td></tr>
+      </table>
+
+      <h2 id="protocol">مرجع بروتوكول البلوتوث</h2>
+      <p>Nordic UART عبر BLE، بنفس معرّفات الخدمة/الخاصية (UUID) المستخدمة في بقية هذه المجموعة من التطبيقات (<code>6e400001/2/3-...</code>):</p>
+      <table class="wikitable">
+        <tr><th>الاتجاه</th><th>الرسالة</th><th>المعنى</th></tr>
+        <tr><td>التطبيق ← micro:bit</td><td><code>SET widget_id value</code></td><td>تم التفاعل مع أداة ما.</td></tr>
+        <tr><td>micro:bit ← التطبيق</td><td><code>UPD widget_id value</code></td><td>دفع الفيرموير قيمة جديدة للعرض.</td></tr>
+        <tr><td>التطبيق ← micro:bit</td><td><code>GETCFG</code></td><td>طلب إعدادات التخطيط المدمجة.</td></tr>
+        <tr><td>micro:bit ← التطبيق</td><td><code>CFGBEGIN</code> / <code>CFG &lt;chunk&gt;</code> / <code>CFGEND</code></td><td>التخطيط، مُرسَل على شكل أجزاء Base64 من 18 بايت.</td></tr>
+      </table>
+
+      <h2 id="i18n">اللغات</h2>
+      <p>ترجمة كاملة إلى الإنجليزية والفرنسية والعربية تشمل الترويسة، منتقي القوالب، شريط أدوات البناء، لوحة الأدوات، لوحة الخصائص، شاشة التشغيل، الدليل التعليمي، شاشة التحميل، نافذة الكود، والإشعارات لكل إجراء أساسي &mdash; باستخدام أداة مساعدة <code>tr(path, vars)</code> تبحث بمفتاح مُركَّب بنقاط داخل كائن <code>I18N</code> (مثال: <code>tr('toast.sizeSet', {w, h})</code>) مع استبدال <code>{placeholder}</code> بالقيم الديناميكية. تقلب العربية الصفحة بأكملها إلى <code>dir="rtl"</code> وتستخدم العلم الجزائري، مثل بقية هذه المجموعة من التطبيقات.</p>
+      <p>على عكس الاكتشاف التلقائي للغة المتصفح المستخدَم سابقًا، يبدأ التطبيق الآن مباشرة بالفرنسية عند أول زيارة ولا يتغير إلا باختيار صريح، محفوظ في مفتاح <code>kid_lang</code> الخاص به في localStorage &mdash; مثل Bit-Bot وTalking Robot وmicro:bit Playground.</p>
+      <p>تُركت عمدًا بالإنجليزية: تسميات كل حقل في نموذج خصائص الأدوات (Width، Height، Min، Max، إلخ &mdash; نحو 100 نص موزّعة على الأنواع الـ12 من الأدوات) ولوحة «Helper Tools» المخصصة للمستخدمين المتقدمين (Group، Layers، Ruler، Align، Distribute، Canvas Background، Screenshot، Share &mdash; جميعها مخفية خلف زر مخصص للتطوير، لا تظهر أبدًا للمستخدمين العاديين)، بنفس حدود النطاق التي رُسمت للوحة Commands المستبعدة في Bit-Bot.</p>
+
+      <h2 id="troubleshooting">حل المشكلات</h2>
+      <table class="wikitable">
+        <tr><th>العرض</th><th>السبب / الحل</th></tr>
+        <tr><td>تعذّر الاتصال بالـ micro:bit</td><td>تأكد من تفعيل البلوتوث، وأن اللوحة تعرض ❤️ (جاهزة)، وأن جهازًا واحدًا فقط متصل في كل مرة &mdash; أعد التحميل وحاول مجددًا إذا لم تُغلَق جلسة سابقة بشكل نظيف.</td></tr>
+        <tr><td>الاتصال يفشل دائمًا على iPhone/iPad</td><td>لا يدعم iOS بروتوكول Web Bluetooth إطلاقًا في Safari أو أي متصفح آخر على iOS (جميعها تعتمد على WebKit) &mdash; هذه محدودية في المنصة، وليست خللًا. يكتشف التطبيق ذلك ويوجّه إلى متصفح "Bluefy" المجاني (ابحث عنه في App Store) بدلًا من مجرد عرض «فشل الاتصال».</td></tr>
+        <tr><td>الأدوات لا تفعل شيئًا</td><td>تأكد من أن الكود المولَّد قد حُمِّل فعلًا، وأن معرّفات الأدوات في الفيرموير تطابق المعرّفات المعروضة في لوحة الكود &mdash; أعد التوليد والتحميل بعد أي تغيير في التخطيط.</td></tr>
+        <tr><td>فشل التحميل عبر البلوتوث بضغطة واحدة</td><td>تتطلب خدمة التحميل الجزئي لوحة تعمل بالفعل بنسخة MakeCode متوافقة نتيجة تحميل سابق عبر USB؛ إذا فشلت خطوة التجميع تمامًا، يفتح التطبيق MakeCode في تبويب جديد للتحميل يدويًا.</td></tr>
+        <tr><td>الـ micro:bit ينقطع عشوائيًا</td><td>ابقَ ضمن نطاق البلوتوث (~10 أمتار)، تحقق من البطارية، وقلّل من تكرار استدعاء <code>sendValue()</code> إذا كنت تُغرق الاتصال.</td></tr>
+        <tr><td>لوحة الاتجاه لا تعرض أي سهم</td><td>أعد توليد الكود بعد أي تغيير في تبويب البناء وأعد التحميل &mdash; الفيرموير القديم لن يعرف عن أداة أُضيفت لاحقًا.</td></tr>
+      </table>
+
+      <div class="catlinks">
+        التصنيفات: <a href="index.html">micro:bit</a> | <a href="index.html">Bluetooth</a> | <a href="index.html">تطبيقات الويب</a>
+      </div>
+    </article>
+  </div>
+</div>
+
+<div class="footer-wiki">
+  أُنشئت هذه الصفحة في 29 يوليو 2026، وآخر تعديل في 30 يوليو 2026. المحتوى مبني على مستودع <a href="https://github.com/abourdim/bit-rxy">bit-rxy</a> (ملف README والكود المصدري) ومراجعة مباشرة للكود.
+</div>
+
+</body>
+</html>

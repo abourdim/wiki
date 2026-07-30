@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,14 +10,21 @@
 
 <div class="masthead">
   <div class="masthead-inner">
-    <a class="wiki-logo" href="https://workshop-diy.org"><img src="logo.png" alt="Wiki logo"></a>
+    <a class="wiki-logo" href="https://workshop-diy.org"><img src="logo.png" alt="Logo du Wiki"></a>
     <a class="masthead-site-link" href="https://workshop-diy.org">workshop-diy.org</a>
     <div class="masthead-title">
       Wiki
-      <span class="sub">The free personal knowledge base</span>
+      <span class="sub">La base de connaissances personnelle et gratuite</span>
     </div>
-    <div class="masthead-search">
-      <input type="text" placeholder="Search Wiki" disabled>
+    <div class="masthead-actions">
+      <div class="lang-switch" role="group" aria-label="Langue">
+        <a href="bit-playground.html" class="lang-switch-btn active" title="Français"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="20" height="40" fill="#002395"/><rect x="20" width="20" height="40" fill="#fff"/><rect x="40" width="20" height="40" fill="#ED2939"/></svg></a>
+        <a href="bit-playground-en.html" class="lang-switch-btn" title="English"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="60" height="40" fill="#012169"/><path d="M0 0L60 40M60 0L0 40" stroke="#fff" stroke-width="6.5"/><path d="M0 0L60 40M60 0L0 40" stroke="#C8102E" stroke-width="3.5"/><path d="M30 0V40M0 20H60" stroke="#fff" stroke-width="11"/><path d="M30 0V40M0 20H60" stroke="#C8102E" stroke-width="6.5"/></svg></a>
+        <a href="bit-playground-ar.html" class="lang-switch-btn" title="العربية"><svg width="24" height="16" viewBox="0 0 900 600"><defs><clipPath id="glBPfr"><rect width="450" height="600"/></clipPath></defs><rect width="450" height="600" fill="#006233"/><rect x="450" width="450" height="600" fill="#FFF"/><g fill="#D21034" transform="translate(450,300)"><circle r="125"/><circle cx="25" r="100" fill="#FFF"/><g clip-path="url(#glBPfr)" transform="translate(-450,-300)"><circle cx="475" cy="300" r="100" fill="#006233"/></g><path d="M85-12l22 67h71l-57 42 22 67-58-42-57 42 21-67-57-42h71z"/></g></svg></a>
+      </div>
+      <div class="masthead-search">
+        <input type="text" placeholder="Rechercher" disabled>
+      </div>
     </div>
   </div>
 </div>
@@ -27,29 +34,29 @@
   <div class="sidebar">
     <h3>Navigation</h3>
     <ul>
-      <li><a href="index.html">Main page</a></li>
-      <li><a href="#">Recent changes</a></li>
-      <li><a href="#">Random page</a></li>
+      <li><a href="index.html">Page principale</a></li>
+      <li><a href="#">Modifications récentes</a></li>
+      <li><a href="#">Page au hasard</a></li>
     </ul>
-    <h3>Categories</h3>
+    <h3>Catégories</h3>
     <ul>
-      <li><a href="index.html">Networking</a></li>
+      <li><a href="index.html">Réseau</a></li>
       <li><a href="index.html">Linux</a></li>
       <li><a href="index.html">Windows</a></li>
-      <li><a href="index.html">Electronics</a></li>
+      <li><a href="index.html">Électronique</a></li>
       <li><a href="index.html">ESP32</a></li>
       <li><a href="index.html">micro:bit</a></li>
     </ul>
-    <h3>Tools</h3>
+    <h3>Outils</h3>
     <ul>
-      <li><a href="https://github.com/abourdim/bit-playground">View source repo</a></li>
+      <li><a href="https://github.com/abourdim/bit-playground">Voir le dépôt source</a></li>
     </ul>
   </div>
 
   <div class="content-wrap">
     <div class="article-tabs">
       <span class="active">Article</span>
-      <span>Talk</span>
+      <span>Discussion</span>
     </div>
 
     <article>
@@ -58,81 +65,81 @@
       <div class="infobox">
         <div class="infobox-title">micro:bit Playground</div>
         <table>
-          <tr><th>Type</th><td>BLE sensor/control dashboard</td></tr>
-          <tr><th>Hardware</th><td>BBC micro:bit V2 (V1 lacks the sound sensor)</td></tr>
-          <tr><th>Tabs</th><td>8: Controls, Sensors, Motors, GamePad, Graph, 3D Board, Bench, More</td></tr>
-          <tr><th>Languages</th><td>English, Français, العربية (RTL)</td></tr>
-          <tr><th>Runs on</th><td>Chrome / Edge, no install, installable as a PWA</td></tr>
-          <tr><th>Version</th><td>App v1.2.0 &middot; Firmware V8.1</td></tr>
-          <tr><th>Repository</th><td><a href="https://github.com/abourdim/bit-playground">github.com/abourdim/bit-playground</a></td></tr>
-          <tr><th>Live demo</th><td><a href="https://abourdim.github.io/bit-playground/">abourdim.github.io/bit-playground</a></td></tr>
+          <tr><th>Type</th><td>Tableau de bord de capteurs/contrôle BLE</td></tr>
+          <tr><th>Matériel</th><td>BBC micro:bit V2 (le V1 n'a pas le capteur de son)</td></tr>
+          <tr><th>Onglets</th><td>8 : Contrôles, Capteurs, Moteurs, Manette, Graphique, Carte 3D, Banc, Plus</td></tr>
+          <tr><th>Langues</th><td>English, Français, العربية (RTL)</td></tr>
+          <tr><th>Fonctionne sur</th><td>Chrome / Edge, sans installation, installable comme PWA</td></tr>
+          <tr><th>Version</th><td>Application v1.2.0 &middot; Firmware V8.1</td></tr>
+          <tr><th>Dépôt</th><td><a href="https://github.com/abourdim/bit-playground">github.com/abourdim/bit-playground</a></td></tr>
+          <tr><th>Démo en ligne</th><td><a href="https://abourdim.github.io/bit-playground/">abourdim.github.io/bit-playground</a></td></tr>
         </table>
       </div>
 
-      <p class="hatnote">This article covers micro:bit Playground, the most feature-complete of the family's micro:bit web apps: an 8-tab BLE control panel with live sensor graphing, five interactive 3D robot models, and a dedicated firmware protocol covering more than 30 distinct commands.</p>
+      <p class="hatnote">Cet article couvre micro:bit Playground, l'application web micro:bit la plus complète de la famille : un panneau de contrôle BLE à 8 onglets avec graphiques de capteurs en direct, cinq modèles de robots 3D interactifs, et un protocole de firmware dédié couvrant plus de 30 commandes distinctes.</p>
 
       <div class="toc">
-        <div class="toc-title">Contents</div>
+        <div class="toc-title">Sommaire</div>
         <ol>
-          <li><a href="#overview">Overview</a></li>
-          <li><a href="#quickstart">Quick start</a></li>
-          <li><a href="#walkthrough">Step-by-step: clone, flash &amp; test</a></li>
-          <li><a href="#understanding">Understanding the code (for newbies)</a></li>
-          <li><a href="#tabs">Tabs guide</a></li>
-          <li><a href="#protocol">BLE protocol reference</a></li>
-          <li><a href="#board3d">3D Board models</a></li>
-          <li><a href="#calibration">Calibration system</a></li>
-          <li><a href="#i18n">Themes &amp; languages</a></li>
-          <li><a href="#firmware">Getting the firmware</a></li>
-          <li><a href="#troubleshooting">Troubleshooting</a></li>
+          <li><a href="#overview">Aperçu</a></li>
+          <li><a href="#quickstart">Démarrage rapide</a></li>
+          <li><a href="#walkthrough">Étape par étape : cloner, flasher &amp; tester</a></li>
+          <li><a href="#understanding">Comprendre le code (pour débutants)</a></li>
+          <li><a href="#tabs">Guide des onglets</a></li>
+          <li><a href="#protocol">Référence du protocole BLE</a></li>
+          <li><a href="#board3d">Modèles de la carte 3D</a></li>
+          <li><a href="#calibration">Système de calibration</a></li>
+          <li><a href="#i18n">Thèmes &amp; langues</a></li>
+          <li><a href="#firmware">Obtenir le firmware</a></li>
+          <li><a href="#troubleshooting">Dépannage</a></li>
         </ol>
       </div>
 
-      <h2 id="overview">Overview</h2>
-      <p><strong>micro:bit Playground</strong> is a web-based control panel for the BBC micro:bit V2 over Bluetooth Low Energy: eight tabs covering LED/text/buzzer control, live sensor readouts with sparklines, two servo channels, a GamePad D-pad, a Chart.js live graph with recording/replay/CSV export, five interactive Three.js 3D robot models synced to real sensor data, a raw-command bench for experts, and a grab-bag "More" tab of extra widgets (joystick, keypad, XY pad, pin control, and more). Unlike its two simpler siblings (Bit-Bot, Talking Robot), it has no AI provider and no speech features at all &mdash; its whole focus is turning every micro:bit sensor and output into something you can see, graph, and drive from a browser.</p>
-      <p>It's also architecturally the most mature of the three: instead of one giant inline <code>&lt;script&gt;</code>, the JavaScript is split into nine focused files under <code>js/</code>, loaded in a fixed dependency order, plus five further files under <code>js/models/</code> for the 3D robots.</p>
+      <h2 id="overview">Aperçu</h2>
+      <p><strong>micro:bit Playground</strong> est un tableau de bord web pour le BBC micro:bit V2 via Bluetooth Low Energy : huit onglets couvrant le contrôle LED/texte/buzzer, des lectures de capteurs en direct avec mini-graphiques, deux canaux de servo, une croix directionnelle de type manette, un graphique en direct Chart.js avec enregistrement/relecture/export CSV, cinq modèles de robots 3D interactifs Three.js synchronisés sur des données de capteurs réelles, un banc de commandes brutes pour experts, et un onglet fourre-tout « Plus » de widgets supplémentaires (joystick, clavier, pavé XY, contrôle de broches, et plus). Contrairement à ses deux cousins plus simples (Bit-Bot, Talking Robot), il n'a aucun fournisseur IA ni aucune fonctionnalité vocale &mdash; tout son objectif est de transformer chaque capteur et sortie du micro:bit en quelque chose que tu peux voir, tracer, et piloter depuis un navigateur.</p>
+      <p>C'est aussi architecturalement le plus mature des trois : au lieu d'un seul énorme <code>&lt;script&gt;</code> en ligne, le JavaScript est réparti en neuf fichiers ciblés sous <code>js/</code>, chargés dans un ordre de dépendance fixe, plus cinq fichiers supplémentaires sous <code>js/models/</code> pour les robots 3D.</p>
 
-      <h2 id="quickstart">Quick start</h2>
+      <h2 id="quickstart">Démarrage rapide</h2>
       <ol>
-        <li>Flash <code>makecode.ts</code> to a BBC micro:bit V2 via <a href="https://makecode.microbit.org">makecode.microbit.org</a> (see <a href="#firmware">Getting the firmware</a>).</li>
-        <li>Open <a href="https://abourdim.github.io/bit-playground/">the live app</a> in Chrome or Edge.</li>
-        <li>Click <strong>Connect</strong> and pick your micro:bit from the Bluetooth device picker &mdash; the status chip turns green once connected.</li>
-        <li>Explore the 8 tabs (or press <kbd>1</kbd>&ndash;<kbd>8</kbd> to jump straight to one).</li>
+        <li>Flashe <code>makecode.ts</code> sur un BBC micro:bit V2 via <a href="https://makecode.microbit.org">makecode.microbit.org</a> (voir <a href="#firmware">Obtenir le firmware</a>).</li>
+        <li>Ouvre <a href="https://abourdim.github.io/bit-playground/">l'application en ligne</a> dans Chrome ou Edge.</li>
+        <li>Clique sur <strong>Connecter</strong> et choisis ton micro:bit dans le sélecteur d'appareils Bluetooth &mdash; la pastille de statut passe au vert une fois connecté.</li>
+        <li>Explore les 8 onglets (ou appuie sur <kbd>1</kbd>&ndash;<kbd>8</kbd> pour aller directement à l'un d'eux).</li>
       </ol>
 
-      <h2 id="walkthrough">Step-by-step: clone, flash &amp; test</h2>
-      <p>This walkthrough takes a bare checkout to a verified-working dashboard: sensors updating live, LEDs controllable, and one 3D model animating in sync.</p>
+      <h2 id="walkthrough">Étape par étape : cloner, flasher &amp; tester</h2>
+      <p>Ce parcours amène une copie vierge du dépôt jusqu'à un tableau de bord vérifié et fonctionnel : capteurs se mettant à jour en direct, LED contrôlables, et un modèle 3D s'animant en synchronisation.</p>
 
-      <h3>1. Clone the repository</h3>
+      <h3>1. Cloner le dépôt</h3>
       <pre><code>git clone https://github.com/abourdim/bit-playground.git
 cd bit-playground</code></pre>
 
-      <h3>2. Flash the firmware</h3>
-      <p>Open <a href="https://makecode.microbit.org">makecode.microbit.org</a>, create a project, switch to the <strong>JavaScript</strong> tab, paste the contents of <code>makecode.ts</code>, then Download and flash it to your micro:bit V2. Power it via USB or batteries &mdash; it shows an <strong>X</strong> icon once it's advertising over Bluetooth and waiting for a connection.</p>
+      <h3>2. Flasher le firmware</h3>
+      <p>Ouvre <a href="https://makecode.microbit.org">makecode.microbit.org</a>, crée un projet, passe à l'onglet <strong>JavaScript</strong>, colle le contenu de <code>makecode.ts</code>, puis télécharge et flashe-le sur ton micro:bit V2. Alimente-le via USB ou piles &mdash; il affiche une icône <strong>X</strong> une fois qu'il diffuse via Bluetooth et attend une connexion.</p>
 
-      <h3>3. Serve the app locally</h3>
-      <p>No build step is required, but Web Bluetooth refuses a bare <code>file:///</code> path:</p>
+      <h3>3. Servir l'application en local</h3>
+      <p>Aucune étape de build n'est requise, mais Web Bluetooth refuse un simple chemin <code>file:///</code> :</p>
       <pre><code>npm run serve</code></pre>
-      <p>(a thin wrapper around <code>npx serve .</code>, already in <code>package.json</code>) and open the printed <span class="key-value">http://localhost:...</span> URL in Chrome or Edge. The live GitHub Pages copy works identically without any local setup.</p>
+      <p>(un fin wrapper autour de <code>npx serve .</code>, déjà dans <code>package.json</code>) et ouvre l'URL affichée <span class="key-value">http://localhost:...</span> dans Chrome ou Edge. La copie en ligne sur GitHub Pages fonctionne de façon identique sans aucune installation locale.</p>
 
-      <h3>4. Connect and confirm telemetry</h3>
-      <p>Click <strong>Connect</strong>, pick your board. On the <strong>Sensors</strong> tab, Temperature/Light/Sound/Accelerometer/Compass should all start updating within a second, each with its own live sparkline.</p>
+      <h3>4. Connecter et confirmer la télémétrie</h3>
+      <p>Clique sur <strong>Connecter</strong>, choisis ta carte. Sur l'onglet <strong>Capteurs</strong>, Température/Lumière/Son/Accéléromètre/Boussole devraient tous commencer à se mettre à jour en moins d'une seconde, chacun avec son propre mini-graphique en direct.</p>
 
-      <h3>5. Test an output: the LED matrix</h3>
-      <p>On the <strong>Controls</strong> tab, click a few cells in the 5&times;5 grid, or tap the ❤️ Heart preset, and confirm the physical board's LEDs match what's drawn on screen.</p>
+      <h3>5. Tester une sortie : la matrice LED</h3>
+      <p>Sur l'onglet <strong>Contrôles</strong>, clique sur quelques cellules de la grille 5&times;5, ou touche le préréglage ❤️ Cœur, et confirme que les LED physiques de la carte correspondent à ce qui est dessiné à l'écran.</p>
 
-      <h3>6. Test a 3D model</h3>
-      <p>Open the <strong>3D Board</strong> tab, pick the <strong>micro:bit V2</strong> model, and tilt the physical board &mdash; the 3D model should tilt to match within a fraction of a second, and its LEDs should mirror whatever pattern is currently shown.</p>
+      <h3>6. Tester un modèle 3D</h3>
+      <p>Ouvre l'onglet <strong>Carte 3D</strong>, choisis le modèle <strong>micro:bit V2</strong>, et incline la carte physique &mdash; le modèle 3D devrait s'incliner pour correspondre en une fraction de seconde, et ses LED devraient refléter le motif actuellement affiché.</p>
 
-      <h3>7. Test the graph with no firmware changes needed</h3>
-      <p>On the <strong>Graph</strong> tab, click <strong>🎲 Simulate</strong> &mdash; the firmware starts streaming synthetic Sine/Random/Ramp data every 200ms with no sensor or wiring involved, which is the fastest way to confirm the whole BLE&rarr;chart pipeline works before trusting a real sensor reading.</p>
+      <h3>7. Tester le graphique sans changement de firmware nécessaire</h3>
+      <p>Sur l'onglet <strong>Graphique</strong>, clique sur <strong>🎲 Simuler</strong> &mdash; le firmware commence à diffuser des données synthétiques Sine/Aléatoire/Rampe toutes les 200ms sans aucun capteur ni câblage impliqué, ce qui est le moyen le plus rapide de confirmer que tout le pipeline BLE→graphique fonctionne avant de faire confiance à une vraie lecture de capteur.</p>
 
-      <div class="ambox ambox-success">A working baseline looks like: five live sensor sparklines, LED clicks reflected instantly on the physical board, the 3D model tilting with the real board, and a moving Simulate-mode graph &mdash; all before you've touched a servo, GamePad, or the More tab.</div>
+      <div class="ambox ambox-success">Une base fonctionnelle ressemble à ceci : cinq mini-graphiques de capteurs en direct, des clics LED reflétés instantanément sur la carte physique, le modèle 3D s'inclinant avec la vraie carte, et un graphique en mode Simuler qui bouge &mdash; tout ça avant même d'avoir touché à un servo, à la Manette, ou à l'onglet Plus.</div>
 
-      <h2 id="understanding">Understanding the code (for newbies)</h2>
-      <p class="hatnote">For anyone with the app running who wants to open the source and start changing something. Assumes basic JavaScript but nothing about this codebase specifically. Skip it if you only want to use the app.</p>
+      <h2 id="understanding">Comprendre le code (pour débutants)</h2>
+      <p class="hatnote">Pour quiconque a l'application en marche et veut ouvrir le code source pour commencer à modifier quelque chose. Suppose des bases en JavaScript mais rien de spécifique à ce code. À sauter si tu veux seulement utiliser l'application.</p>
 
-      <h3>System architecture, illustrated</h3>
+      <h3>Architecture du système, illustrée</h3>
       <div class="diagram"><pre style="margin:0;border:0;padding:0;background:none;">┌──────────────┐     BLE UART      ┌────────────────────────┐
 │  micro:bit   │ ◄──────────────► │   Browser App            │
 │ (makecode.ts)│   20-byte chunks  │                          │
@@ -152,26 +159,26 @@ cd bit-playground</code></pre>
                                    │ arm/balance/  │
                                    │ weather.js    │
                                    └──────────────┘</pre></div>
-      <p>This diagram is drawn directly from the project's own README, which is unusually accurate and complete for this codebase &mdash; worth reading in full alongside this article.</p>
+      <p>Ce diagramme est tiré directement du README propre au projet, qui est exceptionnellement précis et complet pour ce code &mdash; ça vaut le coup de le lire en entier en complément de cet article.</p>
 
-      <h3>The JS module layout and load order</h3>
-      <p>Nine files under <code>js/</code>, loaded via plain deferred <code>&lt;script&gt;</code> tags in a fixed order because later files assume earlier ones already ran:</p>
+      <h3>La disposition des modules JS et l'ordre de chargement</h3>
+      <p>Neuf fichiers sous <code>js/</code>, chargés via de simples balises <code>&lt;script&gt;</code> différées dans un ordre fixe car les fichiers ultérieurs supposent que les précédents ont déjà été exécutés :</p>
       <table class="wikitable">
-        <tr><th>#</th><th>File</th><th>Responsibility</th></tr>
-        <tr><td>1</td><td><code>lang.js</code></td><td>i18n: <code>LANG</code> dictionary (en/fr/ar) + <code>t(key)</code> lookup. Loaded first &mdash; everything else calls <code>t()</code>.</td></tr>
-        <tr><td>2</td><td><code>core.js</code></td><td>DOM refs, event bus, toast notifications, logging, keyboard shortcuts.</td></tr>
-        <tr><td>3</td><td><code>ble.js</code></td><td>Connect/disconnect/reconnect, UART chunked sends, incoming-line dispatch.</td></tr>
-        <tr><td>4</td><td><code>sensors.js</code></td><td>Parses telemetry lines, updates sensor UI + sparklines, feeds Graph and 3D.</td></tr>
-        <tr><td>5</td><td><code>controls.js</code></td><td>LED matrix, buzzer, tab switching, bench, theme picker, page init.</td></tr>
-        <tr><td>6</td><td><code>servos.js</code></td><td>Servo sliders/gauges/trim, connection-aware enable/disable.</td></tr>
-        <tr><td>7</td><td><code>others.js</code></td><td>The "More" tab: joystick, timer, presets, debug console, data capture, XY pad.</td></tr>
-        <tr><td>8</td><td><code>graph.js</code></td><td>Chart.js setup, datasets, recording/replay, annotations, PNG/CSV export.</td></tr>
-        <tr><td>9</td><td><code>models/*.js</code>, then <code>board3d.js</code></td><td>Five model files register themselves on <code>window.board3dModels</code>; the engine loads last and starts the render loop.</td></tr>
+        <tr><th>#</th><th>Fichier</th><th>Responsabilité</th></tr>
+        <tr><td>1</td><td><code>lang.js</code></td><td>i18n : dictionnaire <code>LANG</code> (en/fr/ar) + recherche <code>t(key)</code>. Chargé en premier &mdash; tout le reste appelle <code>t()</code>.</td></tr>
+        <tr><td>2</td><td><code>core.js</code></td><td>Références DOM, bus d'événements, notifications toast, journalisation, raccourcis clavier.</td></tr>
+        <tr><td>3</td><td><code>ble.js</code></td><td>Connexion/déconnexion/reconnexion, envois UART découpés, dispatch des lignes entrantes.</td></tr>
+        <tr><td>4</td><td><code>sensors.js</code></td><td>Analyse les lignes de télémétrie, met à jour l'interface des capteurs + mini-graphiques, alimente Graphique et 3D.</td></tr>
+        <tr><td>5</td><td><code>controls.js</code></td><td>Matrice LED, buzzer, changement d'onglet, banc, sélecteur de thème, initialisation de la page.</td></tr>
+        <tr><td>6</td><td><code>servos.js</code></td><td>Curseurs/jauges/ajustement des servos, activation/désactivation selon la connexion.</td></tr>
+        <tr><td>7</td><td><code>others.js</code></td><td>L'onglet « Plus » : joystick, minuteur, préréglages, console de débogage, capture de données, pavé XY.</td></tr>
+        <tr><td>8</td><td><code>graph.js</code></td><td>Configuration Chart.js, jeux de données, enregistrement/relecture, annotations, export PNG/CSV.</td></tr>
+        <tr><td>9</td><td><code>models/*.js</code>, puis <code>board3d.js</code></td><td>Cinq fichiers de modèles s'enregistrent sur <code>window.board3dModels</code> ; le moteur se charge en dernier et démarre la boucle de rendu.</td></tr>
       </table>
-      <p>There's no bundler and no module system (no <code>import</code>/<code>export</code>) &mdash; every file just declares top-level functions and variables that later scripts read directly, so file order in <code>index.html</code> <em>is</em> the dependency graph.</p>
+      <p>Il n'y a ni bundler ni système de modules (pas d'<code>import</code>/<code>export</code>) &mdash; chaque fichier déclare simplement des fonctions et variables de premier niveau que les scripts ultérieurs lisent directement, donc l'ordre des fichiers dans <code>index.html</code> <em>est</em> le graphe de dépendances.</p>
 
-      <h3>Sending to the micro:bit: <code>sendLine()</code> and chunking</h3>
-      <p>Every outgoing command funnels through one function in <code>ble.js</code>:</p>
+      <h3>Envoyer au micro:bit : <code>sendLine()</code> et découpage</h3>
+      <p>Chaque commande sortante passe par une seule fonction dans <code>ble.js</code> :</p>
       <pre><code>const BLE_MTU_PAYLOAD = 20; // typical BLE ATT payload limit
 
 function sendLine(line) {
@@ -183,13 +190,13 @@ function sendLine(line) {
         // so a long command (e.g. a long TEXT: string) can't corrupt mid-flight
     }
 }</code></pre>
-      <p>Auto-reconnect is a small state machine: up to <code>MAX_RECONNECT_ATTEMPTS</code> (3) tries, <code>RECONNECT_DELAY_MS</code> (2000ms) apart, tracked by a <code>reconnectAttempts</code> counter and a <code>userDisconnected</code> flag &mdash; the flag is what stops the app from fighting a deliberate disconnect click by immediately trying to reconnect.</p>
+      <p>La reconnexion automatique est une petite machine à états : jusqu'à <code>MAX_RECONNECT_ATTEMPTS</code> (3) tentatives, espacées de <code>RECONNECT_DELAY_MS</code> (2000ms), suivies par un compteur <code>reconnectAttempts</code> et un drapeau <code>userDisconnected</code> &mdash; ce drapeau est ce qui empêche l'application de lutter contre un clic de déconnexion délibéré en essayant immédiatement de se reconnecter.</p>
 
-      <h3>The i18n system: <code>lang.js</code> and <code>t()</code></h3>
-      <p>1,389 lines, almost entirely one big <code>LANG</code> object keyed <code>en</code>/<code>fr</code>/<code>ar</code>, each a flat dictionary of string keys (<code>app_title</code>, <code>connect_btn</code>, dozens more). Every other file calls a single global <code>t(key)</code> to look up the active language's string, falling back to English if a key is missing in the current language &mdash; the same pattern used by Bit-Bot and Talking Robot's <code>tr()</code>, independently converged on for the same reason: one lookup function, one source of truth, easy to grep for missing keys. The Arabic flag button reuses the same accurate Algerian-flag SVG (green/white halves, red crescent and star) as the other two apps in this family.</p>
+      <h3>Le système i18n : <code>lang.js</code> et <code>t()</code></h3>
+      <p>1 389 lignes, presque entièrement un seul gros objet <code>LANG</code> indexé <code>en</code>/<code>fr</code>/<code>ar</code>, chacun un dictionnaire plat de clés de chaîne (<code>app_title</code>, <code>connect_btn</code>, des dizaines d'autres). Chaque autre fichier appelle un unique <code>t(key)</code> global pour chercher la chaîne de la langue active, se repliant sur l'anglais si une clé manque dans la langue actuelle &mdash; le même schéma que le <code>tr()</code> de Bit-Bot et Talking Robot, convergé indépendamment pour la même raison : une seule fonction de recherche, une seule source de vérité, facile à grep pour les clés manquantes. Le bouton drapeau arabe réutilise le même SVG précis du drapeau algérien (moitiés vert/blanc, croissant et étoile rouges) que les deux autres applications de cette famille.</p>
 
-      <h3>The micro:bit firmware: prefix-matched commands</h3>
-      <p>With over 30 distinct commands, this firmware doesn't use one long chain of exact-match <code>if (cmd == "...")</code> checks like the simpler sibling firmwares &mdash; it matches by <em>prefix</em>, since most commands carry a parameter after a colon:</p>
+      <h3>Le firmware du micro:bit : commandes appariées par préfixe</h3>
+      <p>Avec plus de 30 commandes distinctes, ce firmware n'utilise pas une seule longue chaîne de vérifications <code>if (cmd == "...")</code> à correspondance exacte comme les firmwares frères plus simples &mdash; il fait correspondre par <em>préfixe</em>, puisque la plupart des commandes portent un paramètre après un deux-points :</p>
       <pre><code>bluetooth.onUartDataReceived(serial.delimiters(Delimiters.NewLine), function () {
     let line = bluetooth.uartReadUntil(serial.delimiters(Delimiters.NewLine)).trim()
     bluetooth.uartWriteLine("ECHO:" + line)        // every line is echoed for debugging
@@ -200,10 +207,10 @@ function sendLine(line) {
     if (line == "SERVO1:OFF")         { pins.analogWritePin(AnalogPin.P1, 0); ... return }
     // ...continues for SERVO1:&lt;angle&gt;, SERVO2:*, BUZZ:*, CMD:*, OTHER:*, BENCH:*, JSON:*, ...
 })</code></pre>
-      <p>Every branch <code>return</code>s immediately once matched, so the list acts like a lookup table even though it's written as sequential <code>if</code>s &mdash; order mostly doesn't matter since each prefix is unique.</p>
+      <p>Chaque branche fait un <code>return</code> immédiatement une fois trouvée, donc la liste se comporte comme une table de recherche même si elle est écrite comme des <code>if</code> séquentiels &mdash; l'ordre n'a généralement pas d'importance puisque chaque préfixe est unique.</p>
 
-      <h4>Decoding the LED matrix: <code>LM:&lt;hex10&gt;</code></h4>
-      <p>The browser encodes the whole 5&times;5 grid as 10 hex characters (one byte per row, 5 rows), and the firmware decodes it bit-by-bit:</p>
+      <h4>Décoder la matrice LED : <code>LM:&lt;hex10&gt;</code></h4>
+      <p>Le navigateur encode toute la grille 5&times;5 en 10 caractères hexadécimaux (un octet par ligne, 5 lignes), et le firmware le décode bit par bit :</p>
       <pre><code>function handleLedMatrixHex(hex2: string) {
     if (hex2.length != 10) { bluetooth.uartWriteLine("LOG:LM_BAD_LENGTH:" + hex2.length); return }
     for (let row = 0; row &lt;= 4; row++) {
@@ -216,12 +223,12 @@ function sendLine(line) {
     }
     bluetooth.uartWriteLine("LOG:LM_OK:" + hex2)
 }</code></pre>
-      <p>Each row-byte's 5 low bits map one-to-one onto the 5 LED columns in that row via a bitmask &mdash; the same encoding the <code>LEDS:&lt;r0&gt;,&lt;r1&gt;,&lt;r2&gt;,&lt;r3&gt;,&lt;r4&gt;</code> telemetry line uses in reverse to report the LED state back to the browser for the 3D model to mirror.</p>
+      <p>Les 5 bits faibles de chaque octet de ligne se mappent un-à-un sur les 5 colonnes LED de cette ligne via un masque de bits &mdash; le même encodage que la ligne de télémétrie <code>LEDS:&lt;r0&gt;,&lt;r1&gt;,&lt;r2&gt;,&lt;r3&gt;,&lt;r4&gt;</code> utilise en sens inverse pour rapporter l'état des LED au navigateur afin que le modèle 3D le reflète.</p>
 
-      <h3>Pin conflict guards</h3>
-      <p>Servos and the buzzer share physical pins with the touch sensors (P1/P2/P0). Rather than letting them fight, the firmware sets a boolean flag (<code>servo1Active</code>, <code>servo2Active</code>, <code>buzzerActive</code>) whenever that feature is in use, and the touch-polling loop checks the flag before reading &mdash; sending <code>SERVO1:OFF</code> clears the flag and hands the pin back to touch sensing. It's a small but instructive example of one micro:bit peripheral needing to explicitly yield a shared resource to another.</p>
+      <h3>Gardes de conflit de broches</h3>
+      <p>Les servos et le buzzer partagent des broches physiques avec les capteurs tactiles (P1/P2/P0). Plutôt que de les laisser se battre, le firmware fixe un drapeau booléen (<code>servo1Active</code>, <code>servo2Active</code>, <code>buzzerActive</code>) chaque fois que cette fonctionnalité est utilisée, et la boucle de sondage tactile vérifie le drapeau avant de lire &mdash; envoyer <code>SERVO1:OFF</code> efface le drapeau et redonne la broche au capteur tactile. C'est un petit exemple mais instructif d'un périphérique micro:bit devant explicitement céder une ressource partagée à un autre.</p>
 
-      <h3>The full round trip</h3>
+      <h3>L'aller-retour complet</h3>
       <div class="diagram"><pre style="margin:0;border:0;padding:0;background:none;">  browser: click a LED-matrix cell
        │
        ▼
@@ -248,77 +255,77 @@ function sendLine(line) {
                                                               3D micro:bit model's own
                                                               LED mesh updates to match</pre></div>
 
-      <h2 id="tabs">Tabs guide</h2>
+      <h2 id="tabs">Guide des onglets</h2>
       <table class="wikitable">
-        <tr><th>#</th><th>Tab</th><th>What it's for</th></tr>
-        <tr><td>1</td><td>Controls</td><td>Scrolling text, 5&times;5 LED matrix (click/drag to paint, presets, hex send), buzzer, custom raw JSON (Expert).</td></tr>
-        <tr><td>2</td><td>Sensors</td><td>Live Temperature/Light/Sound/Accelerometer/Compass/Buttons/Touch with sparklines, plus the calibration controls.</td></tr>
-        <tr><td>3</td><td>Motors</td><td>Two servo sliders (P1/P2) with gauges, numeric input, and an OFF button that frees the pin for touch again.</td></tr>
-        <tr><td>4</td><td>GamePad</td><td>D-pad + Fire button, sending <code>CMD:UP</code>/<code>DOWN</code>/<code>LEFT</code>/<code>RIGHT</code>/<code>FIRE</code>.</td></tr>
-        <tr><td>5</td><td>Graph</td><td>Chart.js live plotting (5 chart types), Simulate mode, recording/replay, PNG/CSV export, annotations, fullscreen.</td></tr>
-        <tr><td>6</td><td>3D Board</td><td>Five Three.js models synced to live sensor data; drag to rotate, scroll/pinch to zoom.</td></tr>
-        <tr><td>7</td><td>Bench (Expert)</td><td>Raw <code>BENCH:PING</code>/<code>STATUS</code>/<code>RESET</code> commands and firmware responses, for prototyping.</td></tr>
-        <tr><td>8</td><td>More</td><td>A grab-bag of extra widgets &mdash; button, switch, slider, keypad, joystick (always visible); LED indicator, level bar, mini-graphs, debug console, data capture, buzzer, timer, delayed action, random, mode selector, numeric input, dual range, color picker, presets, XY pad, mini LED grid, sensor simulators, pin control, servo, RGB strip placeholder, file I/O (Expert only).</td></tr>
+        <tr><th>#</th><th>Onglet</th><th>À quoi il sert</th></tr>
+        <tr><td>1</td><td>Contrôles</td><td>Texte défilant, matrice LED 5&times;5 (clic/glisser pour peindre, préréglages, envoi hex), buzzer, JSON brut personnalisé (Expert).</td></tr>
+        <tr><td>2</td><td>Capteurs</td><td>Température/Lumière/Son/Accéléromètre/Boussole/Boutons/Toucher en direct avec mini-graphiques, plus les contrôles de calibration.</td></tr>
+        <tr><td>3</td><td>Moteurs</td><td>Deux curseurs de servo (P1/P2) avec jauges, saisie numérique, et un bouton OFF qui libère la broche pour le toucher à nouveau.</td></tr>
+        <tr><td>4</td><td>Manette</td><td>Croix directionnelle + bouton Feu, envoyant <code>CMD:UP</code>/<code>DOWN</code>/<code>LEFT</code>/<code>RIGHT</code>/<code>FIRE</code>.</td></tr>
+        <tr><td>5</td><td>Graphique</td><td>Tracé en direct Chart.js (5 types de graphiques), mode Simuler, enregistrement/relecture, export PNG/CSV, annotations, plein écran.</td></tr>
+        <tr><td>6</td><td>Carte 3D</td><td>Cinq modèles Three.js synchronisés sur des données de capteurs en direct ; glisse pour tourner, défile/pince pour zoomer.</td></tr>
+        <tr><td>7</td><td>Banc (Expert)</td><td>Commandes brutes <code>BENCH:PING</code>/<code>STATUS</code>/<code>RESET</code> et réponses du firmware, pour le prototypage.</td></tr>
+        <tr><td>8</td><td>Plus</td><td>Un fourre-tout de widgets supplémentaires &mdash; bouton, interrupteur, curseur, clavier, joystick (toujours visibles) ; indicateur LED, barre de niveau, mini-graphiques, console de débogage, capture de données, buzzer, minuteur, action différée, aléatoire, sélecteur de mode, saisie numérique, plage double, sélecteur de couleur, préréglages, pavé XY, mini-grille LED, simulateurs de capteurs, contrôle de broches, servo, emplacement réservé pour ruban RGB, E/S fichier (Expert seulement).</td></tr>
       </table>
 
-      <h2 id="protocol">BLE protocol reference</h2>
-      <p>Nordic UART over BLE, 20-byte MTU with auto-chunking, device name filter <code>BBC micro:bit</code>. A representative slice of the full command set (see the <a href="https://github.com/abourdim/bit-playground/blob/main/README.md">README</a> for the complete table of ~30 <code>OTHER:*</code> commands):</p>
+      <h2 id="protocol">Référence du protocole BLE</h2>
+      <p>Nordic UART sur BLE, MTU de 20 octets avec découpage automatique, filtre de nom d'appareil <code>BBC micro:bit</code>. Un échantillon représentatif de l'ensemble complet de commandes (voir le <a href="https://github.com/abourdim/bit-playground/blob/main/README.md">README</a> pour la table complète des ~30 commandes <code>OTHER:*</code>) :</p>
       <table class="wikitable">
-        <tr><th>Direction</th><th>Message</th><th>Meaning</th></tr>
-        <tr><td>micro:bit → browser</td><td><code>TEMP:&lt;C&gt;</code>, <code>LIGHT:&lt;0-255&gt;</code>, <code>SOUND:&lt;0-255&gt;</code>, <code>ACC:&lt;x&gt;,&lt;y&gt;,&lt;z&gt;</code>, <code>COMPASS:&lt;0-360&gt;</code></td><td>Live telemetry, each throttled and only sent on change.</td></tr>
-        <tr><td>micro:bit → browser</td><td><code>LEDS:&lt;r0&gt;,&lt;r1&gt;,&lt;r2&gt;,&lt;r3&gt;,&lt;r4&gt;</code></td><td>Actual LED state (each row 0&ndash;31), keeps the 3D model in sync.</td></tr>
-        <tr><td>browser → micro:bit</td><td><code>LM:&lt;hex10&gt;</code></td><td>Set the whole 5&times;5 LED matrix in one message.</td></tr>
-        <tr><td>browser → micro:bit</td><td><code>SERVO1:&lt;angle&gt;</code> / <code>SERVO1:OFF</code></td><td>Move servo 1 (0&ndash;180°, smooth stepping) or release its PWM.</td></tr>
-        <tr><td>browser → micro:bit</td><td><code>SIMULATE:ON</code>/<code>OFF</code></td><td>Firmware streams synthetic Sine/Random/Ramp graph data every 200ms.</td></tr>
-        <tr><td>browser → micro:bit</td><td><code>CAL:COMPASS</code></td><td>Triggers the built-in tilt-to-fill-screen calibration game.</td></tr>
+        <tr><th>Direction</th><th>Message</th><th>Signification</th></tr>
+        <tr><td>micro:bit → navigateur</td><td><code>TEMP:&lt;C&gt;</code>, <code>LIGHT:&lt;0-255&gt;</code>, <code>SOUND:&lt;0-255&gt;</code>, <code>ACC:&lt;x&gt;,&lt;y&gt;,&lt;z&gt;</code>, <code>COMPASS:&lt;0-360&gt;</code></td><td>Télémétrie en direct, chacune limitée en fréquence et envoyée uniquement au changement.</td></tr>
+        <tr><td>micro:bit → navigateur</td><td><code>LEDS:&lt;r0&gt;,&lt;r1&gt;,&lt;r2&gt;,&lt;r3&gt;,&lt;r4&gt;</code></td><td>État LED réel (chaque ligne 0&ndash;31), garde le modèle 3D synchronisé.</td></tr>
+        <tr><td>navigateur → micro:bit</td><td><code>LM:&lt;hex10&gt;</code></td><td>Définit toute la matrice LED 5&times;5 en un seul message.</td></tr>
+        <tr><td>navigateur → micro:bit</td><td><code>SERVO1:&lt;angle&gt;</code> / <code>SERVO1:OFF</code></td><td>Déplace le servo 1 (0&ndash;180°, pas fluides) ou libère son PWM.</td></tr>
+        <tr><td>navigateur → micro:bit</td><td><code>SIMULATE:ON</code>/<code>OFF</code></td><td>Le firmware diffuse des données de graphique synthétiques Sine/Aléatoire/Rampe toutes les 200ms.</td></tr>
+        <tr><td>navigateur → micro:bit</td><td><code>CAL:COMPASS</code></td><td>Déclenche le jeu de calibration intégré « incline pour remplir l'écran ».</td></tr>
       </table>
 
-      <h2 id="board3d">3D Board models</h2>
+      <h2 id="board3d">Modèles de la carte 3D</h2>
       <table class="wikitable">
-        <tr><th>Model</th><th>Animates</th><th>Driven by</th></tr>
-        <tr><td>🎲 micro:bit V2</td><td>LEDs, tilt, buttons, pins, logo, temperature tint</td><td>All sensors</td></tr>
-        <tr><td>🚗 Robot Buggy</td><td>Wheels spin, steering, headlights, LED screen</td><td>Servo 1, Accelerometer, LEDs, Light, Button A</td></tr>
-        <tr><td>🦾 Robot Arm</td><td>Base rotation, arm lift, gripper</td><td>Servo 1, Servo 2, Button A/B</td></tr>
-        <tr><td>🎯 Balance Game</td><td>Ball rolls on a tilting platform (physics simulation)</td><td>Accelerometer X/Y</td></tr>
-        <tr><td>🌦️ Weather Station</td><td>Thermometer, sun/cloud/rain, wind vane, sound bars</td><td>Temperature, Light, Sound, Compass</td></tr>
+        <tr><th>Modèle</th><th>Anime</th><th>Piloté par</th></tr>
+        <tr><td>🎲 micro:bit V2</td><td>LED, inclinaison, boutons, broches, logo, teinte de température</td><td>Tous les capteurs</td></tr>
+        <tr><td>🚗 Robot Buggy</td><td>Roues qui tournent, direction, phares, écran LED</td><td>Servo 1, Accéléromètre, LED, Lumière, Bouton A</td></tr>
+        <tr><td>🦾 Bras robotique</td><td>Rotation de base, levage du bras, pince</td><td>Servo 1, Servo 2, Bouton A/B</td></tr>
+        <tr><td>🎯 Jeu d'équilibre</td><td>Une bille roule sur une plateforme inclinable (simulation physique)</td><td>Accéléromètre X/Y</td></tr>
+        <tr><td>🌦️ Station météo</td><td>Thermomètre, soleil/nuage/pluie, girouette, barres sonores</td><td>Température, Lumière, Son, Boussole</td></tr>
       </table>
-      <p>Each model is a standalone file exposing <code>create()</code>, <code>update()</code>, and <code>destroy()</code>, registered on <code>window.board3dModels</code> so <code>board3d.js</code> can hot-swap between them without reloading the page.</p>
+      <p>Chaque modèle est un fichier autonome exposant <code>create()</code>, <code>update()</code>, et <code>destroy()</code>, enregistré sur <code>window.board3dModels</code> afin que <code>board3d.js</code> puisse basculer entre eux à chaud sans recharger la page.</p>
 
-      <h2 id="calibration">Calibration system</h2>
-      <p>All calibration is user-triggered &mdash; nothing runs automatically at startup, and every result persists to <code>localStorage</code>:</p>
+      <h2 id="calibration">Système de calibration</h2>
+      <p>Toute calibration est déclenchée par l'utilisateur &mdash; rien ne s'exécute automatiquement au démarrage, et chaque résultat persiste dans <code>localStorage</code> :</p>
       <table class="wikitable">
-        <tr><th>Calibration</th><th>How</th><th>Stored where</th></tr>
-        <tr><td>🧭 Compass</td><td>Click Calibrate → sends <code>CAL:COMPASS</code> → firmware's built-in tilt game → <code>CAL:COMPASS:DONE</code></td><td>Firmware side; compass polling stays off until this runs.</td></tr>
-        <tr><td>⚖️ Accelerometer zero</td><td>Lay the board flat → "Set Level" captures X/Y/Z as an offset subtracted from future readings</td><td>Browser <code>localStorage</code> only.</td></tr>
-        <tr><td>🔊/💡 Sound &amp; light baseline</td><td>"Set Ambient" in current conditions → subsequent readings shown as a delta</td><td>Browser <code>localStorage</code> only.</td></tr>
-        <tr><td>🔧 Servo trim (Expert)</td><td>−15° to +15° slider added to every angle before sending</td><td>Per-servo, browser <code>localStorage</code> only.</td></tr>
+        <tr><th>Calibration</th><th>Comment</th><th>Stocké où</th></tr>
+        <tr><td>🧭 Boussole</td><td>Clique Calibrer → envoie <code>CAL:COMPASS</code> → jeu d'inclinaison intégré du firmware → <code>CAL:COMPASS:DONE</code></td><td>Côté firmware ; le sondage de la boussole reste désactivé jusqu'à ce que ceci s'exécute.</td></tr>
+        <tr><td>⚖️ Zéro de l'accéléromètre</td><td>Pose la carte à plat → « Définir niveau » capture X/Y/Z comme décalage soustrait des lectures futures</td><td><code>localStorage</code> du navigateur seulement.</td></tr>
+        <tr><td>🔊/💡 Référence son &amp; lumière</td><td>« Définir l'ambiance » dans les conditions actuelles → les lectures suivantes affichées comme un delta</td><td><code>localStorage</code> du navigateur seulement.</td></tr>
+        <tr><td>🔧 Ajustement du servo (Expert)</td><td>Curseur −15° à +15° ajouté à chaque angle avant l'envoi</td><td>Par servo, <code>localStorage</code> du navigateur seulement.</td></tr>
       </table>
 
-      <h2 id="i18n">Themes &amp; languages</h2>
-      <p>Four visual themes (Stealth dark default, Neon cyberpunk, Arctic light, Blaze warm light) built on 30+ CSS custom properties, saved to <code>localStorage</code>. Full English/French/Arabic UI translation via <code>lang.js</code>, with the same accurate Algerian flag used across this app family for Arabic and right-to-left layout support.</p>
+      <h2 id="i18n">Thèmes &amp; langues</h2>
+      <p>Quatre thèmes visuels (Stealth sombre par défaut, Neon cyberpunk, Arctic clair, Blaze clair chaud) construits sur plus de 30 propriétés CSS personnalisées, enregistrés dans <code>localStorage</code>. Traduction complète de l'interface en anglais/français/arabe via <code>lang.js</code>, avec le même drapeau algérien précis utilisé dans toute cette famille d'applications pour l'arabe et la prise en charge de la disposition de droite à gauche.</p>
 
-      <h2 id="firmware">Getting the firmware</h2>
-      <p>Unlike Bit-Bot and Talking Robot, this project doesn't yet have a dedicated copy-paste <code>flash.html</code> page &mdash; the firmware lives directly in <code>makecode.ts</code> at the repository root, with the full protocol documented in its own header comment. Open it on GitHub, copy the contents, and paste into a new <a href="https://makecode.microbit.org">makecode.microbit.org</a> JavaScript project as described in <a href="#walkthrough">Step-by-step</a> above.</p>
+      <h2 id="firmware">Obtenir le firmware</h2>
+      <p>Contrairement à Bit-Bot et Talking Robot, ce projet n'a pas encore de page dédiée <code>flash.html</code> de copier-coller &mdash; le firmware vit directement dans <code>makecode.ts</code> à la racine du dépôt, avec le protocole complet documenté dans son propre commentaire d'en-tête. Ouvre-le sur GitHub, copie le contenu, et colle-le dans un nouveau projet JavaScript <a href="https://makecode.microbit.org">makecode.microbit.org</a> comme décrit dans <a href="#walkthrough">Étape par étape</a> ci-dessus.</p>
 
-      <h2 id="troubleshooting">Troubleshooting</h2>
+      <h2 id="troubleshooting">Dépannage</h2>
       <table class="wikitable">
-        <tr><th>Symptom</th><th>Cause / fix</th></tr>
-        <tr><td>Connect button does nothing</td><td>Needs Chrome or Edge and a secure context (HTTPS or <code>localhost</code>) &mdash; Safari and Firefox don't support Web Bluetooth at all.</td></tr>
-        <tr><td>Servo fights with touch on the same pin</td><td>Expected while the servo is active; send <code>SERVO1:OFF</code>/<code>SERVO2:OFF</code> to release the pin back to touch sensing.</td></tr>
-        <tr><td>Compass never updates</td><td>By design &mdash; polling is off until you run Calibrate once from the Sensors tab.</td></tr>
-        <tr><td>3D model doesn't move</td><td>Check "Live Sync" is enabled on the 3D Board tab, and that the correct model is selected for the sensor you're watching (e.g. the Buggy model ignores Compass).</td></tr>
-        <tr><td>Reconnect keeps failing</td><td>Firmware may have changed since pairing; re-flash <code>makecode.ts</code> and forget/re-pair the device in your OS Bluetooth settings if it still won't connect after 3 auto-retry attempts.</td></tr>
+        <tr><th>Symptôme</th><th>Cause / solution</th></tr>
+        <tr><td>Le bouton Connecter ne fait rien</td><td>Nécessite Chrome ou Edge et un contexte sécurisé (HTTPS ou <code>localhost</code>) &mdash; Safari et Firefox ne supportent pas du tout Web Bluetooth.</td></tr>
+        <tr><td>Le servo entre en conflit avec le toucher sur la même broche</td><td>Attendu tant que le servo est actif ; envoie <code>SERVO1:OFF</code>/<code>SERVO2:OFF</code> pour redonner la broche au capteur tactile.</td></tr>
+        <tr><td>La boussole ne se met jamais à jour</td><td>Par conception &mdash; le sondage est désactivé jusqu'à ce que tu lances Calibrer une fois depuis l'onglet Capteurs.</td></tr>
+        <tr><td>Le modèle 3D ne bouge pas</td><td>Vérifie que « Sync en direct » est activé sur l'onglet Carte 3D, et que le bon modèle est sélectionné pour le capteur que tu observes (ex. le modèle Buggy ignore la Boussole).</td></tr>
+        <tr><td>La reconnexion échoue sans cesse</td><td>Le firmware a peut-être changé depuis le jumelage ; reflashe <code>makecode.ts</code> et oublie/rejumèle l'appareil dans les réglages Bluetooth de ton système si ça ne se connecte toujours pas après 3 tentatives automatiques.</td></tr>
       </table>
 
       <div class="catlinks">
-        Categories: <a href="index.html">micro:bit</a> | <a href="index.html">Robotics</a> | <a href="index.html">3D graphics</a> | <a href="index.html">Web apps</a>
+        Catégories : <a href="index.html">micro:bit</a> | <a href="index.html">Robotique</a> | <a href="index.html">Graphismes 3D</a> | <a href="index.html">Applications web</a>
       </div>
     </article>
   </div>
 </div>
 
 <div class="footer-wiki">
-  This page was created on 29 July 2026. Content based on the <a href="https://github.com/abourdim/bit-playground">bit-playground</a> repository (README, source, and firmware header) and first-hand code review.
+  Cette page a été créée le 29 juillet 2026. Contenu basé sur le dépôt <a href="https://github.com/abourdim/bit-playground">bit-playground</a> (README, code source, et en-tête du firmware) et une relecture directe du code.
 </div>
 
 </body>
