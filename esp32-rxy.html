@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ESP32-RXY - Wiki</title>
+<link rel="stylesheet" href="wiki.css">
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-inner">
+    <a class="wiki-logo" href="https://workshop-diy.org"><img src="logo.png" alt="Logo du wiki"></a>
+    <a class="masthead-site-link" href="https://workshop-diy.org">workshop-diy.org</a>
+    <div class="masthead-title">
+      Wiki
+      <span class="sub">La base de connaissances personnelle et gratuite</span>
+    </div>
+    <div class="masthead-actions">
+      <div class="lang-switch" role="group" aria-label="Langue">
+        <a href="esp32-rxy.html" class="lang-switch-btn active" title="Français"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="20" height="40" fill="#002395"/><rect x="20" width="20" height="40" fill="#fff"/><rect x="40" width="20" height="40" fill="#ED2939"/></svg></a>
+        <a href="esp32-rxy-en.html" class="lang-switch-btn" title="English"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="60" height="40" fill="#012169"/><path d="M0 0L60 40M60 0L0 40" stroke="#fff" stroke-width="6.5"/><path d="M0 0L60 40M60 0L0 40" stroke="#C8102E" stroke-width="3.5"/><path d="M30 0V40M0 20H60" stroke="#fff" stroke-width="11"/><path d="M30 0V40M0 20H60" stroke="#C8102E" stroke-width="6.5"/></svg></a>
+        <a href="esp32-rxy-ar.html" class="lang-switch-btn" title="العربية"><svg width="24" height="16" viewBox="0 0 900 600"><defs><clipPath id="glE32fr"><rect width="450" height="600"/></clipPath></defs><rect width="450" height="600" fill="#006233"/><rect x="450" width="450" height="600" fill="#FFF"/><g fill="#D21034" transform="translate(450,300)"><circle r="125"/><circle cx="25" r="100" fill="#FFF"/><g clip-path="url(#glE32fr)" transform="translate(-450,-300)"><circle cx="475" cy="300" r="100" fill="#006233"/></g><path d="M85-12l22 67h71l-57 42 22 67-58-42-57 42 21-67-57-42h71z"/></g></svg></a>
+      </div>
+      <div class="masthead-search">
+        <input type="text" placeholder="Rechercher dans le wiki" disabled>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wiki-layout">
+
+  <div class="sidebar">
+    <h3>Navigation</h3>
+    <ul>
+      <li><a href="index.html">Page principale</a></li>
+      <li><a href="#">Modifications récentes</a></li>
+      <li><a href="#">Page au hasard</a></li>
+    </ul>
+    <h3>Catégories</h3>
+    <ul>
+      <li><a href="index.html">Réseaux</a></li>
+      <li><a href="index.html">Linux</a></li>
+      <li><a href="index.html">Windows</a></li>
+      <li><a href="index.html">Électronique</a></li>
+      <li><a href="index.html">ESP32</a></li>
+      <li><a href="index.html">micro:bit</a></li>
+    </ul>
+    <h3>Outils</h3>
+    <ul>
+      <li><a href="https://github.com/abourdim/esp32-rxy">Voir le dépôt du code source</a></li>
+    </ul>
+  </div>
+
+  <div class="content-wrap">
+    <div class="article-tabs">
+      <span class="active">Article</span>
+      <span>Discussion</span>
+    </div>
+
+    <article>
+      <h1 class="page-title">ESP32-RXY</h1>
+
+      <div class="infobox">
+        <div class="infobox-title">ESP32-RXY</div>
+        <table>
+          <tr><th>Type</th><td>Firmware ESP32, se fait passer pour un BBC micro:bit via BLE</td></tr>
+          <tr><th>Carte</th><td>ESP32-C3 Super Mini (tout ESP32 avec BLE convient)</td></tr>
+          <tr><th>Systèmes de build</th><td>PlatformIO &amp; Arduino IDE</td></tr>
+          <tr><th>Bibliothèque BLE</th><td>NimBLE-Arduino 2.x</td></tr>
+          <tr><th>Fonctionne avec</th><td><a href="bit-rxy.html">l'appli web rxy</a> (non modifiée)</td></tr>
+          <tr><th>Dépôt</th><td><a href="https://github.com/abourdim/esp32-rxy">github.com/abourdim/esp32-rxy</a></td></tr>
+        </table>
+      </div>
+
+      <p class="hatnote">Cet article couvre ESP32-RXY, un firmware ESP32 qui parle exactement le même protocole Bluetooth Low Energy qu'un BBC micro:bit exécutant le modèle MakeCode <a href="bit-rxy.html">rxy</a> &mdash; de sorte que l'appli web rxy non modifiée peut se connecter à un simple ESP32 et piloter les widgets exactement comme elle le ferait avec un véritable micro:bit.</p>
+
+      <div class="toc">
+        <div class="toc-title">Sommaire</div>
+        <ol>
+          <li><a href="#overview">Aperçu</a></li>
+          <li><a href="#quickstart">Démarrage rapide</a></li>
+          <li><a href="#walkthrough">Étape par étape : cloner, flasher &amp; tester</a></li>
+          <li><a href="#understanding">Comprendre le code (pour débutants)</a></li>
+          <li><a href="#protocol">Référence du protocole</a></li>
+          <li><a href="#customising">Personnaliser la mise en page</a></li>
+          <li><a href="#troubleshooting">Dépannage</a></li>
+        </ol>
+      </div>
+
+      <h2 id="overview">Aperçu</h2>
+      <p><strong>ESP32-RXY</strong> vous permet de piloter l'appli web de télécommande <a href="bit-rxy.html">rxy</a> avec une simple carte ESP32 au lieu d'un BBC micro:bit. L'appli rxy n'a jamais été modifiée pour que cela fonctionne : le firmware ESP32 se présente comme un micro:bit et implémente exactement le même protocole BLE UART, si bien que du point de vue du navigateur il est indiscernable du matériel réel. C'est pratique quand vous voulez un récepteur de télécommande permanent, alimenté par câble, plutôt qu'un micro:bit sur batterie, ou simplement quand vous n'avez pas de micro:bit sous la main.</p>
+      <p>La carte cible est l'<strong>ESP32-C3 Super Mini</strong>, une carte ESP32-C3 très bon marché (quelques dollars) avec un port USB-C natif et une LED &amp; un bouton intégrés &mdash; mais n'importe quelle puce ESP32 avec Bluetooth Low Energy fonctionne avec des ajustements mineurs de broches.</p>
+
+      <div class="ambox ambox-notice">
+        <strong>Projet compagnon :</strong> ce firmware est le pendant côté ESP32 de l'appli web <a href="bit-rxy.html">Micro:bit Remote Builder (bit-rxy)</a>. Lisez cet article d'abord si vous n'avez pas encore conçu de mise en page de télécommande &mdash; la section « Personnaliser la mise en page » ci-dessous suppose que vous avez déjà une chaîne <code>CFG</code> exportée depuis celle-ci.
+      </div>
+
+      <h2 id="quickstart">Démarrage rapide</h2>
+      <p><strong>PlatformIO</strong> (recommandé pour l'ESP32-C3 Super Mini) :</p>
+      <pre><code>cd platformio
+pio run -t upload
+pio device monitor</code></pre>
+      <p><strong>Arduino IDE</strong> : installez le package de carte <em>ESP32 by Espressif Systems</em> et la bibliothèque <em>NimBLE-Arduino</em> (2.x), ouvrez <code>arduino/microbit_esp32_remote/microbit_esp32_remote.ino</code>, sélectionnez la carte <em>ESP32C3 Dev Module</em>, activez <em>Outils &gt; USB CDC On Boot</em>, et téléversez.</p>
+      <p>Ouvrez ensuite <a href="https://abourdim.github.io/rxy/">abourdim.github.io/rxy</a> dans Chrome ou Edge, passez à l'onglet <strong>Jouer</strong>, appuyez sur <strong>📡 Connexion</strong>, et choisissez <strong>BBC micro:bit</strong> dans la liste.</p>
+
+      <div class="ambox">
+        <strong>Quelle chaîne d'outils utiliser ?</strong> Sur l'ESP32-C3 Super Mini, préférez <strong>PlatformIO</strong>. Son <code>platformio.ini</code> fixe <code>upload_speed = 115200</code> et définit <code>--no-stub</code>, tous deux nécessaires pour contourner les problèmes de réénumération USB-CDC dans <code>esptool</code>. Arduino IDE / arduino-cli n'a pas de moyen propre de faire passer <code>--no-stub</code>, donc les téléversements peuvent échouer avec « No serial data received » ou « Unable to verify flash chip connection ». Voir <a href="#troubleshooting">Dépannage</a> pour l'explication complète.
+      </div>
+
+      <h2 id="walkthrough">Étape par étape : cloner, flasher &amp; tester</h2>
+      <p>Ce guide vous emmène d'un dépôt tout juste cloné à un firmware auquel un navigateur peut réellement se connecter et qu'il peut piloter.</p>
+
+      <h3>1. Cloner le dépôt</h3>
+      <pre><code>git clone https://github.com/abourdim/esp32-rxy.git
+cd esp32-rxy</code></pre>
+      <p>Un ESP32-C3 Super Mini (ou toute carte ESP32 avec BLE) et un câble USB-C.</p>
+
+      <h3>2. Installer la bibliothèque BLE</h3>
+      <p>Les deux chaînes d'outils nécessitent <strong>NimBLE-Arduino 2.x</strong>. Dans Arduino IDE : Gestionnaire de bibliothèques &rarr; recherchez « NimBLE-Arduino » &rarr; installez. Dans PlatformIO elle est tirée automatiquement &mdash; <code>platformio.ini</code> fixe <code>h2zero/NimBLE-Arduino @ ^2.2.0</code> dans <code>lib_deps</code>.</p>
+
+      <h3>3. Compiler et flasher</h3>
+      <p><strong>Option A &mdash; PlatformIO</strong> (recommandé) :</p>
+      <pre><code>cd platformio
+pio run                # compiler
+pio run -t upload      # téléverser (~60-90s avec --no-stub, c'est normal)
+pio device monitor -b 115200</code></pre>
+      <p>Ou utilisez le menu interactif plutôt que de mémoriser les options :</p>
+      <pre><code>./launch.sh</code></pre>
+      <p>qui propose des options numérotées pour vérifier la chaîne d'outils, installer PlatformIO, compiler, flasher, surveiller, ou « tout faire » en une fois, pour PlatformIO ou arduino-cli.</p>
+      <p><strong>Option B &mdash; Arduino IDE</strong> : ouvrez <code>arduino/microbit_esp32_remote/microbit_esp32_remote.ino</code>, <em>Outils &gt; Carte</em> &rarr; « ESP32C3 Dev Module », <em>Outils &gt; USB CDC On Boot</em> &rarr; Enabled, sélectionnez le port, cliquez sur Téléverser.</p>
+
+      <h3>4. Observer le démarrage</h3>
+      <p>Ouvrez le moniteur série à 115200 bauds. Un démarrage sain affiche un bloc de diagnostic complet &mdash; modèle de puce, nombre de cœurs, version SDK, tas libre, taille de la flash &mdash; suivi des étapes de configuration BLE, se terminant par :</p>
+      <pre><code>[BLE] advertising as: 'BBC micro:bit'
+[BOOT] setup() OK   — free_heap=... bytes
+[BLE] Open https://abourdim.github.io/rxy/ and click Connect.</code></pre>
+
+      <h3>5. Se connecter depuis l'appli web rxy</h3>
+      <p>Sur un téléphone ou un ordinateur exécutant Chrome, Edge, Opera, ou Samsung Internet, ouvrez <a href="https://abourdim.github.io/rxy/">abourdim.github.io/rxy</a>, passez à l'onglet <strong>Jouer</strong>, et appuyez sur <strong>📡 Connexion</strong>. Choisissez l'appareil nommé <strong>BBC micro:bit</strong> dans le sélecteur de jumelage du navigateur (le firmware s'annonce sous ce nom exact pour que le filtre de l'appli l'accepte).</p>
+      <p>Vous devriez voir apparaître un seul bouton « Test » &mdash; la mise en page minimale par défaut intégrée au firmware. Appuyer dessus bascule la LED bleue intégrée sur la C3 Super Mini (GPIO 8, active à l'état bas).</p>
+
+      <div class="ambox ambox-notice">
+        Si l'overlay de connexion affiche <em>« Requesting layout (GETCFG)&hellip; »</em> et ne se ferme jamais, le firmware est joignable mais la réponse <code>CFGEND</code> n'est jamais arrivée &mdash; vérifiez la ligne <code>[BLE] Sent CFG</code> dans le moniteur série. Si elle est absente, l'appareil s'est probablement déconnecté en cours de transfert.
+      </div>
+
+      <h3>6. Essayer le bouton de débogage</h3>
+      <p>Appuyez sur le bouton intégré <strong>BOOT</strong> (GPIO 9) <em>après</em> que la carte a fini de démarrer &mdash; il envoie un instantané complet de l'état au moniteur série : informations sur la puce, temps de fonctionnement, tas libre, états des broches GPIO, UUID BLE, et la configuration de mise en page actuelle dans exactement le même formatage <code>CFGBEGIN</code>/<code>CFG</code>/<code>CFGEND</code> envoyé via BLE. Utile pour confirmer quelle mise en page tourne réellement sans avoir besoin d'un téléphone à proximité.</p>
+      <div class="ambox">
+        <strong>Attention au GPIO 9 :</strong> c'est aussi la broche de strapping BOOT de l'ESP32-C3. Le maintenir enfoncé pendant que la carte s'allume ou se réinitialise fait démarrer la puce en mode téléchargement ROM au lieu d'exécuter le firmware. Il est sûr de l'appuyer <em>après</em> la fin du démarrage. Si vous voulez un bouton de débogage dédié sans ce piège, câblez-en un sur GPIO 0 et GND à la place et changez <code>BUTTON_PIN</code> dans le code source.
+      </div>
+
+      <div class="ambox ambox-success">Une configuration réussie ressemble à ceci : le moniteur série montre un démarrage propre sans boucle de réinitialisation, l'overlay de connexion de l'appli se ferme en une seconde ou deux en affichant vos widgets, et le bouton Test (ou votre propre mise en page) répond instantanément.</div>
+
+      <h2 id="understanding">Comprendre le code (pour développeurs débutants)</h2>
+      <p class="hatnote">Cette section s'adresse à quiconque a flashé le firmware et s'est connecté avec succès, et veut maintenant ouvrir le code source et câbler ses propres widgets. Elle ne suppose aucune expérience préalable en embarqué/C++. Si vous voulez seulement utiliser la mise en page à un bouton par défaut, vous pouvez sauter entièrement cette section.</p>
+
+      <div class="ambox ambox-notice">
+        <strong>Vous n'avez pas besoin de comprendre quoi que ce soit ici pour construire, flasher, et vous connecter.</strong> Tout dans cette section est là pour quand vous serez prêt à faire faire quelque chose au firmware avec vos propres widgets.
+      </div>
+
+      <h3>Le seul fichier qui compte</h3>
+      <p>Tout le firmware tient dans un seul fichier, <code>main.cpp</code> (les utilisateurs d'Arduino IDE voient le contenu identique sous <code>microbit_esp32_remote.ino</code> &mdash; les deux sont maintenus synchronisés octet pour octet). Pas d'en-têtes, pas de bibliothèques au-delà de NimBLE et des appels système ESP-IDF utilisés pour le diagnostic.</p>
+
+      <h3>Ce qui se passe une fois, à la mise sous tension : <code>setup()</code></h3>
+      <div class="diagram" dir="ltr"><pre style="margin:0;border:0;padding:0;background:none;">  power on
+     │
+     ▼
+  <b>1</b> Serial + boot diagnostics  ──▶  <b>2</b> GPIO init (LED off, button pulled up)
+                                              │
+                                              ▼
+  <b>4</b> GATT service + characteristics  ◀──  <b>3</b> NimBLEDevice::init + security (open, no pairing)
+     │
+     ▼
+  <b>5</b> start advertising as "BBC micro:bit"</pre></div>
+      <p><strong>1. Diagnostics de démarrage</strong> &mdash; avant qu'aucune opération BLE ne se produise, <code>setup()</code> affiche le modèle de puce, le nombre de cœurs, la révision, la version du SDK, la version du cœur Arduino, la fréquence CPU, le tas libre, et la taille de la flash sur le moniteur série. C'est ce que vous vérifiez en premier si une carte se comporte mal.</p>
+      <p><strong>2. Initialisation GPIO</strong> &mdash; la LED intégrée (GPIO 8, active à l'état <strong>bas</strong> sur la C3 Super Mini &mdash; écrire <code>LOW</code> l'allume) est mise à off, et le bouton de débogage (GPIO 9) est configuré en <code>INPUT_PULLUP</code> pour lire <code>LOW</code> quand il est pressé.</p>
+      <p><strong>3. Initialisation NimBLE et politique de sécurité</strong> &mdash; c'est la partie qui mérite une lecture attentive :</p>
+      <pre><code>NimBLEDevice::init(BLE_DEVICE_NAME);
+NimBLEDevice::setPower(ESP_PWR_LVL_P9);
+NimBLEDevice::setMTU(247);
+NimBLEDevice::setSecurityAuth(false, false, false);   // no bonding / MITM / LESC
+NimBLEDevice::setSecurityIOCap(BLE_HS_IO_NO_INPUT_OUTPUT);
+NimBLEDevice::deleteAllBonds();</code></pre>
+      <p><code>setMTU(247)</code> demande une taille de paquet Bluetooth plus grande que les 23 octets par défaut, afin que les lignes de 23 octets <code>"CFG &lt;18 caractères&gt;\n"</code> tiennent dans une seule notification au lieu de se fragmenter &mdash; les centraux négocient toujours à la baisse s'ils ne le supportent pas (Chrome sur macOS atterrit généralement autour de 185 octets, les téléphones autour de 247). Les appels de sécurité désactivent explicitement le jumelage/liaison, correspondant à ce que fait un vrai micro:bit dans le mode « aucun jumelage requis » de MakeCode : <strong>n'importe qui à portée Bluetooth peut se connecter et piloter les widgets</strong>. Correct pour un gadget de bureau ou une télécommande de classe ; pas quelque chose que vous voudriez pour quoi que ce soit de sensible.</p>
+      <p><strong>4. Service GATT et caractéristiques</strong> &mdash; le firmware crée un service BLE avec deux caractéristiques :</p>
+      <pre><code>NimBLEService* svc = server->createService(UART_SERVICE_UUID);
+gTxChar = svc->createCharacteristic(UART_TX_CHAR_UUID, NIMBLE_PROPERTY::NOTIFY);
+NimBLECharacteristic* rxChar = svc->createCharacteristic(
+            UART_RX_CHAR_UUID, NIMBLE_PROPERTY::WRITE | NIMBLE_PROPERTY::WRITE_NR);
+rxChar->setCallbacks(new RxCallbacks());</code></pre>
+      <div class="ambox ambox-notice">
+        <strong>Piège de nommage :</strong> la caractéristique <code>...0002</code> est celle sur laquelle le firmware <em>notifie</em> (appareil &rarr; appli) et <code>...0003</code> est celle à laquelle l'appli <em>écrit</em> (appli &rarr; appareil). C'est l'<strong>opposé</strong> de la convention Nordic UART Service utilisée par les bibliothèques Adafruit/Bluefruit, car nous imitons un micro:bit, et MakeCode attribue les rôles dans l'autre sens. Si vous comparez un jour ce code à un exemple NUS générique, souvenez-vous que les rôles sont inversés.
+      </div>
+      <p><strong>5. Publicité (advertising)</strong> &mdash; la dernière étape et la plus délicate. Un paquet d'annonce BLE a un budget strict de 31 octets. Le nom d'appareil de ce firmware est court (<code>"BBC micro:bit"</code>, 13 caractères) spécifiquement pour qu'il tienne dans le paquet d'annonce <em>primaire</em> aux côtés des drapeaux, sans avoir besoin du tout d'un paquet de réponse de balayage :</p>
+      <pre><code>adv->setName(BLE_DEVICE_NAME);
+adv->enableScanResponse(false);          // name fits in primary packet
+adv->setMinInterval(0x140);              // 320 * 0.625ms = 200ms
+adv->setMaxInterval(0x140);</code></pre>
+      <p>Cela compte parce que certains centraux BLE (notamment Chrome sur macOS) gèrent les noms transportés dans un paquet de réponse de balayage de manière peu fiable &mdash; l'appareil peut devenir invisible dans le sélecteur de jumelage du navigateur même si les téléphones le voient bien. Supprimer l'UUID du service de l'annonce (il reste découvrable via GATT après la connexion) libère assez du budget de 31 octets pour que le nom tienne dans le paquet primaire, que tout central BLE scanne de manière fiable. L'intervalle d'annonce de 200&nbsp;ms correspond au propre réglage <code>pxt.json</code> de MakeCode, pour la cohérence avec un vrai micro:bit.</p>
+
+      <h3>Comment une connexion devient une mise en page à l'écran : le flux <code>GETCFG</code></h3>
+      <p>Une fois connectée, l'appli rxy écrit <code>GETCFG</code> sur la caractéristique RX. Cette seule ligne entrante déclenche tout le transfert de mise en page :</p>
+      <div class="diagram" dir="ltr"><pre style="margin:0;border:0;padding:0;background:none;">  App writes "GETCFG\n" to RX char
+       │
+       ▼
+  RxCallbacks::onWrite() buffers bytes until '\n', then calls handleLine()
+       │
+       ▼
+  handleLine(): line == "GETCFG" → sendCfg()
+       │
+       ▼
+  sendCfg(): sendLine("CFGBEGIN")
+             for each 18-char chunk of LAYOUT_CFG_BASE64:
+                 sendLine("CFG " + chunk);  delay(15ms)
+             sendLine("CFGEND")
+       │
+       ▼  each sendLine() → gTxChar->notify(...)  over the TX characteristic
+  App receives CFGBEGIN, several CFG lines, CFGEND
+       │
+       ▼
+  App concatenates the CFG chunks, base64-decodes, JSON.parses the layout,
+  and renders the widgets on screen</pre></div>
+      <p>Deux détails d'implémentation ici sont faciles à mal faire, et les commentaires du code source mettent explicitement en garde contre les deux :</p>
+      <ul>
+        <li><strong>La taille de bloc de 18 caractères n'est pas arbitraire.</strong> Elle correspond au découpage propre du modèle MakeCode officiel de rxy, de sorte que la même chaîne base64 <code>CFG</code> fait l'aller-retour de manière identique qu'elle provienne d'un vrai micro:bit ou de ce firmware.</li>
+        <li><strong><code>sendLine()</code> doit passer ses propres octets directement à <code>notify()</code></strong>, plutôt que d'appeler <code>setValue()</code> puis <code>notify()</code> comme deux étapes séparées. La forme en deux étapes crée une course sur le tampon interne partagé de la caractéristique lorsqu'elle est appelée dos à dos dans la boucle de découpage : la tâche hôte asynchrone de NimBLE peut lire le tampon <em>après</em> qu'un appel <code>setValue()</code> plus récent l'a déjà écrasé, effondrant silencieusement plusieurs notifications en file d'attente en une seule, la dernière. Le symptôme observé côté rxy était exactement cela : seul <code>CFGEND</code> arrivait jamais, chaque bloc <code>CFG</code> entre les deux disparaissait, et <code>JSON.parse('')</code> échouait. La correction, <code>gTxChar->notify((const uint8_t*)out.c_str(), out.length())</code>, capture les octets de manière atomique à chaque appel.</li>
+      </ul>
+
+      <h3>Lire les lignes entrantes : le rappel RX et <code>handleLine()</code></h3>
+      <p>Les écritures BLE arrivent sous forme de blocs d'octets bruts, pas de lignes propres, donc le firmware les met lui-même en tampon :</p>
+      <pre><code>void onWrite(NimBLECharacteristic* chr, NimBLEConnInfo&amp;) override {
+  std::string v = chr->getValue();
+  for (size_t i = 0; i &lt; v.size(); ++i) {
+    const char c = v[i];
+    if (c == '\r') continue;
+    if (c == '\n') {
+      if (gRxBuffer.length() > 0) { handleLine(gRxBuffer); gRxBuffer = ""; }
+    } else {
+      gRxBuffer += c;
+      if (gRxBuffer.length() > 256) gRxBuffer = "";  // overflow guard
+    }
+  }
+}</code></pre>
+      <p>Chaque octet est ajouté à <code>gRxBuffer</code> jusqu'à ce qu'un <code>\n</code> complète une ligne (un <code>\r</code> isolé est silencieusement abandonné, donc les fins de ligne Unix et Windows fonctionnent toutes les deux) ; la ligne complétée est transmise à <code>handleLine()</code>, qui reconnaît exactement deux formes :</p>
+      <pre><code>if (line == "GETCFG") { sendCfg(); return; }
+if (line.startsWith("SET ")) {
+  int sp = line.indexOf(' ', 4);
+  String id  = line.substring(4, sp);
+  String val = line.substring(sp + 1);
+  handleWidget(id, val);
+}</code></pre>
+      <p>Tout le reste est silencieusement ignoré &mdash; il n'y a pas de réponse d'erreur pour les lignes malformées, correspondant au comportement du vrai firmware micro:bit.</p>
+
+      <h3>Câbler vos propres widgets : <code>handleWidget()</code></h3>
+      <p>C'est la seule fonction que vous modifiez pour votre propre projet. Elle reçoit un <code>id</code> de widget (exactement l'ID que vous lui avez donné dans l'onglet Build de rxy, par ex. <code>btn_fire</code>, <code>slider_speed</code>) et une chaîne <code>val</code> dont le format dépend du type de widget (voir le tableau de <a href="#protocol">référence du protocole</a> ci-dessous). La valeur par défaut fournie ne gère que le bouton de démo :</p>
+      <pre><code>static void handleWidget(const String&amp; id, const String&amp; val) {
+  if (id == "btn_test") {
+    digitalWrite(LED_PIN, val == "1" ? LED_ON : LED_OFF);
+    return;
+  }
+  // if (id == "slider_speed") {
+  //   int s = val.toInt();          // 0..100 by default
+  //   analogWrite(MOTOR_PIN, s * 255 / 100);
+  //   return;
+  // }
+  ...
+}</code></pre>
+      <p>Le fichier source fournit un exemple commenté par type de widget (bouton, curseur, bascule, joystick, D-pad, pavé XY, minuteur) comme modèle à décommenter et adapter. Pour renvoyer des données dans l'autre sens &mdash; mettre à jour une LED, une étiquette, une jauge, un graphique, ou un indicateur de batterie à l'écran &mdash; appelez le petit assistant <code>sendValue(id, val)</code> depuis n'importe où, qui émet simplement <code>"UPD &lt;id&gt; &lt;val&gt;"</code> :</p>
+      <pre><code>static inline void sendValue(const String&amp; id, const String&amp; val) {
+  sendLine("UPD " + id + " " + val);
+}</code></pre>
+      <div class="ambox ambox-notice">L'appli web rxy limite le débit des messages entrants à environ un toutes les 200&nbsp;ms. Envoyer des mises à jour <code>sendValue()</code> plus vite que cela ne corrompra rien, mais les messages excédentaires sont simplement perdus &mdash; une cadence de 200 à 500&nbsp;ms dans votre propre code de scrutation <code>loop()</code> est confortable et correspond à l'exemple de mise à jour périodique commenté déjà présent dans le code source.</div>
+
+      <h2 id="protocol">Référence du protocole</h2>
+      <table class="wikitable">
+        <tr><th>Direction</th><th>Message</th><th>Remarques</th></tr>
+        <tr><td>Appli &rarr; ESP32</td><td><code>GETCFG</code></td><td>envoyé environ 500ms après la connexion</td></tr>
+        <tr><td>Appli &rarr; ESP32</td><td><code>SET &lt;id&gt; &lt;val&gt;</code></td><td><code>val</code> peut être multi-jeton (joystick, D-pad, pavé XY)</td></tr>
+        <tr><td>ESP32 &rarr; Appli</td><td><code>UPD &lt;id&gt; &lt;val&gt;</code></td><td>envoyé seulement après <code>CFGEND</code></td></tr>
+        <tr><td>ESP32 &rarr; Appli</td><td><code>CFGBEGIN</code> / <code>CFG &lt;bloc de 18 caractères&gt;</code>&hellip; / <code>CFGEND</code></td><td>transfert de mise en page ; la taille de bloc 18 est obligatoire</td></tr>
+      </table>
+
+      <p>UUID BLE (style Nordic UART, avec les rôles TX/RX inversés &mdash; voir ci-dessus) :</p>
+      <table class="wikitable">
+        <tr><th>Rôle</th><th>UUID</th></tr>
+        <tr><td>Service</td><td><code>6e400001-b5a3-f393-e0a9-e50e24dcca9e</code></td></tr>
+        <tr><td>Notify (appareil &rarr; appli)</td><td><code>6e400002-b5a3-f393-e0a9-e50e24dcca9e</code></td></tr>
+        <tr><td>Write (appli &rarr; appareil)</td><td><code>6e400003-b5a3-f393-e0a9-e50e24dcca9e</code></td></tr>
+      </table>
+
+      <p>Formats de valeur des widgets :</p>
+      <table class="wikitable">
+        <tr><th>Préfixe</th><th>Widget</th><th>Format de valeur</th></tr>
+        <tr><td><code>btn_</code></td><td>Bouton</td><td><code>0</code> | <code>1</code></td></tr>
+        <tr><td><code>slider_</code></td><td>Curseur</td><td>entier dans la plage min..max du widget</td></tr>
+        <tr><td><code>toggle_</code></td><td>Bascule</td><td><code>0</code> | <code>1</code></td></tr>
+        <tr><td><code>joy_</code></td><td>Joystick</td><td><code>&lt;angle 0-360&gt; &lt;distance 0-100&gt;</code> (0&deg;=droite, 90&deg;=bas, 180&deg;=gauche, 270&deg;=haut)</td></tr>
+        <tr><td><code>dpad_</code></td><td>D-Pad</td><td><code>&lt;up|down|left|right&gt; &lt;0|1&gt;</code></td></tr>
+        <tr><td><code>xypad_</code></td><td>Pavé XY</td><td><code>&lt;x 0-100&gt; &lt;y 0-100&gt;</code></td></tr>
+        <tr><td><code>timer_</code></td><td>Minuteur</td><td>secondes écoulées, envoyé environ toutes les 5s</td></tr>
+      </table>
+
+      <h2 id="customising">Personnaliser la mise en page</h2>
+      <ol>
+        <li>Ouvrez <a href="bit-rxy.html">l'appli web rxy</a>, passez à l'onglet <strong>Build</strong>, et concevez votre télécommande à partir de sa palette de widgets.</li>
+        <li>Cliquez sur <strong>📄 Code</strong>. Dans le MakeCode généré, copiez la longue chaîne base64 de <code>const CFG = "&hellip;"</code>.</li>
+        <li>Collez-la dans <code>LAYOUT_CFG_BASE64</code> près du haut de <code>main.cpp</code>, en remplaçant la démo par défaut à un bouton.</li>
+        <li>Remplissez votre propre logique dans <code>handleWidget()</code>, en faisant correspondre les ID de widget que vous avez choisis dans l'onglet Build.</li>
+        <li>Re-téléversez.</li>
+      </ol>
+      <p>Les ID de widget que vous avez utilisés dans l'onglet Build (<code>btn_fire</code>, <code>slider_speed</code>, &hellip;) sont exactement les ID qui arrivent dans les messages <code>SET</code>, donc vous les traitez par nom dans <code>handleWidget()</code> &mdash; aucune étape de mappage d'ID séparée n'est nécessaire.</p>
+
+      <h2 id="troubleshooting">Dépannage</h2>
+      <table class="wikitable">
+        <tr><th>Symptôme</th><th>Cause / solution</th></tr>
+        <tr>
+          <td><code>A fatal error occurred: No serial data received.</code> (juste après « Changing baud rate to 460800 »)</td>
+          <td>Le point de terminaison USB-CDC natif de l'ESP32-C3 Super Mini plante lors du changement de débit en cours de téléversement. Corrigé en fixant <code>upload_speed = 115200</code> dans <code>platformio.ini</code> (déjà défini dans ce dépôt).</td>
+        </tr>
+        <tr>
+          <td><code>Unable to verify flash chip connection (No serial data received.)</code> (juste après « Stub running... »)</td>
+          <td>Quand le stub du flasheur prend le relais du bootloader ROM, le point de terminaison USB-CDC se réénumère et la première commande post-stub tombe dans une fenêtre morte. Corrigé par <code>upload_flags = --no-stub</code> (déjà défini), qui garde le bootloader ROM aux commandes pendant tout le téléversement &mdash; plus lent (~60&ndash;90s) mais fiable.</td>
+        </tr>
+        <tr>
+          <td>Le téléversement depuis arduino-cli échoue avec l'une des erreurs ci-dessus</td>
+          <td>Il n'y a pas de moyen propre de faire passer <code>--no-stub</code> à travers un FQBN Arduino. Maintenez le bouton <strong>BOOT</strong> en appuyant sur <strong>RESET</strong> pour forcer le mode téléchargement ROM, puis téléversez immédiatement &mdash; ou passez à PlatformIO.</td>
+        </tr>
+        <tr>
+          <td>L'appareil n'apparaît pas dans le sélecteur de jumelage du navigateur</td>
+          <td>Vérifiez que vous êtes sur Chrome, Edge, Opera, ou Samsung Internet &mdash; Safari et Firefox n'ont aucun support Web Bluetooth sur aucune plateforme, et aucun navigateur sur iOS/iPadOS ne le supporte (restriction Apple).</td>
+        </tr>
+        <tr>
+          <td>L'overlay de connexion reste bloqué sur « Requesting layout (GETCFG)&hellip; »</td>
+          <td>Vérifiez le moniteur série pour <code>[BLE] Sent CFG</code>. S'il n'apparaît jamais, l'appareil s'est déconnecté avant l'arrivée de <code>GETCFG</code>. S'il apparaît mais que l'appli reste bloquée, reconnectez-vous une fois &mdash; un abonnement à une caractéristique périmé d'une session précédente peut occasionnellement manquer la rafale de notifications.</td>
+        </tr>
+        <tr>
+          <td>Appuyer sur le bouton de débogage (GPIO 9) empêche la carte de démarrer</td>
+          <td>Le GPIO 9 est la broche de strapping BOOT de l'ESP32-C3. Le maintenir enfoncé pendant la mise sous tension ou la réinitialisation force le mode téléchargement ROM. N'appuyez dessus qu'après la fin du démarrage, ou recâblez le bouton de débogage sur GPIO 0 dans le code source.</td>
+        </tr>
+        <tr>
+          <td>Un second téléphone/navigateur ne peut pas se connecter</td>
+          <td>Les périphériques BLE ne maintiennent qu'une seule connexion centrale à la fois. Déconnectez le premier client avant de vous connecter depuis un autre appareil.</td>
+        </tr>
+      </table>
+
+      <div class="ambox">
+        <strong>Aucun jumelage BLE :</strong> par conception, correspondant au comportement d'un vrai micro:bit dans le mode par défaut de MakeCode, ce firmware accepte les connexions sans jumelage ni liaison. N'importe qui à portée Bluetooth peut se connecter et envoyer des commandes <code>SET</code>. Approprié pour un gadget de bureau ou une télécommande de classe ; pas pour quoi que ce soit où cela compte.
+      </div>
+
+      <div class="catlinks">
+        Catégories : <a href="index.html">micro:bit</a> | <a href="index.html">ESP32</a> | <a href="index.html">Bluetooth</a>
+      </div>
+    </article>
+  </div>
+</div>
+
+<div class="footer-wiki">
+  Cette page a été créée le 30 juillet 2026 et modifiée pour la dernière fois le 30 juillet 2026. Contenu adapté du README, des notes de projet, et du code source du firmware du dépôt <a href="https://github.com/abourdim/esp32-rxy">esp32-rxy</a>.
+</div>
+
+</body>
+</html>
