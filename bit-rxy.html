@@ -218,12 +218,15 @@ const PFS_CMD = { REGION_INFO: 0x00, FLASH_DATA: 0x01, END_OF_TX: 0x02, STATUS: 
       </table>
 
       <h2 id="i18n">Languages</h2>
-      <p>English, French, and Arabic, following the same <code>t()</code>-style lookup pattern as the rest of this app family, with automatic browser-language detection on first visit (<code>detectBrowserLang()</code>) and the choice persisted under its own <code>kid_lang</code> localStorage key.</p>
+      <p>Full English, French, and Arabic translation across the header, template picker, builder toolbar, widget palette, props panel, Play/runtime view, tutorial, loading overlay, code modal, and the toasts for every core action &mdash; using a <code>tr(path, vars)</code> helper that does a dotted-key lookup into the <code>I18N</code> object (e.g. <code>tr('toast.sizeSet', {w, h})</code>) with <code>{placeholder}</code> interpolation for dynamic values. Arabic flips the whole page to <code>dir="rtl"</code> and uses the Algerian flag, matching the rest of this app family.</p>
+      <p>Unlike the browser-language auto-detection used early on, the app now defaults straight to French on first visit and only switches on an explicit choice, persisted under its own <code>kid_lang</code> localStorage key &mdash; matching Bit-Bot, Talking Robot, and micro:bit Playground.</p>
+      <p>Deliberately left in English: the widget Properties form's per-field labels (Width, Height, Min, Max, etc. &mdash; about 100 strings spread across the 12 widget types) and the hidden power-user "Helper Tools" panel (Group, Layers, Ruler, Align, Distribute, Canvas Background, Screenshot, Share &mdash; all gated behind a dev-only button, never shown to normal users), the same scope line drawn for Bit-Bot's excluded Commands panel.</p>
 
       <h2 id="troubleshooting">Troubleshooting</h2>
       <table class="wikitable">
         <tr><th>Symptom</th><th>Cause / fix</th></tr>
         <tr><td>Can't connect to micro:bit</td><td>Confirm Bluetooth is on, the board shows a ❤️ (ready), and only one device is connected at a time &mdash; refresh and retry if a previous session didn't disconnect cleanly.</td></tr>
+        <tr><td>Connect always fails on iPhone/iPad</td><td>iOS has no Web Bluetooth support in Safari or any other iOS browser (they're all WebKit under the hood) &mdash; this is a platform limitation, not a bug. The app detects this and points to the free "Bluefy" browser (search the App Store) instead of just saying "Connection failed."</td></tr>
         <tr><td>Widgets don't do anything</td><td>Confirm the generated code was actually flashed, and that widget IDs in the firmware match the IDs shown in the Code panel &mdash; regenerate and reflash after any layout change.</td></tr>
         <tr><td>One-click Bluetooth flash fails</td><td>The Partial Flashing Service requires a board that's already running a compatible MakeCode runtime from a prior USB flash; if the compile step fails outright, the app opens MakeCode in a new tab so you can flash manually instead.</td></tr>
         <tr><td>micro:bit disconnects randomly</td><td>Stay within Bluetooth range (~10m), check the battery, and reduce how often <code>sendValue()</code> is called if you're flooding the link.</td></tr>
@@ -238,7 +241,7 @@ const PFS_CMD = { REGION_INFO: 0x00, FLASH_DATA: 0x01, END_OF_TX: 0x02, STATUS: 
 </div>
 
 <div class="footer-wiki">
-  This page was created on 29 July 2026. Content based on the <a href="https://github.com/abourdim/bit-rxy">bit-rxy</a> repository (README and source) and first-hand code review.
+  This page was created on 29 July 2026, last edited 30 July 2026. Content based on the <a href="https://github.com/abourdim/bit-rxy">bit-rxy</a> repository (README and source) and first-hand code review.
 </div>
 
 </body>
