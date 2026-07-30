@@ -254,24 +254,47 @@ if (line.startsWith("SET ")) {
       <p>Tout le reste est silencieusement ignoré &mdash; il n'y a pas de réponse d'erreur pour les lignes malformées, correspondant au comportement du vrai firmware micro:bit.</p>
 
       <h3>Câbler vos propres widgets : <code>handleWidget()</code></h3>
-      <p>C'est la seule fonction que vous modifiez pour votre propre projet. Elle reçoit un <code>id</code> de widget (exactement l'ID que vous lui avez donné dans l'onglet Build de rxy, par ex. <code>btn_fire</code>, <code>slider_speed</code>) et une chaîne <code>val</code> dont le format dépend du type de widget (voir le tableau de <a href="#protocol">référence du protocole</a> ci-dessous). La valeur par défaut fournie ne gère que le bouton de démo :</p>
+      <p>C'est la seule fonction que vous modifiez pour votre propre projet. Elle reçoit un <code>id</code> de widget (exactement l'ID que vous lui avez donné dans l'onglet Build de rxy, par ex. <code>btn_fire</code>, <code>slider_speed</code>) et une chaîne <code>val</code> dont le format dépend du type de widget (voir le tableau de <a href="#protocol">référence du protocole</a> ci-dessous).</p>
+      <div class="ambox ambox-success">
+        <strong>Chaque type de widget a déjà une démo fonctionnelle, prête à l'emploi.</strong> Au lieu de gabarits commentés, <code>handleWidget()</code> fait correspondre par <em>préfixe</em> (<code>btn_</code>, <code>slider_</code>, <code>toggle_</code>, <code>joy_</code>, <code>dpad_</code>, <code>xypad_</code>, <code>timer_</code>) plutôt que par ID exact, donc n'importe quel widget d'un type donné que vous ajoutez dans l'onglet Build &mdash; quel que soit son nom &mdash; pilote la LED intégrée et affiche ce qu'il a reçu sur le port série, sans aucune modification du firmware. C'est un moyen rapide de voir le format de valeur de chaque type de widget en action avant d'écrire la logique réelle de votre projet.
+      </div>
       <pre><code>static void handleWidget(const String&amp; id, const String&amp; val) {
-  if (id == "btn_test") {
+  if (id == "btn_test") {                       // the shipped demo button
     digitalWrite(LED_PIN, val == "1" ? LED_ON : LED_OFF);
     return;
   }
-  // if (id == "slider_speed") {
-  //   int s = val.toInt();          // 0..100 by default
-  //   analogWrite(MOTOR_PIN, s * 255 / 100);
-  //   return;
-  // }
-  ...
+  if (id.startsWith("btn_")) {                  // any other button widget
+    digitalWrite(LED_PIN, val == "1" ? LED_ON : LED_OFF);
+    Serial.printf("[WIDGET] button   '%s' %s\n", id.c_str(), val == "1" ? "pressed" : "released");
+    return;
+  }
+  if (id.startsWith("slider_")) {                // LED brightness follows the slider
+    setLedPercent(val.toInt());                 // 0..100 by default
+    return;
+  }
+  // ...toggle_, joy_, dpad_, xypad_, timer_ follow the same pattern
 }</code></pre>
-      <p>Le fichier source fournit un exemple commenté par type de widget (bouton, curseur, bascule, joystick, D-pad, pavé XY, minuteur) comme modèle à décommenter et adapter. Pour renvoyer des données dans l'autre sens &mdash; mettre à jour une LED, une étiquette, une jauge, un graphique, ou un indicateur de batterie à l'écran &mdash; appelez le petit assistant <code>sendValue(id, val)</code> depuis n'importe où, qui émet simplement <code>"UPD &lt;id&gt; &lt;val&gt;"</code> :</p>
+      <p>Remplacez le corps du <code>if</code> correspondant au type de widget qui vous intéresse réellement par votre propre logique (moteurs, capteurs, LED supplémentaires&hellip;) ; l'analyse de l'id/val déjà présente peut rester telle quelle. Pour renvoyer des données dans l'autre sens &mdash; mettre à jour une LED, une étiquette, une jauge, un graphique, ou un indicateur de batterie à l'écran &mdash; appelez le petit assistant <code>sendValue(id, val)</code> depuis n'importe où, qui émet simplement <code>"UPD &lt;id&gt; &lt;val&gt;"</code> :</p>
       <pre><code>static inline void sendValue(const String&amp; id, const String&amp; val) {
   sendLine("UPD " + id + " " + val);
 }</code></pre>
-      <div class="ambox ambox-notice">L'appli web rxy limite le débit des messages entrants à environ un toutes les 200&nbsp;ms. Envoyer des mises à jour <code>sendValue()</code> plus vite que cela ne corrompra rien, mais les messages excédentaires sont simplement perdus &mdash; une cadence de 200 à 500&nbsp;ms dans votre propre code de scrutation <code>loop()</code> est confortable et correspond à l'exemple de mise à jour périodique commenté déjà présent dans le code source.</div>
+      <div class="ambox ambox-notice">L'appli web rxy limite le débit des messages entrants à environ un toutes les 200&nbsp;ms. Envoyer des mises à jour <code>sendValue()</code> plus vite que cela ne corrompra rien, mais les messages excédentaires sont simplement perdus &mdash; une cadence de 200 à 500&nbsp;ms dans votre propre code de scrutation <code>loop()</code> est confortable.</div>
+
+      <h3>Démontrer les widgets de sortie : LED, Étiquette, Jauge, Graphique, Batterie</h3>
+      <p>rxy compte 12 types de widgets au total, pas 7 : les sept ci-dessus sont des <strong>entrées</strong> (appli &rarr; firmware, arrivant sous forme de messages <code>SET</code> que <code>handleWidget()</code> peut faire correspondre par ID), mais il existe aussi cinq widgets de <strong>sortie</strong> &mdash; LED, Étiquette, Jauge, Graphique, et Batterie &mdash; qui fonctionnent dans l'autre sens. Un widget de sortie n'envoie jamais rien ; il ne fait que recevoir ce que vous lui poussez avec <code>sendValue()</code>. Cela signifie aussi que le firmware n'a aucun moyen de les détecter automatiquement comme il le fait avec les préfixes d'entrée : <code>LAYOUT_CFG_BASE64</code> est un blob opaque pour le firmware, qui ne peut donc pas voir comment vous avez nommé votre widget Jauge dans l'onglet Build.</p>
+      <p>À la place, <code>loop()</code> fournit une démo qui tourne en continu et pousse des données factices vers cinq ID fixes une fois par seconde, dès qu'un client est connecté :</p>
+      <pre><code>static uint32_t lastOutputDemo = 0;
+if (gConnected && now - lastOutputDemo >= 1000) {
+  lastOutputDemo = now;
+  static int demoTick = 0;
+  demoTick++;
+  sendValue("led_demo",     (demoTick % 2) ? "1" : "0");
+  sendValue("label_demo",   "Tick " + String(demoTick));
+  sendValue("gauge_demo",   String((int)temperatureRead()));   // chip temp, °C
+  sendValue("graph_demo",   String(demoTick % 100) + "," + String((demoTick * 3) % 100));
+  sendValue("battery_demo", String(100 - (demoTick % 100)));   // fake drain 100 -> 0
+}</code></pre>
+      <p>Pour voir l'un de ces widgets en direct, ajoutez un widget du type correspondant dans l'onglet Build et donnez-lui l'ID exact (<code>led_demo</code>, <code>label_demo</code>, <code>gauge_demo</code>, <code>graph_demo</code>, ou <code>battery_demo</code>) &mdash; ou modifiez les chaînes dans <code>loop()</code> pour correspondre à l'ID que vous avez réellement utilisé. <code>temperatureRead()</code> lit le capteur de température interne de l'ESP32-C3, donc la démo de la Jauge est une donnée réelle ; les quatre autres sont synthétiques, juste assez pour voir le widget bouger.</p>
 
       <h2 id="protocol">Référence du protocole</h2>
       <table class="wikitable">
@@ -290,16 +313,21 @@ if (line.startsWith("SET ")) {
         <tr><td>Write (appli &rarr; appareil)</td><td><code>6e400003-b5a3-f393-e0a9-e50e24dcca9e</code></td></tr>
       </table>
 
-      <p>Formats de valeur des widgets :</p>
+      <p>Formats de valeur des widgets &mdash; les 12 types :</p>
       <table class="wikitable">
-        <tr><th>Préfixe</th><th>Widget</th><th>Format de valeur</th></tr>
-        <tr><td><code>btn_</code></td><td>Bouton</td><td><code>0</code> | <code>1</code></td></tr>
-        <tr><td><code>slider_</code></td><td>Curseur</td><td>entier dans la plage min..max du widget</td></tr>
-        <tr><td><code>toggle_</code></td><td>Bascule</td><td><code>0</code> | <code>1</code></td></tr>
-        <tr><td><code>joy_</code></td><td>Joystick</td><td><code>&lt;angle 0-360&gt; &lt;distance 0-100&gt;</code> (0&deg;=droite, 90&deg;=bas, 180&deg;=gauche, 270&deg;=haut)</td></tr>
-        <tr><td><code>dpad_</code></td><td>D-Pad</td><td><code>&lt;up|down|left|right&gt; &lt;0|1&gt;</code></td></tr>
-        <tr><td><code>xypad_</code></td><td>Pavé XY</td><td><code>&lt;x 0-100&gt; &lt;y 0-100&gt;</code></td></tr>
-        <tr><td><code>timer_</code></td><td>Minuteur</td><td>secondes écoulées, envoyé environ toutes les 5s</td></tr>
+        <tr><th>Direction</th><th>Préfixe / ID</th><th>Widget</th><th>Format de valeur</th><th>Démo intégrée</th></tr>
+        <tr><td rowspan="7">Entrée</td><td><code>btn_</code></td><td>Bouton</td><td><code>0</code> | <code>1</code></td><td>LED allumée tant que maintenu</td></tr>
+        <tr><td><code>slider_</code></td><td>Curseur</td><td>entier dans la plage min..max du widget</td><td>Luminosité de la LED</td></tr>
+        <tr><td><code>toggle_</code></td><td>Bascule</td><td><code>0</code> | <code>1</code></td><td>LED on/off</td></tr>
+        <tr><td><code>joy_</code></td><td>Joystick</td><td><code>&lt;angle 0-360&gt; &lt;distance 0-100&gt;</code> (0&deg;=droite, 90&deg;=bas, 180&deg;=gauche, 270&deg;=haut)</td><td>Luminosité = distance</td></tr>
+        <tr><td><code>dpad_</code></td><td>D-Pad</td><td><code>&lt;up|down|left|right&gt; &lt;0|1&gt;</code></td><td>LED allumée tant que maintenu</td></tr>
+        <tr><td><code>xypad_</code></td><td>Pavé XY</td><td><code>&lt;x 0-100&gt; &lt;y 0-100&gt;</code></td><td>Luminosité = y</td></tr>
+        <tr><td><code>timer_</code></td><td>Minuteur</td><td>secondes écoulées, envoyé environ toutes les 5s</td><td>LED clignote à chaque top</td></tr>
+        <tr><td rowspan="5">Sortie</td><td><code>led_demo</code></td><td>LED</td><td><code>0</code> | <code>1</code></td><td>clignote chaque seconde</td></tr>
+        <tr><td><code>label_demo</code></td><td>Étiquette</td><td>texte libre</td><td>« Tick &lt;n&gt; »</td></tr>
+        <tr><td><code>gauge_demo</code></td><td>Jauge</td><td>entier</td><td>température réelle de la puce</td></tr>
+        <tr><td><code>graph_demo</code></td><td>Graphique</td><td>valeurs séparées par des virgules</td><td>deux séries synthétiques</td></tr>
+        <tr><td><code>battery_demo</code></td><td>Batterie</td><td>0&ndash;100</td><td>décharge factice 100&rarr;0</td></tr>
       </table>
 
       <h2 id="customising">Personnaliser la mise en page</h2>
@@ -307,10 +335,10 @@ if (line.startsWith("SET ")) {
         <li>Ouvrez <a href="bit-rxy.html">l'appli web rxy</a>, passez à l'onglet <strong>Build</strong>, et concevez votre télécommande à partir de sa palette de widgets.</li>
         <li>Cliquez sur <strong>📄 Code</strong>. Dans le MakeCode généré, copiez la longue chaîne base64 de <code>const CFG = "&hellip;"</code>.</li>
         <li>Collez-la dans <code>LAYOUT_CFG_BASE64</code> près du haut de <code>main.cpp</code>, en remplaçant la démo par défaut à un bouton.</li>
-        <li>Remplissez votre propre logique dans <code>handleWidget()</code>, en faisant correspondre les ID de widget que vous avez choisis dans l'onglet Build.</li>
-        <li>Re-téléversez.</li>
+        <li>Re-téléversez et essayez &mdash; chaque type de widget pilote déjà la LED intégrée (voir <a href="#understanding">Comprendre le code</a>), aucun C++ nécessaire pour l'instant.</li>
+        <li>Quand vous êtes prêt à câbler du matériel réel, remplacez la démo correspondante dans <code>handleWidget()</code> par votre propre logique.</li>
       </ol>
-      <p>Les ID de widget que vous avez utilisés dans l'onglet Build (<code>btn_fire</code>, <code>slider_speed</code>, &hellip;) sont exactement les ID qui arrivent dans les messages <code>SET</code>, donc vous les traitez par nom dans <code>handleWidget()</code> &mdash; aucune étape de mappage d'ID séparée n'est nécessaire.</p>
+      <p>Les ID de widget que vous avez utilisés dans l'onglet Build (<code>btn_fire</code>, <code>slider_speed</code>, &hellip;) sont exactement les ID qui arrivent dans les messages <code>SET</code>. Comme les démos intégrées correspondent par préfixe plutôt que par ID exact, elles fonctionnent déjà pour ceux-ci ; quand vous remplacez une démo par votre propre logique, vous pouvez soit garder la correspondance par préfixe, soit passer à une vérification par ID exact si vous avez besoin d'un comportement par widget. Pour un widget de sortie (LED/Étiquette/Jauge/Graphique/Batterie), nommez-le <code>led_demo</code>/<code>label_demo</code>/<code>gauge_demo</code>/<code>graph_demo</code>/<code>battery_demo</code> pour correspondre à la démo déjà présente dans <code>loop()</code>, ou modifiez ces chaînes pour votre propre ID.</p>
 
       <h2 id="troubleshooting">Dépannage</h2>
       <table class="wikitable">

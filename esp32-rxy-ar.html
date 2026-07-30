@@ -254,24 +254,47 @@ if (line.startsWith("SET ")) {
       <p>يُتجاهل كل شيء آخر بصمت &mdash; لا توجد استجابة خطأ للأسطر المشوّهة، مطابقةً لسلوك فيرموير micro:bit الحقيقي.</p>
 
       <h3>ربط أدواتك الخاصة: <code>handleWidget()</code></h3>
-      <p>هذه هي الدالة الوحيدة التي تعدّلها لمشروعك الخاص. تستقبل <code>id</code> للأداة (بالضبط المعرّف الذي أعطيته لها في تبويب Build في rxy، مثل <code>btn_fire</code>، <code>slider_speed</code>) وسلسلة <code>val</code> يعتمد تنسيقها على نوع الأداة (انظر جدول <a href="#protocol">مرجع البروتوكول</a> أدناه). الافتراضي المُشحَّن يعالج فقط زر العرض التوضيحي:</p>
+      <p>هذه هي الدالة الوحيدة التي تعدّلها لمشروعك الخاص. تستقبل <code>id</code> للأداة (بالضبط المعرّف الذي أعطيته لها في تبويب Build في rxy، مثل <code>btn_fire</code>، <code>slider_speed</code>) وسلسلة <code>val</code> يعتمد تنسيقها على نوع الأداة (انظر جدول <a href="#protocol">مرجع البروتوكول</a> أدناه).</p>
+      <div class="ambox ambox-success">
+        <strong>كل نوع أداة لديه بالفعل عرض توضيحي عملي، جاهز للاستخدام.</strong> بدلًا من نماذج مُعلَّقة، تطابق <code>handleWidget()</code> حسب <em>البادئة</em> (<code>btn_</code>، <code>slider_</code>، <code>toggle_</code>، <code>joy_</code>، <code>dpad_</code>، <code>xypad_</code>، <code>timer_</code>) بدلًا من المعرّف الدقيق، لذا فإن أي أداة من نوع معين تضيفها في تبويب Build &mdash; أيًا كان اسمها &mdash; تُشغّل LED المدمج وتطبع ما استقبلته على المنفذ التسلسلي، دون أي تعديل للفيرموير على الإطلاق. إنها طريقة سريعة لرؤية تنسيق قيمة كل نوع أداة أثناء العمل قبل كتابة منطق المشروع الفعلي.
+      </div>
       <pre><code>static void handleWidget(const String&amp; id, const String&amp; val) {
-  if (id == "btn_test") {
+  if (id == "btn_test") {                       // the shipped demo button
     digitalWrite(LED_PIN, val == "1" ? LED_ON : LED_OFF);
     return;
   }
-  // if (id == "slider_speed") {
-  //   int s = val.toInt();          // 0..100 by default
-  //   analogWrite(MOTOR_PIN, s * 255 / 100);
-  //   return;
-  // }
-  ...
+  if (id.startsWith("btn_")) {                  // any other button widget
+    digitalWrite(LED_PIN, val == "1" ? LED_ON : LED_OFF);
+    Serial.printf("[WIDGET] button   '%s' %s\n", id.c_str(), val == "1" ? "pressed" : "released");
+    return;
+  }
+  if (id.startsWith("slider_")) {                // LED brightness follows the slider
+    setLedPercent(val.toInt());                 // 0..100 by default
+    return;
+  }
+  // ...toggle_, joy_, dpad_, xypad_, timer_ follow the same pattern
 }</code></pre>
-      <p>يشحن الملف المصدري مثالًا معلَّقًا واحدًا لكل نوع أداة (زر، شريط تمرير، مفتاح تبديل، عصا تحكم، D-pad، لوحة XY، مؤقت) كقالب لإلغاء التعليق عنه وتكييفه. لإرسال البيانات في الاتجاه الآخر &mdash; تحديث LED أو تسمية أو مقياس أو رسم بياني أو مؤشر بطارية على الشاشة &mdash; استدعِ المساعد الصغير <code>sendValue(id, val)</code> من أي مكان، والذي يُصدر ببساطة <code>"UPD &lt;id&gt; &lt;val&gt;"</code>:</p>
+      <p>استبدل نص <code>if</code> المطابق لنوع الأداة التي تهمك فعليًا بمنطقك الخاص (محركات، حساسات، LED إضافية&hellip;)؛ يمكن أن يبقى تحليل id/val الموجود بالفعل كما هو. لإرسال البيانات في الاتجاه الآخر &mdash; تحديث LED أو تسمية أو مقياس أو رسم بياني أو مؤشر بطارية على الشاشة &mdash; استدعِ المساعد الصغير <code>sendValue(id, val)</code> من أي مكان، والذي يُصدر ببساطة <code>"UPD &lt;id&gt; &lt;val&gt;"</code>:</p>
       <pre><code>static inline void sendValue(const String&amp; id, const String&amp; val) {
   sendLine("UPD " + id + " " + val);
 }</code></pre>
-      <div class="ambox ambox-notice">يحدّ تطبيق rxy على الويب من معدل الرسائل الواردة إلى نحو واحدة كل 200 مللي ثانية. إرسال تحديثات <code>sendValue()</code> أسرع من ذلك لن يُفسد شيئًا، لكن الرسائل الزائدة تُهدر ببساطة &mdash; وتيرة 200 إلى 500 مللي ثانية في كود استطلاع <code>loop()</code> الخاص بك مريحة وتطابق مثال التحديث الدوري المُعلَّق الموجود بالفعل في الكود المصدري.</div>
+      <div class="ambox ambox-notice">يحدّ تطبيق rxy على الويب من معدل الرسائل الواردة إلى نحو واحدة كل 200 مللي ثانية. إرسال تحديثات <code>sendValue()</code> أسرع من ذلك لن يُفسد شيئًا، لكن الرسائل الزائدة تُهدر ببساطة &mdash; وتيرة 200 إلى 500 مللي ثانية في كود استطلاع <code>loop()</code> الخاص بك مريحة.</div>
+
+      <h3>عرض توضيحي لأدوات الخرج: LED، تسمية، مقياس، رسم بياني، بطارية</h3>
+      <p>يضم rxy 12 نوع أداة إجمالًا، وليس 7: السبعة أعلاه هي <strong>مدخلات</strong> (تطبيق &rarr; فيرموير، تصل كرسائل <code>SET</code> يمكن لـ<code>handleWidget()</code> مطابقتها بالمعرّف)، لكن هناك أيضًا خمس أدوات <strong>خرج</strong> &mdash; LED، تسمية، مقياس، رسم بياني، وبطارية &mdash; تعمل بالاتجاه المعاكس. أداة الخرج لا ترسل شيئًا أبدًا؛ بل تستقبل فقط ما تدفعه إليها بـ<code>sendValue()</code>. هذا يعني أيضًا أن الفيرموير ليس لديه طريقة لاكتشافها تلقائيًا كما يفعل مع بادئات الإدخال: <code>LAYOUT_CFG_BASE64</code> كتلة معتمة بالنسبة للفيرموير، لذا لا يمكنه رؤية كيف سمّيت أداة المقياس الخاصة بك في تبويب Build.</p>
+      <p>بدلًا من ذلك، يشحن <code>loop()</code> عرضًا توضيحيًا يعمل باستمرار ويدفع بيانات وهمية إلى خمسة معرّفات ثابتة مرة كل ثانية، كلما كان هناك عميل متصل:</p>
+      <pre><code>static uint32_t lastOutputDemo = 0;
+if (gConnected && now - lastOutputDemo >= 1000) {
+  lastOutputDemo = now;
+  static int demoTick = 0;
+  demoTick++;
+  sendValue("led_demo",     (demoTick % 2) ? "1" : "0");
+  sendValue("label_demo",   "Tick " + String(demoTick));
+  sendValue("gauge_demo",   String((int)temperatureRead()));   // chip temp, °C
+  sendValue("graph_demo",   String(demoTick % 100) + "," + String((demoTick * 3) % 100));
+  sendValue("battery_demo", String(100 - (demoTick % 100)));   // fake drain 100 -> 0
+}</code></pre>
+      <p>لرؤية أي من هذه مباشرة، أضف أداة من النوع المطابق في تبويب Build وأعطها المعرّف الدقيق (<code>led_demo</code>، <code>label_demo</code>، <code>gauge_demo</code>، <code>graph_demo</code>، أو <code>battery_demo</code>) &mdash; أو عدّل السلاسل في <code>loop()</code> لتطابق المعرّف الذي استخدمته فعليًا. <code>temperatureRead()</code> تقرأ مستشعر الحرارة الداخلي لـESP32-C3، لذا عرض المقياس التوضيحي بيانات حقيقية؛ الأربعة الأخرى اصطناعية، تكفي فقط لرؤية الأداة تتحرك.</p>
 
       <h2 id="protocol">مرجع البروتوكول</h2>
       <table class="wikitable">
@@ -290,16 +313,21 @@ if (line.startsWith("SET ")) {
         <tr><td>كتابة (تطبيق &rarr; جهاز)</td><td><code>6e400003-b5a3-f393-e0a9-e50e24dcca9e</code></td></tr>
       </table>
 
-      <p>تنسيقات قيم الأدوات:</p>
+      <p>تنسيقات قيم الأدوات &mdash; الأنواع الـ12 كلها:</p>
       <table class="wikitable">
-        <tr><th>البادئة</th><th>الأداة</th><th>تنسيق القيمة</th></tr>
-        <tr><td><code>btn_</code></td><td>زر</td><td><code>0</code> | <code>1</code></td></tr>
-        <tr><td><code>slider_</code></td><td>شريط تمرير</td><td>عدد صحيح ضمن نطاق الحد الأدنى..الأقصى للأداة</td></tr>
-        <tr><td><code>toggle_</code></td><td>مفتاح تبديل</td><td><code>0</code> | <code>1</code></td></tr>
-        <tr><td><code>joy_</code></td><td>عصا تحكم</td><td><code>&lt;زاوية 0-360&gt; &lt;مسافة 0-100&gt;</code> (0°=يمين، 90°=أسفل، 180°=يسار، 270°=أعلى)</td></tr>
-        <tr><td><code>dpad_</code></td><td>D-Pad</td><td><code>&lt;up|down|left|right&gt; &lt;0|1&gt;</code></td></tr>
-        <tr><td><code>xypad_</code></td><td>لوحة XY</td><td><code>&lt;x 0-100&gt; &lt;y 0-100&gt;</code></td></tr>
-        <tr><td><code>timer_</code></td><td>مؤقت</td><td>ثوانٍ منقضية، تُرسل كل نحو 5 ثوانٍ</td></tr>
+        <tr><th>الاتجاه</th><th>البادئة / المعرّف</th><th>الأداة</th><th>تنسيق القيمة</th><th>العرض التوضيحي المدمج</th></tr>
+        <tr><td rowspan="7">إدخال</td><td><code>btn_</code></td><td>زر</td><td><code>0</code> | <code>1</code></td><td>LED مضاء أثناء الضغط</td></tr>
+        <tr><td><code>slider_</code></td><td>شريط تمرير</td><td>عدد صحيح ضمن نطاق الحد الأدنى..الأقصى للأداة</td><td>سطوع LED</td></tr>
+        <tr><td><code>toggle_</code></td><td>مفتاح تبديل</td><td><code>0</code> | <code>1</code></td><td>LED تشغيل/إيقاف</td></tr>
+        <tr><td><code>joy_</code></td><td>عصا تحكم</td><td><code>&lt;زاوية 0-360&gt; &lt;مسافة 0-100&gt;</code> (0°=يمين، 90°=أسفل، 180°=يسار، 270°=أعلى)</td><td>سطوع = المسافة</td></tr>
+        <tr><td><code>dpad_</code></td><td>D-Pad</td><td><code>&lt;up|down|left|right&gt; &lt;0|1&gt;</code></td><td>LED مضاء أثناء الضغط</td></tr>
+        <tr><td><code>xypad_</code></td><td>لوحة XY</td><td><code>&lt;x 0-100&gt; &lt;y 0-100&gt;</code></td><td>سطوع = y</td></tr>
+        <tr><td><code>timer_</code></td><td>مؤقت</td><td>ثوانٍ منقضية، تُرسل كل نحو 5 ثوانٍ</td><td>LED يومض كل نبضة</td></tr>
+        <tr><td rowspan="5">خرج</td><td><code>led_demo</code></td><td>LED</td><td><code>0</code> | <code>1</code></td><td>يومض كل ثانية</td></tr>
+        <tr><td><code>label_demo</code></td><td>تسمية</td><td>نص حر</td><td>«Tick &lt;n&gt;»</td></tr>
+        <tr><td><code>gauge_demo</code></td><td>مقياس</td><td>عدد صحيح</td><td>حرارة الشريحة الفعلية</td></tr>
+        <tr><td><code>graph_demo</code></td><td>رسم بياني</td><td>قيم مفصولة بفواصل</td><td>سلسلتان اصطناعيتان</td></tr>
+        <tr><td><code>battery_demo</code></td><td>بطارية</td><td>0&ndash;100</td><td>تفريغ وهمي 100&larr;0</td></tr>
       </table>
 
       <h2 id="customising">تخصيص التخطيط</h2>
@@ -307,10 +335,10 @@ if (line.startsWith("SET ")) {
         <li>افتح <a href="bit-rxy-ar.html">تطبيق rxy على الويب</a>، انتقل إلى تبويب <strong>Build</strong>، وصمّم تحكمك عن بُعد من لوحة أدواته.</li>
         <li>اضغط <strong>📄 Code</strong>. في MakeCode المُولَّد، انسخ سلسلة base64 الطويلة من <code>const CFG = "&hellip;"</code>.</li>
         <li>الصقها في <code>LAYOUT_CFG_BASE64</code> قرب أعلى <code>main.cpp</code>، لتحل محل العرض التوضيحي الافتراضي ذي الزر الواحد.</li>
-        <li>املأ منطقك الخاص في <code>handleWidget()</code>، مطابقًا معرّفات الأدوات التي اخترتها في تبويب Build.</li>
-        <li>أعد التحميل.</li>
+        <li>أعد التحميل وجرّب &mdash; كل نوع أداة يُشغّل بالفعل LED المدمج (انظر <a href="#understanding">فهم الكود</a>)، لا حاجة لـC++ حتى الآن.</li>
+        <li>عندما تكون مستعدًا لتوصيل عتاد حقيقي، استبدل العرض التوضيحي المطابق في <code>handleWidget()</code> بمنطقك الخاص.</li>
       </ol>
-      <p>معرّفات الأدوات التي استخدمتها في تبويب Build (<code>btn_fire</code>، <code>slider_speed</code>، &hellip;) هي بالضبط المعرّفات التي تصل في رسائل <code>SET</code>، لذا تعالجها بالاسم في <code>handleWidget()</code> &mdash; لا حاجة لخطوة تخطيط معرّفات منفصلة.</p>
+      <p>معرّفات الأدوات التي استخدمتها في تبويب Build (<code>btn_fire</code>، <code>slider_speed</code>، &hellip;) هي بالضبط المعرّفات التي تصل في رسائل <code>SET</code>. بما أن العروض التوضيحية المدمجة تطابق حسب البادئة لا المعرّف الدقيق، فهي تعمل بالفعل لهذه؛ عند استبدال عرض توضيحي بمنطقك الخاص يمكنك إما الإبقاء على المطابقة بالبادئة أو التحول إلى فحص معرّف دقيق إذا احتجت سلوكًا خاصًا بكل أداة. بالنسبة لأداة الخرج (LED/تسمية/مقياس/رسم بياني/بطارية)، سمِّها <code>led_demo</code>/<code>label_demo</code>/<code>gauge_demo</code>/<code>graph_demo</code>/<code>battery_demo</code> لتطابق العرض التوضيحي الموجود بالفعل في <code>loop()</code>، أو عدّل تلك السلاسل لمعرّفك الخاص.</p>
 
       <h2 id="troubleshooting">حل المشكلات</h2>
       <table class="wikitable">
