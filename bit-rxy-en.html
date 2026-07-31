@@ -196,6 +196,30 @@ const PFS_CHAR    = 'e97d3b10-251d-470a-a062-fa1922dfa9a8';
 const PFS_CMD = { REGION_INFO: 0x00, FLASH_DATA: 0x01, END_OF_TX: 0x02, STATUS: 0xEE, RESET: 0xFF };</code></pre>
       <p>If the compile step fails for any reason, the app doesn't just give up &mdash; it falls back to opening MakeCode in a new tab so the user can compile and flash manually. A separate <code>flashViaUSB()</code> path offers the same "flash without leaving the browser" convenience over a direct USB (WebUSB) connection instead of Bluetooth, for boards that haven't been paired yet.</p>
 
+      <h3>Reconnecting cleanly: cleaning up BLE listeners</h3>
+      <p class="hatnote">This subsection documents a real reconnection bug and its fix (commit <code>26730c4</code>) &mdash; useful if you're modifying <code>connectBle()</code> yourself.</p>
+      <p>Every call to <code>connectBle()</code> does:</p>
+      <pre><code>notifyChar.addEventListener('characteristicvaluechanged', onNotify);</code></pre>
+      <p>It's tempting to assume this is safe to repeat &mdash; adding the same listener for the same event on the <em>same object</em> twice normally does nothing the second time. The catch: <strong>Web Bluetooth returns a fresh wrapper characteristic object on every call to <code>getCharacteristic()</code></strong>, even for the same physical characteristic. So it's never actually the same object, and the listener add is never a harmless duplicate.</p>
+      <p>Before the fix, nothing ever called the matching <code>removeEventListener()</code> on disconnect or reconnect. The result: every "Connect" click after a reflashed firmware (or any other link drop) left a fresh <code>onNotify</code> listener attached to a fresh characteristic object, without ever removing the previous ones. A single real BLE notification would end up firing <code>onNotify()</code> multiple times &mdash; once per still-attached stale listener &mdash; silently duplicating and corrupting the received <code>CFG</code> stream.</p>
+      <div class="ambox ambox-notice">
+        This is what explains a confusing symptom observed while debugging the companion ESP32 firmware: the received <code>CFG</code> chunk count sometimes exceeded the real total (e.g. 91 received for ~60 expected) after several reconnects in the same tab, with no page reload in between.
+      </div>
+      <p>The fix, in <code>connectBle()</code> and <code>onDisconnect()</code>:</p>
+      <pre><code>// at the start of connectBle(), before any new connection:
+if (state.ble.notifyChar) {
+  state.ble.notifyChar.removeEventListener('characteristicvaluechanged', onNotify);
+}
+if (state.ble.device?.gatt?.connected) {
+  state.ble.device.gatt.disconnect();
+}
+
+// in onDisconnect(), before resetting state.ble:
+if (state.ble.notifyChar) {
+  state.ble.notifyChar.removeEventListener('characteristicvaluechanged', onNotify);
+}</code></pre>
+      <p>The general lesson: on an API whose docs don't explicitly guarantee object identity, never assume an "equivalent" object obtained twice is the <em>same</em> object as far as <code>addEventListener()</code> is concerned. Explicitly clean up the previous listener before attaching a new one.</p>
+
       <h2 id="widgets">Widget catalog</h2>
       <p>Seven input widgets (app &rarr; micro:bit) and five output widgets (micro:bit &rarr; app), each with its own message format:</p>
       <table class="wikitable">
@@ -233,6 +257,7 @@ const PFS_CMD = { REGION_INFO: 0x00, FLASH_DATA: 0x01, END_OF_TX: 0x02, STATUS: 
       <table class="wikitable">
         <tr><th>Symptom</th><th>Cause / fix</th></tr>
         <tr><td>Can't connect to micro:bit</td><td>Confirm Bluetooth is on, the board shows a ❤️ (ready), and only one device is connected at a time &mdash; refresh and retry if a previous session didn't disconnect cleanly.</td></tr>
+        <tr><td>Received layout looks corrupted or incomplete after several reconnects in the same tab</td><td>Fixed in commit <code>26730c4</code> &mdash; see <a href="#understanding">Reconnecting cleanly</a> above. On an up-to-date version, every reconnect cleans up the previous BLE listener; on an older version, reload the whole page rather than just clicking Connect again.</td></tr>
         <tr><td>Connect always fails on iPhone/iPad</td><td>iOS has no Web Bluetooth support in Safari or any other iOS browser (they're all WebKit under the hood) &mdash; this is a platform limitation, not a bug. The app detects this and points to the free "Bluefy" browser (search the App Store) instead of just saying "Connection failed."</td></tr>
         <tr><td>Widgets don't do anything</td><td>Confirm the generated code was actually flashed, and that widget IDs in the firmware match the IDs shown in the Code panel &mdash; regenerate and reflash after any layout change.</td></tr>
         <tr><td>One-click Bluetooth flash fails</td><td>The Partial Flashing Service requires a board that's already running a compatible MakeCode runtime from a prior USB flash; if the compile step fails outright, the app opens MakeCode in a new tab so you can flash manually instead.</td></tr>
@@ -248,7 +273,7 @@ const PFS_CMD = { REGION_INFO: 0x00, FLASH_DATA: 0x01, END_OF_TX: 0x02, STATUS: 
 </div>
 
 <div class="footer-wiki">
-  This page was created on 29 July 2026, last edited 30 July 2026. Content based on the <a href="https://github.com/abourdim/bit-rxy">bit-rxy</a> repository (README and source) and first-hand code review.
+  This page was created on 29 July 2026, last edited 31 July 2026. Content based on the <a href="https://github.com/abourdim/bit-rxy">bit-rxy</a> repository (README and source) and first-hand code review.
 </div>
 
 </body>

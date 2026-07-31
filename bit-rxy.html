@@ -196,6 +196,30 @@ const PFS_CHAR    = 'e97d3b10-251d-470a-a062-fa1922dfa9a8';
 const PFS_CMD = { REGION_INFO: 0x00, FLASH_DATA: 0x01, END_OF_TX: 0x02, STATUS: 0xEE, RESET: 0xFF };</code></pre>
       <p>Si l'étape de compilation échoue pour une raison quelconque, l'application n'abandonne pas &mdash; elle ouvre MakeCode dans un nouvel onglet pour que l'utilisateur puisse compiler et flasher manuellement. Un chemin séparé <code>flashViaUSB()</code> offre le même confort « flasher sans quitter le navigateur » via une connexion USB directe (WebUSB) plutôt que Bluetooth, pour les cartes pas encore appairées.</p>
 
+      <h3>Se reconnecter proprement : le nettoyage des écouteurs BLE</h3>
+      <p class="hatnote">Cette sous-section documente un vrai bug de reconnexion et sa correction (commit <code>26730c4</code>) &mdash; utile si vous modifiez <code>connectBle()</code> vous-même.</p>
+      <p>Chaque appel à <code>connectBle()</code> fait :</p>
+      <pre><code>notifyChar.addEventListener('characteristicvaluechanged', onNotify);</code></pre>
+      <p>Il est tentant de penser que c'est sans risque à répéter &mdash; ajouter deux fois le même écouteur pour le même événement sur le <em>même objet</em> ne fait normalement rien la seconde fois. Le problème : <strong>Web Bluetooth renvoie un nouvel objet caractéristique enveloppé à chaque appel de <code>getCharacteristic()</code></strong>, même pour la même caractéristique physique. Ce n'est donc jamais le même objet, et l'ajout d'écouteur n'est jamais un doublon inoffensif.</p>
+      <p>Avant la correction, rien n'appelait le <code>removeEventListener()</code> correspondant lors d'une déconnexion ou d'une reconnexion. Résultat : chaque clic sur « Connecter » après un firmware reflashé (ou toute autre coupure de la liaison) laissait un nouvel écouteur <code>onNotify</code> accroché à un nouvel objet caractéristique, sans jamais retirer les précédents. Une seule notification BLE réelle finissait par déclencher <code>onNotify()</code> plusieurs fois &mdash; une fois par écouteur périmé encore attaché &mdash; dupliquant et corrompant silencieusement le flux <code>CFG</code> reçu.</p>
+      <div class="ambox ambox-notice">
+        C'est ce qui explique un symptôme déroutant observé pendant le débogage du firmware ESP32 compagnon : le nombre de blocs <code>CFG</code> reçus dépassait parfois le total réel (par ex. 91 reçus pour ~60 attendus) après plusieurs reconnexions dans le même onglet, sans qu'aucun rechargement de page n'ait eu lieu entre elles.
+      </div>
+      <p>La correction, dans <code>connectBle()</code> et <code>onDisconnect()</code> :</p>
+      <pre><code>// au début de connectBle(), avant toute nouvelle connexion :
+if (state.ble.notifyChar) {
+  state.ble.notifyChar.removeEventListener('characteristicvaluechanged', onNotify);
+}
+if (state.ble.device?.gatt?.connected) {
+  state.ble.device.gatt.disconnect();
+}
+
+// dans onDisconnect(), avant de réinitialiser state.ble :
+if (state.ble.notifyChar) {
+  state.ble.notifyChar.removeEventListener('characteristicvaluechanged', onNotify);
+}</code></pre>
+      <p>La leçon générale : sur une API dont la documentation ne précise pas explicitement l'identité des objets renvoyés, ne jamais supposer qu'un objet « équivalent » obtenu deux fois est le <em>même</em> objet aux yeux d'<code>addEventListener()</code>. Nettoyez explicitement l'écouteur précédent avant d'en attacher un nouveau.</p>
+
       <h2 id="widgets">Catalogue des widgets</h2>
       <p>Sept widgets d'entrée (app &rarr; micro:bit) et cinq widgets de sortie (micro:bit &rarr; app), chacun avec son propre format de message :</p>
       <table class="wikitable">
@@ -233,6 +257,7 @@ const PFS_CMD = { REGION_INFO: 0x00, FLASH_DATA: 0x01, END_OF_TX: 0x02, STATUS: 
       <table class="wikitable">
         <tr><th>Symptôme</th><th>Cause / solution</th></tr>
         <tr><td>Impossible de se connecter au micro:bit</td><td>Vérifie que le Bluetooth est activé, que la carte affiche un ❤️ (prête), et qu'un seul appareil est connecté à la fois &mdash; rafraîchis et réessaie si une session précédente ne s'est pas déconnectée proprement.</td></tr>
+        <tr><td>La disposition reçue semble corrompue ou incomplète après plusieurs reconnexions dans le même onglet</td><td>Corrigé dans le commit <code>26730c4</code> &mdash; voir <a href="#understanding">Se reconnecter proprement</a> plus haut. Sur une version à jour, chaque reconnexion nettoie l'écouteur BLE précédent ; sur une ancienne version, recharge la page entière plutôt que de simplement recliquer sur Connecter.</td></tr>
         <tr><td>La connexion échoue toujours sur iPhone/iPad</td><td>iOS n'a aucun support de Web Bluetooth dans Safari ni dans aucun autre navigateur iOS (tous basés sur WebKit) &mdash; c'est une limitation de la plateforme, pas un bug. L'application le détecte et indique le navigateur gratuit « Bluefy » (à chercher sur l'App Store) plutôt que de simplement afficher « Échec de connexion ».</td></tr>
         <tr><td>Les widgets ne font rien</td><td>Vérifie que le code généré a bien été flashé, et que les ID de widgets dans le firmware correspondent aux ID affichés dans le panneau Code &mdash; régénère et reflashe après tout changement de disposition.</td></tr>
         <tr><td>Le flashage Bluetooth en un clic échoue</td><td>Le service de flashage partiel nécessite une carte qui exécute déjà un runtime MakeCode compatible suite à un flashage USB préalable ; si l'étape de compilation échoue franchement, l'application ouvre MakeCode dans un nouvel onglet pour flasher manuellement.</td></tr>
@@ -248,7 +273,7 @@ const PFS_CMD = { REGION_INFO: 0x00, FLASH_DATA: 0x01, END_OF_TX: 0x02, STATUS: 
 </div>
 
 <div class="footer-wiki">
-  Cette page a été créée le 29 juillet 2026, dernière modification le 30 juillet 2026. Contenu basé sur le dépôt <a href="https://github.com/abourdim/bit-rxy">bit-rxy</a> (README et code source) et une relecture directe du code.
+  Cette page a été créée le 29 juillet 2026, dernière modification le 31 juillet 2026. Contenu basé sur le dépôt <a href="https://github.com/abourdim/bit-rxy">bit-rxy</a> (README et code source) et une relecture directe du code.
 </div>
 
 </body>

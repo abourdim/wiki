@@ -83,6 +83,7 @@
           <li><a href="#quickstart">البدء السريع</a></li>
           <li><a href="#walkthrough">خطوة بخطوة: الاستنساخ والتحميل والاختبار</a></li>
           <li><a href="#understanding">فهم الكود (للمبتدئين)</a></li>
+          <li><a href="#postmortem">تشريح ما بعد الحادث: توقف دفعة GETCFG (تم إصلاحه)</a></li>
           <li><a href="#protocol">مرجع البروتوكول</a></li>
           <li><a href="#customising">تخصيص التخطيط</a></li>
           <li><a href="#troubleshooting">حل المشكلات</a></li>
@@ -179,11 +180,11 @@ pio device monitor -b 115200</code></pre>
       <p><strong>3. تهيئة NimBLE وسياسة الأمان</strong> &mdash; هذا هو الجزء الذي يستحق قراءة متأنية:</p>
       <pre><code>NimBLEDevice::init(BLE_DEVICE_NAME);
 NimBLEDevice::setPower(ESP_PWR_LVL_P9);
-NimBLEDevice::setMTU(247);
+// لا استدعاء صريح لـ setMTU() — انظر قسم تشريح ما بعد الحادث أدناه
 NimBLEDevice::setSecurityAuth(false, false, false);   // no bonding / MITM / LESC
 NimBLEDevice::setSecurityIOCap(BLE_HS_IO_NO_INPUT_OUTPUT);
 NimBLEDevice::deleteAllBonds();</code></pre>
-      <p><code>setMTU(247)</code> تطلب حجم حزمة بلوتوث أكبر من الافتراضي البالغ 23 بايت، بحيث تتسع أسطر <code>"CFG &lt;18 حرفًا&gt;\n"</code> البالغة 23 بايت في إشعار واحد بدلًا من التجزئة &mdash; لا تزال الأجهزة المركزية تتفاوض للأسفل إذا لم تدعمها (Chrome على macOS يستقر عادة حول 185 بايت، الهواتف حول 247). تُعطّل استدعاءات الأمان الاقتران/الربط صراحة، مطابقةً لما يفعله micro:bit حقيقي في وضع «لا حاجة لاقتران» الافتراضي لـMakeCode: <strong>يمكن لأي شخص ضمن نطاق البلوتوث الاتصال وتشغيل الأدوات</strong>. مناسب لألعاب المكتب أو أجهزة التحكم في الفصول الدراسية؛ ليس شيئًا تريده لأي شيء حساس.</p>
+      <p>كانت نسخة سابقة من هذا الفيرموير تستدعي <code>setMTU(247)</code> هنا لطلب حجم حزمة بلوتوث أكبر من الافتراضي البالغ 23 بايت. تبيّن أن هذا لم يكن ضروريًا ولا سببًا لخطأ بدا لفترة طويلة وكأنه متعلق بحجم الحزمة &mdash; انظر <a href="#postmortem">تشريح ما بعد الحادث</a> أدناه للقصة الكاملة. لم يعد الفيرموير يستدعي <code>setMTU()</code> على الإطلاق، تمامًا مثل micro:bit حقيقي، ويترك NimBLE يتفاوض على قيمته الافتراضية (255). تُعطّل استدعاءات الأمان الاقتران/الربط صراحة، مطابقةً لما يفعله micro:bit حقيقي في وضع «لا حاجة لاقتران» الافتراضي لـMakeCode: <strong>يمكن لأي شخص ضمن نطاق البلوتوث الاتصال وتشغيل الأدوات</strong>. مناسب لألعاب المكتب أو أجهزة التحكم في الفصول الدراسية؛ ليس شيئًا تريده لأي شيء حساس.</p>
       <p><strong>4. خدمة GATT والخصائص</strong> &mdash; ينشئ الفيرموير خدمة BLE واحدة بخاصيتين:</p>
       <pre><code>NimBLEService* svc = server->createService(UART_SERVICE_UUID);
 gTxChar = svc->createCharacteristic(UART_TX_CHAR_UUID, NIMBLE_PROPERTY::NOTIFY);
@@ -206,10 +207,13 @@ adv->setMaxInterval(0x140);</code></pre>
        │
        ▼
   RxCallbacks::onWrite() buffers bytes until '\n', then calls handleLine()
-       │
+       │           (runs on NimBLE's own host task)
        ▼
-  handleLine(): line == "GETCFG" → sendCfg()
-       │
+  handleLine(): line == "GETCFG" → gGetCfgRequested = true;  return;
+       │           (onWrite() returns immediately — no burst runs here)
+       ▼
+  loop(): if (gGetCfgRequested) { gGetCfgRequested = false; sendCfg(); }
+       │           (runs on the ordinary Arduino main task)
        ▼
   sendCfg(): sendLine("CFGBEGIN")
              for each 18-char chunk of LAYOUT_CFG_BASE64:
@@ -222,10 +226,11 @@ adv->setMaxInterval(0x140);</code></pre>
        ▼
   App concatenates the CFG chunks, base64-decodes, JSON.parses the layout,
   and renders the widgets on screen</pre></div>
-      <p>تفصيلان في التنفيذ هنا من السهل إخطاؤهما، وتحذر تعليقات الكود المصدري صراحة من كليهما:</p>
+      <p>ثلاثة تفاصيل في التنفيذ هنا من السهل إخطاؤها:</p>
       <ul>
         <li><strong>حجم الكتلة البالغ 18 حرفًا ليس اعتباطيًا.</strong> يطابق تقسيم قالب MakeCode الرسمي الخاص بـrxy نفسه، بحيث تذهب وتعود نفس سلسلة <code>CFG</code> بترميز base64 بشكل متطابق سواء أتت من micro:bit حقيقي أو من هذا الفيرموير.</li>
-        <li><strong>يجب على <code>sendLine()</code> تمرير بايتاتها الخاصة إلى <code>notify()</code> مباشرة</strong>، بدلًا من استدعاء <code>setValue()</code> ثم <code>notify()</code> كخطوتين منفصلتين. الشكل ذو الخطوتين يتسابق على المخزن المؤقت الداخلي المشترك للخاصية عند استدعائه على التوالي داخل حلقة التقطيع: يمكن لمهمة NimBLE المضيفة غير المتزامنة قراءة المخزن المؤقت <em>بعد</em> أن يكون استدعاء <code>setValue()</code> أحدث قد كتب فوقه بالفعل، ما يُسقط بصمت عدة إشعارات في قائمة الانتظار إلى واحد فقط، الأخير. العرض الملحوظ على جانب rxy كان بالضبط هذا: وصل <code>CFGEND</code> فقط دائمًا، واختفت كل كتلة <code>CFG</code> بينهما، وفشل <code>JSON.parse('')</code>. الإصلاح، <code>gTxChar->notify((const uint8_t*)out.c_str(), out.length())</code>، يلتقط البايتات بشكل ذري في كل استدعاء.</li>
+        <li><strong>يجب على <code>sendLine()</code> تمرير بايتاتها الخاصة إلى <code>notify()</code> مباشرة</strong>، بدلًا من استدعاء <code>setValue()</code> ثم <code>notify()</code> كخطوتين منفصلتين. الشكل ذو الخطوتين يتسابق على المخزن المؤقت الداخلي المشترك للخاصية عند استدعائه على التوالي داخل حلقة التقطيع: يمكن لمهمة NimBLE المضيفة غير المتزامنة قراءة المخزن المؤقت <em>بعد</em> أن يكون استدعاء <code>setValue()</code> أحدث قد كتب فوقه بالفعل، ما يُسقط بصمت عدة إشعارات في قائمة الانتظار إلى واحد فقط، الأخير. الإصلاح، <code>gTxChar->notify((const uint8_t*)out.c_str(), out.length())</code>، يلتقط البايتات بشكل ذري في كل استدعاء.</li>
+        <li><strong>يجب ألا تستدعي <code>handleLine()</code> الدالة <code>sendCfg()</code> مباشرة أبدًا</strong> &mdash; يجب أن تكتفي بضبط علامة <code>gGetCfgRequested</code> والعودة فورًا، تاركةً <code>loop()</code> لتنفيذ الدفعة. هذا عكس تمامًا ما كانت تفعله أول نسخة من هذا الفيرموير، وكان هو السبب الحقيقي لتعليق أخطر بكثير من التسابق أعلاه &mdash; انظر <a href="#postmortem">تشريح ما بعد الحادث</a> أدناه مباشرة للقصة الكاملة.</li>
       </ul>
 
       <h3>قراءة الأسطر الواردة: رد نداء RX و<code>handleLine()</code></h3>
@@ -296,6 +301,47 @@ if (gConnected && now - lastOutputDemo >= 1000) {
 }</code></pre>
       <p>لرؤية أي من هذه مباشرة، أضف أداة من النوع المطابق في تبويب Build وأعطها المعرّف الدقيق (<code>led_demo</code>، <code>label_demo</code>، <code>gauge_demo</code>، <code>graph_demo</code>، أو <code>battery_demo</code>) &mdash; أو عدّل السلاسل في <code>loop()</code> لتطابق المعرّف الذي استخدمته فعليًا. <code>temperatureRead()</code> تقرأ مستشعر الحرارة الداخلي لـESP32-C3، لذا عرض المقياس التوضيحي بيانات حقيقية؛ الأربعة الأخرى اصطناعية، تكفي فقط لرؤية الأداة تتحرك.</p>
 
+      <h2 id="postmortem">تشريح ما بعد الحادث: توقف دفعة GETCFG (تم إصلاحه)</h2>
+      <p class="hatnote">يروي هذا القسم قصة خطأ حقيقي أوقف نقل التخطيط لفترة طويلة، وكل ما تطلبه الأمر لفهمه فعليًا. ليس ضروريًا لاستخدام الفيرموير &mdash; إنه يوثّق ما لا ينبغي تكراره، ولماذا.</p>
+
+      <h3>العرض</h3>
+      <p>كانت كل محاولة اتصال من التطبيق تعلق إلى الأبد على <em>«Receiving layout... (N)»</em>. والغريب أن <code>N</code> كانت تستقر تقريبًا دائمًا على نفس الرقم &mdash; غالبًا 17 من أصل الكتل الحقيقية البالغة نحو 60 &mdash; بغض النظر عن إعادة بناء الفيرموير، أو إعادة تشغيل اللوحة، أو حتى تخطيط مختلف تمامًا مُلصق في <code>LAYOUT_CFG_BASE64</code>.</p>
+      <div class="ambox ambox-notice">سقف دقيق وقابل للتكرار ومستقل عن المحتوى هو عادةً علامة على خطأ بنيوي &mdash; وليس تذبذبًا لاسلكيًا عشوائيًا.</div>
+      <p>تفعيل تسجيل الأخطاء الداخلي الخاص بـNimBLE (<code>CONFIG_NIMBLE_CPP_LOG_LEVEL</code> في <code>platformio.ini</code>) أظهر الآلية مباشرة: كانت استدعاءات <code>notify()</code>/<code>indicate()</code> الخاصة بالفيرموير تُعيد <code>rc=6</code> &mdash; أي <code>BLE_HS_ENOMEM</code>، «ذاكرة غير كافية» &mdash; في كل حزمة تقريبًا من الدفعة.</p>
+
+      <h3>ستة افتراضات معقولة لم تكن السبب</h3>
+      <p>كان كل واحد من هذه فرضية حقيقية، اختُبرت على عتاد فعلي، واستُبعدت بدورها:</p>
+      <table class="wikitable">
+        <tr><th>#</th><th>الفرضية المختبَرة</th><th>النتيجة</th></tr>
+        <tr><td>1</td><td>MTU صغير جدًا &mdash; جُرّب <code>setMTU(247)</code>، ثم <code>setMTU(64)</code>، ثم عدم استدعاء <code>setMTU()</code> إطلاقًا.</td><td><span class="tag err">مُستبعد</span> نفس تسلسل <code>rc=6</code> بالضبط في الحالات الثلاث، عند نفس النقطة تمامًا.</td></tr>
+        <tr><td>2</td><td><code>notify()</code> مقابل <code>indicate()</code> مع انتظار حقيقي للإقرار عبر رد نداء <code>onStatus()</code> الخاص بـNimBLE.</td><td><span class="tag err">مُستبعد</span> فشل بنفس الطريقة؛ بل رُفضت بعض الحزم صراحة (nack)، على الأرجح لأن Web Bluetooth تُفعّل فقط بت «notify» في CCCD، وليس «indicate» أبدًا.</td></tr>
+        <tr><td>3</td><td>إعادة محاولة الإرسالات التي أبلغت قيمة إرجاع <code>notify()</code> بفشلها.</td><td><span class="tag err">ضار</span> تبيّن أن قيمة الإرجاع غير موثوقة؛ أدت إعادة المحاولة إلى إعادة إرسال كتل وصلت بالفعل، ما أفسد التدفق.</td></tr>
+        <tr><td>4</td><td>فاصل اتصال بطيء جدًا لتفريغ الطابور &mdash; أُجبر على 7.5&ndash;15 مللي ثانية عبر <code>updateConnParams()</code>.</td><td><span class="tag err">مُستبعد</span> لا تغيير.</td></tr>
+        <tr><td>5</td><td>حلقة إخراج العرض التوضيحي في <code>loop()</code> تتصادم مع دفعة CFG.</td><td><span class="tag warn">ممارسة جيدة، ليست السبب</span> أُبقيت في الإصلاح النهائي (<code>gSendingCfg</code>)، لكنها لم تكن سبب <code>rc=6</code>.</td></tr>
+        <tr><td>6</td><td>إصدار نواة Arduino-ESP32 / وحدة تحكم BLE &mdash; اختُبر على نواة أحدث (2.0.14، IDF 5.x) بدلًا من الافتراضية (2.0.9، IDF 4.4).</td><td><span class="tag err">مُستبعد</span> نفس تسلسل <code>rc=6</code>؛ الإعداد المشبوه لوحدة التحكم كان متطابقًا في كلا الإصدارين.</td></tr>
+      </table>
+
+      <h3>الاختبار المعزول الذي وجد السبب فعليًا</h3>
+      <p>بعد فشل ست إصلاحات مستقلة ومدروسة جيدًا بنفس الطريقة تمامًا، توقف الاستمرار في تعديل التطبيق الكامل (~700 سطر) عن أن يكون مثمرًا. بُني بدلًا من ذلك مشروع PlatformIO منفصل وبسيط (<a href="https://github.com/abourdim/esp32-rxy/tree/main/platformio_ble_probe"><code>platformio_ble_probe/</code></a>، محفوظ في المستودع) &mdash; بلا بروتوكول CFG، بلا حلقة عرض توضيحي، بلا أي منطق تطبيقي على الإطلاق. فقط: عند الاتصال، أطلق دفعة من استدعاءات <code>notify()</code> الصغيرة، وسجّل بالضبط ما يحدث.</p>
+      <table class="wikitable">
+        <tr><th>الاختبار</th><th>ما فعله</th><th>النتيجة</th></tr>
+        <tr><td><strong>المسبار v1</strong></td><td>حمولة عشوائية، أُطلقت الدفعة من <code>loop()</code> بعد ثانية واحدة من الاتصال.</td><td><span class="tag ok">60 / 60</span> نجحت. الشريحة والمكتبة سليمتان.</td></tr>
+        <tr><td><strong>المسبار v2</strong></td><td>حمولة CFG حقيقية وتأطير <code>CFGBEGIN</code>/<code>CFG</code>/<code>CFGEND</code>، أُطلقت الدفعة <em>من داخل رد نداء <code>onWrite()</code></em> استجابةً لـ<code>"GETCFG"</code> حقيقية &mdash; مُهيكلة تمامًا مثل الفيرموير الحقيقي.</td><td><span class="tag err">17 / 60</span> &mdash; فشل بنفس طريقة الفيرموير الحقيقي، بما في ذلك <code>rc=6</code>.</td></tr>
+        <tr><td><strong>المسبار v2، تغيير واحد فقط</strong></td><td>نفس الشيء، إلا أن <code>onWrite()</code> تكتفي الآن بضبط علامة، و<code>loop()</code> تقرأ تلك العلامة وتُنفّذ الدفعة بنفسها.</td><td><span class="tag ok">60 / 60</span> نجحت.</td></tr>
+      </table>
+      <div class="ambox ambox-success">ذلك المتغير الوحيد &mdash; <em>أي مهمة تُنفّذ الدفعة</em> &mdash; كان الخطأ بأكمله. لم يهم يومًا حجم MTU، ولا notify/indicate، ولا إعادة المحاولة، ولا فاصل الاتصال، ولا إصدار النواة.</div>
+
+      <h3>السبب الجذري الفعلي</h3>
+      <p><code>RxCallbacks::onWrite()</code> &mdash; الدالة التي تستجيب لكتابة BLE واردة، أي <code>GETCFG</code> الخاصة بالتطبيق &mdash; تعمل على <strong>مهمة NimBLE المضيفة الخاصة بها</strong>، وليس على مهمة <code>loop()</code> العادية في Arduino. كان الكود القديم يستدعي <code>sendCfg()</code> مباشرة من داخل ذلك الرد &mdash; حلقة تستغرق نحو 900 مللي ثانية من 60 استدعاء <code>notify()</code>، يتبع كلًا منها <code>delay()</code> بمقدار 15 مللي ثانية.</p>
+      <p>هذا يعني أن مهمة NimBLE المضيفة بقيت «داخل» كود التطبيق نفسه طوال الدفعة بأكملها. لم تحصل أبدًا على فرصة للعودة إلى حلقة أحداثها الخاصة لمعالجة محاسبتها الداخلية الخاصة بإتمام المخازن المؤقتة &mdash; أي تحرير مخازن الإرسال بمجرد أن يؤكد الراديو أن حزمة ما قد خرجت فعليًا عبر الأثير. ومع حظر تلك المحاسبة لمدة 900 مللي ثانية متواصلة، لم يكن لدى مجمّع المخازن المؤقتة أي وسيلة للتفرّغ، وفشل كل <code>notify()</code> بعد أول حفنة منها بخطأ <code>ENOMEM</code>.</p>
+      <div class="ambox ambox-notice">
+        هذه فئة معروفة جيدًا من الأخطاء في الأنظمة القائمة على الأحداث/RTOS بشكل عام: <strong>لا تقم أبدًا بعمل بطيء ومحظور بشكل متزامن داخل رد نداء يعمل على مهمة تعتمد عليها أنت نفسك لإحراز تقدم.</strong> كان رد النداء والمورد الذي جوّعه هما نفس المهمة &mdash; لذا لم يكن بإمكان شيء أن يتعافى من تلقاء نفسه أبدًا.
+      </div>
+
+      <h3>الإصلاح</h3>
+      <p>لم تعد <code>handleLine()</code> تستدعي <code>sendCfg()</code> عندما ترى <code>GETCFG</code> &mdash; إنها فقط تضبط علامة. <code>loop()</code>، على مهمة Arduino العادية، تتحقق من تلك العلامة مرة واحدة في كل تكرار وتُنفّذ الدفعة من هناك بدلًا من ذلك. أصبحت مهمة NimBLE المضيفة الآن حرة تمامًا أثناء الدفعة بأكملها للقيام بمحاسبتها الخاصة بالتوازي، لذا لا يستنفد مجمّع المخازن المؤقتة أبدًا. وبمجرد إصلاح ذلك، تبيّن أن <code>NOTIFY</code> البسيطة &mdash; بلا <code>indicate()</code>، بلا إعادة محاولة، بلا آلية انتظار إقرار &mdash; موثوقة تمامًا: لم يكن أي من تعقيدات الافتراضات 2 إلى 4 أعلاه ضروريًا فعليًا في أي وقت.</p>
+      <p class="muted" style="font-size:13px">السرد الكامل، مع مخطط الفرق قبل/بعد للكود والدروس المستفادة، في <a href="https://github.com/abourdim/esp32-rxy/blob/main/debugging-getcfg-burst.html">debugging-getcfg-burst.html</a> في المستودع (أُصلح في الالتزام <a href="https://github.com/abourdim/esp32-rxy/commit/cdaac4f">cdaac4f</a>).</p>
+
       <h2 id="protocol">مرجع البروتوكول</h2>
       <table class="wikitable">
         <tr><th>الاتجاه</th><th>الرسالة</th><th>ملاحظات</th></tr>
@@ -361,7 +407,7 @@ if (gConnected && now - lastOutputDemo >= 1000) {
         </tr>
         <tr>
           <td>غطاء الاتصال عالق على «Requesting layout (GETCFG)&hellip;»</td>
-          <td>تحقق من المراقب التسلسلي بحثًا عن <code>[BLE] Sent CFG</code>. إذا لم يظهر أبدًا، فقد انقطع اتصال الجهاز قبل وصول <code>GETCFG</code>. إذا ظهر لكن التطبيق لا يزال عالقًا، أعد الاتصال مرة &mdash; اشتراك خاصية قديم من جلسة سابقة قد يفوّت أحيانًا دفعة الإشعارات.</td>
+          <td>أُصلح في الالتزام <code>cdaac4f</code> &mdash; انظر <a href="#postmortem">تشريح ما بعد الحادث</a> أعلاه للقصة الكاملة لخطأ حقيقي كان يسبب هذا التعليق بالضبط. على فيرموير محدّث، تحقق أولًا من المراقب التسلسلي بحثًا عن <code>[BLE] Sent CFG</code>: إذا لم يظهر أبدًا، فقد انقطع اتصال الجهاز قبل وصول <code>GETCFG</code>؛ إذا ظهر لكن التطبيق لا يزال عالقًا، أعد الاتصال مرة من جانب المتصفح (اشتراك خاصية قديم من جلسة سابقة قد يفوّت أحيانًا دفعة الإشعارات &mdash; انظر <a href="bit-rxy-ar.html#troubleshooting">حل مشكلات bit-rxy</a>).</td>
         </tr>
         <tr>
           <td>الضغط على زر التصحيح (GPIO 9) يمنع اللوحة من الإقلاع</td>
@@ -385,7 +431,7 @@ if (gConnected && now - lastOutputDemo >= 1000) {
 </div>
 
 <div class="footer-wiki">
-  أُنشئت هذه الصفحة في 30 يوليو 2026 وعُدِّلت آخر مرة في 30 يوليو 2026. المحتوى مُقتبس من README ومن ملاحظات المشروع والكود المصدري للفيرموير لمستودع <a href="https://github.com/abourdim/esp32-rxy">esp32-rxy</a>.
+  أُنشئت هذه الصفحة في 30 يوليو 2026 وعُدِّلت آخر مرة في 31 يوليو 2026. المحتوى مُقتبس من README ومن ملاحظات المشروع والكود المصدري للفيرموير لمستودع <a href="https://github.com/abourdim/esp32-rxy">esp32-rxy</a>.
 </div>
 
 </body>

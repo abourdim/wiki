@@ -83,6 +83,7 @@
           <li><a href="#quickstart">Quick start</a></li>
           <li><a href="#walkthrough">Step-by-step: clone, flash &amp; test</a></li>
           <li><a href="#understanding">Understanding the code (for newbies)</a></li>
+          <li><a href="#postmortem">Post-mortem: the GETCFG burst stall (fixed)</a></li>
           <li><a href="#protocol">Protocol reference</a></li>
           <li><a href="#customising">Customising the layout</a></li>
           <li><a href="#troubleshooting">Troubleshooting</a></li>
@@ -179,11 +180,11 @@ pio device monitor -b 115200</code></pre>
       <p><strong>3. NimBLE init and security policy</strong> &mdash; this is the part worth reading carefully:</p>
       <pre><code>NimBLEDevice::init(BLE_DEVICE_NAME);
 NimBLEDevice::setPower(ESP_PWR_LVL_P9);
-NimBLEDevice::setMTU(247);
+// no explicit setMTU() call — see the Post-mortem section below
 NimBLEDevice::setSecurityAuth(false, false, false);   // no bonding / MITM / LESC
 NimBLEDevice::setSecurityIOCap(BLE_HS_IO_NO_INPUT_OUTPUT);
 NimBLEDevice::deleteAllBonds();</code></pre>
-      <p><code>setMTU(247)</code> requests a larger Bluetooth packet size than the 23-byte default, so the 23-byte <code>"CFG &lt;18-char&gt;\n"</code> lines fit in one notification instead of fragmenting &mdash; centrals still negotiate this down if they don't support it (macOS Chrome typically lands around 185 bytes, phones around 247). The security calls explicitly disable pairing/bonding, matching what a real micro:bit does in MakeCode's "no pairing required" mode: <strong>anyone in Bluetooth range can connect and drive widgets</strong>. Fine for a desk toy or classroom remote; not something you'd want for anything sensitive.</p>
+      <p>An earlier version of this firmware called <code>setMTU(247)</code> here to request a larger Bluetooth packet size than the 23-byte default. It turned out to be neither necessary nor the cause of a bug that looked, for a long time, like it was about packet size &mdash; see <a href="#postmortem">Post-mortem</a> below for the full story. The firmware no longer calls <code>setMTU()</code> at all, exactly like a real micro:bit, and just lets NimBLE negotiate its own default (255). The security calls explicitly disable pairing/bonding, matching what a real micro:bit does in MakeCode's "no pairing required" mode: <strong>anyone in Bluetooth range can connect and drive widgets</strong>. Fine for a desk toy or classroom remote; not something you'd want for anything sensitive.</p>
       <p><strong>4. GATT service and characteristics</strong> &mdash; the firmware creates one BLE service with two characteristics:</p>
       <pre><code>NimBLEService* svc = server->createService(UART_SERVICE_UUID);
 gTxChar = svc->createCharacteristic(UART_TX_CHAR_UUID, NIMBLE_PROPERTY::NOTIFY);
@@ -206,10 +207,13 @@ adv->setMaxInterval(0x140);</code></pre>
        │
        ▼
   RxCallbacks::onWrite() buffers bytes until '\n', then calls handleLine()
-       │
+       │           (runs on NimBLE's own host task)
        ▼
-  handleLine(): line == "GETCFG" → sendCfg()
-       │
+  handleLine(): line == "GETCFG" → gGetCfgRequested = true;  return;
+       │           (onWrite() returns immediately — no burst runs here)
+       ▼
+  loop(): if (gGetCfgRequested) { gGetCfgRequested = false; sendCfg(); }
+       │           (runs on the ordinary Arduino main task)
        ▼
   sendCfg(): sendLine("CFGBEGIN")
              for each 18-char chunk of LAYOUT_CFG_BASE64:
@@ -222,10 +226,11 @@ adv->setMaxInterval(0x140);</code></pre>
        ▼
   App concatenates the CFG chunks, base64-decodes, JSON.parses the layout,
   and renders the widgets on screen</pre></div>
-      <p>Two implementation details here are easy to get wrong, and the source code comments explicitly warn about both:</p>
+      <p>Three implementation details here are easy to get wrong:</p>
       <ul>
         <li><strong>The 18-character chunk size is not arbitrary.</strong> It matches the official rxy MakeCode template's own chunking, so the same base64 <code>CFG</code> string round-trips identically whether it came from a real micro:bit or this firmware.</li>
-        <li><strong><code>sendLine()</code> must pass its own bytes to <code>notify()</code> directly</strong>, rather than calling <code>setValue()</code> then <code>notify()</code> as two separate steps. The two-step form races on the characteristic's shared internal buffer when called back-to-back inside the chunk loop: NimBLE's async host task can read the buffer <em>after</em> a newer <code>setValue()</code> call has already overwritten it, silently collapsing several queued notifications down to just the last one. The observed symptom on the rxy side was exactly this: only <code>CFGEND</code> ever arrived, every <code>CFG</code> chunk in between vanished, and <code>JSON.parse('')</code> failed. The fix, <code>gTxChar->notify((const uint8_t*)out.c_str(), out.length())</code>, captures the bytes atomically per call.</li>
+        <li><strong><code>sendLine()</code> must pass its own bytes to <code>notify()</code> directly</strong>, rather than calling <code>setValue()</code> then <code>notify()</code> as two separate steps. The two-step form races on the characteristic's shared internal buffer when called back-to-back inside the chunk loop: NimBLE's async host task can read the buffer <em>after</em> a newer <code>setValue()</code> call has already overwritten it, silently collapsing several queued notifications down to just the last one. The fix, <code>gTxChar->notify((const uint8_t*)out.c_str(), out.length())</code>, captures the bytes atomically per call.</li>
+        <li><strong><code>handleLine()</code> must never call <code>sendCfg()</code> directly</strong> &mdash; it must only set the <code>gGetCfgRequested</code> flag and return right away, leaving <code>loop()</code> to run the burst. This is exactly the reverse of what the very first version of this firmware did, and it was the actual cause of a far more serious hang than the race above &mdash; see <a href="#postmortem">Post-mortem</a> just below for the full story.</li>
       </ul>
 
       <h3>Reading incoming lines: the RX callback and <code>handleLine()</code></h3>
@@ -296,6 +301,47 @@ if (gConnected && now - lastOutputDemo >= 1000) {
 }</code></pre>
       <p>To see any of these live, add a widget of the matching type in the Build tab and give it the exact ID (<code>led_demo</code>, <code>label_demo</code>, <code>gauge_demo</code>, <code>graph_demo</code>, or <code>battery_demo</code>) &mdash; or edit the strings in <code>loop()</code> to match whatever ID you actually used. <code>temperatureRead()</code> reads the ESP32-C3's internal temperature sensor, so the Gauge demo is real data; the other four are synthetic, just enough to see the widget move.</p>
 
+      <h2 id="postmortem">Post-mortem: the GETCFG burst stall (fixed)</h2>
+      <p class="hatnote">This section tells the story of a real bug that stalled the layout transfer for a long time, and everything it took to actually understand it. It isn't required reading to use the firmware &mdash; it documents what not to repeat, and why.</p>
+
+      <h3>The symptom</h3>
+      <p>Every connect attempt from the web app hung forever on <em>"Receiving layout... (N)"</em>. Oddly, <code>N</code> almost always landed on the exact same number &mdash; often 17 of the ~60 real chunks &mdash; no matter how the firmware was rebuilt, the board rebooted, or even a totally different layout pasted into <code>LAYOUT_CFG_BASE64</code>.</p>
+      <div class="ambox ambox-notice">An exact, reproducible, content-independent ceiling is usually the sign of a structural bug &mdash; not random radio flakiness.</div>
+      <p>Turning on NimBLE's own internal error logging (<code>CONFIG_NIMBLE_CPP_LOG_LEVEL</code> in <code>platformio.ini</code>) showed the mechanism directly: the firmware's own <code>notify()</code>/<code>indicate()</code> calls were returning <code>rc=6</code> &mdash; <code>BLE_HS_ENOMEM</code>, "not enough memory" &mdash; on almost every packet of the burst.</p>
+
+      <h3>Six reasonable leads that weren't the cause</h3>
+      <p>Each of these was a genuine hypothesis, tested on real hardware, and ruled out in turn:</p>
+      <table class="wikitable">
+        <tr><th>#</th><th>Hypothesis tested</th><th>Outcome</th></tr>
+        <tr><td>1</td><td>MTU too small &mdash; tried <code>setMTU(247)</code>, then <code>setMTU(64)</code>, then no explicit <code>setMTU()</code> call at all.</td><td><span class="tag err">Ruled out</span> Identical <code>rc=6</code> cascade all three times, at the identical point.</td></tr>
+        <tr><td>2</td><td><code>notify()</code> vs <code>indicate()</code> with a real wait for the acknowledgment via NimBLE's <code>onStatus()</code> callback.</td><td><span class="tag err">Ruled out</span> Failed identically; some packets were even explicitly nacked, most likely because Web Bluetooth only ever enables the notify CCCD bit, never indicate.</td></tr>
+        <tr><td>3</td><td>Retrying sends that <code>notify()</code>'s return value reported as failed.</td><td><span class="tag err">Harmful</span> The return value turned out to be unreliable; retrying re-sent already-delivered chunks, corrupting the stream.</td></tr>
+        <tr><td>4</td><td>Connection interval too slow to drain the queue &mdash; forced to 7.5&ndash;15&nbsp;ms via <code>updateConnParams()</code>.</td><td><span class="tag err">Ruled out</span> No change.</td></tr>
+        <tr><td>5</td><td>The <code>loop()</code> demo-output loop colliding with the CFG burst.</td><td><span class="tag warn">Good hygiene, not the cause</span> Kept in the final fix (<code>gSendingCfg</code>), but not what was causing <code>rc=6</code>.</td></tr>
+        <tr><td>6</td><td>Arduino-ESP32 core / BLE controller version &mdash; tested on a newer core (2.0.14, IDF 5.x) instead of the default (2.0.9, IDF 4.4).</td><td><span class="tag err">Ruled out</span> Same <code>rc=6</code> cascade; the suspicious controller setting was identical on both versions.</td></tr>
+      </table>
+
+      <h3>The isolated test that actually found it</h3>
+      <p>After six independent, well-reasoned fixes all failed identically, continuing to patch the full ~700-line application stopped being productive. A separate, minimal PlatformIO project was built instead (<a href="https://github.com/abourdim/esp32-rxy/tree/main/platformio_ble_probe"><code>platformio_ble_probe/</code></a>, kept in the repo) &mdash; no CFG protocol, no demo loop, no app logic at all. Just: on connect, blast some small <code>notify()</code> calls, and log exactly what happens.</p>
+      <table class="wikitable">
+        <tr><th>Test</th><th>What it did</th><th>Result</th></tr>
+        <tr><td><strong>Probe v1</strong></td><td>Arbitrary payload, burst fired from <code>loop()</code> a second after connect.</td><td><span class="tag ok">60 / 60</span> succeeded. The chip and library are fine.</td></tr>
+        <tr><td><strong>Probe v2</strong></td><td>Real CFG payload and <code>CFGBEGIN</code>/<code>CFG</code>/<code>CFGEND</code> framing, burst fired <em>from inside <code>onWrite()</code></em> in response to a real <code>"GETCFG"</code> &mdash; structured exactly like the real firmware.</td><td><span class="tag err">17 / 60</span> &mdash; failed identically to the real firmware, <code>rc=6</code> and all.</td></tr>
+        <tr><td><strong>Probe v2, one change</strong></td><td>Same, except <code>onWrite()</code> now just sets a flag, and <code>loop()</code> reads that flag and runs the burst itself.</td><td><span class="tag ok">60 / 60</span> succeeded.</td></tr>
+      </table>
+      <div class="ambox ambox-success">That one variable &mdash; <em>which task runs the burst</em> &mdash; was the whole bug. MTU, notify/indicate, retries, connection interval, and core version never mattered.</div>
+
+      <h3>The actual root cause</h3>
+      <p><code>RxCallbacks::onWrite()</code> &mdash; the function that reacts to an incoming BLE write, i.e. the app's <code>GETCFG</code> &mdash; runs on <strong>NimBLE's own host task</strong>, not the ordinary Arduino <code>loop()</code> task. The old code called <code>sendCfg()</code> directly from inside that callback: a ~900&nbsp;ms loop of 60 <code>notify()</code> calls, each followed by a 15&nbsp;ms <code>delay()</code>.</p>
+      <p>That meant the BLE host task stayed "inside" the app's own code for the entire burst. It never got a chance to return to its own event loop and process its own buffer-completion bookkeeping &mdash; freeing send buffers once the radio confirms a packet actually went out over the air. With that bookkeeping blocked for 900&nbsp;ms straight, the buffer pool had no way to drain, and every <code>notify()</code> past the first handful failed with <code>ENOMEM</code>.</p>
+      <div class="ambox ambox-notice">
+        This is a well-known class of bug in event-driven / RTOS systems in general: <strong>never do slow, blocking work synchronously inside a callback that runs on a task you also depend on to make forward progress.</strong> The callback and the resource it starved were the same task &mdash; so nothing could ever recover on its own.
+      </div>
+
+      <h3>The fix</h3>
+      <p><code>handleLine()</code> no longer calls <code>sendCfg()</code> when it sees <code>GETCFG</code> &mdash; it just sets a flag. <code>loop()</code>, on the ordinary Arduino task, checks that flag once per iteration and runs the burst from there instead. The BLE host task is now completely free during the whole burst to do its own bookkeeping concurrently, so the buffer pool never starves. Once that was fixed, plain <code>NOTIFY</code> &mdash; no <code>indicate()</code>, no retry, no wait-for-ack machinery &mdash; turned out to be perfectly reliable: none of the complexity from leads 2&ndash;4 above was ever actually needed.</p>
+      <p class="muted" style="font-size:13px">Full account, with the before/after code diff and the lessons learned, in <a href="https://github.com/abourdim/esp32-rxy/blob/main/debugging-getcfg-burst.html">debugging-getcfg-burst.html</a> in the repo (fixed in commit <a href="https://github.com/abourdim/esp32-rxy/commit/cdaac4f">cdaac4f</a>).</p>
+
       <h2 id="protocol">Protocol reference</h2>
       <table class="wikitable">
         <tr><th>Direction</th><th>Message</th><th>Notes</th></tr>
@@ -361,7 +407,7 @@ if (gConnected && now - lastOutputDemo >= 1000) {
         </tr>
         <tr>
           <td>Connect overlay stuck on "Requesting layout (GETCFG)&hellip;"</td>
-          <td>Check the serial monitor for <code>[BLE] Sent CFG</code>. If it never appears, the device disconnected before <code>GETCFG</code> arrived. If it does appear but the app still hangs, reconnect once &mdash; a stale characteristic subscription from a previous session can occasionally miss the burst of notifications.</td>
+          <td>Fixed in commit <code>cdaac4f</code> &mdash; see <a href="#postmortem">Post-mortem</a> above for the full story of a real bug that caused exactly this hang. On an up-to-date firmware, check the serial monitor for <code>[BLE] Sent CFG</code> first: if it never appears, the device disconnected before <code>GETCFG</code> arrived; if it does appear but the app still hangs, reconnect once from the browser side (a stale characteristic subscription from a previous session can occasionally miss the burst of notifications &mdash; see <a href="bit-rxy-en.html#troubleshooting">bit-rxy troubleshooting</a>).</td>
         </tr>
         <tr>
           <td>Pressing the debug button (GPIO 9) prevents the board from booting</td>
@@ -385,7 +431,7 @@ if (gConnected && now - lastOutputDemo >= 1000) {
 </div>
 
 <div class="footer-wiki">
-  This page was created on 30 July 2026 and last edited on 30 July 2026. Content adapted from the <a href="https://github.com/abourdim/esp32-rxy">esp32-rxy</a> repository README, project notes, and firmware source.
+  This page was created on 30 July 2026 and last edited on 31 July 2026. Content adapted from the <a href="https://github.com/abourdim/esp32-rxy">esp32-rxy</a> repository README, project notes, and firmware source.
 </div>
 
 </body>
