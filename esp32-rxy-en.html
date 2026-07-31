@@ -261,7 +261,7 @@ if (line.startsWith("SET ")) {
       <h3>Wiring up your own widgets: <code>handleWidget()</code></h3>
       <p>This is the one function you edit for your own project. It receives a widget <code>id</code> (exactly the ID you gave it in the rxy Build tab, e.g. <code>btn_fire</code>, <code>slider_speed</code>) and a <code>val</code> string whose format depends on the widget type (see the <a href="#protocol">protocol reference</a> table below).</p>
       <div class="ambox ambox-success">
-        <strong>Every widget type already has a working demo, out of the box.</strong> Instead of commented-out stubs, <code>handleWidget()</code> matches by <em>prefix</em> (<code>btn_</code>, <code>slider_</code>, <code>toggle_</code>, <code>joy_</code>, <code>dpad_</code>, <code>xypad_</code>, <code>timer_</code>) rather than exact ID, so any widget of a given type you add in the Build tab &mdash; whatever you name it &mdash; drives the on-board LED and prints what it received to Serial, with no firmware edit at all. It's a fast way to see each widget type's value format in action before writing real project logic.
+        <strong>Every widget type already has a working demo, out of the box.</strong> Instead of commented-out stubs, <code>handleWidget()</code> matches by <em>prefix</em> (<code>btn_</code>, <code>slider_</code>, <code>toggle_</code>, <code>joy_</code>, <code>dpad_</code>, <code>xypad_</code>, <code>timer_</code>, <code>select_</code>, <code>editfield_</code>) rather than exact ID, so any widget of a given type you add in the Build tab &mdash; whatever you name it &mdash; drives the on-board LED and prints what it received to Serial, with no firmware edit at all. It's a fast way to see each widget type's value format in action before writing real project logic.
       </div>
       <pre><code>static void handleWidget(const String&amp; id, const String&amp; val) {
   if (id == "btn_test") {                       // the shipped demo button
@@ -277,7 +277,7 @@ if (line.startsWith("SET ")) {
     setLedPercent(val.toInt());                 // 0..100 by default
     return;
   }
-  // ...toggle_, joy_, dpad_, xypad_, timer_ follow the same pattern
+  // ...toggle_, joy_, dpad_, xypad_, timer_, select_, editfield_ follow the same pattern
 }</code></pre>
       <p>Replace the body of whichever <code>if</code> matches the widget type you actually care about with your own logic (motors, sensors, extra LEDs&hellip;); the id/val parsing already there can stay as-is. To send data back the other way &mdash; updating an LED, label, gauge, graph, or battery indicator on screen &mdash; call the small helper <code>sendValue(id, val)</code> from anywhere, which simply emits <code>"UPD &lt;id&gt; &lt;val&gt;"</code>:</p>
       <pre><code>static inline void sendValue(const String&amp; id, const String&amp; val) {
@@ -285,9 +285,9 @@ if (line.startsWith("SET ")) {
 }</code></pre>
       <div class="ambox ambox-notice">The rxy web app rate-limits incoming messages to roughly one per 200&nbsp;ms. Sending <code>sendValue()</code> updates faster than that will not corrupt anything, but excess messages are simply wasted &mdash; a 200&ndash;500&nbsp;ms cadence in your own <code>loop()</code> polling code is comfortable.</div>
 
-      <h3>Demoing the output widgets: LED, Label, Gauge, Graph, Battery</h3>
-      <p>rxy has 12 widget types in total, not 7: the seven above are <strong>inputs</strong> (app &rarr; firmware, arriving as <code>SET</code> messages that <code>handleWidget()</code> can match by ID), but there are also five <strong>output</strong> widgets &mdash; LED, Label, Gauge, Graph, and Battery &mdash; that work the other way around. An output widget never sends anything; it only receives whatever you push to it with <code>sendValue()</code>. That also means the firmware has no way to auto-detect them the way it does with input prefixes: <code>LAYOUT_CFG_BASE64</code> is an opaque blob to the firmware, so it can't see what you named your Gauge widget in the Build tab.</p>
-      <p>Instead, <code>loop()</code> ships a running demo that pushes fake data to five fixed IDs once a second, whenever a client is connected:</p>
+      <h3>Demoing the output widgets: LED, Label, Gauge, Graph, Battery, Sound, Notification</h3>
+      <p>rxy has 16 widget types in total, not 9: the nine above are <strong>inputs</strong> (app &rarr; firmware, arriving as <code>SET</code> messages that <code>handleWidget()</code> can match by ID), but there are also seven <strong>output</strong> widgets &mdash; LED, Label, Gauge, Graph, Battery, Sound, and Notification &mdash; that work the other way around. An output widget never sends anything; it only receives whatever you push to it with <code>sendValue()</code>. That also means the firmware has no way to auto-detect them the way it does with input prefixes: <code>LAYOUT_CFG_BASE64</code> is an opaque blob to the firmware, so it can't see what you named your Gauge widget in the Build tab.</p>
+      <p>Instead, <code>loop()</code> ships a running demo that pushes fake data to seven fixed IDs whenever a client is connected &mdash; the first five once a second, Sound and Notification only every 5th tick so they don't spam (they're attention-grabbing effects, not continuous telemetry):</p>
       <pre><code>static uint32_t lastOutputDemo = 0;
 if (gConnected && now - lastOutputDemo >= 1000) {
   lastOutputDemo = now;
@@ -298,8 +298,12 @@ if (gConnected && now - lastOutputDemo >= 1000) {
   sendValue("gauge_demo",   String((int)temperatureRead()));   // chip temp, °C
   sendValue("graph_demo",   String(demoTick % 100) + "," + String((demoTick * 3) % 100));
   sendValue("battery_demo", String(100 - (demoTick % 100)));   // fake drain 100 -> 0
+  if (demoTick % 5 == 0) {
+    sendValue("sound_demo", "beep");             // beep|success|warn|danger|toggle
+    sendValue("notification_demo", "Hello from ESP32!");
+  }
 }</code></pre>
-      <p>To see any of these live, add a widget of the matching type in the Build tab and give it the exact ID (<code>led_demo</code>, <code>label_demo</code>, <code>gauge_demo</code>, <code>graph_demo</code>, or <code>battery_demo</code>) &mdash; or edit the strings in <code>loop()</code> to match whatever ID you actually used. <code>temperatureRead()</code> reads the ESP32-C3's internal temperature sensor, so the Gauge demo is real data; the other four are synthetic, just enough to see the widget move.</p>
+      <p>To see any of these live, add a widget of the matching type in the Build tab and give it the exact ID (<code>led_demo</code>, <code>label_demo</code>, <code>gauge_demo</code>, <code>graph_demo</code>, <code>battery_demo</code>, <code>sound_demo</code>, or <code>notification_demo</code>) &mdash; or edit the strings in <code>loop()</code> to match whatever ID you actually used. <code>temperatureRead()</code> reads the ESP32-C3's internal temperature sensor, so the Gauge demo is real data; the others are synthetic, just enough to see the widget move.</p>
 
       <h2 id="postmortem">Post-mortem: the GETCFG burst stall (fixed)</h2>
       <p class="hatnote">This section tells the story of a real bug that stalled the layout transfer for a long time, and everything it took to actually understand it. It isn't required reading to use the firmware &mdash; it documents what not to repeat, and why.</p>
@@ -359,21 +363,25 @@ if (gConnected && now - lastOutputDemo >= 1000) {
         <tr><td>Write (app &rarr; device)</td><td><code>6e400003-b5a3-f393-e0a9-e50e24dcca9e</code></td></tr>
       </table>
 
-      <p>Widget value formats &mdash; all 12 types:</p>
+      <p>Widget value formats &mdash; all 16 types:</p>
       <table class="wikitable">
         <tr><th>Direction</th><th>Prefix / ID</th><th>Widget</th><th>Value format</th><th>Built-in demo</th></tr>
-        <tr><td rowspan="7">Input</td><td><code>btn_</code></td><td>Button</td><td><code>0</code> | <code>1</code></td><td>LED on while held</td></tr>
+        <tr><td rowspan="9">Input</td><td><code>btn_</code></td><td>Button</td><td><code>0</code> | <code>1</code></td><td>LED on while held</td></tr>
         <tr><td><code>slider_</code></td><td>Slider</td><td>integer in the widget's min..max range</td><td>LED brightness</td></tr>
         <tr><td><code>toggle_</code></td><td>Toggle</td><td><code>0</code> | <code>1</code></td><td>LED on/off</td></tr>
         <tr><td><code>joy_</code></td><td>Joystick</td><td><code>&lt;angle 0-360&gt; &lt;distance 0-100&gt;</code> (0&deg;=right, 90&deg;=down, 180&deg;=left, 270&deg;=up)</td><td>LED brightness = distance</td></tr>
         <tr><td><code>dpad_</code></td><td>D-Pad</td><td><code>&lt;up|down|left|right&gt; &lt;0|1&gt;</code></td><td>LED on while held</td></tr>
         <tr><td><code>xypad_</code></td><td>XY Pad</td><td><code>&lt;x 0-100&gt; &lt;y 0-100&gt;</code></td><td>LED brightness = y</td></tr>
         <tr><td><code>timer_</code></td><td>Timer</td><td>seconds elapsed, sent roughly every 5s</td><td>LED blinks per tick</td></tr>
-        <tr><td rowspan="5">Output</td><td><code>led_demo</code></td><td>LED</td><td><code>0</code> | <code>1</code></td><td>blinks every second</td></tr>
+        <tr><td><code>select_</code></td><td>Select</td><td>chosen option's text</td><td>LED flips</td></tr>
+        <tr><td><code>editfield_</code></td><td>Edit Field</td><td>whatever text was typed</td><td>LED flips</td></tr>
+        <tr><td rowspan="7">Output</td><td><code>led_demo</code></td><td>LED</td><td><code>0</code> | <code>1</code></td><td>blinks every second</td></tr>
         <tr><td><code>label_demo</code></td><td>Label</td><td>any text</td><td>"Tick &lt;n&gt;"</td></tr>
         <tr><td><code>gauge_demo</code></td><td>Gauge</td><td>integer</td><td>live chip temperature</td></tr>
         <tr><td><code>graph_demo</code></td><td>Graph</td><td>comma-separated values</td><td>two synthetic series</td></tr>
         <tr><td><code>battery_demo</code></td><td>Battery</td><td>0&ndash;100</td><td>fake drain 100&rarr;0</td></tr>
+        <tr><td><code>sound_demo</code></td><td>Sound</td><td><code>beep</code>|<code>success</code>|<code>warn</code>|<code>danger</code>|<code>toggle</code></td><td>every 5th tick (~5s)</td></tr>
+        <tr><td><code>notification_demo</code></td><td>Notification</td><td>any text</td><td>every 5th tick (~5s)</td></tr>
       </table>
 
       <h2 id="customising">Customising the layout</h2>
@@ -431,7 +439,7 @@ if (gConnected && now - lastOutputDemo >= 1000) {
 </div>
 
 <div class="footer-wiki">
-  This page was created on 30 July 2026 and last edited on 31 July 2026. Content adapted from the <a href="https://github.com/abourdim/esp32-rxy">esp32-rxy</a> repository README, project notes, and firmware source.
+  This page was created on 30 July 2026 and last edited on 1 August 2026. Content adapted from the <a href="https://github.com/abourdim/esp32-rxy">esp32-rxy</a> repository README, project notes, and firmware source.
 </div>
 
 </body>

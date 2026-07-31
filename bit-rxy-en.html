@@ -67,7 +67,7 @@
         <table>
           <tr><th>Type</th><td>Drag-and-drop BLE remote-control builder + MakeCode generator</td></tr>
           <tr><th>Hardware</th><td>BBC micro:bit V1 or V2</td></tr>
-          <tr><th>Widgets</th><td>12 types: 7 input, 5 output</td></tr>
+          <tr><th>Widgets</th><td>16 types: 9 input, 7 output</td></tr>
           <tr><th>Languages</th><td>English, Français, العربية</td></tr>
           <tr><th>Runs on</th><td>Chrome / Edge, no install</td></tr>
           <tr><th>Version</th><td>v1.0.0</td></tr>
@@ -155,7 +155,7 @@ cd rxy</code></pre>
       <p>The key difference from the other three apps in this family: the micro:bit isn't just a fixed remote peripheral &mdash; it's carrying its own configuration. Connect any copy of this app to a flashed board and it will faithfully redraw whatever layout was baked in at flash time.</p>
 
       <h3>The code generator: from canvas to firmware</h3>
-      <p><code>generateDemoCode(cfg)</code> takes the current widget list and, for each widget, emits a matching <code>if (id == "...")</code> handler block into a firmware template &mdash; a Button widget gets an "on press, show a heart" block; a Slider gets a "parse the value, plot a bar graph" block; and so on for all 12 widget types. Every generated handler is deliberately simple and commented <code>// Add your code here!</code> &mdash; it's meant to be a starting point you edit in MakeCode, not a finished program.</p>
+      <p><code>generateDemoCode(cfg)</code> takes the current widget list and, for each widget, emits a matching <code>if (id == "...")</code> handler block into a firmware template &mdash; a Button widget gets an "on press, show a heart" block; a Slider gets a "parse the value, plot a bar graph" block; and so on for all 16 widget types. Every generated handler is deliberately simple and commented <code>// Add your code here!</code> &mdash; it's meant to be a starting point you edit in MakeCode, not a finished program.</p>
       <pre><code>function generateDemoCode(cfg) {
   const b64 = btoa(unescape(encodeURIComponent(JSON.stringify(cfg))));  // Unicode-safe (handles emoji labels!)
   const buttons = cfg.widgets.filter(w => w.t === 'button');
@@ -221,21 +221,25 @@ if (state.ble.notifyChar) {
       <p>The general lesson: on an API whose docs don't explicitly guarantee object identity, never assume an "equivalent" object obtained twice is the <em>same</em> object as far as <code>addEventListener()</code> is concerned. Explicitly clean up the previous listener before attaching a new one.</p>
 
       <h2 id="widgets">Widget catalog</h2>
-      <p>Seven input widgets (app &rarr; micro:bit) and five output widgets (micro:bit &rarr; app), each with its own message format:</p>
+      <p>Nine input widgets (app &rarr; micro:bit) and seven output widgets (micro:bit &rarr; app), each with its own message format:</p>
       <table class="wikitable">
         <tr><th>Direction</th><th>Widget</th><th>Message</th><th>Use it for</th></tr>
-        <tr><td rowspan="7">Input</td><td>👆 Button</td><td><code>SET id 1</code> / <code>SET id 0</code></td><td>Shooting, sound effects, lights on/off</td></tr>
+        <tr><td rowspan="9">Input</td><td>👆 Button</td><td><code>SET id 1</code> / <code>SET id 0</code></td><td>Shooting, sound effects, lights on/off</td></tr>
         <tr><td>🎚️ Slider</td><td><code>SET id 75</code> (0&ndash;100 or custom range)</td><td>Speed, volume, brightness, servo angle</td></tr>
         <tr><td>🔘 Toggle</td><td><code>SET id 1</code> / <code>SET id 0</code></td><td>Turbo mode, shield, flashlight</td></tr>
         <tr><td>🕹️ Joystick</td><td><code>SET id angle dist</code> (0&ndash;360°, 0&ndash;100%)</td><td>Robot steering, drone/pan-tilt control</td></tr>
         <tr><td>✛ D-Pad</td><td><code>SET id direction state</code></td><td>Menu navigation, retro-game movement</td></tr>
         <tr><td>📍 XY Pad</td><td><code>SET id x y</code> (0&ndash;100 each)</td><td>Aiming, pan/tilt camera, drawing</td></tr>
         <tr><td>⏱️ Timer</td><td><code>SET id seconds</code> (every 5s)</td><td>Game timers, countdowns</td></tr>
-        <tr><td rowspan="5">Output</td><td>💡 LED</td><td><code>sendValue(id, "1"/"0")</code></td><td>Warnings, status indicators</td></tr>
+        <tr><td>🔽 Select</td><td><code>SET id chosen_text</code></td><td>Game modes, color picker, speed presets</td></tr>
+        <tr><td>⌨️ Edit Field</td><td><code>SET id typed_text</code></td><td>Custom messages, entering codes, notes</td></tr>
+        <tr><td rowspan="7">Output</td><td>💡 LED</td><td><code>sendValue(id, "1"/"0")</code></td><td>Warnings, status indicators</td></tr>
         <tr><td>🏷️ Label</td><td><code>sendValue(id, "any text")</code></td><td>Scores, sensor readings, messages</td></tr>
         <tr><td>🧭 Gauge</td><td><code>sendValue(id, "75")</code></td><td>Temperature, sound level, compass, speed</td></tr>
         <tr><td>📈 Graph</td><td><code>sendValue(id, "42,78,15")</code> (comma = multi-series)</td><td>Sensor trends over time</td></tr>
         <tr><td>🔋 Battery</td><td><code>sendValue(id, "75")</code> (0&ndash;100)</td><td>Battery/fuel/water level, signal strength</td></tr>
+        <tr><td>🔊 Sound</td><td><code>sendValue(id, "beep"|"success"|"warn"|"danger"|"toggle")</code></td><td>Alarms, confirmations, game sounds</td></tr>
+        <tr><td>🔔 Notification</td><td><code>sendValue(id, "message")</code></td><td>Win/lose messages, important alerts</td></tr>
       </table>
 
       <h2 id="protocol">Bluetooth protocol reference</h2>
@@ -251,7 +255,7 @@ if (state.ble.notifyChar) {
       <h2 id="i18n">Languages</h2>
       <p>Full English, French, and Arabic translation across the header, template picker, builder toolbar, widget palette, props panel, Play/runtime view, tutorial, loading overlay, code modal, and the toasts for every core action &mdash; using a <code>tr(path, vars)</code> helper that does a dotted-key lookup into the <code>I18N</code> object (e.g. <code>tr('toast.sizeSet', {w, h})</code>) with <code>{placeholder}</code> interpolation for dynamic values. Arabic flips the whole page to <code>dir="rtl"</code> and uses the Algerian flag, matching the rest of this app family.</p>
       <p>Unlike the browser-language auto-detection used early on, the app now defaults straight to French on first visit and only switches on an explicit choice, persisted under its own <code>kid_lang</code> localStorage key &mdash; matching Bit-Bot, Talking Robot, and micro:bit Playground.</p>
-      <p>Deliberately left in English: the widget Properties form's per-field labels (Width, Height, Min, Max, etc. &mdash; about 100 strings spread across the 12 widget types) and the hidden power-user "Helper Tools" panel (Group, Layers, Ruler, Align, Distribute, Canvas Background, Screenshot, Share &mdash; all gated behind a dev-only button, never shown to normal users), the same scope line drawn for Bit-Bot's excluded Commands panel.</p>
+      <p>Deliberately left in English: the widget Properties form's per-field labels (Width, Height, Min, Max, etc. &mdash; about 100 strings spread across the 16 widget types) and the hidden power-user "Helper Tools" panel (Group, Layers, Ruler, Align, Distribute, Canvas Background, Screenshot, Share &mdash; all gated behind a dev-only button, never shown to normal users), the same scope line drawn for Bit-Bot's excluded Commands panel.</p>
 
       <h2 id="troubleshooting">Troubleshooting</h2>
       <table class="wikitable">
@@ -273,7 +277,7 @@ if (state.ble.notifyChar) {
 </div>
 
 <div class="footer-wiki">
-  This page was created on 29 July 2026, last edited 31 July 2026. Content based on the <a href="https://github.com/abourdim/bit-rxy">bit-rxy</a> repository (README and source) and first-hand code review.
+  This page was created on 29 July 2026, last edited 1 August 2026. Content based on the <a href="https://github.com/abourdim/bit-rxy">bit-rxy</a> repository (README and source) and first-hand code review.
 </div>
 
 </body>

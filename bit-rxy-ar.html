@@ -67,7 +67,7 @@
         <table>
           <tr><th>النوع</th><td>أداة سحب وإفلات لبناء جهاز تحكم عبر البلوتوث + مولّد كود MakeCode</td></tr>
           <tr><th>العتاد</th><td>BBC micro:bit V1 أو V2</td></tr>
-          <tr><th>الأدوات</th><td>12 نوعًا: 7 مدخلات، 5 مخرجات</td></tr>
+          <tr><th>الأدوات</th><td>16 نوعًا: 9 مدخلات، 7 مخرجات</td></tr>
           <tr><th>اللغات</th><td>English, Français, العربية</td></tr>
           <tr><th>يعمل على</th><td>Chrome / Edge، بدون تثبيت</td></tr>
           <tr><th>الإصدار</th><td>v1.0.0</td></tr>
@@ -155,7 +155,7 @@ cd rxy</code></pre>
       <p>الفرق الجوهري عن التطبيقات الثلاثة الأخرى في هذه المجموعة: الـ micro:bit ليس مجرد جهاز تحكم طرفي ثابت &mdash; بل يحمل إعداداته الخاصة. اربط أي نسخة من هذا التطبيق بلوحة مُحمَّلة وستعيد رسم التخطيط الذي تم دمجه فيها بأمانة عند التحميل.</p>
 
       <h3>مولّد الكود: من اللوحة إلى الفيرموير</h3>
-      <p><code>generateDemoCode(cfg)</code> يأخذ قائمة الأدوات الحالية، ولكل أداة، يُصدر كتلة <code>if (id == "...")</code> مطابقة في قالب الفيرموير &mdash; أداة الزر تحصل على كتلة «عند الضغط، اعرض قلبًا»؛ والمنزلق يحصل على كتلة «اقرأ القيمة، ارسم رسمًا بيانيًا شريطيًا»؛ وهكذا لكل الأنواع الـ12 من الأدوات. كل معالج مولَّد بسيط عمدًا ومُعلَّق عليه بـ <code>// Add your code here!</code> &mdash; فالهدف منه أن يكون نقطة انطلاق تعدّلها في MakeCode، وليس برنامجًا جاهزًا.</p>
+      <p><code>generateDemoCode(cfg)</code> يأخذ قائمة الأدوات الحالية، ولكل أداة، يُصدر كتلة <code>if (id == "...")</code> مطابقة في قالب الفيرموير &mdash; أداة الزر تحصل على كتلة «عند الضغط، اعرض قلبًا»؛ والمنزلق يحصل على كتلة «اقرأ القيمة، ارسم رسمًا بيانيًا شريطيًا»؛ وهكذا لكل الأنواع الـ16 من الأدوات. كل معالج مولَّد بسيط عمدًا ومُعلَّق عليه بـ <code>// Add your code here!</code> &mdash; فالهدف منه أن يكون نقطة انطلاق تعدّلها في MakeCode، وليس برنامجًا جاهزًا.</p>
       <pre><code>function generateDemoCode(cfg) {
   const b64 = btoa(unescape(encodeURIComponent(JSON.stringify(cfg))));  // Unicode-safe (handles emoji labels!)
   const buttons = cfg.widgets.filter(w => w.t === 'button');
@@ -221,21 +221,25 @@ if (state.ble.notifyChar) {
       <p>الدرس العام: في واجهة برمجية لا يضمن توثيقها صراحة هوية الكائنات المُعادة، لا تفترض أبدًا أن كائنًا «مكافئًا» تم الحصول عليه مرتين هو نفس الكائن من منظور <code>addEventListener()</code>. نظّف المستمع السابق صراحة قبل إرفاق مستمع جديد.</p>
 
       <h2 id="widgets">دليل الأدوات</h2>
-      <p>سبع أدوات إدخال (التطبيق ← micro:bit) وخمس أدوات إخراج (micro:bit ← التطبيق)، لكل منها تنسيق رسالتها الخاص:</p>
+      <p>تسع أدوات إدخال (التطبيق ← micro:bit) وسبع أدوات إخراج (micro:bit ← التطبيق)، لكل منها تنسيق رسالتها الخاص:</p>
       <table class="wikitable">
         <tr><th>الاتجاه</th><th>الأداة</th><th>الرسالة</th><th>تُستخدم من أجل</th></tr>
-        <tr><td rowspan="7">إدخال</td><td>👆 زر</td><td><code>SET id 1</code> / <code>SET id 0</code></td><td>الإطلاق، المؤثرات الصوتية، الإضاءة تشغيل/إطفاء</td></tr>
+        <tr><td rowspan="9">إدخال</td><td>👆 زر</td><td><code>SET id 1</code> / <code>SET id 0</code></td><td>الإطلاق، المؤثرات الصوتية، الإضاءة تشغيل/إطفاء</td></tr>
         <tr><td>🎚️ منزلق</td><td><code>SET id 75</code> (0&ndash;100 أو نطاق مخصص)</td><td>السرعة، الصوت، السطوع، زاوية المحرك</td></tr>
         <tr><td>🔘 مفتاح</td><td><code>SET id 1</code> / <code>SET id 0</code></td><td>وضع التيربو، الدرع، المصباح</td></tr>
         <tr><td>🕹️ عصا التحكم</td><td><code>SET id angle dist</code> (0&ndash;360°، 0&ndash;100%)</td><td>توجيه الروبوت، التحكم في الطائرة/الكاميرا</td></tr>
         <tr><td>✛ لوحة اتجاه</td><td><code>SET id direction state</code></td><td>التنقل في القوائم، حركة الألعاب الكلاسيكية</td></tr>
         <tr><td>📍 لوحة XY</td><td><code>SET id x y</code> (0&ndash;100 لكل منهما)</td><td>التصويب، كاميرا pan/tilt، الرسم</td></tr>
         <tr><td>⏱️ مؤقت</td><td><code>SET id seconds</code> (كل 5 ثوان)</td><td>مؤقتات الألعاب، العد التنازلي</td></tr>
-        <tr><td rowspan="5">إخراج</td><td>💡 LED</td><td><code>sendValue(id, "1"/"0")</code></td><td>التنبيهات، مؤشرات الحالة</td></tr>
+        <tr><td>🔽 قائمة اختيار</td><td><code>SET id النص_المختار</code></td><td>أوضاع اللعب، اختيار اللون، إعدادات السرعة</td></tr>
+        <tr><td>⌨️ حقل نص</td><td><code>SET id النص_المكتوب</code></td><td>رسائل مخصصة، إدخال رموز، ملاحظات</td></tr>
+        <tr><td rowspan="7">إخراج</td><td>💡 LED</td><td><code>sendValue(id, "1"/"0")</code></td><td>التنبيهات، مؤشرات الحالة</td></tr>
         <tr><td>🏷️ تسمية</td><td><code>sendValue(id, "any text")</code></td><td>النقاط، قراءات الحساسات، الرسائل</td></tr>
         <tr><td>🧭 مقياس</td><td><code>sendValue(id, "75")</code></td><td>درجة الحرارة، مستوى الصوت، البوصلة، السرعة</td></tr>
         <tr><td>📈 رسم بياني</td><td><code>sendValue(id, "42,78,15")</code> (فاصلة = عدة سلاسل)</td><td>اتجاهات الحساسات عبر الزمن</td></tr>
         <tr><td>🔋 بطارية</td><td><code>sendValue(id, "75")</code> (0&ndash;100)</td><td>مستوى البطارية/الوقود/الماء، قوة الإشارة</td></tr>
+        <tr><td>🔊 صوت</td><td><code>sendValue(id, "beep"|"success"|"warn"|"danger"|"toggle")</code></td><td>الإنذارات، التأكيدات، أصوات الألعاب</td></tr>
+        <tr><td>🔔 إشعار</td><td><code>sendValue(id, "message")</code></td><td>رسائل الفوز/الخسارة، التنبيهات المهمة</td></tr>
       </table>
 
       <h2 id="protocol">مرجع بروتوكول البلوتوث</h2>
@@ -251,7 +255,7 @@ if (state.ble.notifyChar) {
       <h2 id="i18n">اللغات</h2>
       <p>ترجمة كاملة إلى الإنجليزية والفرنسية والعربية تشمل الترويسة، منتقي القوالب، شريط أدوات البناء، لوحة الأدوات، لوحة الخصائص، شاشة التشغيل، الدليل التعليمي، شاشة التحميل، نافذة الكود، والإشعارات لكل إجراء أساسي &mdash; باستخدام أداة مساعدة <code>tr(path, vars)</code> تبحث بمفتاح مُركَّب بنقاط داخل كائن <code>I18N</code> (مثال: <code>tr('toast.sizeSet', {w, h})</code>) مع استبدال <code>{placeholder}</code> بالقيم الديناميكية. تقلب العربية الصفحة بأكملها إلى <code>dir="rtl"</code> وتستخدم العلم الجزائري، مثل بقية هذه المجموعة من التطبيقات.</p>
       <p>على عكس الاكتشاف التلقائي للغة المتصفح المستخدَم سابقًا، يبدأ التطبيق الآن مباشرة بالفرنسية عند أول زيارة ولا يتغير إلا باختيار صريح، محفوظ في مفتاح <code>kid_lang</code> الخاص به في localStorage &mdash; مثل Bit-Bot وTalking Robot وmicro:bit Playground.</p>
-      <p>تُركت عمدًا بالإنجليزية: تسميات كل حقل في نموذج خصائص الأدوات (Width، Height، Min، Max، إلخ &mdash; نحو 100 نص موزّعة على الأنواع الـ12 من الأدوات) ولوحة «Helper Tools» المخصصة للمستخدمين المتقدمين (Group، Layers، Ruler، Align، Distribute، Canvas Background، Screenshot، Share &mdash; جميعها مخفية خلف زر مخصص للتطوير، لا تظهر أبدًا للمستخدمين العاديين)، بنفس حدود النطاق التي رُسمت للوحة Commands المستبعدة في Bit-Bot.</p>
+      <p>تُركت عمدًا بالإنجليزية: تسميات كل حقل في نموذج خصائص الأدوات (Width، Height، Min، Max، إلخ &mdash; نحو 100 نص موزّعة على الأنواع الـ16 من الأدوات) ولوحة «Helper Tools» المخصصة للمستخدمين المتقدمين (Group، Layers، Ruler، Align، Distribute، Canvas Background، Screenshot، Share &mdash; جميعها مخفية خلف زر مخصص للتطوير، لا تظهر أبدًا للمستخدمين العاديين)، بنفس حدود النطاق التي رُسمت للوحة Commands المستبعدة في Bit-Bot.</p>
 
       <h2 id="troubleshooting">حل المشكلات</h2>
       <table class="wikitable">
@@ -273,7 +277,7 @@ if (state.ble.notifyChar) {
 </div>
 
 <div class="footer-wiki">
-  أُنشئت هذه الصفحة في 29 يوليو 2026، وآخر تعديل في 31 يوليو 2026. المحتوى مبني على مستودع <a href="https://github.com/abourdim/bit-rxy">bit-rxy</a> (ملف README والكود المصدري) ومراجعة مباشرة للكود.
+  أُنشئت هذه الصفحة في 29 يوليو 2026، وآخر تعديل في 1 أغسطس 2026. المحتوى مبني على مستودع <a href="https://github.com/abourdim/bit-rxy">bit-rxy</a> (ملف README والكود المصدري) ومراجعة مباشرة للكود.
 </div>
 
 </body>

@@ -67,7 +67,7 @@
         <table>
           <tr><th>Type</th><td>Générateur de télécommande BLE par glisser-déposer + génération MakeCode</td></tr>
           <tr><th>Matériel</th><td>BBC micro:bit V1 ou V2</td></tr>
-          <tr><th>Widgets</th><td>12 types : 7 entrées, 5 sorties</td></tr>
+          <tr><th>Widgets</th><td>16 types : 9 entrées, 7 sorties</td></tr>
           <tr><th>Langues</th><td>English, Français, العربية</td></tr>
           <tr><th>Fonctionne sur</th><td>Chrome / Edge, sans installation</td></tr>
           <tr><th>Version</th><td>v1.0.0</td></tr>
@@ -155,7 +155,7 @@ cd rxy</code></pre>
       <p>La différence clé avec les trois autres applications de cette famille : le micro:bit n'est pas juste une télécommande fixe &mdash; il transporte sa propre configuration. Connecte n'importe quelle copie de cette application à une carte flashée et elle redessinera fidèlement la disposition intégrée au moment du flashage.</p>
 
       <h3>Le générateur de code : du canevas au firmware</h3>
-      <p><code>generateDemoCode(cfg)</code> prend la liste actuelle des widgets et, pour chacun, émet un bloc <code>if (id == "...")</code> correspondant dans un modèle de firmware &mdash; un widget Bouton reçoit un bloc « à l'appui, afficher un cœur » ; un Curseur reçoit un bloc « lire la valeur, tracer un graphique en barres » ; et ainsi de suite pour les 12 types de widgets. Chaque gestionnaire généré est volontairement simple et commenté <code>// Add your code here!</code> &mdash; il est conçu comme un point de départ à modifier dans MakeCode, pas comme un programme fini.</p>
+      <p><code>generateDemoCode(cfg)</code> prend la liste actuelle des widgets et, pour chacun, émet un bloc <code>if (id == "...")</code> correspondant dans un modèle de firmware &mdash; un widget Bouton reçoit un bloc « à l'appui, afficher un cœur » ; un Curseur reçoit un bloc « lire la valeur, tracer un graphique en barres » ; et ainsi de suite pour les 16 types de widgets. Chaque gestionnaire généré est volontairement simple et commenté <code>// Add your code here!</code> &mdash; il est conçu comme un point de départ à modifier dans MakeCode, pas comme un programme fini.</p>
       <pre><code>function generateDemoCode(cfg) {
   const b64 = btoa(unescape(encodeURIComponent(JSON.stringify(cfg))));  // Unicode-safe (handles emoji labels!)
   const buttons = cfg.widgets.filter(w => w.t === 'button');
@@ -221,21 +221,25 @@ if (state.ble.notifyChar) {
       <p>La leçon générale : sur une API dont la documentation ne précise pas explicitement l'identité des objets renvoyés, ne jamais supposer qu'un objet « équivalent » obtenu deux fois est le <em>même</em> objet aux yeux d'<code>addEventListener()</code>. Nettoyez explicitement l'écouteur précédent avant d'en attacher un nouveau.</p>
 
       <h2 id="widgets">Catalogue des widgets</h2>
-      <p>Sept widgets d'entrée (app &rarr; micro:bit) et cinq widgets de sortie (micro:bit &rarr; app), chacun avec son propre format de message :</p>
+      <p>Neuf widgets d'entrée (app &rarr; micro:bit) et sept widgets de sortie (micro:bit &rarr; app), chacun avec son propre format de message :</p>
       <table class="wikitable">
         <tr><th>Direction</th><th>Widget</th><th>Message</th><th>À utiliser pour</th></tr>
-        <tr><td rowspan="7">Entrée</td><td>👆 Bouton</td><td><code>SET id 1</code> / <code>SET id 0</code></td><td>Tir, effets sonores, lumières on/off</td></tr>
+        <tr><td rowspan="9">Entrée</td><td>👆 Bouton</td><td><code>SET id 1</code> / <code>SET id 0</code></td><td>Tir, effets sonores, lumières on/off</td></tr>
         <tr><td>🎚️ Curseur</td><td><code>SET id 75</code> (0&ndash;100 ou plage personnalisée)</td><td>Vitesse, volume, luminosité, angle de servo</td></tr>
         <tr><td>🔘 Interrupteur</td><td><code>SET id 1</code> / <code>SET id 0</code></td><td>Mode turbo, bouclier, lampe torche</td></tr>
         <tr><td>🕹️ Joystick</td><td><code>SET id angle dist</code> (0&ndash;360°, 0&ndash;100%)</td><td>Direction de robot, contrôle drone/pan-tilt</td></tr>
         <tr><td>✛ Croix directionnelle</td><td><code>SET id direction state</code></td><td>Navigation de menu, déplacement type jeu rétro</td></tr>
         <tr><td>📍 Pavé XY</td><td><code>SET id x y</code> (0&ndash;100 chacun)</td><td>Visée, caméra pan/tilt, dessin</td></tr>
         <tr><td>⏱️ Minuteur</td><td><code>SET id seconds</code> (toutes les 5s)</td><td>Chronomètres de jeu, comptes à rebours</td></tr>
-        <tr><td rowspan="5">Sortie</td><td>💡 LED</td><td><code>sendValue(id, "1"/"0")</code></td><td>Alertes, indicateurs d'état</td></tr>
+        <tr><td>🔽 Sélecteur</td><td><code>SET id texte_choisi</code></td><td>Modes de jeu, sélecteur de couleur, préréglages de vitesse</td></tr>
+        <tr><td>⌨️ Champ de texte</td><td><code>SET id texte_saisi</code></td><td>Messages personnalisés, saisie de code, notes</td></tr>
+        <tr><td rowspan="7">Sortie</td><td>💡 LED</td><td><code>sendValue(id, "1"/"0")</code></td><td>Alertes, indicateurs d'état</td></tr>
         <tr><td>🏷️ Texte</td><td><code>sendValue(id, "any text")</code></td><td>Scores, mesures de capteurs, messages</td></tr>
         <tr><td>🧭 Jauge</td><td><code>sendValue(id, "75")</code></td><td>Température, niveau sonore, boussole, vitesse</td></tr>
         <tr><td>📈 Graphique</td><td><code>sendValue(id, "42,78,15")</code> (virgule = plusieurs séries)</td><td>Tendances de capteurs dans le temps</td></tr>
         <tr><td>🔋 Batterie</td><td><code>sendValue(id, "75")</code> (0&ndash;100)</td><td>Niveau de batterie/carburant/eau, force du signal</td></tr>
+        <tr><td>🔊 Son</td><td><code>sendValue(id, "beep"|"success"|"warn"|"danger"|"toggle")</code></td><td>Alarmes, confirmations, sons de jeu</td></tr>
+        <tr><td>🔔 Notification</td><td><code>sendValue(id, "message")</code></td><td>Messages de victoire/défaite, alertes importantes</td></tr>
       </table>
 
       <h2 id="protocol">Référence du protocole Bluetooth</h2>
@@ -251,7 +255,7 @@ if (state.ble.notifyChar) {
       <h2 id="i18n">Langues</h2>
       <p>Traduction complète en anglais, français et arabe sur l'en-tête, le sélecteur de modèles, la barre d'outils du constructeur, la palette de widgets, le panneau de propriétés, la vue Jouer/exécution, le tutoriel, l'écran de chargement, la fenêtre de code, et les notifications pour chaque action principale &mdash; via un utilitaire <code>tr(path, vars)</code> qui fait une recherche par clé à points dans l'objet <code>I18N</code> (ex. <code>tr('toast.sizeSet', {w, h})</code>) avec interpolation de <code>{placeholder}</code> pour les valeurs dynamiques. L'arabe bascule toute la page en <code>dir="rtl"</code> et utilise le drapeau algérien, comme le reste de cette famille d'applications.</p>
       <p>Contrairement à la détection automatique de la langue du navigateur utilisée au début, l'application démarre désormais directement en français à la première visite et ne change que sur choix explicite, mémorisé dans sa propre clé <code>kid_lang</code> du localStorage &mdash; comme Bit-Bot, Talking Robot et micro:bit Playground.</p>
-      <p>Volontairement laissés en anglais : les libellés de chaque champ du formulaire de propriétés des widgets (Width, Height, Min, Max, etc. &mdash; une centaine de chaînes réparties sur les 12 types de widgets) et le panneau « Helper Tools » réservé aux utilisateurs avancés (Group, Layers, Ruler, Align, Distribute, Canvas Background, Screenshot, Share &mdash; tous cachés derrière un bouton réservé au développement, jamais visibles pour les utilisateurs normaux), la même limite de périmètre que pour le panneau Commandes exclu de Bit-Bot.</p>
+      <p>Volontairement laissés en anglais : les libellés de chaque champ du formulaire de propriétés des widgets (Width, Height, Min, Max, etc. &mdash; une centaine de chaînes réparties sur les 16 types de widgets) et le panneau « Helper Tools » réservé aux utilisateurs avancés (Group, Layers, Ruler, Align, Distribute, Canvas Background, Screenshot, Share &mdash; tous cachés derrière un bouton réservé au développement, jamais visibles pour les utilisateurs normaux), la même limite de périmètre que pour le panneau Commandes exclu de Bit-Bot.</p>
 
       <h2 id="troubleshooting">Dépannage</h2>
       <table class="wikitable">
@@ -273,7 +277,7 @@ if (state.ble.notifyChar) {
 </div>
 
 <div class="footer-wiki">
-  Cette page a été créée le 29 juillet 2026, dernière modification le 31 juillet 2026. Contenu basé sur le dépôt <a href="https://github.com/abourdim/bit-rxy">bit-rxy</a> (README et code source) et une relecture directe du code.
+  Cette page a été créée le 29 juillet 2026, dernière modification le 1 août 2026. Contenu basé sur le dépôt <a href="https://github.com/abourdim/bit-rxy">bit-rxy</a> (README et code source) et une relecture directe du code.
 </div>
 
 </body>

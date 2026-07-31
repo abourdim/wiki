@@ -261,7 +261,7 @@ if (line.startsWith("SET ")) {
       <h3>ربط أدواتك الخاصة: <code>handleWidget()</code></h3>
       <p>هذه هي الدالة الوحيدة التي تعدّلها لمشروعك الخاص. تستقبل <code>id</code> للأداة (بالضبط المعرّف الذي أعطيته لها في تبويب Build في rxy، مثل <code>btn_fire</code>، <code>slider_speed</code>) وسلسلة <code>val</code> يعتمد تنسيقها على نوع الأداة (انظر جدول <a href="#protocol">مرجع البروتوكول</a> أدناه).</p>
       <div class="ambox ambox-success">
-        <strong>كل نوع أداة لديه بالفعل عرض توضيحي عملي، جاهز للاستخدام.</strong> بدلًا من نماذج مُعلَّقة، تطابق <code>handleWidget()</code> حسب <em>البادئة</em> (<code>btn_</code>، <code>slider_</code>، <code>toggle_</code>، <code>joy_</code>، <code>dpad_</code>، <code>xypad_</code>، <code>timer_</code>) بدلًا من المعرّف الدقيق، لذا فإن أي أداة من نوع معين تضيفها في تبويب Build &mdash; أيًا كان اسمها &mdash; تُشغّل LED المدمج وتطبع ما استقبلته على المنفذ التسلسلي، دون أي تعديل للفيرموير على الإطلاق. إنها طريقة سريعة لرؤية تنسيق قيمة كل نوع أداة أثناء العمل قبل كتابة منطق المشروع الفعلي.
+        <strong>كل نوع أداة لديه بالفعل عرض توضيحي عملي، جاهز للاستخدام.</strong> بدلًا من نماذج مُعلَّقة، تطابق <code>handleWidget()</code> حسب <em>البادئة</em> (<code>btn_</code>، <code>slider_</code>، <code>toggle_</code>، <code>joy_</code>، <code>dpad_</code>، <code>xypad_</code>، <code>timer_</code>، <code>select_</code>، <code>editfield_</code>) بدلًا من المعرّف الدقيق، لذا فإن أي أداة من نوع معين تضيفها في تبويب Build &mdash; أيًا كان اسمها &mdash; تُشغّل LED المدمج وتطبع ما استقبلته على المنفذ التسلسلي، دون أي تعديل للفيرموير على الإطلاق. إنها طريقة سريعة لرؤية تنسيق قيمة كل نوع أداة أثناء العمل قبل كتابة منطق المشروع الفعلي.
       </div>
       <pre><code>static void handleWidget(const String&amp; id, const String&amp; val) {
   if (id == "btn_test") {                       // the shipped demo button
@@ -277,7 +277,7 @@ if (line.startsWith("SET ")) {
     setLedPercent(val.toInt());                 // 0..100 by default
     return;
   }
-  // ...toggle_, joy_, dpad_, xypad_, timer_ follow the same pattern
+  // ...toggle_, joy_, dpad_, xypad_, timer_, select_, editfield_ follow the same pattern
 }</code></pre>
       <p>استبدل نص <code>if</code> المطابق لنوع الأداة التي تهمك فعليًا بمنطقك الخاص (محركات، حساسات، LED إضافية&hellip;)؛ يمكن أن يبقى تحليل id/val الموجود بالفعل كما هو. لإرسال البيانات في الاتجاه الآخر &mdash; تحديث LED أو تسمية أو مقياس أو رسم بياني أو مؤشر بطارية على الشاشة &mdash; استدعِ المساعد الصغير <code>sendValue(id, val)</code> من أي مكان، والذي يُصدر ببساطة <code>"UPD &lt;id&gt; &lt;val&gt;"</code>:</p>
       <pre><code>static inline void sendValue(const String&amp; id, const String&amp; val) {
@@ -285,9 +285,9 @@ if (line.startsWith("SET ")) {
 }</code></pre>
       <div class="ambox ambox-notice">يحدّ تطبيق rxy على الويب من معدل الرسائل الواردة إلى نحو واحدة كل 200 مللي ثانية. إرسال تحديثات <code>sendValue()</code> أسرع من ذلك لن يُفسد شيئًا، لكن الرسائل الزائدة تُهدر ببساطة &mdash; وتيرة 200 إلى 500 مللي ثانية في كود استطلاع <code>loop()</code> الخاص بك مريحة.</div>
 
-      <h3>عرض توضيحي لأدوات الخرج: LED، تسمية، مقياس، رسم بياني، بطارية</h3>
-      <p>يضم rxy 12 نوع أداة إجمالًا، وليس 7: السبعة أعلاه هي <strong>مدخلات</strong> (تطبيق &rarr; فيرموير، تصل كرسائل <code>SET</code> يمكن لـ<code>handleWidget()</code> مطابقتها بالمعرّف)، لكن هناك أيضًا خمس أدوات <strong>خرج</strong> &mdash; LED، تسمية، مقياس، رسم بياني، وبطارية &mdash; تعمل بالاتجاه المعاكس. أداة الخرج لا ترسل شيئًا أبدًا؛ بل تستقبل فقط ما تدفعه إليها بـ<code>sendValue()</code>. هذا يعني أيضًا أن الفيرموير ليس لديه طريقة لاكتشافها تلقائيًا كما يفعل مع بادئات الإدخال: <code>LAYOUT_CFG_BASE64</code> كتلة معتمة بالنسبة للفيرموير، لذا لا يمكنه رؤية كيف سمّيت أداة المقياس الخاصة بك في تبويب Build.</p>
-      <p>بدلًا من ذلك، يشحن <code>loop()</code> عرضًا توضيحيًا يعمل باستمرار ويدفع بيانات وهمية إلى خمسة معرّفات ثابتة مرة كل ثانية، كلما كان هناك عميل متصل:</p>
+      <h3>عرض توضيحي لأدوات الخرج: LED، تسمية، مقياس، رسم بياني، بطارية، صوت، إشعار</h3>
+      <p>يضم rxy 16 نوع أداة إجمالًا، وليس 9: التسعة أعلاه هي <strong>مدخلات</strong> (تطبيق &rarr; فيرموير، تصل كرسائل <code>SET</code> يمكن لـ<code>handleWidget()</code> مطابقتها بالمعرّف)، لكن هناك أيضًا سبع أدوات <strong>خرج</strong> &mdash; LED، تسمية، مقياس، رسم بياني، بطارية، صوت، وإشعار &mdash; تعمل بالاتجاه المعاكس. أداة الخرج لا ترسل شيئًا أبدًا؛ بل تستقبل فقط ما تدفعه إليها بـ<code>sendValue()</code>. هذا يعني أيضًا أن الفيرموير ليس لديه طريقة لاكتشافها تلقائيًا كما يفعل مع بادئات الإدخال: <code>LAYOUT_CFG_BASE64</code> كتلة معتمة بالنسبة للفيرموير، لذا لا يمكنه رؤية كيف سمّيت أداة المقياس الخاصة بك في تبويب Build.</p>
+      <p>بدلًا من ذلك، يشحن <code>loop()</code> عرضًا توضيحيًا يعمل باستمرار ويدفع بيانات وهمية إلى سبعة معرّفات ثابتة كلما كان هناك عميل متصل &mdash; الخمسة الأولى مرة كل ثانية، أما الصوت والإشعار فكل 5 دورات فقط حتى لا يُغرقا التطبيق (فهما تأثيران يجذبان الانتباه، وليسا بيانات مستمرة):</p>
       <pre><code>static uint32_t lastOutputDemo = 0;
 if (gConnected && now - lastOutputDemo >= 1000) {
   lastOutputDemo = now;
@@ -298,8 +298,12 @@ if (gConnected && now - lastOutputDemo >= 1000) {
   sendValue("gauge_demo",   String((int)temperatureRead()));   // chip temp, °C
   sendValue("graph_demo",   String(demoTick % 100) + "," + String((demoTick * 3) % 100));
   sendValue("battery_demo", String(100 - (demoTick % 100)));   // fake drain 100 -> 0
+  if (demoTick % 5 == 0) {
+    sendValue("sound_demo", "beep");             // beep|success|warn|danger|toggle
+    sendValue("notification_demo", "Hello from ESP32!");
+  }
 }</code></pre>
-      <p>لرؤية أي من هذه مباشرة، أضف أداة من النوع المطابق في تبويب Build وأعطها المعرّف الدقيق (<code>led_demo</code>، <code>label_demo</code>، <code>gauge_demo</code>، <code>graph_demo</code>، أو <code>battery_demo</code>) &mdash; أو عدّل السلاسل في <code>loop()</code> لتطابق المعرّف الذي استخدمته فعليًا. <code>temperatureRead()</code> تقرأ مستشعر الحرارة الداخلي لـESP32-C3، لذا عرض المقياس التوضيحي بيانات حقيقية؛ الأربعة الأخرى اصطناعية، تكفي فقط لرؤية الأداة تتحرك.</p>
+      <p>لرؤية أي من هذه مباشرة، أضف أداة من النوع المطابق في تبويب Build وأعطها المعرّف الدقيق (<code>led_demo</code>، <code>label_demo</code>، <code>gauge_demo</code>، <code>graph_demo</code>، <code>battery_demo</code>، <code>sound_demo</code>، أو <code>notification_demo</code>) &mdash; أو عدّل السلاسل في <code>loop()</code> لتطابق المعرّف الذي استخدمته فعليًا. <code>temperatureRead()</code> تقرأ مستشعر الحرارة الداخلي لـESP32-C3، لذا عرض المقياس التوضيحي بيانات حقيقية؛ البقية اصطناعية، تكفي فقط لرؤية الأداة تتحرك.</p>
 
       <h2 id="postmortem">تشريح ما بعد الحادث: توقف دفعة GETCFG (تم إصلاحه)</h2>
       <p class="hatnote">يروي هذا القسم قصة خطأ حقيقي أوقف نقل التخطيط لفترة طويلة، وكل ما تطلبه الأمر لفهمه فعليًا. ليس ضروريًا لاستخدام الفيرموير &mdash; إنه يوثّق ما لا ينبغي تكراره، ولماذا.</p>
@@ -359,21 +363,25 @@ if (gConnected && now - lastOutputDemo >= 1000) {
         <tr><td>كتابة (تطبيق &rarr; جهاز)</td><td><code>6e400003-b5a3-f393-e0a9-e50e24dcca9e</code></td></tr>
       </table>
 
-      <p>تنسيقات قيم الأدوات &mdash; الأنواع الـ12 كلها:</p>
+      <p>تنسيقات قيم الأدوات &mdash; الأنواع الـ16 كلها:</p>
       <table class="wikitable">
         <tr><th>الاتجاه</th><th>البادئة / المعرّف</th><th>الأداة</th><th>تنسيق القيمة</th><th>العرض التوضيحي المدمج</th></tr>
-        <tr><td rowspan="7">إدخال</td><td><code>btn_</code></td><td>زر</td><td><code>0</code> | <code>1</code></td><td>LED مضاء أثناء الضغط</td></tr>
+        <tr><td rowspan="9">إدخال</td><td><code>btn_</code></td><td>زر</td><td><code>0</code> | <code>1</code></td><td>LED مضاء أثناء الضغط</td></tr>
         <tr><td><code>slider_</code></td><td>شريط تمرير</td><td>عدد صحيح ضمن نطاق الحد الأدنى..الأقصى للأداة</td><td>سطوع LED</td></tr>
         <tr><td><code>toggle_</code></td><td>مفتاح تبديل</td><td><code>0</code> | <code>1</code></td><td>LED تشغيل/إيقاف</td></tr>
         <tr><td><code>joy_</code></td><td>عصا تحكم</td><td><code>&lt;زاوية 0-360&gt; &lt;مسافة 0-100&gt;</code> (0°=يمين، 90°=أسفل، 180°=يسار، 270°=أعلى)</td><td>سطوع = المسافة</td></tr>
         <tr><td><code>dpad_</code></td><td>D-Pad</td><td><code>&lt;up|down|left|right&gt; &lt;0|1&gt;</code></td><td>LED مضاء أثناء الضغط</td></tr>
         <tr><td><code>xypad_</code></td><td>لوحة XY</td><td><code>&lt;x 0-100&gt; &lt;y 0-100&gt;</code></td><td>سطوع = y</td></tr>
         <tr><td><code>timer_</code></td><td>مؤقت</td><td>ثوانٍ منقضية، تُرسل كل نحو 5 ثوانٍ</td><td>LED يومض كل نبضة</td></tr>
-        <tr><td rowspan="5">خرج</td><td><code>led_demo</code></td><td>LED</td><td><code>0</code> | <code>1</code></td><td>يومض كل ثانية</td></tr>
+        <tr><td><code>select_</code></td><td>قائمة اختيار</td><td>نص الخيار المُختار</td><td>LED يتبدّل</td></tr>
+        <tr><td><code>editfield_</code></td><td>حقل نص</td><td>النص المكتوب</td><td>LED يتبدّل</td></tr>
+        <tr><td rowspan="7">خرج</td><td><code>led_demo</code></td><td>LED</td><td><code>0</code> | <code>1</code></td><td>يومض كل ثانية</td></tr>
         <tr><td><code>label_demo</code></td><td>تسمية</td><td>نص حر</td><td>«Tick &lt;n&gt;»</td></tr>
         <tr><td><code>gauge_demo</code></td><td>مقياس</td><td>عدد صحيح</td><td>حرارة الشريحة الفعلية</td></tr>
         <tr><td><code>graph_demo</code></td><td>رسم بياني</td><td>قيم مفصولة بفواصل</td><td>سلسلتان اصطناعيتان</td></tr>
         <tr><td><code>battery_demo</code></td><td>بطارية</td><td>0&ndash;100</td><td>تفريغ وهمي 100&larr;0</td></tr>
+        <tr><td><code>sound_demo</code></td><td>صوت</td><td><code>beep</code>|<code>success</code>|<code>warn</code>|<code>danger</code>|<code>toggle</code></td><td>كل 5 دورات (~5 ثوانٍ)</td></tr>
+        <tr><td><code>notification_demo</code></td><td>إشعار</td><td>نص حر</td><td>كل 5 دورات (~5 ثوانٍ)</td></tr>
       </table>
 
       <h2 id="customising">تخصيص التخطيط</h2>
@@ -431,7 +439,7 @@ if (gConnected && now - lastOutputDemo >= 1000) {
 </div>
 
 <div class="footer-wiki">
-  أُنشئت هذه الصفحة في 30 يوليو 2026 وعُدِّلت آخر مرة في 31 يوليو 2026. المحتوى مُقتبس من README ومن ملاحظات المشروع والكود المصدري للفيرموير لمستودع <a href="https://github.com/abourdim/esp32-rxy">esp32-rxy</a>.
+  أُنشئت هذه الصفحة في 30 يوليو 2026 وعُدِّلت آخر مرة في 1 أغسطس 2026. المحتوى مُقتبس من README ومن ملاحظات المشروع والكود المصدري للفيرموير لمستودع <a href="https://github.com/abourdim/esp32-rxy">esp32-rxy</a>.
 </div>
 
 </body>
