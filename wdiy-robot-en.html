@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WDIY Robot (esp32c3_super_mini_robot-bit-rxy) - Wiki</title>
+<link rel="stylesheet" href="wiki.css">
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-inner">
+    <a class="wiki-logo" href="https://workshop-diy.org"><img src="logo.png" alt="Wiki logo"></a>
+    <a class="masthead-site-link" href="https://workshop-diy.org">workshop-diy.org</a>
+    <div class="masthead-title">
+      Wiki
+      <span class="sub">The free personal knowledge base</span>
+    </div>
+    <div class="masthead-actions">
+      <div class="lang-switch" role="group" aria-label="Language">
+        <a href="wdiy-robot.html" class="lang-switch-btn" title="Français"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="20" height="40" fill="#002395"/><rect x="20" width="20" height="40" fill="#fff"/><rect x="40" width="20" height="40" fill="#ED2939"/></svg></a>
+        <a href="wdiy-robot-en.html" class="lang-switch-btn active" title="English"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="60" height="40" fill="#012169"/><path d="M0 0L60 40M60 0L0 40" stroke="#fff" stroke-width="6.5"/><path d="M0 0L60 40M60 0L0 40" stroke="#C8102E" stroke-width="3.5"/><path d="M30 0V40M0 20H60" stroke="#fff" stroke-width="11"/><path d="M30 0V40M0 20H60" stroke="#C8102E" stroke-width="6.5"/></svg></a>
+        <a href="wdiy-robot-ar.html" class="lang-switch-btn" title="العربية"><svg width="24" height="16" viewBox="0 0 900 600"><defs><clipPath id="glWRen"><rect width="450" height="600"/></clipPath></defs><rect width="450" height="600" fill="#006233"/><rect x="450" width="450" height="600" fill="#FFF"/><g fill="#D21034" transform="translate(450,300)"><circle r="125"/><circle cx="25" r="100" fill="#FFF"/><g clip-path="url(#glWRen)" transform="translate(-450,-300)"><circle cx="475" cy="300" r="100" fill="#006233"/></g><path d="M85-12l22 67h71l-57 42 22 67-58-42-57 42 21-67-57-42h71z"/></g></svg></a>
+      </div>
+      <div class="masthead-search">
+        <input type="text" placeholder="Search Wiki" disabled>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wiki-layout">
+
+  <div class="sidebar">
+    <h3>Navigation</h3>
+    <ul>
+      <li><a href="index.html">Main page</a></li>
+      <li><a href="#">Recent changes</a></li>
+      <li><a href="#">Random page</a></li>
+    </ul>
+    <h3>Categories</h3>
+    <ul>
+      <li><a href="index.html">Electronics</a></li>
+      <li><a href="index.html">ESP32</a></li>
+      <li><a href="index.html">micro:bit</a></li>
+      <li><a href="index.html">Bluetooth</a></li>
+      <li><a href="index.html">Robotics</a></li>
+    </ul>
+    <h3>Tools</h3>
+    <ul>
+      <li><a href="https://github.com/abourdim/esp32c3_super_mini_robot-bit-rxy">View source repo</a></li>
+    </ul>
+  </div>
+
+  <div class="content-wrap">
+    <div class="article-tabs">
+      <span class="active">Article</span>
+      <span>Talk</span>
+    </div>
+
+    <article>
+      <h1 class="page-title">WDIY Robot (esp32c3_super_mini_robot-bit-rxy)</h1>
+
+      <div class="infobox">
+        <div class="infobox-title">WDIY Robot b3</div>
+        <table>
+          <tr><th>Board</th><td>ESP32-C3 Super Mini (RISC-V, native USB-CDC)</td></tr>
+          <tr><th>Chassis</th><td>2-wheel differential drive, continuous-rotation servos</td></tr>
+          <tr><th>Control</th><td><a href="bit-rxy-en.html">bit-rxy web app</a> over Bluetooth Low Energy (unmodified)</td></tr>
+          <tr><th>Build system</th><td>PlatformIO</td></tr>
+          <tr><th>BLE library</th><td>NimBLE-Arduino 2.x</td></tr>
+          <tr><th>Built on</th><td><a href="esp32-rxy-en.html">ESP32-RXY</a> reference pattern</td></tr>
+          <tr><th>Repository</th><td><a href="https://github.com/abourdim/esp32c3_super_mini_robot-bit-rxy">github.com/abourdim/esp32c3_super_mini_robot-bit-rxy</a></td></tr>
+        </table>
+      </div>
+
+      <p class="hatnote">This article covers the <strong>esp32c3_super_mini_robot-bit-rxy</strong> firmware: a small differential-drive robot originally built around the paid RemoteXY app, converted to speak the free, unmodified <a href="bit-rxy-en.html">bit-rxy</a> web app's Bluetooth protocol by following the <a href="esp32-rxy-en.html">ESP32-RXY</a> reference pattern &mdash; a BLE UART service that impersonates a BBC micro:bit closely enough that the app never needs to know it isn't talking to one.</p>
+
+      <div class="ambox ambox-notice">
+        <strong>Why a separate repo instead of editing the original:</strong> <code>esp32c3_super_mini_robot</code> (the RemoteXY original) is left untouched. This repo is a full clone that replaces only the control layer &mdash; everything else (servos, buzzer, NeoPixels, OLED, ultrasonic sensor, battery monitor) is unchanged. This is the sole working directory for all further robot firmware work.
+      </div>
+
+      <div class="toc">
+        <div class="toc-title">Contents</div>
+        <ol>
+          <li><a href="#overview">Overview</a></li>
+          <li><a href="#quickstart">Quick start</a></li>
+          <li><a href="#walkthrough">Step-by-step: clone, flash &amp; test</a></li>
+          <li><a href="#understanding">Understanding the code (for newbies)</a></li>
+          <li><a href="#postmortem">Post-mortem: the joystick flood (fixed)</a></li>
+          <li><a href="#widgets">Widget layout &amp; firmware mapping</a></li>
+          <li><a href="#customising">Customising the layout</a></li>
+          <li><a href="#hardware">Hardware reference</a></li>
+          <li><a href="#troubleshooting">Troubleshooting</a></li>
+        </ol>
+      </div>
+
+      <h2 id="overview">Overview</h2>
+      <p>The robot drives with a virtual joystick or D-Pad, honks a horn button, and reports live speed/distance/battery gauges &mdash; all through widgets built in the <a href="bit-rxy-en.html">bit-rxy</a> drag-and-drop builder and rendered by its Play tab, exactly as if the robot were a real BBC micro:bit running the rxy MakeCode extension. No custom app, no App Store review, no paid tier: any phone or laptop with a Bluetooth-capable browser works.</p>
+      <p>The BLE control layer (<code>03_bit-rxy.cpp</code>/<code>.h</code>) is a near-verbatim port of the <a href="esp32-rxy-en.html">ESP32-RXY</a> reference firmware's protocol handling, adapted to drive this robot's existing servo/sensor/sound subsystems instead of a bare demo LED. Function names were kept identical to the old RemoteXY adapter (<code>remotexy_get_joystick_01_x()</code>, <code>remotexy_set_sound_01()</code>, etc.) specifically so the rest of the firmware &mdash; <code>04_tasks.cpp</code>, the servo driver, the sound task &mdash; never had to change.</p>
+
+      <h2 id="quickstart">Quick start</h2>
+      <pre><code>git clone https://github.com/abourdim/esp32c3_super_mini_robot-bit-rxy.git
+cd esp32c3_super_mini_robot-bit-rxy/01_software/01_app
+./launch.sh flash</code></pre>
+      <p>Then open <a href="https://abourdim.github.io/bit-rxy/">abourdim.github.io/bit-rxy</a>, tap <strong>Connect</strong>, and pick <span class="key-value">diy_app_b3</span> (or <span class="key-value">uBit</span>-prefixed, depending on firmware revision) from the device chooser. The app auto-loads the robot's layout and switches to Play mode.</p>
+
+      <h2 id="walkthrough">Step-by-step: clone, flash &amp; test</h2>
+      <p>This guide takes you from a freshly cloned repo to a robot driving on the desk with every widget verified working. No prior BLE/embedded knowledge assumed.</p>
+
+      <div class="ambox">
+        <strong>Put the robot on blocks before any driving step.</strong> A book under each side, wheels clear of the desk. It is easy to send "forward" and then go looking for the stop control while it drives off the table.
+      </div>
+
+      <h3>1. Clone the repo</h3>
+      <pre><code>git clone https://github.com/abourdim/esp32c3_super_mini_robot-bit-rxy.git
+cd esp32c3_super_mini_robot-bit-rxy/01_software/01_app</code></pre>
+      <p>A robot chassis with two continuous-rotation servos, an ESP32-C3 Super Mini, and a USB-C cable. No external USB-serial adapter is needed &mdash; the C3 uses its native USB-CDC peripheral.</p>
+
+      <h3>2. Flash the firmware</h3>
+      <pre><code>./launch.sh flash</code></pre>
+      <p>One-shot: compiles, uploads, and opens a serial monitor. Behind the scenes this targets <code>env:esp32-c3-devkitm-1</code> with three settings that exist specifically to work around ESP32-C3 native-USB quirks:</p>
+      <table class="wikitable">
+        <tr><th>Setting</th><th>Value</th><th>Why</th></tr>
+        <tr><td><code>upload_speed</code></td><td>115200</td><td>A mid-upload baud-rate switch (the usual 115200&rarr;460800 jump) crashes the native USB-CDC endpoint with "No serial data received".</td></tr>
+        <tr><td><code>upload_flags</code></td><td><code>--no-stub</code></td><td>Handing off from the ROM bootloader to the flasher stub re-enumerates the USB-CDC endpoint mid-upload, dropping the first post-stub command ("Unable to verify flash chip connection"). Staying on the ROM bootloader avoids the re-enumeration entirely &mdash; slower (60&ndash;90s) but reliable.</td></tr>
+        <tr><td><code>monitor_dtr</code> / <code>monitor_rts</code></td><td>0</td><td>Native USB-CDC on the C3 misreads DTR/RTS toggles as "enter download mode" &mdash; opening a monitor with the defaults can reset or disconnect the board instead of just observing it.</td></tr>
+      </table>
+      <p>A healthy boot on the serial monitor (115200 baud) ends with:</p>
+      <pre><code>[BLE] init - device_name: diy_app_b3
+[BLE] service_uuid: 6e400001-b5a3-f393-e0a9-e50e24dcca9e
+[BLE] tx_char_uuid: 6e400002-b5a3-f393-e0a9-e50e24dcca9e (notify)
+[BLE] rx_char_uuid: 6e400003-b5a3-f393-e0a9-e50e24dcca9e (write)
+[BLE] advertising: YES</code></pre>
+
+      <h3>3. Connect from the bit-rxy app</h3>
+      <p>Open <a href="https://abourdim.github.io/bit-rxy/">abourdim.github.io/bit-rxy</a> on a phone or a Bluetooth-capable desktop browser (Chrome/Edge), tap the big <strong>Connect</strong> button, and pick the robot from the device chooser &mdash; it advertises as <span class="key-value">diy_app_b3</span>. Some firmware revisions also answer to a <span class="key-value">uBit</span>-prefixed name, because a handful of BLE dongles refuse to filter/discover devices unless the advertised name matches the exact prefix a real micro:bit uses.</p>
+      <p>Within a second or two of connecting, the app requests the layout (<code>GETCFG</code>), the robot streams it back in base64 chunks, and the app renders the robot's custom widgets &mdash; joystick, D-Pad, horn, two gauges, a battery bar, and a sound alert icon &mdash; then switches to the Play tab automatically.</p>
+      <div class="ambox ambox-success">A successful connect looks like this: the app's connect overlay dismisses within ~1&ndash;2 seconds, the Play tab shows all six widgets (not a blank canvas or a stuck spinner), and the serial monitor prints <code>[BLE] Sent CFG (dropped=0)</code>.</div>
+
+      <h3>4. Drive it</h3>
+      <p>Drag the joystick, or tap the D-Pad arrows &mdash; both drive the same underlying steering state, so whichever you touched most recently wins. Angle 0&deg; is right, 90&deg; is up, 180&deg; is left, 270&deg; is down (standard math convention). Forward on the joystick/D-Pad drives the robot physically forward; releasing (or centering) stops it.</p>
+
+      <h3>5. Test the horn</h3>
+      <p>Tap the Horn button. The robot beeps its buzzer, blinks the NeoPixels green, and pushes a <code>sound_alert</code> event back to the app, which plays a matching tone effect on your phone/laptop speaker &mdash; restoring the sound feedback the original RemoteXY UI had (<code>sound_01</code>), which had no equivalent in bit-rxy until the Sound widget was added specifically for this.</p>
+
+      <h3>6. Watch the gauges</h3>
+      <p>Speed, distance (ultrasonic), and battery percentage update live on their gauge/battery widgets as the robot drives &mdash; these are output-only: the robot pushes <code>UPD</code> messages on a throttled interval, the app never sends anything back for them.</p>
+
+      <h3>7. Test reconnect</h3>
+      <p>Close the browser tab (or walk out of range) and reopen it. The robot's <code>onDisconnect()</code> callback zeroes the steering state (so it can never keep driving unattended) and immediately restarts advertising &mdash; the app should find and reconnect to the same device within a few seconds, re-fetching the layout from scratch.</p>
+
+      <h2 id="understanding">Understanding the code (for newbies)</h2>
+      <p class="hatnote">This section is for anyone who has flashed and driven the robot and now wants to open the source and change something. It assumes no prior embedded/C++ experience. If you only want to drive the robot, you can skip this entirely.</p>
+
+      <h3>The files that matter</h3>
+      <div class="diagram"><pre style="margin:0;border:0;padding:0;background:none;">  01_src.ino            <b>&mdash; setup()/loop(), wires every subsystem together.</b>
+        │
+        ├──▶  03_bit-rxy.cpp/.h  <b>&mdash; the BLE control layer.</b> Everything about talking to
+        │       the bit-rxy app lives here: the GATT service, the GETCFG/CFG handshake,
+        │       parsing incoming SET lines, and the remotexy_get_*/remotexy_set_*
+        │       functions the rest of the firmware calls.
+        │
+        └──▶  04_tasks.cpp     <b>&mdash; the robot's own logic.</b> Reads joystick/dpad state
+                via remotexy_get_joystick_01_x/y(), computes left/right servo speeds,
+                and pushes speed/distance/battery back out on a throttled interval.</pre></div>
+      <p>This split is deliberate: <code>03_bit-rxy.cpp</code> knows nothing about servos or sound, and <code>04_tasks.cpp</code> knows nothing about Bluetooth &mdash; they only ever talk through the small <code>remotexy_get_*()</code>/<code>remotexy_set_*()</code> function API, kept identical to the old RemoteXY adapter so that porting the transport didn't require touching the robot logic at all.</p>
+
+      <h3>The layout: readable JSON, shipped as base64</h3>
+      <p>The app's <code>GETCFG</code>/<code>CFG</code> protocol only understands base64-encoded, minified JSON &mdash; but hand-editing a base64 blob is a bad time. <code>03_bit-rxy.cpp</code> keeps the actual, readable JSON as a comment directly above the encoded constant it describes:</p>
+      <pre><code>// {
+//   "schemaVersion": 1,
+//   "title": "WDIY Robot b3",
+//   "widgets": [
+//     {"id":"joy_drive","t":"joystick","x":20,"y":20,"w":140,"h":140,"label":"Drive","model":"classic"},
+//     {"id":"btn_horn","t":"button","x":200,"y":50,"w":100,"h":100,"label":"Horn","model":"neo"},
+//     {"id":"dpad_drive","t":"dpad", ...},
+//     {"id":"gauge_speed","t":"gauge", ...},
+//     {"id":"gauge_distance","t":"gauge", ...},
+//     {"id":"battery_level","t":"battery", ...},
+//     {"id":"sound_alert","t":"sound", ...}
+//   ]
+// }
+static const char* LAYOUT_CFG_BASE64 =
+  "eyJzY2hlbWFWZXJzaW9uIjoxLCJ0aXRsZSI6IldESVkgUm9ib3QgYjMiLCJ3aWRnZXRzIjpb"
+  ...</code></pre>
+      <p>Edit the JSON, then regenerate the base64 constant with <code>layout_cfg.sh</code> (see <a href="#customising">Customising the layout</a>) rather than editing the base64 by hand.</p>
+
+      <h3>How a connection becomes a layout on screen</h3>
+      <p>Identical hand-off to the <a href="esp32-rxy-en.html#understanding">ESP32-RXY reference firmware</a>, because this code was ported directly from it:</p>
+      <div class="diagram"><pre style="margin:0;border:0;padding:0;background:none;">  App writes "GETCFG\n" to the RX characteristic
+       │
+       ▼
+  onWrite() (NimBLE's own host task) buffers bytes until '\n', calls handleLine()
+       │
+       ▼
+  handleLine(): line == "GETCFG" → s_getCfgRequested = true;  return immediately
+       │           (no burst runs here — see the post-mortem below for why that matters)
+       ▼
+  remotexy_handler(), called every loop(): if (s_getCfgRequested) sendCfg();
+       │           (runs on the ordinary Arduino main task)
+       ▼
+  sendCfg(): delay(300ms) so the fast-connection-interval request has landed,
+             sendLine("CFGBEGIN"),
+             for each 18-char chunk of LAYOUT_CFG_BASE64: sendLine("CFG " + chunk); delay(50ms)
+             sendLine("CFGEND")
+       │
+       ▼
+  App concatenates the CFG chunks, base64-decodes, JSON.parses, renders the widgets</pre></div>
+      <p>Two details differ from the plain reference firmware, both because this robot also runs FastLED/OLED/Servo alongside NimBLE, leaving less buffer headroom:</p>
+      <ul>
+        <li><strong>50&nbsp;ms between chunks instead of 15&nbsp;ms.</strong> The reference firmware's faster rate starved this robot's NimBLE notify buffer pool (<code>rc=6</code> / <code>BLE_HS_ENOMEM</code>) because of the extra peripherals competing for CPU time.</li>
+        <li><strong>A 300&nbsp;ms delay at the start of <code>sendCfg()</code>.</strong> <code>onConnect()</code> requests a fast connection interval via <code>updateConnParams()</code>, but that negotiation with the phone/laptop takes a round trip or more to actually land. The app sends <code>GETCFG</code> almost immediately after connecting, so without this delay the ~60-chunk burst starts on the slower default interval, which can't drain the notify buffer pool fast enough.</li>
+      </ul>
+
+      <h3>Reading incoming lines &amp; wiring up widgets</h3>
+      <p><code>handleLine()</code> recognises two shapes &mdash; the bare string <code>GETCFG</code>, and lines starting with <code>SET &lt;id&gt; &lt;value&gt;</code>, which it splits and passes to <code>handleWidget(id, val)</code>:</p>
+      <pre><code>static void handleWidget(const String&amp; id, const String&amp; val) {
+  if (id == "joy_drive")   { handleJoystick(val); return; }
+  if (id == "dpad_drive")  { handleDpad(val); return; }
+  if (id == "btn_horn")    { s_button_01 = (val == "1") ? 1 : 0; return; }
+}</code></pre>
+      <p>Unlike the reference firmware's prefix-matching demo (any <code>btn_*</code> drives the same LED), this robot matches exact widget IDs, because each one drives a specific, different piece of hardware. Add a new input widget in the Build tab, and you must also add an exact-ID branch here to wire it to something.</p>
+
+      <h3>The joystick/D-Pad angle convention</h3>
+      <p>The joystick sends <code>"&lt;angle&gt; &lt;distance&gt;"</code>, angle in standard math convention (0&deg;=right, 90&deg;=up, 180&deg;=left, 270&deg;=down &mdash; confirmed by reading the app's own <code>script.js</code>, not assumed):</p>
+      <pre><code>float rad = angleDeg * PI / 180.0f;
+s_joy_x = constrain(round(dist * cos(rad)), -100, 100);
+// Negated: forward/back on this chassis turned out to be the mirror of
+// the joystick's up/down sense — turning (x) was already correct.
+s_joy_y = constrain(round(-dist * sin(rad)), -100, 100);</code></pre>
+      <p>The D-Pad has no angle/distance &mdash; it sends discrete <code>"&lt;up|down|left|right&gt; &lt;0|1&gt;"</code> press/release events, so <code>handleDpad()</code> tracks which of the four directions are currently held and combines them into the same x/y pair at a fixed magnitude, applying the identical y-axis mirror.</p>
+
+      <h3>From steering state to servo pulses</h3>
+      <p><code>tasks_joysticks()</code> in <code>04_tasks.cpp</code> runs every <code>loop()</code> iteration, reads <code>s_joy_x</code>/<code>s_joy_y</code> through the <code>remotexy_get_*()</code> API, and arcade-mixes them into per-wheel speed:</p>
+      <pre><code>int leftSpeed  = y + x;  // forward/back + turn
+int rightSpeed = y - x;
+int leftPulse  = map(leftSpeed,  -100, 100, 0, 180);
+// Right wheel is mounted as a mirror image of the left one, so the same
+// rightSpeed sign needs an inverted pulse range to spin the same physical way.
+int rightPulse = map(rightSpeed, -100, 100, 180, 0);
+moveServos(leftPulse + CONFIG_SERVO_SPEED_STOP_LEFT_OFFSET,
+           rightPulse + CONFIG_SERVO_SPEED_STOP_RIGHT_OFFSET);</code></pre>
+
+      <h2 id="postmortem">Post-mortem: the joystick flood (fixed)</h2>
+      <p>Getting BLE working reliably took three separate fix attempts, because the actual root cause was mis-diagnosed twice before it was found.</p>
+      <table class="wikitable">
+        <tr><th>Attempt</th><th>Theory</th><th>Result</th></tr>
+        <tr><td>1</td><td>The <code>GETCFG</code>-burst-inside-<code>onWrite()</code> bug, ported from the <a href="esp32-rxy-en.html#postmortem">ESP32-RXY reference firmware's</a> own documented post-mortem.</td><td>A real bug, correctly fixed (see the <code>s_getCfgRequested</code> flag above) &mdash; but not sufficient on its own. <code>rc=6</code>/<code>BLE_HS_ENOMEM</code> kept happening.</td></tr>
+        <tr><td>2</td><td>Continuously-running servo PWM hardware starving the radio.</td><td>Wrong &mdash; disabling servo <code>attach()</code> entirely did not fix it either.</td></tr>
+        <tr><td>3</td><td>Line-by-line re-read of <code>04_tasks.cpp</code> found it: <code>tasks_joysticks()</code> called <code>remotexy_set_onlineGraph_02_speed()</code> &mdash; a BLE <code>notify()</code> send &mdash; on <em>every single</em> <code>loop()</code> iteration, completely unthrottled.</td><td>Confirmed root cause. <code>loop()</code> runs thousands of times per second; flooding <code>notify()</code> at that rate starves NimBLE's own mbuf pool regardless of what else is or isn't happening.</td></tr>
+      </table>
+      <p>The fix: <code>tasks_joysticks()</code> now only stashes the computed value in a global, <code>g_joystick_speed_pct</code>; the actual BLE send moved to <code>tasks_remotexy()</code>, which already runs on an explicitly throttled interval alongside the distance and battery updates:</p>
+      <pre><code>// tasks_joysticks() — every loop(), no BLE call:
+g_joystick_speed_pct = max_x_y;
+
+// tasks_remotexy() — throttled interval, does the actual sending:
+void tasks_remotexy(void) {
+  remotexy_set_onlineGraph_01_distance(g_ultrasonic_distance_cm);
+  remotexy_set_onlineGraph_02_speed(g_joystick_speed_pct);
+  remotexy_set_onlineGraph_03_battery(g_battery_percentage);
+}</code></pre>
+      <div class="ambox ambox-notice">
+        <strong>The general lesson:</strong> the "never call a BLE send synchronously from a fast-running task" rule from the reference firmware's own post-mortem isn't just about <code>onWrite()</code> &mdash; it applies to <em>any</em> unthrottled call site, including the ordinary Arduino <code>loop()</code>. If you add your own periodic <code>sendValue()</code> call, throttle it explicitly (a <code>millis()</code>-gated interval, or piggyback on <code>tasks_remotexy()</code>'s existing one) rather than calling it every iteration.
+      </div>
+
+      <h2 id="widgets">Widget layout &amp; firmware mapping</h2>
+      <table class="wikitable">
+        <tr><th>Widget ID</th><th>Type</th><th>Direction</th><th>Firmware hook</th></tr>
+        <tr><td><code>joy_drive</code></td><td>Joystick</td><td>app &rarr; robot</td><td><code>handleJoystick()</code> &rarr; <code>s_joy_x</code>/<code>s_joy_y</code></td></tr>
+        <tr><td><code>dpad_drive</code></td><td>D-Pad</td><td>app &rarr; robot</td><td><code>handleDpad()</code> &rarr; same <code>s_joy_x</code>/<code>s_joy_y</code> (whichever widget was touched most recently wins)</td></tr>
+        <tr><td><code>btn_horn</code></td><td>Button</td><td>app &rarr; robot</td><td><code>s_button_01</code> &rarr; buzzer + green NeoPixel blink + <code>sound_alert</code> reply</td></tr>
+        <tr><td><code>gauge_speed</code></td><td>Gauge (0&ndash;100%)</td><td>robot &rarr; app</td><td><code>remotexy_set_onlineGraph_02_speed()</code>, fed by <code>g_joystick_speed_pct</code></td></tr>
+        <tr><td><code>gauge_distance</code></td><td>Gauge (0&ndash;200cm)</td><td>robot &rarr; app</td><td><code>remotexy_set_onlineGraph_01_distance()</code>, fed by the HC-SR04 ultrasonic sensor</td></tr>
+        <tr><td><code>battery_level</code></td><td>Battery</td><td>robot &rarr; app</td><td><code>remotexy_set_onlineGraph_03_battery()</code>, fed by the battery ADC</td></tr>
+        <tr><td><code>sound_alert</code></td><td>Sound</td><td>robot &rarr; app</td><td><code>remotexy_set_sound_01()</code> &mdash; maps RemoteXY's old sound-ID catalog onto bit-rxy's 5 tone effects (see below)</td></tr>
+      </table>
+
+      <h3>Sound mapping: RemoteXY's catalog &rarr; bit-rxy's 5 effects</h3>
+      <p>The original RemoteXY UI used a large library of named sound-effect IDs (<code>REMOTEXY_SOUND_ALARM</code>, <code>_CONFIRM</code>, <code>_CHIME</code>, and so on, from <code>07_sounds.h</code>). bit-rxy's Sound widget only knows 5 short tone effects, so <code>remotexy_set_sound_01()</code> groups the old catalog down to the closest match:</p>
+      <table class="wikitable">
+        <tr><th>bit-rxy effect</th><th>Old RemoteXY IDs it replaces</th></tr>
+        <tr><td><code>success</code></td><td><code>SUCCESS</code>, <code>SUCCESS_ALT</code>, <code>SUCCESS_BEEP</code>, <code>POWER_ON</code>, <code>CONFIRM</code>, <code>CHIME</code></td></tr>
+        <tr><td><code>warn</code></td><td><code>WARNING</code>, <code>TIMER</code>, <code>COUNTDOWN</code></td></tr>
+        <tr><td><code>danger</code></td><td><code>ERROR</code>, <code>CRITICAL</code>, <code>ALARM</code>, <code>FAILURE</code>, <code>ERROR_BEEP</code></td></tr>
+        <tr><td><code>toggle</code></td><td><code>DOUBLE_BEEP</code>, <code>SELECT</code></td></tr>
+        <tr><td><code>beep</code> (default)</td><td>everything else &mdash; <code>BEEP</code>, <code>BEEP_SHORT</code>, <code>BEEP_LONG</code>, <code>CLICK</code>, <code>TAP</code>, etc.</td></tr>
+      </table>
+      <p><code>p_sound_01 == 0</code> is <code>tasks_rmotexy_sound()</code>'s own periodic "no sound" reset value and must not itself trigger a tone &mdash; guarded with an early <code>return</code> at the top of the function.</p>
+
+      <h2 id="customising">Customising the layout</h2>
+      <p>Never hand-edit the base64 constant. Instead, use <code>layout_cfg.sh</code> in <code>01_software/01_app/</code>:</p>
+      <pre><code># extract the current layout as pretty-printed JSON
+./layout_cfg.sh decode 01_src/03_bit-rxy.cpp
+
+# after editing the JSON, re-encode and get the base64 back
+./layout_cfg.sh encode my_layout.json</code></pre>
+      <p><code>decode</code> pulls the <code>LAYOUT_CFG_BASE64</code> string literal straight out of the <code>.cpp</code> file (no need to keep the JSON comment and the base64 constant in sync by hand while iterating), base64-decodes it, and pretty-prints it with <code>python3 -m json.tool</code>. <code>encode</code> does the reverse: minifies the JSON (matching the app's own separator convention, <code>separators=(',',':')</code>), base64-encodes it, and folds the output into 72-character lines ready to paste back into the source as chunked string-literal rows &mdash; the same shape as the existing constant.</p>
+      <div class="ambox ambox-notice">
+        After changing the layout, update <em>both</em> the readable JSON comment above <code>LAYOUT_CFG_BASE64</code> and the constant itself, and add a matching exact-ID branch in <code>handleWidget()</code> for any new input widget &mdash; the layout and the code that reacts to it are two separate places that must be kept in sync by hand.
+      </div>
+
+      <h2 id="hardware">Hardware reference</h2>
+      <table class="wikitable">
+        <tr><th>Function</th><th>GPIO</th></tr>
+        <tr><td>Left servo</td><td>6</td></tr>
+        <tr><td>Right servo</td><td>3</td></tr>
+        <tr><td>Debug button</td><td>0</td></tr>
+        <tr><td>Buzzer</td><td>4</td></tr>
+        <tr><td>Battery level (ADC)</td><td>4 (shared)</td></tr>
+        <tr><td>NeoPixel data</td><td>5 (on-board) / 10 (external strip)</td></tr>
+        <tr><td>OLED SDA / SCL</td><td>8 / 9</td></tr>
+        <tr><td>HC-SR04 trig / echo</td><td>21 / 20</td></tr>
+        <tr><td>Status LEDs (red / green)</td><td>10 / 1</td></tr>
+      </table>
+      <p>Servo center/stop points and trim offsets live in <code>00_config.h</code> as <code>CONFIG_SERVO_SPEED_STOP_LEFT</code>/<code>_RIGHT</code> (default 90&deg;, i.e. no rotation for a continuous-rotation servo) plus small <code>_OFFSET</code> corrections for servos that don't sit dead-center at 90&deg;.</p>
+
+      <h2 id="troubleshooting">Troubleshooting</h2>
+      <table class="wikitable">
+        <tr><th>Symptom</th><th>Cause / fix</th></tr>
+        <tr><td>Upload fails with "No serial data received"</td><td>A mid-upload baud-rate switch crashed the native USB-CDC endpoint. Confirm <code>upload_speed = 115200</code> in <code>platformio.ini</code> &mdash; do not raise it.</td></tr>
+        <tr><td>Upload fails with "Unable to verify flash chip connection"</td><td>The flasher stub hand-off re-enumerated the USB-CDC endpoint mid-upload. Confirm <code>upload_flags = --no-stub</code> is present.</td></tr>
+        <tr><td><code>pio device monitor</code> resets or drops the board on open</td><td>DTR/RTS toggles are being misread as "enter download mode". Confirm <code>monitor_dtr = 0</code> / <code>monitor_rts = 0</code>.</td></tr>
+        <tr><td>Connects, shows the device name, but the layout never loads / disconnects shortly after</td><td>Classic <code>rc=6</code>/<code>BLE_HS_ENOMEM</code> symptom &mdash; some code path is flooding <code>notify()</code> faster than the connection interval can drain it. See <a href="#postmortem">Post-mortem</a> above; check any new periodic <code>sendValue()</code> call you may have added for missing throttling.</td></tr>
+        <tr><td>Joystick "up" turns the robot instead of driving straight, or forward/back feels reversed</td><td>Angle convention or the y-axis mirror was undone by an edit. Re-check <a href="#understanding">the joystick/D-Pad angle convention</a> section &mdash; 0&deg;=right/90&deg;=up is standard math convention, not the "90&deg;=down" some older reference comments claim.</td></tr>
+        <tr><td>Horn button does nothing on the phone speaker</td><td>Confirm the layout JSON's <code>sound_alert</code> widget is actually present in what the app rendered (not clipped off-canvas) &mdash; bit-rxy versions before the DOM-dependency fix silently dropped Sound/Notification updates for widgets with no visible on-canvas element.</td></tr>
+        <tr><td>Board resets into ROM download mode unexpectedly</td><td>GPIO 9 is also the C3's BOOT strapping pin on some board variants &mdash; avoid wiring anything that could pull it low during power-on/reset.</td></tr>
+      </table>
+
+      <div class="catlinks">
+        Categories: <a href="index.html">Electronics</a> | <a href="index.html">ESP32</a> | <a href="index.html">micro:bit</a> | <a href="index.html">Bluetooth</a> | <a href="index.html">Robotics</a>
+      </div>
+    </article>
+  </div>
+</div>
+
+<div class="footer-wiki">
+  This page was created on 1 August 2026 and last edited on 1 August 2026. Content adapted from the <a href="https://github.com/abourdim/esp32c3_super_mini_robot-bit-rxy">esp32c3_super_mini_robot-bit-rxy</a> repository source and the <a href="esp32-rxy-en.html">ESP32-RXY</a> reference article.
+</div>
+
+</body>
+</html>

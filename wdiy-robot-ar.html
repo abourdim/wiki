@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WDIY Robot (esp32c3_super_mini_robot-bit-rxy) - Wiki</title>
+<link rel="stylesheet" href="wiki.css">
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-inner">
+    <a class="wiki-logo" href="https://workshop-diy.org"><img src="logo.png" alt="شعار الويكي"></a>
+    <a class="masthead-site-link" href="https://workshop-diy.org">workshop-diy.org</a>
+    <div class="masthead-title">
+      Wiki
+      <span class="sub">قاعدة المعرفة الشخصية المجانية</span>
+    </div>
+    <div class="masthead-actions">
+      <div class="lang-switch" role="group" aria-label="اللغة">
+        <a href="wdiy-robot.html" class="lang-switch-btn" title="Français"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="20" height="40" fill="#002395"/><rect x="20" width="20" height="40" fill="#fff"/><rect x="40" width="20" height="40" fill="#ED2939"/></svg></a>
+        <a href="wdiy-robot-en.html" class="lang-switch-btn" title="English"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="60" height="40" fill="#012169"/><path d="M0 0L60 40M60 0L0 40" stroke="#fff" stroke-width="6.5"/><path d="M0 0L60 40M60 0L0 40" stroke="#C8102E" stroke-width="3.5"/><path d="M30 0V40M0 20H60" stroke="#fff" stroke-width="11"/><path d="M30 0V40M0 20H60" stroke="#C8102E" stroke-width="6.5"/></svg></a>
+        <a href="wdiy-robot-ar.html" class="lang-switch-btn active" title="العربية"><svg width="24" height="16" viewBox="0 0 900 600"><defs><clipPath id="glWRar"><rect width="450" height="600"/></clipPath></defs><rect width="450" height="600" fill="#006233"/><rect x="450" width="450" height="600" fill="#FFF"/><g fill="#D21034" transform="translate(450,300)"><circle r="125"/><circle cx="25" r="100" fill="#FFF"/><g clip-path="url(#glWRar)" transform="translate(-450,-300)"><circle cx="475" cy="300" r="100" fill="#006233"/></g><path d="M85-12l22 67h71l-57 42 22 67-58-42-57 42 21-67-57-42h71z"/></g></svg></a>
+      </div>
+      <div class="masthead-search">
+        <input type="text" placeholder="ابحث في الويكي" disabled>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wiki-layout">
+
+  <div class="sidebar">
+    <h3>التصفح</h3>
+    <ul>
+      <li><a href="index.html">الصفحة الرئيسية</a></li>
+      <li><a href="#">التغييرات الأخيرة</a></li>
+      <li><a href="#">صفحة عشوائية</a></li>
+    </ul>
+    <h3>التصنيفات</h3>
+    <ul>
+      <li><a href="index.html">الإلكترونيات</a></li>
+      <li><a href="index.html">ESP32</a></li>
+      <li><a href="index.html">micro:bit</a></li>
+      <li><a href="index.html">البلوتوث</a></li>
+      <li><a href="index.html">الروبوتات</a></li>
+    </ul>
+    <h3>أدوات</h3>
+    <ul>
+      <li><a href="https://github.com/abourdim/esp32c3_super_mini_robot-bit-rxy">عرض مستودع الكود المصدري</a></li>
+    </ul>
+  </div>
+
+  <div class="content-wrap">
+    <div class="article-tabs">
+      <span class="active">مقالة</span>
+      <span>نقاش</span>
+    </div>
+
+    <article>
+      <h1 class="page-title">WDIY Robot (esp32c3_super_mini_robot-bit-rxy)</h1>
+
+      <div class="infobox">
+        <div class="infobox-title">WDIY Robot b3</div>
+        <table>
+          <tr><th>اللوحة</th><td>ESP32-C3 Super Mini (RISC-V، USB-CDC أصلي)</td></tr>
+          <tr><th>الهيكل</th><td>دفع تفاضلي بعجلتين، سيرفوهات دوران مستمر</td></tr>
+          <tr><th>التحكم</th><td>تطبيق <a href="bit-rxy-ar.html">bit-rxy</a> على الويب عبر البلوتوث منخفض الطاقة (غير مُعدَّل)</td></tr>
+          <tr><th>نظام البناء</th><td>PlatformIO</td></tr>
+          <tr><th>مكتبة BLE</th><td>NimBLE-Arduino 2.x</td></tr>
+          <tr><th>مبني على</th><td>نمط <a href="esp32-rxy-ar.html">ESP32-RXY</a> المرجعي</td></tr>
+          <tr><th>المستودع</th><td><a href="https://github.com/abourdim/esp32c3_super_mini_robot-bit-rxy">github.com/abourdim/esp32c3_super_mini_robot-bit-rxy</a></td></tr>
+        </table>
+      </div>
+
+      <p class="hatnote">تتناول هذه المقالة فيرموير <strong>esp32c3_super_mini_robot-bit-rxy</strong>: روبوت صغير بدفع تفاضلي، بُني في الأصل حول تطبيق RemoteXY المدفوع، ثم تم تحويله ليتحدث بروتوكول البلوتوث الخاص بتطبيق <a href="bit-rxy-ar.html">bit-rxy</a> على الويب المجاني وغير المُعدَّل، باتباع نمط <a href="esp32-rxy-ar.html">ESP32-RXY</a> المرجعي &mdash; خدمة BLE UART تنتحل شخصية BBC micro:bit بدقة كافية بحيث لا يحتاج التطبيق أبدًا لمعرفة أنه لا يتحدث إلى واحد حقيقي.</p>
+
+      <div class="ambox ambox-notice">
+        <strong>لماذا مستودع منفصل بدلًا من تعديل الأصلي:</strong> يبقى <code>esp32c3_super_mini_robot</code> (أصل RemoteXY) دون تغيير. هذا المستودع نسخة كاملة تستبدل فقط طبقة التحكم &mdash; كل شيء آخر (السيرفوهات، الجرس، NeoPixels، شاشة OLED، مستشعر الموجات فوق الصوتية، مراقب البطارية) لم يتغير. هذا هو الآن دليل العمل الوحيد لأي تطوير مستقبلي لفيرموير الروبوت.
+      </div>
+
+      <div class="toc">
+        <div class="toc-title">المحتويات</div>
+        <ol>
+          <li><a href="#overview">نظرة عامة</a></li>
+          <li><a href="#quickstart">البدء السريع</a></li>
+          <li><a href="#walkthrough">خطوة بخطوة: الاستنساخ والتحميل والاختبار</a></li>
+          <li><a href="#understanding">فهم الكود (للمبتدئين)</a></li>
+          <li><a href="#postmortem">تشريح ما بعد الحادث: إغراق العصا (تم إصلاحه)</a></li>
+          <li><a href="#widgets">تخطيط الأدوات ومطابقتها مع الفيرموير</a></li>
+          <li><a href="#customising">تخصيص التخطيط</a></li>
+          <li><a href="#hardware">مرجع العتاد</a></li>
+          <li><a href="#troubleshooting">حل المشكلات</a></li>
+        </ol>
+      </div>
+
+      <h2 id="overview">نظرة عامة</h2>
+      <p>يُقاد الروبوت بعصا تحكم افتراضية أو لوحة اتجاهات (D-Pad)، ويُطلق بوق التنبيه عبر زر Horn، ويعرض قراءات حية للسرعة والمسافة والبطارية &mdash; كل ذلك عبر أدوات (widgets) بُنيت في محرر السحب والإفلات الخاص بـ<a href="bit-rxy-ar.html">bit-rxy</a> وتُعرض في تبويب التشغيل الخاص به، تمامًا كما لو كان الروبوت micro:bit حقيقيًا يشغّل امتداد MakeCode الخاص بـrxy. لا تطبيق مخصص، لا مراجعة من متجر التطبيقات، لا طبقة مدفوعة: أي هاتف أو حاسوب محمول بمتصفح يدعم البلوتوث يعمل.</p>
+      <p>طبقة التحكم عبر BLE (<code>03_bit-rxy.cpp</code>/<code>.h</code>) هي نقل شبه حرفي لمعالجة البروتوكول في فيرموير <a href="esp32-rxy-ar.html">ESP32-RXY</a> المرجعي، مُكيّف لتشغيل الأنظمة الفرعية الموجودة مسبقًا في هذا الروبوت (السيرفو، المستشعرات، الصوت) بدلًا من LED تجريبي بسيط. حُفظت أسماء الدوال مطابقة لمحول RemoteXY القديم (<code>remotexy_get_joystick_01_x()</code>, <code>remotexy_set_sound_01()</code>, إلخ) تحديدًا حتى لا يحتاج بقية الفيرموير &mdash; <code>04_tasks.cpp</code>، مُشغّل السيرفو، مهمة الصوت &mdash; للتغيير إطلاقًا.</p>
+
+      <h2 id="quickstart">البدء السريع</h2>
+      <pre><code>git clone https://github.com/abourdim/esp32c3_super_mini_robot-bit-rxy.git
+cd esp32c3_super_mini_robot-bit-rxy/01_software/01_app
+./launch.sh flash</code></pre>
+      <p>ثم افتح <a href="https://abourdim.github.io/bit-rxy/">abourdim.github.io/bit-rxy</a>، اضغط <strong>Connect</strong>، واختر <span class="key-value">diy_app_b3</span> (أو المُبدوء بـ<span class="key-value">uBit</span>، حسب نسخة الفيرموير) من منتقي الأجهزة. يُحمّل التطبيق تخطيط الروبوت تلقائيًا وينتقل إلى وضع التشغيل.</p>
+
+      <h2 id="walkthrough">خطوة بخطوة: الاستنساخ والتحميل والاختبار</h2>
+      <p>يأخذك هذا الدليل من مستودع تم استنساخه للتو إلى روبوت يسير على المكتب مع التحقق من عمل كل أداة. لا يفترض أي معرفة سابقة بـBLE أو الأنظمة المدمجة.</p>
+
+      <div class="ambox">
+        <strong>ضع الروبوت على دعامات قبل أي خطوة قيادة.</strong> كتاب تحت كل جانب، والعجلات بعيدة عن سطح المكتب. من السهل إرسال أمر «للأمام» ثم البحث عن أمر التوقف بينما يسير خارج الطاولة.
+      </div>
+
+      <h3>1. استنساخ المستودع</h3>
+      <pre><code>git clone https://github.com/abourdim/esp32c3_super_mini_robot-bit-rxy.git
+cd esp32c3_super_mini_robot-bit-rxy/01_software/01_app</code></pre>
+      <p>هيكل روبوت بسيرفوهات دوران مستمر، ESP32-C3 Super Mini، وكابل USB-C. لا حاجة لمحول USB-تسلسلي خارجي &mdash; يستخدم C3 طرفية USB-CDC الأصلية الخاصة به.</p>
+
+      <h3>2. تحميل الفيرموير</h3>
+      <pre><code>./launch.sh flash</code></pre>
+      <p>أمر واحد: يُترجم، يُحمّل، ويفتح مراقبًا تسلسليًا. خلف الكواليس يستهدف هذا <code>env:esp32-c3-devkitm-1</code> بثلاثة إعدادات موجودة تحديدًا لتجاوز خصائص USB الأصلي في ESP32-C3:</p>
+      <table class="wikitable">
+        <tr><th>الإعداد</th><th>القيمة</th><th>السبب</th></tr>
+        <tr><td><code>upload_speed</code></td><td>115200</td><td>تبديل سرعة البود في منتصف التحميل (القفزة المعتادة 115200&larr;460800) يُعطّل طرفية USB-CDC الأصلية برسالة «No serial data received».</td></tr>
+        <tr><td><code>upload_flags</code></td><td><code>--no-stub</code></td><td>تسليم التحكم من محمّل الإقلاع ROM إلى ستَب برنامج التحميل يُعيد تعداد طرفية USB-CDC في منتصف التحميل، فتضيع أول أمر بعد الستَب («Unable to verify flash chip connection»). البقاء على محمّل الإقلاع ROM يتجنب إعادة التعداد كليًا &mdash; أبطأ (60&ndash;90 ثانية) لكن موثوق.</td></tr>
+        <tr><td><code>monitor_dtr</code> / <code>monitor_rts</code></td><td>0</td><td>يُسيء USB-CDC الأصلي في C3 تفسير تبديلات DTR/RTS على أنها «الدخول في وضع التحميل» &mdash; فتح مراقب بالإعدادات الافتراضية قد يُعيد ضبط اللوحة أو يفصلها بدلًا من مجرد مراقبتها.</td></tr>
+      </table>
+      <p>يُنهي الإقلاع السليم على المراقب التسلسلي (115200 بود) بـ:</p>
+      <pre><code>[BLE] init - device_name: diy_app_b3
+[BLE] service_uuid: 6e400001-b5a3-f393-e0a9-e50e24dcca9e
+[BLE] tx_char_uuid: 6e400002-b5a3-f393-e0a9-e50e24dcca9e (notify)
+[BLE] rx_char_uuid: 6e400003-b5a3-f393-e0a9-e50e24dcca9e (write)
+[BLE] advertising: YES</code></pre>
+
+      <h3>3. الاتصال من تطبيق bit-rxy</h3>
+      <p>افتح <a href="https://abourdim.github.io/bit-rxy/">abourdim.github.io/bit-rxy</a> على هاتف أو متصفح حاسوب مكتبي يدعم البلوتوث (Chrome/Edge)، اضغط زر <strong>Connect</strong> الكبير، واختر الروبوت من منتقي الأجهزة &mdash; يُعلن عن نفسه باسم <span class="key-value">diy_app_b3</span>. بعض نسخ الفيرموير تستجيب أيضًا لاسم مُبدوء بـ<span class="key-value">uBit</span>، لأن بعض دنغلات BLE ترفض فلترة/اكتشاف الأجهزة ما لم يطابق الاسم المُعلَن بالضبط البادئة التي يستخدمها micro:bit حقيقي.</p>
+      <p>خلال ثانية أو ثانيتين من الاتصال، يطلب التطبيق التخطيط (<code>GETCFG</code>)، يبثه الروبوت مرة أخرى في قطع base64، ويعرض التطبيق أدوات الروبوت المخصصة &mdash; عصا التحكم، لوحة الاتجاهات، البوق، جهازا قياس، شريط بطارية، وأيقونة تنبيه صوتي &mdash; ثم ينتقل تلقائيًا إلى تبويب التشغيل.</p>
+      <div class="ambox ambox-success">يبدو الاتصال الناجح كالتالي: تختفي طبقة الاتصال في التطبيق خلال ~1&ndash;2 ثانية، ويعرض تبويب التشغيل الأدوات الستة (وليس لوحة فارغة أو مؤشر تحميل عالق)، ويطبع المراقب التسلسلي <code>[BLE] Sent CFG (dropped=0)</code>.</div>
+
+      <h3>4. قيادته</h3>
+      <p>اسحب عصا التحكم، أو اضغط أسهم لوحة الاتجاهات &mdash; كلاهما يقود نفس حالة التوجيه الأساسية، لذا أيهما لُمس مؤخرًا هو الذي يفوز. الزاوية 0° هي اليمين، 90° للأعلى، 180° لليسار، 270° للأسفل (الاصطلاح الرياضي القياسي). الأمام في عصا التحكم/لوحة الاتجاهات يُحرك الروبوت للأمام فعليًا؛ الإفلات (أو التوسيط) يوقفه.</p>
+
+      <h3>5. اختبار البوق</h3>
+      <p>اضغط زر Horn. يُصدر الروبوت صوت الجرس، يُومض NeoPixels باللون الأخضر، ويُرسل حدث <code>sound_alert</code> إلى التطبيق، الذي يُشغّل مؤثرًا صوتيًا مطابقًا على سماعة هاتفك/حاسوبك &mdash; مُعيدًا التغذية الراجعة الصوتية التي كانت واجهة RemoteXY الأصلية تملكها (<code>sound_01</code>)، والتي لم يكن لها مكافئ في bit-rxy حتى أُضيفت أداة Sound تحديدًا لهذا الغرض.</p>
+
+      <h3>6. مراقبة أجهزة القياس</h3>
+      <p>تتحدث السرعة والمسافة (بالموجات فوق الصوتية) ونسبة البطارية مباشرة على أدوات القياس/البطارية بينما يسير الروبوت &mdash; هذه أدوات إخراج فقط: يُرسل الروبوت رسائل <code>UPD</code> على فترة منظمة، ولا يُرسل التطبيق أي شيء إليها أبدًا.</p>
+
+      <h3>7. اختبار إعادة الاتصال</h3>
+      <p>أغلق تبويب المتصفح (أو ابتعد خارج النطاق) ثم أعد فتحه. يُصفّر رد اتصال الروبوت <code>onDisconnect()</code> حالة التوجيه (حتى لا يستمر أبدًا بالسير دون رقابة) ويُعيد بدء الإعلان (advertising) فورًا &mdash; يجب أن يجد التطبيق الجهاز نفسه ويعيد الاتصال به خلال ثوانٍ قليلة، مُسترجعًا التخطيط من جديد.</p>
+
+      <h2 id="understanding">فهم الكود (للمبتدئين)</h2>
+      <p class="hatnote">هذا القسم لمن قام بتحميل الفيرموير وقاد الروبوت، ويريد الآن فتح الكود المصدري وتغيير شيء ما. لا يفترض أي خبرة سابقة في الأنظمة المدمجة/C++. إذا كنت تريد فقط قيادة الروبوت، يمكنك تخطي هذا القسم بالكامل.</p>
+
+      <h3>الملفات التي تهم</h3>
+      <div class="diagram" dir="ltr"><pre style="margin:0;border:0;padding:0;background:none;">  01_src.ino            <b>&mdash; setup()/loop(), يربط كل الأنظمة الفرعية معًا.</b>
+        │
+        ├──▶  03_bit-rxy.cpp/.h  <b>&mdash; طبقة التحكم عبر BLE.</b> كل شيء متعلق بالتحدث
+        │       إلى تطبيق bit-rxy يعيش هنا: خدمة GATT، مصافحة GETCFG/CFG، تحليل
+        │       أسطر SET الواردة، ودوال remotexy_get_*/remotexy_set_* التي يستدعيها
+        │       بقية الفيرموير.
+        │
+        └──▶  04_tasks.cpp     <b>&mdash; منطق الروبوت الخاص.</b> يقرأ حالة عصا
+                التحكم/لوحة الاتجاهات عبر remotexy_get_joystick_01_x/y()، يحسب
+                سرعة كل عجلة، ويدفع السرعة/المسافة/البطارية على فترة منظمة.</pre></div>
+      <p>هذا الفصل متعمّد: <code>03_bit-rxy.cpp</code> لا يعرف شيئًا عن السيرفوهات أو الصوت، و<code>04_tasks.cpp</code> لا يعرف شيئًا عن البلوتوث &mdash; يتحدثان فقط عبر واجهة الدوال الصغيرة <code>remotexy_get_*()</code>/<code>remotexy_set_*()</code>، المحفوظة مطابقة لمحول RemoteXY القديم حتى لا يتطلب نقل طبقة النقل لمس منطق الروبوت إطلاقًا.</p>
+
+      <h3>التخطيط: JSON قابل للقراءة، مُرسل كـbase64</h3>
+      <p>لا يفهم بروتوكول <code>GETCFG</code>/<code>CFG</code> الخاص بالتطبيق سوى JSON مُصغّر مُرمّز بـbase64 &mdash; لكن تعديل كتلة base64 يدويًا أمر سيء. يحتفظ <code>03_bit-rxy.cpp</code> بـJSON القابل للقراءة الفعلي كتعليق مباشرة فوق الثابت المُرمّز الذي يصفه:</p>
+      <pre><code>// {
+//   "schemaVersion": 1,
+//   "title": "WDIY Robot b3",
+//   "widgets": [
+//     {"id":"joy_drive","t":"joystick", ...},
+//     {"id":"btn_horn","t":"button", ...},
+//     {"id":"dpad_drive","t":"dpad", ...},
+//     {"id":"gauge_speed","t":"gauge", ...},
+//     {"id":"gauge_distance","t":"gauge", ...},
+//     {"id":"battery_level","t":"battery", ...},
+//     {"id":"sound_alert","t":"sound", ...}
+//   ]
+// }
+static const char* LAYOUT_CFG_BASE64 =
+  "eyJzY2hlbWFWZXJzaW9uIjoxLCJ0aXRsZSI6IldESVkgUm9ib3QgYjMiLCJ3aWRnZXRzIjpb"
+  ...</code></pre>
+      <p>عدّل JSON، ثم أعد توليد ثابت base64 باستخدام <code>layout_cfg.sh</code> (انظر <a href="#customising">تخصيص التخطيط</a>) بدلًا من تعديل base64 يدويًا.</p>
+
+      <h3>كيف يصبح الاتصال تخطيطًا على الشاشة</h3>
+      <p>مصافحة مطابقة لـ<a href="esp32-rxy-ar.html#understanding">فيرموير ESP32-RXY المرجعي</a>، لأن هذا الكود نُقل مباشرة منه:</p>
+      <div class="diagram" dir="ltr"><pre style="margin:0;border:0;padding:0;background:none;">  التطبيق يكتب "GETCFG\n" إلى خاصية RX
+       │
+       ▼
+  onWrite() (مهمة NimBLE المضيفة الخاصة) يضع البايتات في مخزن مؤقت حتى '\n'، ثم يستدعي handleLine()
+       │
+       ▼
+  handleLine(): السطر == "GETCFG" → s_getCfgRequested = true; يعود فورًا
+       │           (لا تُنفَّذ أي دفعة هنا — انظر تشريح ما بعد الحادث أدناه)
+       ▼
+  remotexy_handler()، يُستدعى في كل loop(): if (s_getCfgRequested) sendCfg();
+       │           (يعمل على مهمة Arduino الرئيسية العادية)
+       ▼
+  sendCfg(): delay(300ms) حتى يستقر طلب فترة الاتصال السريعة،
+             sendLine("CFGBEGIN"),
+             لكل قطعة من 18 حرفًا من LAYOUT_CFG_BASE64: sendLine("CFG " + قطعة); delay(50ms)
+             sendLine("CFGEND")
+       │
+       ▼
+  التطبيق يُجمّع قطع CFG، يفك ترميز base64، يُحلّل JSON، ويعرض الأدوات</pre></div>
+      <p>يختلف تفصيلان عن الفيرموير المرجعي البسيط، كلاهما لأن هذا الروبوت يُشغّل أيضًا FastLED/OLED/Servo إلى جانب NimBLE، مما يترك هامش مخزن مؤقت أقل:</p>
+      <ul>
+        <li><strong>50 مللي ثانية بين القطع بدلًا من 15.</strong> أدى المعدل الأسرع في الفيرموير المرجعي إلى تجويع مجمّع مخازن الإشعار (notify) لهذا الروبوت (<code>rc=6</code> / <code>BLE_HS_ENOMEM</code>) بسبب الأجهزة الطرفية الإضافية التي تتنافس على وقت المعالج.</li>
+        <li><strong>تأخير 300 مللي ثانية في بداية <code>sendCfg()</code>.</strong> يطلب <code>onConnect()</code> فترة اتصال سريعة عبر <code>updateConnParams()</code>، لكن هذا التفاوض مع الهاتف/الحاسوب يستغرق رحلة ذهاب وإياب واحدة على الأقل ليستقر فعليًا. يُرسل التطبيق <code>GETCFG</code> فور الاتصال تقريبًا، فبدون هذا التأخير تبدأ الدفعة المكونة من ~60 قطعة على فترة الاتصال الافتراضية الأبطأ، التي لا تستطيع تفريغ مجمّع مخازن الإشعار بالسرعة الكافية.</li>
+      </ul>
+
+      <h3>قراءة الأسطر الواردة وربط الأدوات</h3>
+      <p>يتعرف <code>handleLine()</code> على شكلين &mdash; السلسلة المجردة <code>GETCFG</code>، والأسطر التي تبدأ بـ<code>SET &lt;id&gt; &lt;value&gt;</code>، التي يُقسّمها ويمررها إلى <code>handleWidget(id, val)</code>:</p>
+      <pre><code>static void handleWidget(const String&amp; id, const String&amp; val) {
+  if (id == "joy_drive")   { handleJoystick(val); return; }
+  if (id == "dpad_drive")  { handleDpad(val); return; }
+  if (id == "btn_horn")    { s_button_01 = (val == "1") ? 1 : 0; return; }
+}</code></pre>
+      <p>على عكس عرض الفيرموير المرجعي التوضيحي المُطابق بالبادئة (أي <code>btn_*</code> يُشغّل نفس LED)، يُطابق هذا الروبوت معرّفات أدوات دقيقة، لأن كل واحد يُشغّل قطعة عتاد محددة ومختلفة. أضف أداة إدخال جديدة في تبويب البناء، ويجب أيضًا إضافة فرع بمعرّف دقيق هنا لربطها بشيء ما.</p>
+
+      <h3>اصطلاح زاوية عصا التحكم/لوحة الاتجاهات</h3>
+      <p>ترسل عصا التحكم <code>"&lt;angle&gt; &lt;distance&gt;"</code>، الزاوية بالاصطلاح الرياضي القياسي (0°=يمين، 90°=أعلى، 180°=يسار، 270°=أسفل &mdash; تم تأكيده بقراءة <code>script.js</code> الخاص بالتطبيق نفسه، وليس افتراضًا):</p>
+      <pre><code>float rad = angleDeg * PI / 180.0f;
+s_joy_x = constrain(round(dist * cos(rad)), -100, 100);
+// معكوس: تبيّن أن الأمام/الخلف على هذا الهيكل هو مرآة اتجاه
+// الأعلى/الأسفل في عصا التحكم — الانعطاف (x) كان صحيحًا بالفعل.
+s_joy_y = constrain(round(-dist * sin(rad)), -100, 100);</code></pre>
+      <p>لوحة الاتجاهات لا تملك زاوية/مسافة &mdash; ترسل أحداث ضغط/إفلات منفصلة <code>"&lt;up|down|left|right&gt; &lt;0|1&gt;"</code>، لذا يتتبع <code>handleDpad()</code> أي الاتجاهات الأربعة مضغوطة حاليًا ويجمعها في نفس زوج x/y بمقدار ثابت، مُطبّقًا نفس انعكاس محور y.</p>
+
+      <h3>من حالة التوجيه إلى نبضات السيرفو</h3>
+      <p>يعمل <code>tasks_joysticks()</code> في <code>04_tasks.cpp</code> في كل تكرار من <code>loop()</code>، يقرأ <code>s_joy_x</code>/<code>s_joy_y</code> عبر واجهة <code>remotexy_get_*()</code>، ويمزجهما بأسلوب أركيد إلى سرعة لكل عجلة:</p>
+      <pre><code>int leftSpeed  = y + x;  // أمام/خلف + انعطاف
+int rightSpeed = y - x;
+int leftPulse  = map(leftSpeed,  -100, 100, 0, 180);
+// العجلة اليمنى مُركّبة كصورة معكوسة لليسرى، لذا نفس إشارة
+// rightSpeed تحتاج نطاق نبضة معكوس لتدور بنفس الاتجاه الفعلي.
+int rightPulse = map(rightSpeed, -100, 100, 180, 0);
+moveServos(leftPulse + CONFIG_SERVO_SPEED_STOP_LEFT_OFFSET,
+           rightPulse + CONFIG_SERVO_SPEED_STOP_RIGHT_OFFSET);</code></pre>
+
+      <h2 id="postmortem">تشريح ما بعد الحادث: إغراق العصا (تم إصلاحه)</h2>
+      <p>احتاج الحصول على اتصال BLE موثوق ثلاث محاولات إصلاح منفصلة، لأن السبب الجذري الفعلي شُخِّص خطأً مرتين قبل إيجاده.</p>
+      <table class="wikitable">
+        <tr><th>المحاولة</th><th>النظرية</th><th>النتيجة</th></tr>
+        <tr><td>1</td><td>خلل دفعة <code>GETCFG</code> داخل <code>onWrite()</code>، منقول من تشريح ما بعد الحادث الموثق الخاص بـ<a href="esp32-rxy-ar.html#postmortem">فيرموير ESP32-RXY المرجعي</a>.</td><td>خلل حقيقي، أُصلح بشكل صحيح (انظر علم <code>s_getCfgRequested</code> أعلاه) &mdash; لكن غير كافٍ وحده. استمر حدوث <code>rc=6</code>/<code>BLE_HS_ENOMEM</code>.</td></tr>
+        <tr><td>2</td><td>عتاد PWM للسيرفوهات يعمل باستمرار يُجوّع الراديو.</td><td>خاطئ &mdash; تعطيل <code>attach()</code> للسيرفوهات كليًا لم يُصلحه أيضًا.</td></tr>
+        <tr><td>3</td><td>إعادة قراءة <code>04_tasks.cpp</code> سطرًا بسطر وجدته: كان <code>tasks_joysticks()</code> يستدعي <code>remotexy_set_onlineGraph_02_speed()</code> &mdash; إرسال BLE عبر <code>notify()</code> &mdash; في <em>كل</em> تكرار من <code>loop()</code>، دون أي تنظيم إطلاقًا.</td><td>السبب الجذري مؤكد. يعمل <code>loop()</code> آلاف المرات في الثانية؛ إغراق <code>notify()</code> بهذا المعدل يُجوّع مجمّع mbuf الخاص بـNimBLE بغض النظر عما يحدث غير ذلك.</td></tr>
+      </table>
+      <p>الإصلاح: أصبح <code>tasks_joysticks()</code> يخزّن فقط القيمة المحسوبة في متغير عام، <code>g_joystick_speed_pct</code>؛ انتقل الإرسال الفعلي عبر BLE إلى <code>tasks_remotexy()</code>، الذي يعمل بالفعل على فترة منظمة صراحة إلى جانب تحديثات المسافة والبطارية:</p>
+      <pre><code>// tasks_joysticks() — في كل loop()، بدون استدعاء BLE:
+g_joystick_speed_pct = max_x_y;
+
+// tasks_remotexy() — فترة منظمة، تُنفّذ الإرسال الفعلي:
+void tasks_remotexy(void) {
+  remotexy_set_onlineGraph_01_distance(g_ultrasonic_distance_cm);
+  remotexy_set_onlineGraph_02_speed(g_joystick_speed_pct);
+  remotexy_set_onlineGraph_03_battery(g_battery_percentage);
+}</code></pre>
+      <div class="ambox ambox-notice">
+        <strong>الدرس العام:</strong> قاعدة «لا تستدعِ إرسال BLE بشكل متزامن أبدًا من مهمة تعمل بسرعة» من تشريح ما بعد الحادث الخاص بالفيرموير المرجعي نفسه ليست فقط عن <code>onWrite()</code> &mdash; بل تنطبق على <em>أي</em> نقطة استدعاء غير منظمة، بما في ذلك <code>loop()</code> العادي في Arduino. إذا أضفت استدعاء <code>sendValue()</code> دوريًا خاصًا بك، نظّمه صراحة (فترة محكومة بـ<code>millis()</code>، أو استغلال الفترة الموجودة بالفعل في <code>tasks_remotexy()</code>) بدلًا من استدعائه في كل تكرار.
+      </div>
+
+      <h2 id="widgets">تخطيط الأدوات ومطابقتها مع الفيرموير</h2>
+      <table class="wikitable">
+        <tr><th>معرّف الأداة</th><th>النوع</th><th>الاتجاه</th><th>نقطة الربط بالفيرموير</th></tr>
+        <tr><td><code>joy_drive</code></td><td>Joystick</td><td>تطبيق &larr; روبوت</td><td><code>handleJoystick()</code> &larr; <code>s_joy_x</code>/<code>s_joy_y</code></td></tr>
+        <tr><td><code>dpad_drive</code></td><td>D-Pad</td><td>تطبيق &larr; روبوت</td><td><code>handleDpad()</code> &larr; نفس <code>s_joy_x</code>/<code>s_joy_y</code> (الأداة المُلمَسة مؤخرًا تفوز)</td></tr>
+        <tr><td><code>btn_horn</code></td><td>Button</td><td>تطبيق &larr; روبوت</td><td><code>s_button_01</code> &larr; جرس + وميض NeoPixel أخضر + رد <code>sound_alert</code></td></tr>
+        <tr><td><code>gauge_speed</code></td><td>Gauge (0&ndash;100%)</td><td>روبوت &larr; تطبيق</td><td><code>remotexy_set_onlineGraph_02_speed()</code>، مُغذّى من <code>g_joystick_speed_pct</code></td></tr>
+        <tr><td><code>gauge_distance</code></td><td>Gauge (0&ndash;200cm)</td><td>روبوت &larr; تطبيق</td><td><code>remotexy_set_onlineGraph_01_distance()</code>، مُغذّى من مستشعر HC-SR04</td></tr>
+        <tr><td><code>battery_level</code></td><td>Battery</td><td>روبوت &larr; تطبيق</td><td><code>remotexy_set_onlineGraph_03_battery()</code>، مُغذّى من محول البطارية التناظري-الرقمي</td></tr>
+        <tr><td><code>sound_alert</code></td><td>Sound</td><td>روبوت &larr; تطبيق</td><td><code>remotexy_set_sound_01()</code> &mdash; يُطابق كتالوج معرّفات الصوت القديم لـRemoteXY مع 5 مؤثرات bit-rxy (انظر أدناه)</td></tr>
+      </table>
+
+      <h3>مطابقة الصوت: كتالوج RemoteXY &larr; 5 مؤثرات bit-rxy</h3>
+      <p>استخدمت واجهة RemoteXY الأصلية مكتبة كبيرة من معرّفات المؤثرات الصوتية المُسمّاة (<code>REMOTEXY_SOUND_ALARM</code>, <code>_CONFIRM</code>, <code>_CHIME</code>, وغيرها، من <code>07_sounds.h</code>). أداة Sound في bit-rxy لا تعرف سوى 5 مؤثرات نغمية قصيرة، لذا يُجمّع <code>remotexy_set_sound_01()</code> الكتالوج القديم إلى أقرب مطابقة:</p>
+      <table class="wikitable">
+        <tr><th>مؤثر bit-rxy</th><th>معرّفات RemoteXY القديمة التي يستبدلها</th></tr>
+        <tr><td><code>success</code></td><td><code>SUCCESS</code>, <code>SUCCESS_ALT</code>, <code>SUCCESS_BEEP</code>, <code>POWER_ON</code>, <code>CONFIRM</code>, <code>CHIME</code></td></tr>
+        <tr><td><code>warn</code></td><td><code>WARNING</code>, <code>TIMER</code>, <code>COUNTDOWN</code></td></tr>
+        <tr><td><code>danger</code></td><td><code>ERROR</code>, <code>CRITICAL</code>, <code>ALARM</code>, <code>FAILURE</code>, <code>ERROR_BEEP</code></td></tr>
+        <tr><td><code>toggle</code></td><td><code>DOUBLE_BEEP</code>, <code>SELECT</code></td></tr>
+        <tr><td><code>beep</code> (افتراضي)</td><td>كل ما عداها &mdash; <code>BEEP</code>, <code>BEEP_SHORT</code>, <code>BEEP_LONG</code>, <code>CLICK</code>, <code>TAP</code>، إلخ.</td></tr>
+      </table>
+      <p><code>p_sound_01 == 0</code> هي قيمة إعادة الضبط الدورية الخاصة بـ<code>tasks_rmotexy_sound()</code> نفسها لـ«بدون صوت» ويجب ألا تُطلق نغمة بنفسها &mdash; محمية بـ<code>return</code> مبكر في بداية الدالة.</p>
+
+      <h2 id="customising">تخصيص التخطيط</h2>
+      <p>لا تُعدّل ثابت base64 يدويًا أبدًا. استخدم بدلًا من ذلك <code>layout_cfg.sh</code> في <code>01_software/01_app/</code>:</p>
+      <pre><code># استخراج التخطيط الحالي كـJSON منسّق
+./layout_cfg.sh decode 01_src/03_bit-rxy.cpp
+
+# بعد تعديل JSON، إعادة الترميز والحصول على base64
+./layout_cfg.sh encode my_layout.json</code></pre>
+      <p>يستخرج <code>decode</code> سلسلة <code>LAYOUT_CFG_BASE64</code> الحرفية مباشرة من ملف <code>.cpp</code> (لا حاجة لمزامنة تعليق JSON وثابت base64 يدويًا أثناء التكرار)، يفك ترميز base64، ويُنسّقه بـ<code>python3 -m json.tool</code>. يفعل <code>encode</code> العكس: يُصغّر JSON (مطابقًا اصطلاح الفواصل الخاص بالتطبيق نفسه، <code>separators=(',',':')</code>)، يُرمّزه بـbase64، ويطوي المخرجات إلى أسطر من 72 حرفًا جاهزة للصق مرة أخرى في الكود المصدري كصفوف سلسلة حرفية مُجزّأة &mdash; بنفس شكل الثابت الحالي.</p>
+      <div class="ambox ambox-notice">
+        بعد تغيير التخطيط، حدّث <em>كلًا</em> من تعليق JSON القابل للقراءة فوق <code>LAYOUT_CFG_BASE64</code> والثابت نفسه، وأضف فرعًا مطابقًا بمعرّف دقيق في <code>handleWidget()</code> لأي أداة إدخال جديدة &mdash; التخطيط والكود الذي يتفاعل معه مكانان منفصلان يجب مزامنتهما يدويًا.
+      </div>
+
+      <h2 id="hardware">مرجع العتاد</h2>
+      <table class="wikitable">
+        <tr><th>الوظيفة</th><th>GPIO</th></tr>
+        <tr><td>السيرفو الأيسر</td><td>6</td></tr>
+        <tr><td>السيرفو الأيمن</td><td>3</td></tr>
+        <tr><td>زر التصحيح</td><td>0</td></tr>
+        <tr><td>الجرس</td><td>4</td></tr>
+        <tr><td>مستوى البطارية (ADC)</td><td>4 (مشترك)</td></tr>
+        <tr><td>بيانات NeoPixel</td><td>5 (مدمج) / 10 (شريط خارجي)</td></tr>
+        <tr><td>OLED SDA / SCL</td><td>8 / 9</td></tr>
+        <tr><td>HC-SR04 trig / echo</td><td>21 / 20</td></tr>
+        <tr><td>مؤشرات LED للحالة (أحمر / أخضر)</td><td>10 / 1</td></tr>
+      </table>
+      <p>تعيش نقاط التوقف/المركز الخاصة بالسيرفو وتصحيحات الاتزان (trim) في <code>00_config.h</code> كـ<code>CONFIG_SERVO_SPEED_STOP_LEFT</code>/<code>_RIGHT</code> (90° افتراضيًا، أي بدون دوران لسيرفو دوران مستمر) بالإضافة إلى تصحيحات <code>_OFFSET</code> صغيرة للسيرفوهات التي لا تستقر تمامًا عند 90°.</p>
+
+      <h2 id="troubleshooting">حل المشكلات</h2>
+      <table class="wikitable">
+        <tr><th>العرض</th><th>السبب / الحل</th></tr>
+        <tr><td>يفشل التحميل برسالة «No serial data received»</td><td>تبديل سرعة البود في منتصف التحميل عطّل طرفية USB-CDC الأصلية. تحقق من <code>upload_speed = 115200</code> في <code>platformio.ini</code> &mdash; لا ترفعها.</td></tr>
+        <tr><td>يفشل التحميل برسالة «Unable to verify flash chip connection»</td><td>تسليم ستَب برنامج التحميل أعاد تعداد طرفية USB-CDC في منتصف التحميل. تحقق من وجود <code>upload_flags = --no-stub</code>.</td></tr>
+        <tr><td><code>pio device monitor</code> يُعيد ضبط اللوحة أو يفصلها عند الفتح</td><td>تُفسَّر تبديلات DTR/RTS خطأً على أنها «الدخول في وضع التحميل». تحقق من <code>monitor_dtr = 0</code> / <code>monitor_rts = 0</code>.</td></tr>
+        <tr><td>يتصل، يعرض اسم الجهاز، لكن التخطيط لا يُحمَّل أبدًا / ينقطع الاتصال بعد قليل</td><td>عرض <code>rc=6</code>/<code>BLE_HS_ENOMEM</code> الكلاسيكي &mdash; مسار كود ما يُغرق <code>notify()</code> أسرع مما يستطيع تفريغه فترة الاتصال. انظر <a href="#postmortem">تشريح ما بعد الحادث</a> أعلاه؛ تحقق من أي استدعاء <code>sendValue()</code> دوري جديد قد تكون أضفته بدون تنظيم.</td></tr>
+        <tr><td>«الأعلى» في عصا التحكم يُدير الروبوت بدلًا من السير مستقيمًا، أو يبدو الأمام/الخلف معكوسًا</td><td>تم التراجع عن اصطلاح الزاوية أو انعكاس محور y بتعديل ما. راجع مرة أخرى <a href="#understanding">قسم اصطلاح زاوية عصا التحكم/لوحة الاتجاهات</a> &mdash; 0°=يمين/90°=أعلى هو الاصطلاح الرياضي القياسي، وليس «90°=أسفل» كما تدّعي بعض تعليقات المرجع القديمة.</td></tr>
+        <tr><td>زر Horn لا يفعل شيئًا على سماعة الهاتف</td><td>تحقق من وجود أداة <code>sound_alert</code> فعليًا في JSON التخطيط ضمن ما عرضه التطبيق (وليس خارج اللوحة المرئية) &mdash; إصدارات bit-rxy السابقة لإصلاح الاعتماد على DOM كانت تُسقط تحديثات Sound/Notification بصمت للأدوات بدون عنصر مرئي على اللوحة.</td></tr>
+        <tr><td>تُعيد اللوحة ضبط نفسها إلى وضع تحميل ROM بشكل غير متوقع</td><td>GPIO 9 هو أيضًا طرف استرابينغ BOOT الخاص بـC3 في بعض إصدارات اللوحة &mdash; تجنب توصيل أي شيء قد يسحبه إلى المستوى المنخفض أثناء التشغيل/إعادة الضبط.</td></tr>
+      </table>
+
+      <div class="catlinks">
+        التصنيفات: <a href="index.html">الإلكترونيات</a> | <a href="index.html">ESP32</a> | <a href="index.html">micro:bit</a> | <a href="index.html">البلوتوث</a> | <a href="index.html">الروبوتات</a>
+      </div>
+    </article>
+  </div>
+</div>
+
+<div class="footer-wiki">
+  أُنشئت هذه الصفحة في 1 أغسطس 2026 وعُدّلت آخر مرة في 1 أغسطس 2026. المحتوى مُقتبس من مستودع <a href="https://github.com/abourdim/esp32c3_super_mini_robot-bit-rxy">esp32c3_super_mini_robot-bit-rxy</a> ومقالة <a href="esp32-rxy-ar.html">ESP32-RXY</a> المرجعية.
+</div>
+
+</body>
+</html>
