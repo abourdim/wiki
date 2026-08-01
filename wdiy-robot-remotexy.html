@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WDIY Robot (esp32c3_super_mini_robot_remotexy) - Wiki</title>
+<link rel="stylesheet" href="wiki.css">
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-inner">
+    <a class="wiki-logo" href="https://workshop-diy.org"><img src="logo.png" alt="Logo du wiki"></a>
+    <a class="masthead-site-link" href="https://workshop-diy.org">workshop-diy.org</a>
+    <div class="masthead-title">
+      Wiki
+      <span class="sub">La base de connaissances personnelle et gratuite</span>
+    </div>
+    <div class="masthead-actions">
+      <div class="lang-switch" role="group" aria-label="Langue">
+        <a href="wdiy-robot-remotexy.html" class="lang-switch-btn active" title="Français"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="20" height="40" fill="#002395"/><rect x="20" width="20" height="40" fill="#fff"/><rect x="40" width="20" height="40" fill="#ED2939"/></svg></a>
+        <a href="wdiy-robot-remotexy-en.html" class="lang-switch-btn" title="English"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="60" height="40" fill="#012169"/><path d="M0 0L60 40M60 0L0 40" stroke="#fff" stroke-width="6.5"/><path d="M0 0L60 40M60 0L0 40" stroke="#C8102E" stroke-width="3.5"/><path d="M30 0V40M0 20H60" stroke="#fff" stroke-width="11"/><path d="M30 0V40M0 20H60" stroke="#C8102E" stroke-width="6.5"/></svg></a>
+        <a href="wdiy-robot-remotexy-ar.html" class="lang-switch-btn" title="العربية"><svg width="24" height="16" viewBox="0 0 900 600"><defs><clipPath id="glWRRfr"><rect width="450" height="600"/></clipPath></defs><rect width="450" height="600" fill="#006233"/><rect x="450" width="450" height="600" fill="#FFF"/><g fill="#D21034" transform="translate(450,300)"><circle r="125"/><circle cx="25" r="100" fill="#FFF"/><g clip-path="url(#glWRRfr)" transform="translate(-450,-300)"><circle cx="475" cy="300" r="100" fill="#006233"/></g><path d="M85-12l22 67h71l-57 42 22 67-58-42-57 42 21-67-57-42h71z"/></g></svg></a>
+      </div>
+      <div class="masthead-search">
+        <input type="text" placeholder="Rechercher dans le wiki" disabled>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wiki-layout">
+
+  <div class="sidebar">
+    <h3>Navigation</h3>
+    <ul>
+      <li><a href="index.html">Page principale</a></li>
+      <li><a href="#">Modifications récentes</a></li>
+      <li><a href="#">Page au hasard</a></li>
+    </ul>
+    <h3>Catégories</h3>
+    <ul>
+      <li><a href="index.html">Électronique</a></li>
+      <li><a href="index.html">ESP32</a></li>
+      <li><a href="index.html">Bluetooth</a></li>
+      <li><a href="index.html">Robotique</a></li>
+    </ul>
+    <h3>Outils</h3>
+    <ul>
+      <li><a href="https://github.com/abourdim/esp32c3_super_mini_robot_remotexy">Voir le dépôt du code source</a></li>
+    </ul>
+  </div>
+
+  <div class="content-wrap">
+    <div class="article-tabs">
+      <span class="active">Article</span>
+      <span>Discussion</span>
+    </div>
+
+    <article>
+      <h1 class="page-title">WDIY Robot — version RemoteXY d'origine (esp32c3_super_mini_robot_remotexy)</h1>
+
+      <div class="infobox">
+        <div class="infobox-title">WDIY Robot (RemoteXY)</div>
+        <table>
+          <tr><th>Carte</th><td>ESP32-C3 Super Mini (RISC-V, USB-CDC natif)</td></tr>
+          <tr><th>Châssis</th><td>Traction différentielle 2 roues, servomoteurs à rotation continue</td></tr>
+          <tr><th>Contrôle</th><td>Appli <a href="https://remotexy.com/">RemoteXY</a> (iOS/Android/bureau), mode BLE</td></tr>
+          <tr><th>Système de build</th><td>PlatformIO</td></tr>
+          <tr><th>Bibliothèque BLE</th><td>Bibliothèque Arduino officielle <code>RemoteXY</code></td></tr>
+          <tr><th>Dépôt</th><td><a href="https://github.com/abourdim/esp32c3_super_mini_robot_remotexy">github.com/abourdim/esp32c3_super_mini_robot_remotexy</a> <span class="muted">(renommé depuis <code>esp32c3_super_mini_robot</code>)</span></td></tr>
+          <tr><th>Successeur</th><td><a href="wdiy-robot.html">WDIY Robot (bit-rxy)</a> &mdash; même matériel, converti vers un contrôle BLE gratuit</td></tr>
+        </table>
+      </div>
+
+      <p class="hatnote">Cet article couvre <strong>esp32c3_super_mini_robot_remotexy</strong>, le firmware d'origine de ce robot à traction différentielle ESP32-C3 : piloté via Bluetooth Low Energy par l'application commerciale <a href="https://remotexy.com/">RemoteXY</a>, en utilisant l'éditeur visuel et la bibliothèque Arduino propres à RemoteXY. Il précède la <a href="wdiy-robot.html">conversion bit-rxy</a> couverte dans l'article jumeau et n'y a pas été touché &mdash; les deux sont des dépôts séparés avec des couches de contrôle séparées, sur la même conception matérielle.</p>
+
+      <div class="ambox ambox-notice">
+        <strong>Pourquoi ce dépôt existe encore, inchangé :</strong> lorsque le robot a été converti pour parler le protocole BLE gratuit et ouvert de bit-rxy, la version RemoteXY a délibérément été laissée intacte dans son propre dépôt plutôt que modifiée sur place &mdash; voir <a href="wdiy-robot.html">WDIY Robot (bit-rxy)</a> pour le raisonnement et le successeur activement développé. Cet article documente l'original comme version historique/de référence, et pour quiconque possède déjà une licence RemoteXY et la préfère.
+      </div>
+
+      <div class="toc">
+        <div class="toc-title">Sommaire</div>
+        <ol>
+          <li><a href="#overview">Aperçu</a></li>
+          <li><a href="#quickstart">Démarrage rapide</a></li>
+          <li><a href="#understanding">Comprendre le code</a></li>
+          <li><a href="#limitation">La limitation de licence RemoteXY (BUG-004)</a></li>
+          <li><a href="#hardware">Référence matérielle</a></li>
+          <li><a href="#troubleshooting">Dépannage</a></li>
+        </ol>
+      </div>
+
+      <h2 id="overview">Aperçu</h2>
+      <p><a href="https://remotexy.com/">RemoteXY</a> est une plateforme commerciale de télécommande : un éditeur GUI par glisser-déposer (sur le web) permet de concevoir un panneau de contrôle &mdash; joysticks, boutons, jauges &mdash; qui se compile en un blob de configuration binaire intégré directement dans le firmware. La bibliothèque Arduino officielle de RemoteXY gère ensuite le transport Bluetooth et le protocole, et l'application mobile/bureau RemoteXY affiche la disposition annoncée par le firmware.</p>
+      <p>Le panneau de contrôle de ce robot est un joystick unique (direction), un bouton klaxon, et trois sorties en lecture seule (distance, vitesse, batterie) plus une barre circulaire et des événements sonores &mdash; le même ensemble de fonctionnalités que la conversion bit-rxy a plus tard reproduit depuis zéro sur un protocole différent et gratuit.</p>
+
+      <h2 id="quickstart">Démarrage rapide</h2>
+      <pre><code>git clone https://github.com/abourdim/esp32c3_super_mini_robot_remotexy.git
+cd esp32c3_super_mini_robot_remotexy/01_software/01_app
+./launch.sh flash</code></pre>
+      <p>Installez l'application <strong>RemoteXY</strong> (App Store iOS / Google Play / bureau), ouvrez-la, et connectez-vous via Bluetooth à <span class="key-value">diy_app_b3</span>. L'application affiche automatiquement la disposition joystick/bouton/jauges &mdash; aucun code d'appairage nécessaire au-delà du flux de connexion propre à RemoteXY.</p>
+
+      <div class="ambox">
+        <strong>Les particularités de l'USB-CDC natif ne sont pas contournées ici.</strong> Contrairement au <a href="wdiy-robot.html#walkthrough">fork bit-rxy</a>, le <code>platformio.ini</code> de ce dépôt n'épingle pas <code>upload_speed</code>/<code>upload_flags</code> pour le point de terminaison USB-CDC natif de l'ESP32-C3 (suivi comme le <strong>BUG-005</strong> toujours ouvert dans le propre traqueur de bugs de ce dépôt). Si les téléversements échouent avec « No serial data received » ou « Unable to verify flash chip connection », voir <a href="#troubleshooting">Dépannage</a>.
+      </div>
+
+      <h2 id="understanding">Comprendre le code</h2>
+      <p>Toute la couche de contrôle RemoteXY vit dans <code>03_remotexy.cpp</code>/<code>.h</code>, structurée très différemment d'un protocole BLE écrit à la main :</p>
+      <pre><code>#define REMOTEXY_MODE__ESP32CORE_BLE
+#include &lt;BLEDevice.h&gt;
+#define REMOTEXY_BLUETOOTH_NAME CONFIG_REMOTEXY_BLUETOOTH_NAME
+#include &lt;RemoteXY.h&gt;
+
+uint8_t RemoteXY_CONF[] =   // 176 octets
+  { 255,3,0,15,0,169,0,19,0,0,0,0,179,2,130,200,108,200,1,1, ... };
+
+struct {
+  int8_t  joystick_01_x;   // -100..100
+  int8_t  joystick_01_y;   // -100..100
+  uint8_t button_01;       // 1 = appuyé
+  float   onlineGraph_01_distance;
+  float   onlineGraph_02_speed;
+  float   onlineGraph_03_battery;
+  int8_t  circularBar_01;  // 0..100
+  int16_t sound_01;        // 0 = aucun, sinon une constante d'ID sonore
+  uint8_t connect_flag;
+} RemoteXY;</code></pre>
+      <p>Deux choses ressortent par rapport à un protocole écrit à la main comme celui de bit-rxy :</p>
+      <ul>
+        <li><strong><code>RemoteXY_CONF[]</code> est un octet opaque et généré</strong> &mdash; la disposition GUI réelle (position du joystick, taille du bouton, plages des jauges, étiquettes) est encodée dans ce tableau par <a href="https://remotexy.com/en/editor/">l'éditeur en ligne de RemoteXY</a>, et non modifiable à la main dans le code source. Changer la disposition signifie ouvrir le projet dans l'éditeur, le reconcevoir là-bas, et réexporter le code généré &mdash; il n'y a pas d'équivalent local au flux de travail JSON-lisible-en-commentaire/<code>layout_cfg.sh</code> de bit-rxy.</li>
+        <li><strong><code>RemoteXY</code> est une simple structure globale, pas un protocole de messages à analyser</strong> &mdash; <code>RemoteXY_Handler()</code> de la bibliothèque (appelé à chaque <code>loop()</code>) gère tout le trafic BLE en interne et garde simplement les champs de cette structure synchronisés avec ce que l'application affiche. Le code du firmware ne voit jamais d'octets bruts ; il lit/écrit simplement des champs de structure, par exemple <code>remotexy_get_joystick_01_x()</code> est un simple wrapper d'une ligne retournant <code>RemoteXY.joystick_01_x</code>.</li>
+      </ul>
+      <p>Tout ce qui suit &mdash; le mixage arcade joystick-vers-servo de <code>04_tasks.cpp</code>, le switch d'ID sonore, le code OLED/batterie/ultrason &mdash; est identique dans l'esprit à ce que le fork bit-rxy a conservé (les noms de fonctions du fork ont été délibérément préservés pour correspondre à l'API de ce fichier, afin que le portage du transport n'ait jamais nécessité de toucher à cette logique).</p>
+
+      <h2 id="limitation">La limitation de licence RemoteXY (BUG-004)</h2>
+      <p>Le palier gratuit de RemoteXY plafonne un projet à <strong>5 éléments GUI</strong> par interface. Le panneau de ce robot &mdash; joystick, bouton, 3 jauges/graphiques, une barre circulaire &mdash; se situe exactement à ou au-dessus de ce plafond selon la façon dont les éléments sont comptés, ce qui est précisément la friction qui a motivé la conversion bit-rxy : bit-rxy n'a aucun plafond de ce type, aucun palier payant, et est entièrement open-source.</p>
+      <p>C'est la raison sous-jacente pour laquelle le projet jumeau existe tout court &mdash; pas un bug dans le code, mais une contrainte de licence de la plateforme dont dépend ce dépôt.</p>
+
+      <h2 id="hardware">Référence matérielle</h2>
+      <p>Matériel/brochage identique à la version bit-rxy, puisque c'est la même conception physique de robot &mdash; voir <a href="wdiy-robot.html#hardware">WDIY Robot (bit-rxy) &mdash; Référence matérielle</a> pour le tableau GPIO complet. Les deux dépôts partagent <code>CONFIG_SERVO_SPEED_STOP_LEFT</code>/<code>_RIGHT</code> = 90&deg; avec de petites corrections <code>_OFFSET</code>, et le même nom d'appareil BLE, <span class="key-value">diy_app_b3</span>.</p>
+
+      <h2 id="troubleshooting">Dépannage</h2>
+      <table class="wikitable">
+        <tr><th>Symptôme</th><th>Cause / solution</th></tr>
+        <tr><td>Le téléversement échoue avec « No serial data received » ou « Unable to verify flash chip connection »</td><td>Le <code>platformio.ini</code> de ce dépôt n'épingle pas <code>upload_speed</code>/<code>upload_flags</code> pour les particularités de l'USB-CDC natif de l'ESP32-C3 (BUG-005, toujours ouvert ici). Réessayez plusieurs fois, ou empruntez la correction du <code>platformio.ini</code> du fork bit-rxy : <code>upload_speed = 115200</code> + <code>upload_flags = --no-stub</code>.</td></tr>
+        <tr><td>L'application RemoteXY dit que l'interface nécessite une licence PRO / certains éléments sont grisés</td><td>Attendu &mdash; voir <a href="#limitation">la limitation de licence</a> ci-dessus. Achetez une licence RemoteXY PRO, réduisez la disposition GUI dans l'éditeur de RemoteXY pour tenir dans le plafond gratuit de 5 éléments, ou passez au <a href="wdiy-robot.html">fork bit-rxy</a> gratuit à la place.</td></tr>
+        <tr><td>Vous voulez changer la disposition de contrôle (ajouter un widget, déplacer le joystick)</td><td>Impossible en modifiant <code>03_remotexy.cpp</code> directement &mdash; la disposition est générée par <a href="https://remotexy.com/en/editor/">l'éditeur en ligne de RemoteXY</a>. Reconcevez-la là-bas et réexportez le code <code>RemoteXY_CONF[]</code>/structure généré.</td></tr>
+        <tr><td>La carte se réinitialise en mode téléchargement ROM de manière inattendue</td><td>GPIO 9 est aussi la broche de strapping BOOT du C3 sur certaines variantes de carte &mdash; évitez de câbler quoi que ce soit qui pourrait la tirer à l'état bas pendant la mise sous tension/réinitialisation.</td></tr>
+      </table>
+
+      <div class="catlinks">
+        Catégories : <a href="index.html">Électronique</a> | <a href="index.html">ESP32</a> | <a href="index.html">Bluetooth</a> | <a href="index.html">Robotique</a>
+      </div>
+    </article>
+  </div>
+</div>
+
+<div class="footer-wiki">
+  Cette page a été créée le 1 août 2026 et modifiée pour la dernière fois le 1 août 2026. Contenu adapté du dépôt <a href="https://github.com/abourdim/esp32c3_super_mini_robot_remotexy">esp32c3_super_mini_robot_remotexy</a>. Voir aussi son successeur, <a href="wdiy-robot.html">WDIY Robot (bit-rxy)</a>.
+</div>
+
+</body>
+</html>
