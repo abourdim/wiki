@@ -342,6 +342,7 @@ void tasks_remotexy(void) {
       <p>Compile depuis le code source actuel et pousse par WiFi. Pour flasher un <code>.bin</code> pré-construit exact à la place (pas de recompilation &mdash; utile pour un fichier téléchargé depuis une CI, ou une version précédente connue pour fonctionner) :</p>
       <pre><code>./ota_flash.sh &lt;ip-du-robot&gt; chemin/vers/firmware.bin</code></pre>
       <p>La progression s'affiche à la fois sur les NeoPixels (un pixel blanc avance à chaque bloc) et sur l'OLED (pourcentage en direct). Une mise à jour réussie clignote en vert et redémarre sur le nouveau firmware ; un échec clignote en rouge avec un code d'erreur, sans briquer la carte &mdash; le firmware précédent qui fonctionnait reste intact dans l'autre emplacement de partition d'application OTA.</p>
+      <p class="hatnote">Pourquoi deux dossiers <code>.pio/build/</code> après la compilation ? <code>platformio.ini</code> définit deux environnements &mdash; <code>esp32-c3-devkitm-1</code> (USB, <code>upload_protocol = esptool</code>) et <code>esp32-c3-devkitm-1-ota</code> (WiFi, <code>upload_protocol = espota</code>, sans les <code>upload_flags</code> spécifiques au série). PlatformIO donne toujours à chaque environnement son propre cache de compilation isolé, même quand l'un <code>extends</code> l'autre et ne modifie que quelques réglages &mdash; c'est normal, pas un signe de problème.</p>
 
       <h2 id="troubleshooting">Dépannage</h2>
       <table class="wikitable">

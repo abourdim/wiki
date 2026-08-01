@@ -342,6 +342,7 @@ void tasks_remotexy(void) {
       <p>Builds from the current source and pushes it over WiFi. To flash an exact pre-built <code>.bin</code> instead (no rebuild &mdash; useful for a file downloaded from CI, or a known-good previous build):</p>
       <pre><code>./ota_flash.sh &lt;robot-ip&gt; path/to/firmware.bin</code></pre>
       <p>Progress shows on both the NeoPixels (a white pixel advances per chunk) and the OLED (live percentage). A successful update blinks green and reboots into the new firmware; a failure blinks red with an error code, without bricking the board &mdash; the previous working firmware stays in the other OTA app-partition slot untouched.</p>
+      <p class="hatnote">Why two <code>.pio/build/</code> folders after building? <code>platformio.ini</code> defines two environments &mdash; <code>esp32-c3-devkitm-1</code> (USB, <code>upload_protocol = esptool</code>) and <code>esp32-c3-devkitm-1-ota</code> (WiFi, <code>upload_protocol = espota</code>, no serial-specific <code>upload_flags</code>). PlatformIO always gives each environment its own isolated build cache, even when one <code>extends</code> the other and only overrides a couple of settings &mdash; that's normal, not a sign anything's wrong.</p>
 
       <h2 id="troubleshooting">Troubleshooting</h2>
       <table class="wikitable">

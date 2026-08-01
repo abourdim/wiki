@@ -342,6 +342,7 @@ void tasks_remotexy(void) {
       <p>يُترجم من الكود المصدري الحالي ويدفع عبر WiFi. لتحميل ملف <code>.bin</code> مبني مسبقًا بالضبط بدلًا من ذلك (بدون إعادة بناء &mdash; مفيد لملف تم تنزيله من CI، أو نسخة سابقة معروف أنها تعمل):</p>
       <pre><code>./ota_flash.sh &lt;ip-الروبوت&gt; path/to/firmware.bin</code></pre>
       <p>يظهر التقدم على كل من NeoPixels (بكسل أبيض يتقدم مع كل جزء) وشاشة OLED (نسبة مئوية مباشرة). يومض التحديث الناجح باللون الأخضر ويعيد التشغيل على الفيرموير الجديد؛ يومض الفشل باللون الأحمر مع رمز خطأ، دون تعطيل اللوحة &mdash; يبقى الفيرموير السابق العامل سليمًا في فتحة قسم تطبيق OTA الأخرى.</p>
+      <p class="hatnote">لماذا يوجد مجلدا <code>.pio/build/</code> بعد البناء؟ يُعرّف <code>platformio.ini</code> بيئتين &mdash; <code>esp32-c3-devkitm-1</code> (USB، <code>upload_protocol = esptool</code>) و<code>esp32-c3-devkitm-1-ota</code> (WiFi، <code>upload_protocol = espota</code>، بدون <code>upload_flags</code> الخاصة بالتسلسلي). يمنح PlatformIO دائمًا كل بيئة ذاكرة تخزين بناء معزولة خاصة بها، حتى عندما ترث إحداهما (<code>extends</code>) من الأخرى وتُغيّر بضعة إعدادات فقط &mdash; هذا أمر طبيعي، وليس علامة على وجود خطأ.</p>
 
       <h2 id="troubleshooting">حل المشكلات</h2>
       <table class="wikitable">
