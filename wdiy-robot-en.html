@@ -91,6 +91,7 @@
           <li><a href="#widgets">Widget layout &amp; firmware mapping</a></li>
           <li><a href="#customising">Customising the layout</a></li>
           <li><a href="#hardware">Hardware reference</a></li>
+          <li><a href="#ota">OTA firmware updates</a></li>
           <li><a href="#troubleshooting">Troubleshooting</a></li>
         </ol>
       </div>
@@ -305,7 +306,7 @@ void tasks_remotexy(void) {
         <tr><th>Function</th><th>GPIO</th></tr>
         <tr><td>Left servo</td><td>6</td></tr>
         <tr><td>Right servo</td><td>3</td></tr>
-        <tr><td>Debug button</td><td>0</td></tr>
+        <tr><td>Debug button</td><td>0 (also the OTA trigger &mdash; see <a href="#ota">OTA firmware updates</a>)</td></tr>
         <tr><td>Buzzer</td><td>4</td></tr>
         <tr><td>Battery level (ADC)</td><td>4 (shared)</td></tr>
         <tr><td>NeoPixel data</td><td>5 (on-board) / 10 (external strip)</td></tr>
@@ -314,6 +315,33 @@ void tasks_remotexy(void) {
         <tr><td>Status LEDs (red / green)</td><td>10 / 1</td></tr>
       </table>
       <p>Servo center/stop points and trim offsets live in <code>00_config.h</code> as <code>CONFIG_SERVO_SPEED_STOP_LEFT</code>/<code>_RIGHT</code> (default 90&deg;, i.e. no rotation for a continuous-rotation servo) plus small <code>_OFFSET</code> corrections for servos that don't sit dead-center at 90&deg;.</p>
+
+      <h2 id="ota">OTA firmware updates</h2>
+      <p>Once the robot has been flashed once over USB, every update after that can go over WiFi instead &mdash; no cable, no disassembling the chassis to reach the USB-C port.</p>
+
+      <h3>Entering OTA mode</h3>
+      <p>Hold the debug button (the same one used as an in-game action button during play &mdash; see <a href="#hardware">Hardware reference</a>) at any point while the robot is running:</p>
+      <table class="wikitable">
+        <tr><th>Hold duration</th><th>Result</th></tr>
+        <tr><td>~3 seconds</td><td>Enters OTA mode and reconnects to whatever WiFi network it last joined successfully.</td></tr>
+        <tr><td>~8 seconds (keep holding past the 3s point)</td><td>Forgets the saved network first, then opens a setup access point &mdash; use this the first time, or whenever you want to switch networks.</td></tr>
+      </table>
+      <p>Checked continuously during normal <code>loop()</code> execution, not right after boot &mdash; GPIO0 (the debug button's pin) is also the ESP32-C3's BOOT strapping pin, so sampling it near a reset would fight the bootloader instead of triggering this cleanly.</p>
+
+      <h3>First-time setup: the captive portal</h3>
+      <p>No WiFi SSID or password is compiled into the firmware. The first time (or after an 8-second "forget" hold), the robot opens its own access point:</p>
+      <pre><code>WDIY-Robot-Setup</code></pre>
+      <p>Join it from a phone or laptop &mdash; both the OLED and a purple NeoPixel blink confirm the portal is open. Most phones prompt automatically ("Sign in to network"); on a laptop, open a browser to:</p>
+      <pre><code>http://192.168.4.1</code></pre>
+      <p>Tap <strong>Configure WiFi</strong>, pick your real network from the scanned list, enter its password, and save. The robot connects, remembers that network from then on (this uses <a href="https://github.com/tzapu/WiFiManager">WiFiManager</a>'s own storage, independent of the compiled firmware), and shows its IP address on the OLED. The setup portal times out after 3 minutes if left untouched, rebooting back to normal BLE-driven play.</p>
+
+      <h3>Pushing an update</h3>
+      <p>With the robot showing <span class="key-value">OTA ready</span> and an IP address on its OLED:</p>
+      <pre><code>cd 01_software/01_app
+./ota_flash.sh &lt;robot-ip&gt;</code></pre>
+      <p>Builds from the current source and pushes it over WiFi. To flash an exact pre-built <code>.bin</code> instead (no rebuild &mdash; useful for a file downloaded from CI, or a known-good previous build):</p>
+      <pre><code>./ota_flash.sh &lt;robot-ip&gt; path/to/firmware.bin</code></pre>
+      <p>Progress shows on both the NeoPixels (a white pixel advances per chunk) and the OLED (live percentage). A successful update blinks green and reboots into the new firmware; a failure blinks red with an error code, without bricking the board &mdash; the previous working firmware stays in the other OTA app-partition slot untouched.</p>
 
       <h2 id="troubleshooting">Troubleshooting</h2>
       <table class="wikitable">
@@ -325,6 +353,9 @@ void tasks_remotexy(void) {
         <tr><td>Joystick "up" turns the robot instead of driving straight, or forward/back feels reversed</td><td>Angle convention or the y-axis mirror was undone by an edit. Re-check <a href="#understanding">the joystick/D-Pad angle convention</a> section &mdash; 0&deg;=right/90&deg;=up is standard math convention, not the "90&deg;=down" some older reference comments claim.</td></tr>
         <tr><td>Horn button does nothing on the phone speaker</td><td>Confirm the layout JSON's <code>sound_alert</code> widget is actually present in what the app rendered (not clipped off-canvas) &mdash; bit-rxy versions before the DOM-dependency fix silently dropped Sound/Notification updates for widgets with no visible on-canvas element.</td></tr>
         <tr><td>Board resets into ROM download mode unexpectedly</td><td>GPIO 9 is also the C3's BOOT strapping pin on some board variants &mdash; avoid wiring anything that could pull it low during power-on/reset.</td></tr>
+        <tr><td>Holding the button does nothing at all</td><td>The hold is checked every <code>loop()</code> iteration, not only right after boot &mdash; make sure you're holding it while the robot is already running (not through a reset), for the full 3 (or 8) seconds continuously.</td></tr>
+        <tr><td>"Open browser and connect" opens the wrong page after joining the setup AP</td><td>OS captive-portal detection can misfire. Navigate directly to <code>http://192.168.4.1</code> instead of relying on the automatic prompt.</td></tr>
+        <tr><td>OTA upload can't reach the robot / times out</td><td>The robot only listens for OTA while its OLED shows <span class="key-value">OTA ready</span> &mdash; it reboots back to normal BLE mode after every successful update or on a WiFi/portal timeout. Re-trigger the button hold and confirm the IP shown on the OLED before retrying <code>ota_flash.sh</code>.</td></tr>
       </table>
 
       <div class="catlinks">

@@ -91,6 +91,7 @@
           <li><a href="#widgets">Disposition des widgets &amp; correspondance firmware</a></li>
           <li><a href="#customising">Personnaliser la disposition</a></li>
           <li><a href="#hardware">Référence matérielle</a></li>
+          <li><a href="#ota">Mises à jour du firmware par OTA</a></li>
           <li><a href="#troubleshooting">Dépannage</a></li>
         </ol>
       </div>
@@ -305,7 +306,7 @@ void tasks_remotexy(void) {
         <tr><th>Fonction</th><th>GPIO</th></tr>
         <tr><td>Servo gauche</td><td>6</td></tr>
         <tr><td>Servo droit</td><td>3</td></tr>
-        <tr><td>Bouton de débogage</td><td>0</td></tr>
+        <tr><td>Bouton de débogage</td><td>0 (aussi le déclencheur OTA &mdash; voir <a href="#ota">Mises à jour du firmware par OTA</a>)</td></tr>
         <tr><td>Buzzer</td><td>4</td></tr>
         <tr><td>Niveau de batterie (ADC)</td><td>4 (partagé)</td></tr>
         <tr><td>Données NeoPixel</td><td>5 (intégré) / 10 (bandeau externe)</td></tr>
@@ -314,6 +315,33 @@ void tasks_remotexy(void) {
         <tr><td>LEDs d'état (rouge / verte)</td><td>10 / 1</td></tr>
       </table>
       <p>Les points centraux/d'arrêt des servos et les décalages de trim vivent dans <code>00_config.h</code> sous <code>CONFIG_SERVO_SPEED_STOP_LEFT</code>/<code>_RIGHT</code> (90&deg; par défaut, c'est-à-dire aucune rotation pour un servo à rotation continue) plus de petites corrections <code>_OFFSET</code> pour les servos qui ne sont pas parfaitement centrés à 90&deg;.</p>
+
+      <h2 id="ota">Mises à jour du firmware par OTA</h2>
+      <p>Une fois le robot flashé une première fois par USB, chaque mise à jour suivante peut passer par WiFi &mdash; pas de câble, pas besoin de démonter le châssis pour atteindre le port USB-C.</p>
+
+      <h3>Entrer en mode OTA</h3>
+      <p>Maintenez le bouton de débogage (le même que celui utilisé comme bouton d'action en jeu &mdash; voir <a href="#hardware">Référence matérielle</a>) enfoncé à n'importe quel moment pendant que le robot fonctionne :</p>
+      <table class="wikitable">
+        <tr><th>Durée de l'appui</th><th>Résultat</th></tr>
+        <tr><td>~3 secondes</td><td>Entre en mode OTA et se reconnecte au dernier réseau WiFi rejoint avec succès.</td></tr>
+        <tr><td>~8 secondes (continuez à maintenir après les 3 secondes)</td><td>Oublie d'abord le réseau enregistré, puis ouvre un point d'accès de configuration &mdash; utilisez ceci la première fois, ou chaque fois que vous voulez changer de réseau.</td></tr>
+      </table>
+      <p>Vérifié en continu pendant l'exécution normale de <code>loop()</code>, pas juste après le démarrage &mdash; GPIO0 (la broche du bouton de débogage) est aussi la broche de strapping BOOT de l'ESP32-C3, donc l'échantillonner près d'une réinitialisation entrerait en conflit avec le bootloader au lieu de déclencher ceci proprement.</p>
+
+      <h3>Première configuration : le portail captif</h3>
+      <p>Aucun SSID ni mot de passe WiFi n'est compilé dans le firmware. La première fois (ou après un appui de 8 secondes pour « oublier »), le robot ouvre son propre point d'accès :</p>
+      <pre><code>WDIY-Robot-Setup</code></pre>
+      <p>Rejoignez-le depuis un téléphone ou un ordinateur portable &mdash; l'OLED et un clignotement NeoPixel violet confirment tous deux que le portail est ouvert. La plupart des téléphones proposent automatiquement une invite (« Se connecter au réseau ») ; sur un ordinateur portable, ouvrez un navigateur à :</p>
+      <pre><code>http://192.168.4.1</code></pre>
+      <p>Appuyez sur <strong>Configure WiFi</strong>, choisissez votre vrai réseau dans la liste scannée, saisissez son mot de passe, et enregistrez. Le robot se connecte, mémorise ce réseau à partir de là (ceci utilise le stockage propre de <a href="https://github.com/tzapu/WiFiManager">WiFiManager</a>, indépendant du firmware compilé), et affiche son adresse IP sur l'OLED. Le portail de configuration expire après 3 minutes s'il n'est pas utilisé, redémarrant vers le jeu normal piloté par BLE.</p>
+
+      <h3>Pousser une mise à jour</h3>
+      <p>Avec le robot affichant <span class="key-value">OTA ready</span> et une adresse IP sur son OLED :</p>
+      <pre><code>cd 01_software/01_app
+./ota_flash.sh &lt;ip-du-robot&gt;</code></pre>
+      <p>Compile depuis le code source actuel et pousse par WiFi. Pour flasher un <code>.bin</code> pré-construit exact à la place (pas de recompilation &mdash; utile pour un fichier téléchargé depuis une CI, ou une version précédente connue pour fonctionner) :</p>
+      <pre><code>./ota_flash.sh &lt;ip-du-robot&gt; chemin/vers/firmware.bin</code></pre>
+      <p>La progression s'affiche à la fois sur les NeoPixels (un pixel blanc avance à chaque bloc) et sur l'OLED (pourcentage en direct). Une mise à jour réussie clignote en vert et redémarre sur le nouveau firmware ; un échec clignote en rouge avec un code d'erreur, sans briquer la carte &mdash; le firmware précédent qui fonctionnait reste intact dans l'autre emplacement de partition d'application OTA.</p>
 
       <h2 id="troubleshooting">Dépannage</h2>
       <table class="wikitable">
@@ -325,6 +353,9 @@ void tasks_remotexy(void) {
         <tr><td>Le « haut » du joystick fait tourner le robot au lieu d'avancer tout droit, ou l'avant/arrière semble inversé</td><td>La convention d'angle ou le miroir sur l'axe y a été annulé par une modification. Revérifiez <a href="#understanding">la section sur la convention d'angle joystick/D-Pad</a> &mdash; 0&deg;=droite/90&deg;=haut est la convention mathématique standard, pas le « 90&deg;=bas » que prétendent certains anciens commentaires de référence.</td></tr>
         <tr><td>Le bouton Horn ne fait rien sur le haut-parleur du téléphone</td><td>Vérifiez que le widget <code>sound_alert</code> du JSON de disposition est bien présent dans ce que l'appli a affiché (et non hors-canevas) &mdash; les versions de bit-rxy antérieures à la correction de dépendance au DOM abandonnaient silencieusement les mises à jour Sound/Notification pour les widgets sans élément visible sur le canevas.</td></tr>
         <tr><td>La carte se réinitialise en mode téléchargement ROM de manière inattendue</td><td>GPIO 9 est aussi la broche de strapping BOOT du C3 sur certaines variantes de carte &mdash; évitez de câbler quoi que ce soit qui pourrait la tirer à l'état bas pendant la mise sous tension/réinitialisation.</td></tr>
+        <tr><td>Maintenir le bouton ne fait rien du tout</td><td>L'appui est vérifié à chaque itération de <code>loop()</code>, pas seulement juste après le démarrage &mdash; assurez-vous de le maintenir pendant que le robot fonctionne déjà (pas à travers une réinitialisation), pendant les 3 (ou 8) secondes complètes en continu.</td></tr>
+        <tr><td>« Open browser and connect » ouvre la mauvaise page après avoir rejoint le point d'accès de configuration</td><td>La détection de portail captif du système d'exploitation peut mal fonctionner. Naviguez directement vers <code>http://192.168.4.1</code> au lieu de compter sur l'invite automatique.</td></tr>
+        <tr><td>Le téléversement OTA n'arrive pas à atteindre le robot / expire</td><td>Le robot n'écoute pour l'OTA que lorsque son OLED affiche <span class="key-value">OTA ready</span> &mdash; il redémarre vers le mode BLE normal après chaque mise à jour réussie ou en cas d'expiration du WiFi/portail. Redéclenchez l'appui du bouton et vérifiez l'IP affichée sur l'OLED avant de relancer <code>ota_flash.sh</code>.</td></tr>
       </table>
 
       <div class="catlinks">
