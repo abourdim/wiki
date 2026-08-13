@@ -71,7 +71,7 @@
           <tr><th>Hardware</th><td>Keyestudio 4WD Mecanum <strong>V2</strong> + BBC micro:bit V2</td></tr>
           <tr><th>Extensions</th><td><code>mecanumRobotV2</code>, Bluetooth, Neopixel</td></tr>
           <tr><th>Widgets</th><td>31, defined in the firmware</td></tr>
-          <tr><th>Firmware</th><td>K4-v17 (MakeCode / JavaScript)</td></tr>
+          <tr><th>Firmware</th><td>K4-v18 (MakeCode / JavaScript)</td></tr>
           <tr><th>Languages</th><td>English, Français, العربية</td></tr>
           <tr><th>Repository</th><td><a href="https://github.com/abourdim/keystudio_4wd_mecanum_rxy">github.com/abourdim/keystudio_4wd_mecanum_rxy</a></td></tr>
         </table>
@@ -95,14 +95,14 @@
 
       <h2 id="overview">Overview</h2>
       <p>Two tabs: <strong>✏️ Build</strong> to compose a remote by drag and drop, <strong>▶️ Play</strong> to drive it. The distinctive part, inherited from <a href="bit-rxy-en.html">bit-rxy</a>, is that the layout is not stored in the browser but <em>in the firmware</em>, as a Base64 string. The micro:bit can therefore describe its own interface: any copy of the app, on any machine, redraws the right remote as soon as it connects.</p>
-      <p>Compared with the <a href="keyes-mecanum-en.html">simple page</a>, you gain the 8-way bitmask mecanum pad, the NeoPixel strip with effects, autonomous Line and Avoid modes, the micro:bit's own sensors, and a distance graph. You lose simplicity: 31 widgets, a roughly ten-second layout transfer, and a firmware of over 2,000 lines.</p>
+      <p>Compared with the <a href="keyes-mecanum-en.html">simple page</a>, you gain the 8-way bitmask mecanum pad, the NeoPixel strip with effects, autonomous Line and Avoid modes, the micro:bit's own sensors, and a distance graph. You lose simplicity: 31 widgets across six zones, a roughly fifteen-second layout transfer, and a firmware of over 2,000 lines.</p>
 
       <h2 id="quickstart">Quick start</h2>
       <ol>
         <li>Open <code>index.html</code> in Chrome or Edge.</li>
         <li><strong>⚙ Firmware</strong> in the header: copy the code, add the three extensions, flash.</li>
         <li><strong>▶️ Play</strong> tab, <strong>Connect</strong>, pick the board.</li>
-        <li>Wait for the layout transfer (~10 s the first time, cached afterwards), then drive.</li>
+        <li>Wait for the layout transfer (~15 s the first time, cached afterwards), then drive.</li>
       </ol>
 
       <h2 id="walkthrough">Step-by-step: clone, flash &amp; test</h2>
@@ -127,7 +127,7 @@ cd keystudio_4wd_mecanum_rxy</code></pre>
       <p><strong>Copy code</strong>, paste into MakeCode in JavaScript mode, Download, drop the <code>.hex</code>.</p>
 
       <h3>5. First connect: watch the transfer</h3>
-      <p><strong>Play</strong> tab, <strong>Connect</strong>. The app first asks for a short revision (<code>GETCFGVER</code>); with nothing cached it falls back to the full <code>GETCFG</code> transfer, about 280 chunks at 35 ms. Ten seconds or so, once per layout.</p>
+      <p><strong>Play</strong> tab, <strong>Connect</strong>. The app first asks for a short revision (<code>GETCFGVER</code>); with nothing cached it falls back to the full <code>GETCFG</code> transfer, about 420 chunks at 35 ms. Ten seconds or so, once per layout.</p>
 
       <h3>6. Verify each subsystem</h3>
       <ol>
@@ -183,8 +183,8 @@ App ◀── CFGVER 47c78c1f ──  (hash computed from CFG at boot)
      │
      ├─ hash known ───────▶ draw from the local cache        (instant)
      │
-     └─ unknown ──────────▶ GETCFG ──▶ CFGBEGIN / CFG ×280 / CFGEND
-                                        (~10 s, once)</pre></div>
+     └─ unknown ──────────▶ GETCFG ──▶ CFGBEGIN / CFG ×420 / CFGEND
+                                        (~15 s, once)</pre></div>
       <p>The hash is derived from the contents of <code>CFG</code> itself, so it changes automatically whenever the layout changes: no version number to maintain by hand, and no way to serve a stale cache.</p>
 
       <h3>The mecanum pad: eight directions in a single byte</h3>

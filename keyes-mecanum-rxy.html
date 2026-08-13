@@ -71,7 +71,7 @@
           <tr><th>Matériel</th><td>Keyestudio 4WD Mecanum <strong>V2</strong> + BBC micro:bit V2</td></tr>
           <tr><th>Extensions</th><td><code>mecanumRobotV2</code>, Bluetooth, Neopixel</td></tr>
           <tr><th>Widgets</th><td>31, définis dans le firmware</td></tr>
-          <tr><th>Firmware</th><td>K4-v17 (MakeCode / JavaScript)</td></tr>
+          <tr><th>Firmware</th><td>K4-v18 (MakeCode / JavaScript)</td></tr>
           <tr><th>Langues</th><td>English, Français, العربية</td></tr>
           <tr><th>Dépôt</th><td><a href="https://github.com/abourdim/keystudio_4wd_mecanum_rxy">github.com/abourdim/keystudio_4wd_mecanum_rxy</a></td></tr>
         </table>
@@ -95,14 +95,14 @@
 
       <h2 id="overview">Aperçu</h2>
       <p>Deux onglets : <strong>✏️ Build</strong> pour composer une télécommande par glisser-déposer, <strong>▶️ Play</strong> pour la piloter. La particularité, héritée de <a href="bit-rxy.html">bit-rxy</a>, est que la disposition n'est pas stockée dans le navigateur mais <em>dans le firmware</em>, sous forme de chaîne Base64. Le micro:bit sait donc décrire lui-même sa propre interface : n'importe quelle copie de l'application, sur n'importe quelle machine, redessine la bonne télécommande dès la connexion.</p>
-      <p>Par rapport à la <a href="keyes-mecanum.html">page simple</a>, on gagne le pavé mécanum 8 directions à masque binaire, la bande NeoPixel avec effets, les modes autonomes Ligne et Évitement, les capteurs embarqués du micro:bit, et un graphe de distance. On perd la simplicité : 31 widgets, un transfert de configuration d'environ dix secondes, et un firmware de plus de 2 000 lignes.</p>
+      <p>Par rapport à la <a href="keyes-mecanum.html">page simple</a>, on gagne le pavé mécanum 8 directions à masque binaire, la bande NeoPixel avec effets, les modes autonomes Ligne et Évitement, les capteurs embarqués du micro:bit, et un graphe de distance. On perd la simplicité : 31 widgets, un transfert de configuration d'environ quinze secondes, et un firmware de plus de 2 000 lignes.</p>
 
       <h2 id="quickstart">Démarrage rapide</h2>
       <ol>
         <li>Ouvre <code>index.html</code> dans Chrome ou Edge.</li>
         <li><strong>⚙ Firmware</strong> dans l'en-tête : copie le code, ajoute les trois extensions, flashe.</li>
         <li>Onglet <strong>▶️ Play</strong>, bouton <strong>Connect</strong>, choisis la carte.</li>
-        <li>Attends le transfert de la disposition (~10 s la première fois, mis en cache ensuite), puis conduis.</li>
+        <li>Attends le transfert de la disposition (~15 s la première fois, mis en cache ensuite), puis conduis.</li>
       </ol>
 
       <h2 id="walkthrough">Étape par étape : cloner, flasher &amp; tester</h2>
@@ -127,7 +127,7 @@ cd keystudio_4wd_mecanum_rxy</code></pre>
       <p><strong>Copy code</strong>, coller dans MakeCode en mode JavaScript, Télécharger, déposer le <code>.hex</code>.</p>
 
       <h3>5. Première connexion : regarder le transfert</h3>
-      <p>Onglet <strong>Play</strong>, <strong>Connect</strong>. L'application demande d'abord une révision courte (<code>GETCFGVER</code>) ; comme rien n'est en cache, elle bascule sur le transfert complet <code>GETCFG</code>, environ 280 blocs à 35 ms. Une dizaine de secondes, une seule fois par disposition.</p>
+      <p>Onglet <strong>Play</strong>, <strong>Connect</strong>. L'application demande d'abord une révision courte (<code>GETCFGVER</code>) ; comme rien n'est en cache, elle bascule sur le transfert complet <code>GETCFG</code>, environ 420 blocs à 35 ms. Une dizaine de secondes, une seule fois par disposition.</p>
 
       <h3>6. Vérifier chaque sous-système</h3>
       <ol>
@@ -183,8 +183,8 @@ App ◀── CFGVER 47c78c1f ──  (empreinte calculée depuis CFG au démarr
      │
      ├─ empreinte connue ─▶ dessine depuis le cache local     (instantané)
      │
-     └─ inconnue ─────────▶ GETCFG ──▶ CFGBEGIN / CFG ×280 / CFGEND
-                                        (~10 s, une seule fois)</pre></div>
+     └─ inconnue ─────────▶ GETCFG ──▶ CFGBEGIN / CFG ×420 / CFGEND
+                                        (~15 s, une seule fois)</pre></div>
       <p>L'empreinte est dérivée du contenu de <code>CFG</code> lui-même, donc elle change automatiquement dès qu'on modifie la disposition : aucun numéro de version à maintenir à la main, et aucun risque de servir un cache périmé.</p>
 
       <h3>Le pavé mécanum : huit directions dans un seul octet</h3>
@@ -296,7 +296,7 @@ node tools/embed-firmware.cjs --check  # sort en erreur si dérive</code></pre>
         <tr><td>La moitié haute du curseur de vitesse ne fait rien</td><td>L'échelle est 0&ndash;100, pas 0&ndash;255.</td></tr>
         <tr><td>Distance toujours à 0</td><td>Vérifie l'alimentation 5 V et le connecteur du capteur, monté sur la tête mobile. Le robot doit être à l'arrêt : la mesure est suspendue pendant que les roues tournent.</td></tr>
         <tr><td>Le graphe affiche « waiting for UPD… »</td><td>Un seul échantillon ne trace pas de courbe. Sur une version à jour, un point isolé s'affiche sous forme de point et le mode Auto échantillonne dans tous les modes.</td></tr>
-        <tr><td>La première connexion prend dix secondes</td><td>Normal : transfert complet de la disposition. Les suivantes utilisent l'empreinte <code>CFGVER</code> et sont immédiates.</td></tr>
+        <tr><td>La première connexion prend quinze secondes</td><td>Normal : transfert complet de la disposition. Les suivantes utilisent l'empreinte <code>CFGVER</code> et sont immédiates.</td></tr>
         <tr><td>Des valeurs bougent toutes seules, sans robot</td><td>Ancienne version : le simulateur de démonstration tournait par-dessus une liaison réelle. Corrigé en le désactivant dès qu'une configuration vient de l'appareil.</td></tr>
         <tr><td>La fenêtre Firmware montre une ancienne version</td><td>Relance <code>node tools/embed-firmware.cjs</code>.</td></tr>
       </table>

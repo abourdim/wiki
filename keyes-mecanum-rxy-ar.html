@@ -71,7 +71,7 @@
           <tr><th>العتاد</th><td>Keyestudio 4WD Mecanum <strong>V2</strong> + BBC micro:bit V2</td></tr>
           <tr><th>الامتدادات</th><td><code>mecanumRobotV2</code>، Bluetooth، Neopixel</td></tr>
           <tr><th>الأدوات</th><td>31، معرّفة داخل البرنامج الثابت</td></tr>
-          <tr><th>البرنامج الثابت</th><td>K4-v17 (MakeCode / JavaScript)</td></tr>
+          <tr><th>البرنامج الثابت</th><td>K4-v18 (MakeCode / JavaScript)</td></tr>
           <tr><th>اللغات</th><td>English، Français، العربية</td></tr>
           <tr><th>المستودع</th><td><a href="https://github.com/abourdim/keystudio_4wd_mecanum_rxy">github.com/abourdim/keystudio_4wd_mecanum_rxy</a></td></tr>
         </table>
@@ -95,14 +95,14 @@
 
       <h2 id="overview">نظرة عامة</h2>
       <p>تبويبان: <strong>✏️ Build</strong> لتأليف وحدة تحكم بالسحب والإفلات، و<strong>▶️ Play</strong> لقيادتها. الميزة المميّزة، الموروثة من <a href="bit-rxy-ar.html">bit-rxy</a>، أن التخطيط لا يُخزَّن في المتصفح بل <em>في البرنامج الثابت</em> كسلسلة Base64. أي أن micro:bit يستطيع وصف واجهته بنفسه: أي نسخة من التطبيق، على أي جهاز، ترسم وحدة التحكم الصحيحة بمجرد الاتصال.</p>
-      <p>بالمقارنة مع <a href="keyes-mecanum-ar.html">الصفحة البسيطة</a>، تكسب لوحة ميكانوم بثماني جهات بقناع بتّي، وشريط NeoPixel بمؤثرات، ونمطي القيادة الذاتية Line وAvoid، وحساسات micro:bit المدمجة، ورسمًا بيانيًا للمسافة. وتخسر البساطة: 31 أداة، ونقل تخطيط يستغرق نحو عشر ثوانٍ، وبرنامج ثابت يتجاوز 2000 سطر.</p>
+      <p>بالمقارنة مع <a href="keyes-mecanum-ar.html">الصفحة البسيطة</a>، تكسب لوحة ميكانوم بثماني جهات بقناع بتّي، وشريط NeoPixel بمؤثرات، ونمطي القيادة الذاتية Line وAvoid، وحساسات micro:bit المدمجة، ورسمًا بيانيًا للمسافة. وتخسر البساطة: 31 أداة، ونقل تخطيط يستغرق نحو خمس عشرة ثانية، وبرنامج ثابت يتجاوز 2000 سطر.</p>
 
       <h2 id="quickstart">البدء السريع</h2>
       <ol>
         <li>افتح <code>index.html</code> في Chrome أو Edge.</li>
         <li><strong>⚙ Firmware</strong> في الترويسة: انسخ الكود، أضف الامتدادات الثلاثة، واحرق.</li>
         <li>تبويب <strong>▶️ Play</strong>، زر <strong>Connect</strong>، اختر اللوحة.</li>
-        <li>انتظر نقل التخطيط (نحو 10 ثوانٍ في المرة الأولى، ثم مُخزَّن)، ثم قُد.</li>
+        <li>انتظر نقل التخطيط (نحو 15 ثانية في المرة الأولى، ثم مُخزَّن)، ثم قُد.</li>
       </ol>
 
       <h2 id="walkthrough">خطوة بخطوة: النسخ، الحرق والاختبار</h2>
@@ -127,7 +127,7 @@ cd keystudio_4wd_mecanum_rxy</code></pre>
       <p><strong>Copy code</strong>، ثم اللصق في MakeCode بنمط JavaScript، ثم Download، ثم إفلات ملف <code>.hex</code>.</p>
 
       <h3>٥. أول اتصال: راقب النقل</h3>
-      <p>تبويب <strong>Play</strong> ثم <strong>Connect</strong>. يطلب التطبيق أولًا مراجعة قصيرة (<code>GETCFGVER</code>)؛ ولعدم وجود شيء مُخزَّن ينتقل إلى النقل الكامل <code>GETCFG</code>، نحو 280 قطعة بفاصل 35 مللي ثانية. أي عشر ثوانٍ تقريبًا، مرة واحدة لكل تخطيط.</p>
+      <p>تبويب <strong>Play</strong> ثم <strong>Connect</strong>. يطلب التطبيق أولًا مراجعة قصيرة (<code>GETCFGVER</code>)؛ ولعدم وجود شيء مُخزَّن ينتقل إلى النقل الكامل <code>GETCFG</code>، نحو 420 قطعة بفاصل 35 مللي ثانية. أي خمس عشرة ثانية تقريبًا، مرة واحدة لكل تخطيط.</p>
 
       <h3>٦. تحقّق من كل نظام فرعي</h3>
       <ol>
@@ -177,14 +177,14 @@ cd keystudio_4wd_mecanum_rxy</code></pre>
 └── tools/embed-firmware.cjs                ← copies main.ts into index.html</pre></div>
 
       <h3>مخزن الإعدادات: عدم إعادة إرسال 5 كيلوبايت كل مرة</h3>
-      <p>عشر ثوانٍ عند كل اتصال أمر لا يُحتمَل. لذلك تستطيع اللوحة الإجابة عن سؤال قصير أولًا:</p>
+      <p>خمس عشرة ثانية عند كل اتصال أمر لا يُحتمَل. لذلك تستطيع اللوحة الإجابة عن سؤال قصير أولًا:</p>
       <div class="diagram" dir="ltr"><pre style="margin:0;border:0;padding:0;background:none;">App ── GETCFGVER ─────────▶ micro:bit
 App ◀── CFGVER 47c78c1f ──  (hash computed from CFG at boot)
      │
      ├─ hash known ───────▶ draw from the local cache        (instant)
      │
-     └─ unknown ──────────▶ GETCFG ──▶ CFGBEGIN / CFG ×280 / CFGEND
-                                        (~10 s, once)</pre></div>
+     └─ unknown ──────────▶ GETCFG ──▶ CFGBEGIN / CFG ×420 / CFGEND
+                                        (~15 s, once)</pre></div>
       <p>البصمة مُشتقّة من محتوى <code>CFG</code> نفسه، فتتغيّر تلقائيًا عند أي تعديل على التخطيط: لا رقم إصدار يُدار يدويًا، ولا احتمال لتقديم مخزون قديم.</p>
 
       <h3>لوحة ميكانوم: ثماني جهات في بايت واحد</h3>
@@ -296,7 +296,7 @@ node tools/embed-firmware.cjs --check  # exit non-zero on drift</code></pre>
         <tr><td>النصف الأعلى من منزلق السرعة لا يفعل شيئًا</td><td>المقياس 0&ndash;100 لا 0&ndash;255.</td></tr>
         <tr><td>المسافة دائمًا 0</td><td>تحقّق من تغذية 5 فولت وموصّل الحساس المثبّت على الرأس المتحرك. ويجب أن يكون الروبوت ثابتًا: يُعلَّق القياس أثناء دوران العجلات.</td></tr>
         <tr><td>الرسم يعرض «waiting for UPD…»</td><td>عيّنة واحدة لا ترسم خطًا. في النسخة الحديثة تُرسم العيّنة المنفردة كنقطة، ويأخذ نمط Auto عيّنات في كل الأنماط.</td></tr>
-        <tr><td>أول اتصال يستغرق عشر ثوانٍ</td><td>هذا متوقّع: نقل كامل للتخطيط. الاتصالات التالية تستخدم بصمة <code>CFGVER</code> وتكون فورية.</td></tr>
+        <tr><td>أول اتصال يستغرق خمس عشرة ثانية</td><td>هذا متوقّع: نقل كامل للتخطيط. الاتصالات التالية تستخدم بصمة <code>CFGVER</code> وتكون فورية.</td></tr>
         <tr><td>قيم تتحرك وحدها بدون روبوت</td><td>نسخة قديمة: كان مُحاكي العرض يعمل فوق وصلة حقيقية. أُصلح بتعطيله فور وصول إعداد من الجهاز.</td></tr>
         <tr><td>نافذة البرنامج الثابت تعرض إصدارًا قديمًا</td><td>أعد تشغيل <code dir="ltr">node tools/embed-firmware.cjs</code>.</td></tr>
       </table>
