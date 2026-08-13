@@ -365,3 +365,46 @@ html[dir="rtl"] .diagram { unicode-bidi: isolate; }
 @media (max-width: 700px) {
   html[dir="rtl"] .content-wrap { border-right: none; }
 }
+
+/* ── Live app + QR ────────────────────────────────────────────────
+   Sits under the infobox. The QR is a committed SVG, not a call out to a
+   QR image service: the wiki then works offline, keeps working if that
+   service disappears, and leaks no reader's IP to a third party. */
+.applink {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 0 0 1em 0;
+  padding: 12px 14px;
+  border: 1px solid #a2a9b1;
+  border-radius: 4px;
+  background: #f8f9fa;
+}
+.applink-qr {
+  flex: 0 0 auto;
+  width: 104px;
+  height: 104px;
+  display: block;
+  background: #fff;
+  border: 1px solid #c8ccd1;
+  border-radius: 3px;
+  padding: 4px;
+}
+.applink-text { min-width: 0; }
+.applink-title {
+  font-weight: 700;
+  margin-bottom: 3px;
+}
+.applink-url {
+  font-family: monospace, monospace;
+  font-size: 0.88em;
+  word-break: break-all;
+}
+.applink-hint {
+  font-size: 0.85em;
+  color: #54595d;
+  margin-top: 4px;
+}
+@media (max-width: 560px) {
+  .applink { flex-direction: column; align-items: flex-start; }
+}
