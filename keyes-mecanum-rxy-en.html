@@ -90,6 +90,7 @@
           <li><a href="#pins">Pin map and hardware trade-offs</a></li>
           <li><a href="#protocol">Bluetooth protocol reference</a></li>
           <li><a href="#troubleshooting">Troubleshooting</a></li>
+          <li><a href="#tests">Bring-up tests</a></li>
         </ol>
       </div>
 
@@ -287,14 +288,32 @@ node tools/embed-firmware.cjs --check  # exit non-zero on drift</code></pre>
         <tr><td>Robot &rarr; app</td><td><code>UPD id value</code></td><td>New value to display</td></tr>
       </table>
 
+      <h2 id="tests">Bring-up tests</h2>
+      <p>A fault in the full firmware is hard to localise: the app connects, commands are acknowledged, and nothing moves. The repository therefore carries <a href="https://github.com/abourdim/keystudio_4wd_mecanum_rxy/tree/main/firmware/tests"><code>firmware/tests/</code></a> &mdash; eight <strong>standalone</strong> MakeCode programs, one per subsystem. Paste one into a fresh project, flash, and watch. No app, no Bluetooth, no other files.</p>
+      <table class="wikitable">
+        <tr><th>Order</th><th>File</th><th>Answers</th></tr>
+        <tr><td>1</td><td><code>test-leds.ts</code></td><td>Is the I2C driver alive and powered?</td></tr>
+        <tr><td>2</td><td><code>test-motors.ts</code></td><td>Do all four wheels turn, in the right directions?</td></tr>
+        <tr><td>3</td><td><code>test-servo.ts</code></td><td>Does the head sweep? What is the right trim?</td></tr>
+        <tr><td>4</td><td><code>test-ultrasonic.ts</code></td><td>Does the sensor echo, and which read routine suits it?</td></tr>
+        <tr><td>5</td><td><code>test-line.ts</code></td><td>Do the three line sensors read cleanly?</td></tr>
+        <tr><td>6</td><td><code>test-neopixel.ts</code></td><td>Does the strip light, and on which pin?</td></tr>
+        <tr><td>7</td><td><code>test-microbit.ts</code></td><td>Do the on-board sensors report?</td></tr>
+        <tr><td>8</td><td><code>test-ble.ts</code></td><td>Does Bluetooth work at all, with no robot involved?</td></tr>
+      </table>
+      <p>Starting with the headlights is not arbitrary: they are the cheapest thing on the I2C bus, so that test clears the two commonest causes of &ldquo;nothing moves&rdquo; &mdash; wrong extension and an unpowered motor rail &mdash; before you look anywhere else.</p>
+      <div class="ambox ambox-notice">Two of these tests cannot use the display and say so: the line sensors are on P3/P4/P10 and the strip is on P7, all matrix pins. They call <code>led.enable(false)</code> and report through the headlights, the buzzer or serial instead.</div>
+
       <h2 id="troubleshooting">Troubleshooting</h2>
+      <p>Before working through this table, consider flashing the matching test from <a href="#tests">firmware/tests/</a>: several distinct faults look identical from across the room, and a test isolates the subsystem in about a minute.</p>
+
       <table class="wikitable">
         <tr><th>Symptom</th><th>Cause / fix</th></tr>
-        <tr><td>Connects, acknowledges, but nothing moves</td><td>Firmware written for the V1 extension on a V2 board. The namespace must be <code>mecanumRobotV2</code>, and <code>state()</code> takes no argument.</td></tr>
-        <tr><td>The strip never lights</td><td>Three possible causes: wrong pin (P7, not P8), matrix still enabled, or an <code>input.lightLevel()</code> call somewhere &mdash; it re-enables the display and takes P7 back.</td></tr>
-        <tr><td>Line sensors report nonsense</td><td><code>USE_MATRIX</code> left at <code>true</code>. P3, P4 and P10 belong to the display.</td></tr>
+        <tr><td>Connects, acknowledges, but nothing moves</td><td><code>test-leds.ts</code>, then <code>test-motors.ts</code>. Firmware written for the V1 extension on a V2 board. The namespace must be <code>mecanumRobotV2</code>, and <code>state()</code> takes no argument.</td></tr>
+        <tr><td>The strip never lights</td><td><code>test-neopixel.ts</code>. Three possible causes: wrong pin (P7, not P8), matrix still enabled, or an <code>input.lightLevel()</code> call somewhere &mdash; it re-enables the display and takes P7 back.</td></tr>
+        <tr><td>Line sensors report nonsense</td><td><code>test-line.ts</code>. <code>USE_MATRIX</code> left at <code>true</code>. P3, P4 and P10 belong to the display.</td></tr>
         <tr><td>The top half of the speed slider does nothing</td><td>The scale is 0&ndash;100, not 0&ndash;255.</td></tr>
-        <tr><td>Distance always 0</td><td>Check the 5 V supply and the sensor connector, mounted on the moving head. The robot must be stationary: polling is suspended while the wheels turn.</td></tr>
+        <tr><td>Distance always 0</td><td><code>test-ultrasonic.ts</code> separates &ldquo;no sensor&rdquo; from &ldquo;silent sensor&rdquo;. Check the 5 V supply and the sensor connector, mounted on the moving head. The robot must be stationary: polling is suspended while the wheels turn.</td></tr>
         <tr><td>The graph shows "waiting for UPD…"</td><td>A single sample draws no line. On a current build a lone sample renders as a dot, and Auto polls in every mode.</td></tr>
         <tr><td>The first connect takes ten seconds</td><td>Expected: full layout transfer. Later connects use the <code>CFGVER</code> hash and are instant.</td></tr>
         <tr><td>Values move on their own with no robot</td><td>Older build: the demo simulator ran on top of a live link. Fixed by disabling it as soon as a config comes from the device.</td></tr>

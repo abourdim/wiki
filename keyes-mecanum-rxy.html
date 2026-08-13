@@ -90,6 +90,7 @@
           <li><a href="#pins">Brochage et arbitrages matériels</a></li>
           <li><a href="#protocol">Référence du protocole Bluetooth</a></li>
           <li><a href="#troubleshooting">Dépannage</a></li>
+          <li><a href="#tests">Tests de mise en route</a></li>
         </ol>
       </div>
 
@@ -287,14 +288,32 @@ node tools/embed-firmware.cjs --check  # sort en erreur si dérive</code></pre>
         <tr><td>Robot &rarr; app</td><td><code>UPD id valeur</code></td><td>Nouvelle valeur à afficher</td></tr>
       </table>
 
+      <h2 id="tests">Tests de mise en route</h2>
+      <p>Une panne dans le firmware complet est difficile &agrave; localiser : l&rsquo;application se connecte, les commandes sont acquitt&eacute;es, et rien ne bouge. Le d&eacute;p&ocirc;t contient donc <a href="https://github.com/abourdim/keystudio_4wd_mecanum_rxy/tree/main/firmware/tests"><code>firmware/tests/</code></a> &mdash; huit programmes MakeCode <strong>autonomes</strong>, un par sous-syst&egrave;me. On en colle un dans un projet vierge, on flashe, on regarde. Pas d&rsquo;application, pas de Bluetooth, aucun autre fichier.</p>
+      <table class="wikitable">
+        <tr><th>Ordre</th><th>Fichier</th><th>R&eacute;pond &agrave;</th></tr>
+        <tr><td>1</td><td><code>test-leds.ts</code></td><td>Le pilote I2C est-il vivant et aliment&eacute; ?</td></tr>
+        <tr><td>2</td><td><code>test-motors.ts</code></td><td>Les quatre roues tournent-elles, dans le bon sens ?</td></tr>
+        <tr><td>3</td><td><code>test-servo.ts</code></td><td>La t&ecirc;te balaie-t-elle ? Quel trim ?</td></tr>
+        <tr><td>4</td><td><code>test-ultrasonic.ts</code></td><td>Le capteur r&eacute;pond-il, et quelle routine de lecture lui convient ?</td></tr>
+        <tr><td>5</td><td><code>test-line.ts</code></td><td>Les trois capteurs de ligne lisent-ils proprement ?</td></tr>
+        <tr><td>6</td><td><code>test-neopixel.ts</code></td><td>La bande s&rsquo;allume-t-elle, et sur quelle broche ?</td></tr>
+        <tr><td>7</td><td><code>test-microbit.ts</code></td><td>Les capteurs embarqu&eacute;s r&eacute;pondent-ils ?</td></tr>
+        <tr><td>8</td><td><code>test-ble.ts</code></td><td>Le Bluetooth fonctionne-t-il, sans aucun robot ?</td></tr>
+      </table>
+      <p>Commencer par les phares n&rsquo;est pas arbitraire : ce sont les &eacute;l&eacute;ments les moins chers du bus I2C, donc ce test &eacute;carte les deux causes les plus fr&eacute;quentes de &laquo;&nbsp;rien ne bouge&nbsp;&raquo; &mdash; mauvaise extension et rail moteur non aliment&eacute; &mdash; avant de chercher ailleurs.</p>
+      <div class="ambox ambox-notice">Deux de ces tests ne peuvent pas utiliser l&rsquo;&eacute;cran et le disent : les capteurs de ligne sont sur P3/P4/P10 et la bande sur P7, toutes des broches de la matrice. Ils appellent <code>led.enable(false)</code> et rendent compte par les phares, le buzzer ou la liaison s&eacute;rie.</div>
+
       <h2 id="troubleshooting">Dépannage</h2>
+      <p>Avant de parcourir ce tableau, envisage de flasher le test correspondant de <a href="#tests">firmware/tests/</a> : plusieurs pannes distinctes se ressemblent totalement vues du canap&eacute;, et un test isole le sous-syst&egrave;me en une minute.</p>
+
       <table class="wikitable">
         <tr><th>Symptôme</th><th>Cause / solution</th></tr>
-        <tr><td>Connexion, acquittements, mais rien ne bouge</td><td>Firmware écrit pour l'extension V1 sur une carte V2. L'espace de noms doit être <code>mecanumRobotV2</code>, et <code>state()</code> s'appelle sans argument.</td></tr>
-        <tr><td>La bande ne s'allume jamais</td><td>Trois causes possibles : mauvaise broche (P7, pas P8), matrice restée active, ou un appel à <code>input.lightLevel()</code> quelque part &mdash; il rallume l'affichage et reprend P7.</td></tr>
-        <tr><td>Les capteurs de ligne donnent n'importe quoi</td><td><code>USE_MATRIX</code> est resté à <code>true</code>. P3, P4 et P10 appartiennent à l'affichage.</td></tr>
+        <tr><td>Connexion, acquittements, mais rien ne bouge</td><td><code>test-leds.ts</code>, puis <code>test-motors.ts</code>. Firmware écrit pour l'extension V1 sur une carte V2. L'espace de noms doit être <code>mecanumRobotV2</code>, et <code>state()</code> s'appelle sans argument.</td></tr>
+        <tr><td>La bande ne s'allume jamais</td><td><code>test-neopixel.ts</code>. Trois causes possibles : mauvaise broche (P7, pas P8), matrice restée active, ou un appel à <code>input.lightLevel()</code> quelque part &mdash; il rallume l'affichage et reprend P7.</td></tr>
+        <tr><td>Les capteurs de ligne donnent n'importe quoi</td><td><code>test-line.ts</code>. <code>USE_MATRIX</code> est resté à <code>true</code>. P3, P4 et P10 appartiennent à l'affichage.</td></tr>
         <tr><td>La moitié haute du curseur de vitesse ne fait rien</td><td>L'échelle est 0&ndash;100, pas 0&ndash;255.</td></tr>
-        <tr><td>Distance toujours à 0</td><td>Vérifie l'alimentation 5 V et le connecteur du capteur, monté sur la tête mobile. Le robot doit être à l'arrêt : la mesure est suspendue pendant que les roues tournent.</td></tr>
+        <tr><td>Distance toujours à 0</td><td><code>test-ultrasonic.ts</code> distingue capteur absent de capteur muet. Vérifie l'alimentation 5 V et le connecteur du capteur, monté sur la tête mobile. Le robot doit être à l'arrêt : la mesure est suspendue pendant que les roues tournent.</td></tr>
         <tr><td>Le graphe affiche « waiting for UPD… »</td><td>Un seul échantillon ne trace pas de courbe. Sur une version à jour, un point isolé s'affiche sous forme de point et le mode Auto échantillonne dans tous les modes.</td></tr>
         <tr><td>La première connexion prend quinze secondes</td><td>Normal : transfert complet de la disposition. Les suivantes utilisent l'empreinte <code>CFGVER</code> et sont immédiates.</td></tr>
         <tr><td>Des valeurs bougent toutes seules, sans robot</td><td>Ancienne version : le simulateur de démonstration tournait par-dessus une liaison réelle. Corrigé en le désactivant dès qu'une configuration vient de l'appareil.</td></tr>

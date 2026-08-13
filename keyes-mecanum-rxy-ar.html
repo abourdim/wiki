@@ -90,6 +90,7 @@
           <li><a href="#pins">خريطة الأطراف والمقايضات العتادية</a></li>
           <li><a href="#protocol">مرجع بروتوكول البلوتوث</a></li>
           <li><a href="#troubleshooting">حل المشكلات</a></li>
+          <li><a href="#tests">اختبارات التشغيل</a></li>
         </ol>
       </div>
 
@@ -287,14 +288,31 @@ node tools/embed-firmware.cjs --check  # exit non-zero on drift</code></pre>
         <tr><td>الروبوت &rarr; التطبيق</td><td><code>UPD id value</code></td><td>قيمة جديدة للعرض</td></tr>
       </table>
 
+      <h2 id="tests">اختبارات التشغيل</h2>
+      <p>يصعب تحديد موضع العطل في البرنامج الثابت الكامل: التطبيق يتصل، والأوامر تُقرّ، ولا شيء يتحرك. لذلك يحوي المستودع <a href="https://github.com/abourdim/keystudio_4wd_mecanum_rxy/tree/main/firmware/tests"><code>firmware/tests/</code></a> &mdash; ثمانية برامج MakeCode <strong>مستقلة</strong>، واحد لكل نظام فرعي. الصق واحدًا في مشروع جديد، احرق، وراقب. بلا تطبيق، بلا بلوتوث، وبلا أي ملف آخر.</p>
+      <table class="wikitable">
+        <tr><th>الترتيب</th><th>الملف</th><th>يجيب عن</th></tr>
+        <tr><td>١</td><td><code>test-leds.ts</code></td><td>هل مشغّل I2C حيّ ومُغذّى؟</td></tr>
+        <tr><td>٢</td><td><code>test-motors.ts</code></td><td>هل تدور العجلات الأربع وفي الاتجاه الصحيح؟</td></tr>
+        <tr><td>٣</td><td><code>test-servo.ts</code></td><td>هل يتحرك الرأس؟ وما قيمة التعديل؟</td></tr>
+        <tr><td>٤</td><td><code>test-ultrasonic.ts</code></td><td>هل يستجيب الحساس، وأي روتين قراءة يناسبه؟</td></tr>
+        <tr><td>٥</td><td><code>test-line.ts</code></td><td>هل تقرأ حساسات الخط الثلاثة بنظافة؟</td></tr>
+        <tr><td>٦</td><td><code>test-neopixel.ts</code></td><td>هل يُضيء الشريط، وعلى أي طرف؟</td></tr>
+        <tr><td>٧</td><td><code>test-microbit.ts</code></td><td>هل تُبلّغ الحساسات المدمجة؟</td></tr>
+        <tr><td>٨</td><td><code>test-ble.ts</code></td><td>هل يعمل البلوتوث أصلاً، بدون أي روبوت؟</td></tr>
+      </table>
+      <div class="ambox ambox-notice">اثنان من هذه الاختبارات لا يستطيعان استخدام الشاشة: حساسات الخط على P3/P4/P10 والشريط على P7، وكلها أطراف مصفوفة. لذا يستدعيان <code>led.enable(false)</code> ويُبلّغان عبر المصابيح أو الصفّارة أو المنفذ التسلسلي.</div>
+
       <h2 id="troubleshooting">حل المشكلات</h2>
+      <p>قبل استعراض هذا الجدول، فكّر في حرق الاختبار المقابل من <a href="#tests">firmware/tests/</a>: أعطال مختلفة تمامًا تبدو متطابقة من بعيد، والاختبار يعزل النظام الفرعي في دقيقة تقريبًا.</p>
+
       <table class="wikitable">
         <tr><th>العَرَض</th><th>السبب / الحل</th></tr>
-        <tr><td>يتصل ويُقرّ الأوامر، لكن لا شيء يتحرك</td><td>برنامج ثابت مكتوب لامتداد V1 على لوحة V2. يجب أن يكون فضاء الأسماء <code>mecanumRobotV2</code>، و<code>state()</code> بلا وسيط.</td></tr>
-        <tr><td>الشريط لا يُضيء أبدًا</td><td>ثلاثة أسباب محتملة: طرف خاطئ (P7 لا P8)، أو المصفوفة ما زالت مفعّلة، أو نداء لـ <code dir="ltr">input.lightLevel()</code> في مكان ما &mdash; فهو يُعيد تفعيل الشاشة ويستعيد P7.</td></tr>
-        <tr><td>حساسات الخط تُرجع قيمًا عشوائية</td><td><code>USE_MATRIX</code> بقي <code>true</code>. الأطراف P3 وP4 وP10 تابعة للشاشة.</td></tr>
+        <tr><td>يتصل ويُقرّ الأوامر، لكن لا شيء يتحرك</td><td><code>test-leds.ts</code> ثم <code>test-motors.ts</code>. برنامج ثابت مكتوب لامتداد V1 على لوحة V2. يجب أن يكون فضاء الأسماء <code>mecanumRobotV2</code>، و<code>state()</code> بلا وسيط.</td></tr>
+        <tr><td>الشريط لا يُضيء أبدًا</td><td><code>test-neopixel.ts</code>. ثلاثة أسباب محتملة: طرف خاطئ (P7 لا P8)، أو المصفوفة ما زالت مفعّلة، أو نداء لـ <code dir="ltr">input.lightLevel()</code> في مكان ما &mdash; فهو يُعيد تفعيل الشاشة ويستعيد P7.</td></tr>
+        <tr><td>حساسات الخط تُرجع قيمًا عشوائية</td><td><code>test-line.ts</code>. <code>USE_MATRIX</code> بقي <code>true</code>. الأطراف P3 وP4 وP10 تابعة للشاشة.</td></tr>
         <tr><td>النصف الأعلى من منزلق السرعة لا يفعل شيئًا</td><td>المقياس 0&ndash;100 لا 0&ndash;255.</td></tr>
-        <tr><td>المسافة دائمًا 0</td><td>تحقّق من تغذية 5 فولت وموصّل الحساس المثبّت على الرأس المتحرك. ويجب أن يكون الروبوت ثابتًا: يُعلَّق القياس أثناء دوران العجلات.</td></tr>
+        <tr><td>المسافة دائمًا 0</td><td><code>test-ultrasonic.ts</code>. تحقّق من تغذية 5 فولت وموصّل الحساس المثبّت على الرأس المتحرك. ويجب أن يكون الروبوت ثابتًا: يُعلَّق القياس أثناء دوران العجلات.</td></tr>
         <tr><td>الرسم يعرض «waiting for UPD…»</td><td>عيّنة واحدة لا ترسم خطًا. في النسخة الحديثة تُرسم العيّنة المنفردة كنقطة، ويأخذ نمط Auto عيّنات في كل الأنماط.</td></tr>
         <tr><td>أول اتصال يستغرق خمس عشرة ثانية</td><td>هذا متوقّع: نقل كامل للتخطيط. الاتصالات التالية تستخدم بصمة <code>CFGVER</code> وتكون فورية.</td></tr>
         <tr><td>قيم تتحرك وحدها بدون روبوت</td><td>نسخة قديمة: كان مُحاكي العرض يعمل فوق وصلة حقيقية. أُصلح بتعطيله فور وصول إعداد من الجهاز.</td></tr>
