@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Keyes 4WD Mecanum RXY - Wiki</title>
+<link rel="stylesheet" href="wiki.css">
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-inner">
+    <a class="wiki-logo" href="https://workshop-diy.org"><img src="logo.png" alt="Wiki logo"></a>
+    <a class="masthead-site-link" href="https://workshop-diy.org">workshop-diy.org</a>
+    <div class="masthead-title">
+      Wiki
+      <span class="sub">The free personal knowledge base</span>
+    </div>
+    <div class="masthead-actions">
+      <div class="lang-switch" role="group" aria-label="Language">
+        <a href="keyes-mecanum-rxy.html" class="lang-switch-btn" title="Français"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="20" height="40" fill="#002395"/><rect x="20" width="20" height="40" fill="#fff"/><rect x="40" width="20" height="40" fill="#ED2939"/></svg></a>
+        <a href="keyes-mecanum-rxy-en.html" class="lang-switch-btn active" title="English"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="60" height="40" fill="#012169"/><path d="M0 0L60 40M60 0L0 40" stroke="#fff" stroke-width="6.5"/><path d="M0 0L60 40M60 0L0 40" stroke="#C8102E" stroke-width="3.5"/><path d="M30 0V40M0 20H60" stroke="#fff" stroke-width="11"/><path d="M30 0V40M0 20H60" stroke="#C8102E" stroke-width="6.5"/></svg></a>
+        <a href="keyes-mecanum-rxy-ar.html" class="lang-switch-btn" title="العربية"><svg width="24" height="16" viewBox="0 0 900 600"><defs><clipPath id="glKeyRxyEn"><rect width="450" height="600"/></clipPath></defs><rect width="450" height="600" fill="#006233"/><rect x="450" width="450" height="600" fill="#FFF"/><g fill="#D21034" transform="translate(450,300)"><circle r="125"/><circle cx="25" r="100" fill="#FFF"/><g clip-path="url(#glKeyRxyEn)" transform="translate(-450,-300)"><circle cx="475" cy="300" r="100" fill="#006233"/></g><path d="M85-12l22 67h71l-57 42 22 67-58-42-57 42 21-67-57-42h71z"/></g></svg></a>
+      </div>
+      <div class="masthead-search">
+        <input type="text" placeholder="Search" disabled>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wiki-layout">
+
+  <div class="sidebar">
+    <h3>Navigation</h3>
+    <ul>
+      <li><a href="index-en.html">Main page</a></li>
+      <li><a href="#">Recent changes</a></li>
+      <li><a href="#">Random page</a></li>
+    </ul>
+    <h3>Categories</h3>
+    <ul>
+      <li><a href="index-en.html">Networking</a></li>
+      <li><a href="index-en.html">Linux</a></li>
+      <li><a href="index-en.html">Windows</a></li>
+      <li><a href="index-en.html">Electronics</a></li>
+      <li><a href="index-en.html">ESP32</a></li>
+      <li><a href="index-en.html">micro:bit</a></li>
+    </ul>
+    <h3>Tools</h3>
+    <ul>
+      <li><a href="https://github.com/abourdim/keystudio_4wd_mecanum_rxy">View source repository</a></li>
+      <li><a href="keyes-mecanum-en.html">Simple version</a></li>
+      <li><a href="bit-rxy-en.html">bit-rxy (the original builder)</a></li>
+    </ul>
+  </div>
+
+  <div class="content-wrap">
+    <div class="article-tabs">
+      <span class="active">Article</span>
+      <span>Discussion</span>
+    </div>
+
+    <article>
+      <h1 class="page-title">Keyes 4WD Mecanum RXY</h1>
+
+      <div class="infobox">
+        <div class="infobox-title">Keyes 4WD Mecanum RXY</div>
+        <table>
+          <tr><th>Type</th><td>Widget-driven remote, layout carried by the firmware</td></tr>
+          <tr><th>Hardware</th><td>Keyestudio 4WD Mecanum <strong>V2</strong> + BBC micro:bit V2</td></tr>
+          <tr><th>Extensions</th><td><code>mecanumRobotV2</code>, Bluetooth, Neopixel</td></tr>
+          <tr><th>Widgets</th><td>31, defined in the firmware</td></tr>
+          <tr><th>Firmware</th><td>K4-v17 (MakeCode / JavaScript)</td></tr>
+          <tr><th>Languages</th><td>English, Français, العربية</td></tr>
+          <tr><th>Repository</th><td><a href="https://github.com/abourdim/keystudio_4wd_mecanum_rxy">github.com/abourdim/keystudio_4wd_mecanum_rxy</a></td></tr>
+        </table>
+      </div>
+
+      <p class="hatnote">This article covers the <strong>widget</strong> version of the Keyestudio mecanum remote: the whole layout lives in the firmware and is sent back to the app on connect. For the simple fixed-layout page, see <a href="keyes-mecanum-en.html">Keyes 4WD Mecanum Remote</a>. The app descends from <a href="bit-rxy-en.html">bit-rxy</a>, by way of the Maqueen Lab variant.</p>
+
+      <div class="toc">
+        <div class="toc-title">Contents</div>
+        <ol>
+          <li><a href="#overview">Overview</a></li>
+          <li><a href="#quickstart">Quick start</a></li>
+          <li><a href="#walkthrough">Step-by-step: clone, flash &amp; test</a></li>
+          <li><a href="#understanding">Understanding the code (for newbies)</a></li>
+          <li><a href="#widgets">The 31 widgets</a></li>
+          <li><a href="#pins">Pin map and hardware trade-offs</a></li>
+          <li><a href="#protocol">Bluetooth protocol reference</a></li>
+          <li><a href="#troubleshooting">Troubleshooting</a></li>
+        </ol>
+      </div>
+
+      <h2 id="overview">Overview</h2>
+      <p>Two tabs: <strong>✏️ Build</strong> to compose a remote by drag and drop, <strong>▶️ Play</strong> to drive it. The distinctive part, inherited from <a href="bit-rxy-en.html">bit-rxy</a>, is that the layout is not stored in the browser but <em>in the firmware</em>, as a Base64 string. The micro:bit can therefore describe its own interface: any copy of the app, on any machine, redraws the right remote as soon as it connects.</p>
+      <p>Compared with the <a href="keyes-mecanum-en.html">simple page</a>, you gain the 8-way bitmask mecanum pad, the NeoPixel strip with effects, autonomous Line and Avoid modes, the micro:bit's own sensors, and a distance graph. You lose simplicity: 31 widgets, a roughly ten-second layout transfer, and a firmware of over 2,000 lines.</p>
+
+      <h2 id="quickstart">Quick start</h2>
+      <ol>
+        <li>Open <code>index.html</code> in Chrome or Edge.</li>
+        <li><strong>⚙ Firmware</strong> in the header: copy the code, add the three extensions, flash.</li>
+        <li><strong>▶️ Play</strong> tab, <strong>Connect</strong>, pick the board.</li>
+        <li>Wait for the layout transfer (~10 s the first time, cached afterwards), then drive.</li>
+      </ol>
+
+      <h2 id="walkthrough">Step-by-step: clone, flash &amp; test</h2>
+
+      <h3>1. Clone the repository</h3>
+      <pre><code>git clone https://github.com/abourdim/keystudio_4wd_mecanum_rxy.git
+cd keystudio_4wd_mecanum_rxy</code></pre>
+
+      <h3>2. Open the page</h3>
+      <p>Double-clicking <code>index.html</code> is enough; <code>npx serve .</code> works too.</p>
+
+      <h3>3. The three extensions</h3>
+      <table class="wikitable">
+        <tr><th>Extension</th><th>Source</th><th>Why</th></tr>
+        <tr><td><code>mecanum_robot_v2</code></td><td><code>github.com/keyestudio2019/mecanum_robot_v2</code></td><td>Motors, servo, headlights, sensors</td></tr>
+        <tr><td>Bluetooth</td><td>built in</td><td>UART service</td></tr>
+        <tr><td>Neopixel</td><td>built in</td><td>4-LED strip on P7</td></tr>
+      </table>
+      <div class="ambox ambox-warning">Enable <strong>No Pairing Required</strong> in Project Settings. The Firmware dialog also carries the full <code>bluetooth</code> block to merge into <code>pxt.json</code> if the link stays silent.</div>
+
+      <h3>4. Flash</h3>
+      <p><strong>Copy code</strong>, paste into MakeCode in JavaScript mode, Download, drop the <code>.hex</code>.</p>
+
+      <h3>5. First connect: watch the transfer</h3>
+      <p><strong>Play</strong> tab, <strong>Connect</strong>. The app first asks for a short revision (<code>GETCFGVER</code>); with nothing cached it falls back to the full <code>GETCFG</code> transfer, about 280 chunks at 35 ms. Ten seconds or so, once per layout.</p>
+
+      <h3>6. Verify each subsystem</h3>
+      <ol>
+        <li><strong>Drive</strong> &mdash; all eight pad directions, wheels off the ground. Diagonals must translate, not rotate.</li>
+        <li><strong>Servo</strong> &mdash; the slider should sweep the head; the gauge follows.</li>
+        <li><strong>Headlights</strong> &mdash; both toggles.</li>
+        <li><strong>Strip</strong> &mdash; Strip switch, then a colour, then Rainbow / Chase / Sparkle.</li>
+        <li><strong>Distance</strong> &mdash; robot stationary, the gauge tracks your hand and the graph fills.</li>
+        <li><strong>Line</strong> &mdash; the three lights come on one at a time across a black stripe.</li>
+        <li><strong>Sensors</strong> &mdash; sound, temperature, tilt X/Y, buttons A/B, logo touch.</li>
+      </ol>
+
+      <div class="ambox ambox-success">A complete setup: the layout appears on its own after connecting, all eight directions translate correctly, the strip animates, distance tracks your hand, the three line sensors react separately, and the uptime clock advances in the header.</div>
+
+      <h2 id="understanding">Understanding the code (for newbies)</h2>
+      <p class="hatnote">Assumes basic JavaScript. The firmware section assumes you have seen MakeCode in JavaScript mode before.</p>
+
+      <h3>System architecture, illustrated</h3>
+      <div class="diagram"><pre style="margin:0;border:0;padding:0;background:none;">┌────────────────────────┐                    ┌────────────────────────┐
+│        BROWSER         │   Nordic UART BLE  │       micro:bit        │
+│                        │ ◀────────────────▶ │      firmware/main.ts  │
+│  ┌──────────────────┐  │                    │                        │
+│  │ Build (canvas)   │  │                    │  ┌──────────────────┐  │
+│  └────────┬─────────┘  │                    │  │ CFG  (Base64 of  │  │
+│           │ export     │                    │  │   the layout)    │  │
+│  ┌────────▼─────────┐  │  ◀── CFG chunks ── │  └────────┬─────────┘  │
+│  │ Play (runtime)   │  │                    │           │ describes  │
+│  └────────┬─────────┘  │                    │  ┌────────▼─────────┐  │
+│           │            │  ── byte a..p ───▶ │  │ handleDpadMask() │  │
+│           │            │  ── SET id val ──▶ │  │ handleWidget()   │  │
+│           │            │  ◀── UPD id val ── │  └────────┬─────────┘  │
+└───────────┼────────────┘                    └───────────┼────────────┘
+            │                                             │
+     widgets rendered                          motors · servo · strip
+      from the CFG                             sensors · headlights</pre></div>
+      <p>The direction of the "CFG chunks" arrow is the central idea: the layout travels from the robot to the app, never the other way. The Build tab exists to <em>author</em> a CFG that you then paste into the firmware; in normal use the firmware drives what you see.</p>
+
+      <h3>File layout</h3>
+      <div class="diagram"><pre style="margin:0;border:0;padding:0;background:none;">keystudio_4wd_mecanum_rxy/
+├── index.html    ← shell + Firmware dialog + embedded source
+├── script.js     ← builder, runtime, BLE, widgets     (~8,400 lines)
+├── styles.css    ← theme
+├── firmware/
+│   ├── main.ts   ← firmware + the CFG constant        (~2,060 lines)
+│   └── pxt.json  ← extensions + Bluetooth settings
+├── examples/keyes-4wd-mecanum-layout.json  ← same CFG, readable
+└── tools/embed-firmware.cjs                ← copies main.ts into index.html</pre></div>
+
+      <h3>The config cache: not re-sending 5 KB every time</h3>
+      <p>Ten seconds on every connect would be unbearable. Instead the board can answer a short question first:</p>
+      <div class="diagram"><pre style="margin:0;border:0;padding:0;background:none;">App ── GETCFGVER ─────────▶ micro:bit
+App ◀── CFGVER 47c78c1f ──  (hash computed from CFG at boot)
+     │
+     ├─ hash known ───────▶ draw from the local cache        (instant)
+     │
+     └─ unknown ──────────▶ GETCFG ──▶ CFGBEGIN / CFG ×280 / CFGEND
+                                        (~10 s, once)</pre></div>
+      <p>The hash is derived from the contents of <code>CFG</code> itself, so it changes automatically whenever the layout changes: no version number to maintain by hand, and no way to serve a stale cache.</p>
+
+      <h3>The mecanum pad: eight directions in a single byte</h3>
+      <p>Each press sends <strong>one byte</strong>, not a sentence. The complete direction state fits in four bits, and the transmitted byte is <code>'a' + mask</code>:</p>
+      <table class="wikitable">
+        <tr><th>Bit</th><th>1</th><th>2</th><th>4</th><th>8</th></tr>
+        <tr><td>Direction</td><td>Up</td><td>Down</td><td>Left</td><td>Right</td></tr>
+      </table>
+      <p>A diagonal is therefore not a new wire concept: it is simply two bits set. The firmware sums the bits into a vector, and the same formula serves all eight directions:</p>
+      <pre><code>btnFwd  = (mask &amp; 1) != 0
+btnBack = (mask &amp; 2) != 0
+btnLeft = (mask &amp; 4) != 0
+btnRight= (mask &amp; 8) != 0
+
+let ny = 0, nx = 0
+if (btnFwd)  ny += 1
+if (btnBack) ny -= 1
+if (btnLeft) nx -= 1
+if (btnRight)nx += 1
+runMecanum(nx, ny)</code></pre>
+      <table class="wikitable">
+        <tr><th>Button</th><th>Mask</th><th>Byte</th><th>nx, ny</th></tr>
+        <tr><td>↑</td><td>1</td><td><code>b</code></td><td>0, +1</td></tr>
+        <tr><td>↖</td><td>5</td><td><code>f</code></td><td>&minus;1, +1</td></tr>
+        <tr><td>↗</td><td>9</td><td><code>j</code></td><td>+1, +1</td></tr>
+        <tr><td>↙</td><td>6</td><td><code>g</code></td><td>&minus;1, &minus;1</td></tr>
+        <tr><td>↘</td><td>10</td><td><code>k</code></td><td>+1, &minus;1</td></tr>
+        <tr><td>■ STOP</td><td>0</td><td><code>a</code></td><td>0, 0</td></tr>
+      </table>
+      <p>Because each packet carries the <em>complete state</em> rather than a change, a lost packet repairs itself on the next one. A held direction is re-sent periodically, which lets the firmware's watchdog tell "still held" from "the release packet was dropped".</p>
+
+      <h3>The hardware trade-off: why the 5×5 matrix stays dark</h3>
+      <p>This is the least obvious decision in the firmware, and it was made twice for the wrong reason before being made for the right one. On this chassis, four matrix pins are already taken:</p>
+      <div class="diagram"><pre style="margin:0;border:0;padding:0;background:none;">Pins driven by the 5×5 matrix:  P3  P4  P6  P7  P9  P10
+                                 │   │       │       │
+              line sensor L ─────┘   │       │       │
+              line sensor C ─────────┘       │       │
+              NeoPixel strip ───────────────-┘       │
+              line sensor R ─────────────────────────┘
+
+  display on  ─▶ these pins are multiplexed
+              ─▶ sensor reads return noise
+              ─▶ the strip will not light
+
+  therefore:  led.enable(false)   once, at startup</pre></div>
+      <p>The firmware keeps all its glyph code behind a <code>USE_MATRIX</code> constant rather than deleting it: setting it back to <code>true</code> restores the display, at the cost of line following and the strip.</p>
+      <div class="ambox ambox-notice">A corollary: <strong>light level is unusable on this robot</strong>. The micro:bit senses light with its own matrix, so <code>input.lightLevel()</code> re-enables the display &mdash; and takes P7 back from the strip twice a second. The symptom was a strip that lit at boot and then stayed dark.</div>
+
+      <h3>Three-sensor line following</h3>
+      <p>The truth table is taken verbatim from Keyestudio's own program, not derived: on this chassis <code>1</code> means "on the line".</p>
+      <table class="wikitable">
+        <tr><th>L</th><th>C</th><th>R</th><th>Action</th></tr>
+        <tr><td>0</td><td>1</td><td>0</td><td>Straight &mdash; centred</td></tr>
+        <tr><td>1</td><td>&mdash;</td><td>1</td><td>Straight &mdash; junction</td></tr>
+        <tr><td>1</td><td>&mdash;</td><td>0</td><td>Bear left</td></tr>
+        <tr><td>0</td><td>&mdash;</td><td>1</td><td>Bear right</td></tr>
+        <tr><td>0</td><td>0</td><td>0</td><td>Stop &mdash; line lost</td></tr>
+      </table>
+
+      <h3>The Firmware dialog, and the firmware copied into the page</h3>
+      <p>The <strong>⚙ Firmware</strong> button reuses the app's existing modal and shows the full source, the version, the extensions and the Bluetooth block. As with the simple page, the source is <em>embedded</em> rather than loaded with <code>fetch()</code>, which is blocked on <code>file://</code>. Here that costs about 104 KB inside <code>index.html</code>, hence the tool:</p>
+      <pre><code>node tools/embed-firmware.cjs          # rewrite index.html
+node tools/embed-firmware.cjs --check  # exit non-zero on drift</code></pre>
+      <p>The <code>.cjs</code> extension is not a whim: <code>package.json</code> declares <code>"type": "module"</code>, so a <code>.js</code> file would be treated as an ES module and <code>require()</code> would fail.</p>
+
+      <h2 id="widgets">The 31 widgets</h2>
+      <table class="wikitable">
+        <tr><th>Group</th><th>Widgets</th></tr>
+        <tr><td>Driving</td><td>8-way mecanum pad with centre STOP, speed slider (0&ndash;100), speed gauge, STOP button</td></tr>
+        <tr><td>Head</td><td>Ultrasonic servo slider, angle gauge</td></tr>
+        <tr><td>Lights</td><td>Left headlight, right headlight</td></tr>
+        <tr><td>NeoPixel strip</td><td>Switch, colour (9), brightness, effect (Solid / Rainbow / Chase / Sparkle)</td></tr>
+        <tr><td>Distance</td><td>Gauge, rolling 30 s graph, Auto / Read now selector, obstacle notification</td></tr>
+        <tr><td>Line</td><td>Three lights: left, center, right</td></tr>
+        <tr><td>micro:bit sensors</td><td>Sound, temperature, tilt X, tilt Y, button A, button B, logo touch</td></tr>
+        <tr><td>System</td><td>Firmware version, uptime clock, telemetry selector, mode selector, Buzz</td></tr>
+      </table>
+      <p>The autonomous <strong>Line</strong> and <strong>Avoid</strong> modes are chosen in the Mode selector; in Manual mode the pad takes over.</p>
+
+      <h2 id="pins">Pin map and hardware trade-offs</h2>
+      <table class="wikitable">
+        <tr><th>Function</th><th>Pin</th><th>Consequence</th></tr>
+        <tr><td>Line sensors L / C / R</td><td><strong>P3 / P4 / P10</strong></td><td rowspan="2">Matrix pins &rarr; <code>led.enable(false)</code> required</td></tr>
+        <tr><td>NeoPixel strip (4 LEDs)</td><td><strong>P7</strong></td></tr>
+        <tr><td>Ultrasonic</td><td>P15 / P16</td><td>5 V from the battery</td></tr>
+        <tr><td>Servo</td><td>P14</td><td>&mdash;</td></tr>
+        <tr><td>Motors, headlights</td><td>I2C <code>0x30</code></td><td>V1 used <code>0x47</code></td></tr>
+      </table>
+      <p>The strip is on <strong>P7</strong>, which Keyestudio does not document for V2: the V2 extension exposes no RGB function at all, and <code>setLed()</code> only handles the two headlights on/off. The pin was found with a boot-time scan, kept behind the <code>NP_PIN_SCAN</code> constant. Note that <strong>P8 is the V1 pin</strong> and is wrong here.</p>
+
+      <h2 id="protocol">Bluetooth protocol reference</h2>
+      <table class="wikitable">
+        <tr><th>Direction</th><th>Message</th><th>Meaning</th></tr>
+        <tr><td>App &rarr; robot</td><td>one byte <code>a</code>&hellip;<code>p</code></td><td>Complete pad mask (fast path)</td></tr>
+        <tr><td>App &rarr; robot</td><td><code>SET id value</code></td><td>A widget was operated</td></tr>
+        <tr><td>App &rarr; robot</td><td><code>GETCFGVER</code></td><td>Request the layout hash</td></tr>
+        <tr><td>App &rarr; robot</td><td><code>GETCFG</code></td><td>Request the full layout</td></tr>
+        <tr><td>Robot &rarr; app</td><td><code>CFGVER hash</code></td><td>Short answer for the cache</td></tr>
+        <tr><td>Robot &rarr; app</td><td><code>CFGBEGIN</code> / <code>CFG chunk</code> / <code>CFGEND</code></td><td>Layout in 18-byte Base64 chunks</td></tr>
+        <tr><td>Robot &rarr; app</td><td><code>UPD id value</code></td><td>New value to display</td></tr>
+      </table>
+
+      <h2 id="troubleshooting">Troubleshooting</h2>
+      <table class="wikitable">
+        <tr><th>Symptom</th><th>Cause / fix</th></tr>
+        <tr><td>Connects, acknowledges, but nothing moves</td><td>Firmware written for the V1 extension on a V2 board. The namespace must be <code>mecanumRobotV2</code>, and <code>state()</code> takes no argument.</td></tr>
+        <tr><td>The strip never lights</td><td>Three possible causes: wrong pin (P7, not P8), matrix still enabled, or an <code>input.lightLevel()</code> call somewhere &mdash; it re-enables the display and takes P7 back.</td></tr>
+        <tr><td>Line sensors report nonsense</td><td><code>USE_MATRIX</code> left at <code>true</code>. P3, P4 and P10 belong to the display.</td></tr>
+        <tr><td>The top half of the speed slider does nothing</td><td>The scale is 0&ndash;100, not 0&ndash;255.</td></tr>
+        <tr><td>Distance always 0</td><td>Check the 5 V supply and the sensor connector, mounted on the moving head. The robot must be stationary: polling is suspended while the wheels turn.</td></tr>
+        <tr><td>The graph shows "waiting for UPD…"</td><td>A single sample draws no line. On a current build a lone sample renders as a dot, and Auto polls in every mode.</td></tr>
+        <tr><td>The first connect takes ten seconds</td><td>Expected: full layout transfer. Later connects use the <code>CFGVER</code> hash and are instant.</td></tr>
+        <tr><td>Values move on their own with no robot</td><td>Older build: the demo simulator ran on top of a live link. Fixed by disabling it as soon as a config comes from the device.</td></tr>
+        <tr><td>The Firmware dialog shows an old version</td><td>Re-run <code>node tools/embed-firmware.cjs</code>.</td></tr>
+      </table>
+
+      <div class="catlinks">
+        Categories: <a href="index-en.html">micro:bit</a> | <a href="index-en.html">Bluetooth</a> | <a href="index-en.html">Robotics</a> | <a href="index-en.html">Web apps</a>
+      </div>
+    </article>
+  </div>
+</div>
+
+<div class="footer-wiki">
+  This page was created on 13 August 2026. Content based on the <a href="https://github.com/abourdim/keystudio_4wd_mecanum_rxy">keystudio_4wd_mecanum_rxy</a> repository, a direct reading of <code>script.js</code> and <code>firmware/main.ts</code>, and the <code>mecanum_robot_v2</code> extension source.
+</div>
+
+</body>
+</html>

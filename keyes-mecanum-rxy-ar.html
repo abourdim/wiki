@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Keyes 4WD Mecanum RXY - Wiki</title>
+<link rel="stylesheet" href="wiki.css">
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-inner">
+    <a class="wiki-logo" href="https://workshop-diy.org"><img src="logo.png" alt="شعار الويكي"></a>
+    <a class="masthead-site-link" href="https://workshop-diy.org">workshop-diy.org</a>
+    <div class="masthead-title">
+      ويكي
+      <span class="sub">قاعدة المعرفة الشخصية والمجانية</span>
+    </div>
+    <div class="masthead-actions">
+      <div class="lang-switch" role="group" aria-label="اللغة">
+        <a href="keyes-mecanum-rxy.html" class="lang-switch-btn" title="Français"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="20" height="40" fill="#002395"/><rect x="20" width="20" height="40" fill="#fff"/><rect x="40" width="20" height="40" fill="#ED2939"/></svg></a>
+        <a href="keyes-mecanum-rxy-en.html" class="lang-switch-btn" title="English"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="60" height="40" fill="#012169"/><path d="M0 0L60 40M60 0L0 40" stroke="#fff" stroke-width="6.5"/><path d="M0 0L60 40M60 0L0 40" stroke="#C8102E" stroke-width="3.5"/><path d="M30 0V40M0 20H60" stroke="#fff" stroke-width="11"/><path d="M30 0V40M0 20H60" stroke="#C8102E" stroke-width="6.5"/></svg></a>
+        <a href="keyes-mecanum-rxy-ar.html" class="lang-switch-btn active" title="العربية"><svg width="24" height="16" viewBox="0 0 900 600"><defs><clipPath id="glKeyRxyAr"><rect width="450" height="600"/></clipPath></defs><rect width="450" height="600" fill="#006233"/><rect x="450" width="450" height="600" fill="#FFF"/><g fill="#D21034" transform="translate(450,300)"><circle r="125"/><circle cx="25" r="100" fill="#FFF"/><g clip-path="url(#glKeyRxyAr)" transform="translate(-450,-300)"><circle cx="475" cy="300" r="100" fill="#006233"/></g><path d="M85-12l22 67h71l-57 42 22 67-58-42-57 42 21-67-57-42h71z"/></g></svg></a>
+      </div>
+      <div class="masthead-search">
+        <input type="text" placeholder="بحث" disabled>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wiki-layout">
+
+  <div class="sidebar">
+    <h3>التنقل</h3>
+    <ul>
+      <li><a href="index-ar.html">الصفحة الرئيسية</a></li>
+      <li><a href="#">أحدث التغييرات</a></li>
+      <li><a href="#">صفحة عشوائية</a></li>
+    </ul>
+    <h3>التصنيفات</h3>
+    <ul>
+      <li><a href="index-ar.html">الشبكات</a></li>
+      <li><a href="index-ar.html">لينكس</a></li>
+      <li><a href="index-ar.html">ويندوز</a></li>
+      <li><a href="index-ar.html">الإلكترونيات</a></li>
+      <li><a href="index-ar.html">ESP32</a></li>
+      <li><a href="index-ar.html">micro:bit</a></li>
+    </ul>
+    <h3>أدوات</h3>
+    <ul>
+      <li><a href="https://github.com/abourdim/keystudio_4wd_mecanum_rxy">عرض المستودع المصدري</a></li>
+      <li><a href="keyes-mecanum-ar.html">النسخة البسيطة</a></li>
+      <li><a href="bit-rxy-ar.html">bit-rxy (المنشئ الأصلي)</a></li>
+    </ul>
+  </div>
+
+  <div class="content-wrap">
+    <div class="article-tabs">
+      <span class="active">مقالة</span>
+      <span>نقاش</span>
+    </div>
+
+    <article>
+      <h1 class="page-title">Keyes 4WD Mecanum RXY</h1>
+
+      <div class="infobox">
+        <div class="infobox-title">Keyes 4WD Mecanum RXY</div>
+        <table>
+          <tr><th>النوع</th><td>وحدة تحكم بالأدوات، التخطيط يحمله البرنامج الثابت</td></tr>
+          <tr><th>العتاد</th><td>Keyestudio 4WD Mecanum <strong>V2</strong> + BBC micro:bit V2</td></tr>
+          <tr><th>الامتدادات</th><td><code>mecanumRobotV2</code>، Bluetooth، Neopixel</td></tr>
+          <tr><th>الأدوات</th><td>31، معرّفة داخل البرنامج الثابت</td></tr>
+          <tr><th>البرنامج الثابت</th><td>K4-v17 (MakeCode / JavaScript)</td></tr>
+          <tr><th>اللغات</th><td>English، Français، العربية</td></tr>
+          <tr><th>المستودع</th><td><a href="https://github.com/abourdim/keystudio_4wd_mecanum_rxy">github.com/abourdim/keystudio_4wd_mecanum_rxy</a></td></tr>
+        </table>
+      </div>
+
+      <p class="hatnote">تغطي هذه المقالة نسخة <strong>الأدوات</strong> من وحدة تحكم روبوت ميكانوم: التخطيط الكامل يعيش في البرنامج الثابت ويُرسَل إلى التطبيق عند الاتصال. للصفحة البسيطة ذات التخطيط الثابت، انظر <a href="keyes-mecanum-ar.html">Keyes 4WD Mecanum Remote</a>. التطبيق منحدر من <a href="bit-rxy-ar.html">bit-rxy</a> عبر نسخة Maqueen Lab.</p>
+
+      <div class="toc">
+        <div class="toc-title">المحتويات</div>
+        <ol>
+          <li><a href="#overview">نظرة عامة</a></li>
+          <li><a href="#quickstart">البدء السريع</a></li>
+          <li><a href="#walkthrough">خطوة بخطوة: النسخ، الحرق والاختبار</a></li>
+          <li><a href="#understanding">فهم الكود (للمبتدئين)</a></li>
+          <li><a href="#widgets">الأدوات الـ31</a></li>
+          <li><a href="#pins">خريطة الأطراف والمقايضات العتادية</a></li>
+          <li><a href="#protocol">مرجع بروتوكول البلوتوث</a></li>
+          <li><a href="#troubleshooting">حل المشكلات</a></li>
+        </ol>
+      </div>
+
+      <h2 id="overview">نظرة عامة</h2>
+      <p>تبويبان: <strong>✏️ Build</strong> لتأليف وحدة تحكم بالسحب والإفلات، و<strong>▶️ Play</strong> لقيادتها. الميزة المميّزة، الموروثة من <a href="bit-rxy-ar.html">bit-rxy</a>، أن التخطيط لا يُخزَّن في المتصفح بل <em>في البرنامج الثابت</em> كسلسلة Base64. أي أن micro:bit يستطيع وصف واجهته بنفسه: أي نسخة من التطبيق، على أي جهاز، ترسم وحدة التحكم الصحيحة بمجرد الاتصال.</p>
+      <p>بالمقارنة مع <a href="keyes-mecanum-ar.html">الصفحة البسيطة</a>، تكسب لوحة ميكانوم بثماني جهات بقناع بتّي، وشريط NeoPixel بمؤثرات، ونمطي القيادة الذاتية Line وAvoid، وحساسات micro:bit المدمجة، ورسمًا بيانيًا للمسافة. وتخسر البساطة: 31 أداة، ونقل تخطيط يستغرق نحو عشر ثوانٍ، وبرنامج ثابت يتجاوز 2000 سطر.</p>
+
+      <h2 id="quickstart">البدء السريع</h2>
+      <ol>
+        <li>افتح <code>index.html</code> في Chrome أو Edge.</li>
+        <li><strong>⚙ Firmware</strong> في الترويسة: انسخ الكود، أضف الامتدادات الثلاثة، واحرق.</li>
+        <li>تبويب <strong>▶️ Play</strong>، زر <strong>Connect</strong>، اختر اللوحة.</li>
+        <li>انتظر نقل التخطيط (نحو 10 ثوانٍ في المرة الأولى، ثم مُخزَّن)، ثم قُد.</li>
+      </ol>
+
+      <h2 id="walkthrough">خطوة بخطوة: النسخ، الحرق والاختبار</h2>
+
+      <h3>١. نسخ المستودع</h3>
+      <pre dir="ltr"><code>git clone https://github.com/abourdim/keystudio_4wd_mecanum_rxy.git
+cd keystudio_4wd_mecanum_rxy</code></pre>
+
+      <h3>٢. فتح الصفحة</h3>
+      <p>النقر المزدوج على <code>index.html</code> يكفي، و<code>npx serve .</code> يعمل أيضًا.</p>
+
+      <h3>٣. الامتدادات الثلاثة</h3>
+      <table class="wikitable">
+        <tr><th>الامتداد</th><th>المصدر</th><th>لماذا</th></tr>
+        <tr><td><code>mecanum_robot_v2</code></td><td><code>github.com/keyestudio2019/mecanum_robot_v2</code></td><td>المحركات، المؤازر، المصابيح، الحساسات</td></tr>
+        <tr><td>Bluetooth</td><td>مدمج</td><td>خدمة UART</td></tr>
+        <tr><td>Neopixel</td><td>مدمج</td><td>شريط 4 مصابيح على P7</td></tr>
+      </table>
+      <div class="ambox ambox-warning">فعّل <strong>No Pairing Required</strong> في إعدادات المشروع. تحمل نافذة البرنامج الثابت أيضًا كتلة <code>bluetooth</code> الكاملة لدمجها في <code>pxt.json</code> إذا بقيت الوصلة صامتة.</div>
+
+      <h3>٤. الحرق</h3>
+      <p><strong>Copy code</strong>، ثم اللصق في MakeCode بنمط JavaScript، ثم Download، ثم إفلات ملف <code>.hex</code>.</p>
+
+      <h3>٥. أول اتصال: راقب النقل</h3>
+      <p>تبويب <strong>Play</strong> ثم <strong>Connect</strong>. يطلب التطبيق أولًا مراجعة قصيرة (<code>GETCFGVER</code>)؛ ولعدم وجود شيء مُخزَّن ينتقل إلى النقل الكامل <code>GETCFG</code>، نحو 280 قطعة بفاصل 35 مللي ثانية. أي عشر ثوانٍ تقريبًا، مرة واحدة لكل تخطيط.</p>
+
+      <h3>٦. تحقّق من كل نظام فرعي</h3>
+      <ol>
+        <li><strong>القيادة</strong> &mdash; الجهات الثماني، والعجلات مرفوعة. يجب أن تنزلق الأقطار لا أن تدور.</li>
+        <li><strong>المؤازر</strong> &mdash; يجب أن يُحرّك المنزلق الرأس، والمقياس يتابع.</li>
+        <li><strong>المصابيح</strong> &mdash; كلا المفتاحين.</li>
+        <li><strong>الشريط</strong> &mdash; مفتاح Strip، ثم لون، ثم Rainbow / Chase / Sparkle.</li>
+        <li><strong>المسافة</strong> &mdash; الروبوت ثابت، المقياس يتابع اليد والرسم يمتلئ.</li>
+        <li><strong>الخط</strong> &mdash; الأضواء الثلاثة تُضيء واحدًا بعد الآخر عبر شريط أسود.</li>
+        <li><strong>الحساسات</strong> &mdash; الصوت، الحرارة، الميل X/Y، الزران A/B، لمس الشعار.</li>
+      </ol>
+
+      <div class="ambox ambox-success">التركيب الكامل: يظهر التخطيط وحده بعد الاتصال، والجهات الثماني تنزلق بشكل صحيح، والشريط يتحرك، والمسافة تتابع اليد، وحساسات الخط الثلاثة تتفاعل كل على حدة، وساعة التشغيل تتقدّم في الترويسة.</div>
+
+      <h2 id="understanding">فهم الكود (للمبتدئين)</h2>
+      <p class="hatnote">يفترض أساسيات JavaScript. قسم البرنامج الثابت يفترض أنك رأيت MakeCode بنمط JavaScript من قبل.</p>
+
+      <h3>معمارية النظام، مصوّرة</h3>
+      <div class="diagram" dir="ltr"><pre style="margin:0;border:0;padding:0;background:none;">┌────────────────────────┐                    ┌────────────────────────┐
+│        BROWSER         │   Nordic UART BLE  │       micro:bit        │
+│                        │ ◀────────────────▶ │      firmware/main.ts  │
+│  ┌──────────────────┐  │                    │                        │
+│  │ Build (canvas)   │  │                    │  ┌──────────────────┐  │
+│  └────────┬─────────┘  │                    │  │ CFG  (Base64 of  │  │
+│           │ export     │                    │  │   the layout)    │  │
+│  ┌────────▼─────────┐  │  ◀── CFG chunks ── │  └────────┬─────────┘  │
+│  │ Play (runtime)   │  │                    │           │ describes  │
+│  └────────┬─────────┘  │                    │  ┌────────▼─────────┐  │
+│           │            │  ── byte a..p ───▶ │  │ handleDpadMask() │  │
+│           │            │  ── SET id val ──▶ │  │ handleWidget()   │  │
+│           │            │  ◀── UPD id val ── │  └────────┬─────────┘  │
+└───────────┼────────────┘                    └───────────┼────────────┘
+            │                                             │
+     widgets rendered                          motors · servo · strip
+      from the CFG                             sensors · headlights</pre></div>
+      <p>اتجاه سهم «CFG chunks» هو الفكرة المركزية: التخطيط يسافر من الروبوت إلى التطبيق، لا العكس أبدًا. تبويب Build موجود <em>لتأليف</em> CFG تلصقه بعد ذلك في البرنامج الثابت؛ وفي الاستخدام العادي البرنامج الثابت هو من يقود ما ترى.</p>
+
+      <h3>تنظيم الملفات</h3>
+      <div class="diagram" dir="ltr"><pre style="margin:0;border:0;padding:0;background:none;">keystudio_4wd_mecanum_rxy/
+├── index.html    ← shell + Firmware dialog + embedded source
+├── script.js     ← builder, runtime, BLE, widgets     (~8,400 lines)
+├── styles.css    ← theme
+├── firmware/
+│   ├── main.ts   ← firmware + the CFG constant        (~2,060 lines)
+│   └── pxt.json  ← extensions + Bluetooth settings
+├── examples/keyes-4wd-mecanum-layout.json  ← same CFG, readable
+└── tools/embed-firmware.cjs                ← copies main.ts into index.html</pre></div>
+
+      <h3>مخزن الإعدادات: عدم إعادة إرسال 5 كيلوبايت كل مرة</h3>
+      <p>عشر ثوانٍ عند كل اتصال أمر لا يُحتمَل. لذلك تستطيع اللوحة الإجابة عن سؤال قصير أولًا:</p>
+      <div class="diagram" dir="ltr"><pre style="margin:0;border:0;padding:0;background:none;">App ── GETCFGVER ─────────▶ micro:bit
+App ◀── CFGVER 47c78c1f ──  (hash computed from CFG at boot)
+     │
+     ├─ hash known ───────▶ draw from the local cache        (instant)
+     │
+     └─ unknown ──────────▶ GETCFG ──▶ CFGBEGIN / CFG ×280 / CFGEND
+                                        (~10 s, once)</pre></div>
+      <p>البصمة مُشتقّة من محتوى <code>CFG</code> نفسه، فتتغيّر تلقائيًا عند أي تعديل على التخطيط: لا رقم إصدار يُدار يدويًا، ولا احتمال لتقديم مخزون قديم.</p>
+
+      <h3>لوحة ميكانوم: ثماني جهات في بايت واحد</h3>
+      <p>كل ضغطة تُرسل <strong>بايتًا واحدًا</strong> لا جملة. حالة الجهات الكاملة تتّسع في أربع بتّات، والبايت المُرسَل يساوي <code dir="ltr">'a' + mask</code>:</p>
+      <table class="wikitable">
+        <tr><th>البتّة</th><th>1</th><th>2</th><th>4</th><th>8</th></tr>
+        <tr><td>الجهة</td><td>أعلى</td><td>أسفل</td><td>يسار</td><td>يمين</td></tr>
+      </table>
+      <p>فالقُطر ليس مفهومًا شبكيًا جديدًا: إنه ببساطة بتّتان مُضاءتان. يجمع البرنامج الثابت البتّات في متجه، والصيغة نفسها تخدم الجهات الثماني:</p>
+      <pre dir="ltr"><code>btnFwd  = (mask &amp; 1) != 0
+btnBack = (mask &amp; 2) != 0
+btnLeft = (mask &amp; 4) != 0
+btnRight= (mask &amp; 8) != 0
+
+let ny = 0, nx = 0
+if (btnFwd)  ny += 1
+if (btnBack) ny -= 1
+if (btnLeft) nx -= 1
+if (btnRight)nx += 1
+runMecanum(nx, ny)</code></pre>
+      <table class="wikitable">
+        <tr><th>الزر</th><th>القناع</th><th>البايت</th><th>nx, ny</th></tr>
+        <tr><td>↑</td><td>1</td><td><code>b</code></td><td>0, +1</td></tr>
+        <tr><td>↖</td><td>5</td><td><code>f</code></td><td>&minus;1, +1</td></tr>
+        <tr><td>↗</td><td>9</td><td><code>j</code></td><td>+1, +1</td></tr>
+        <tr><td>↙</td><td>6</td><td><code>g</code></td><td>&minus;1, &minus;1</td></tr>
+        <tr><td>↘</td><td>10</td><td><code>k</code></td><td>+1, &minus;1</td></tr>
+        <tr><td>■ STOP</td><td>0</td><td><code>a</code></td><td>0, 0</td></tr>
+      </table>
+      <p>ولأن كل حزمة تحمل <em>الحالة الكاملة</em> لا التغيير، فإن حزمة مفقودة تُصلح نفسها في الحزمة التالية. والجهة المُثبَّتة تُعاد دوريًا، وهذا ما يسمح لكلب الحراسة في البرنامج الثابت بالتمييز بين «ما زال مضغوطًا» و«حزمة الإفلات ضاعت».</p>
+
+      <h3>المقايضة العتادية: لماذا تبقى مصفوفة 5×5 مُطفأة</h3>
+      <p>هذا أقل قرار وضوحًا في البرنامج الثابت، وقد اتُّخذ مرتين لسبب خاطئ قبل أن يُتَّخذ للسبب الصحيح. على هذا الهيكل، أربعة من أطراف المصفوفة مشغولة أصلًا:</p>
+      <div class="diagram" dir="ltr"><pre style="margin:0;border:0;padding:0;background:none;">Pins driven by the 5×5 matrix:  P3  P4  P6  P7  P9  P10
+                                 │   │       │       │
+              line sensor L ─────┘   │       │       │
+              line sensor C ─────────┘       │       │
+              NeoPixel strip ───────────────-┘       │
+              line sensor R ─────────────────────────┘
+
+  display on  ─▶ these pins are multiplexed
+              ─▶ sensor reads return noise
+              ─▶ the strip will not light
+
+  therefore:  led.enable(false)   once, at startup</pre></div>
+      <p>يحتفظ البرنامج الثابت بكل كود الرموز خلف الثابت <code>USE_MATRIX</code> بدل حذفه: إعادته إلى <code>true</code> تُرجع الشاشة، على حساب تتبّع الخط والشريط.</p>
+      <div class="ambox ambox-notice">ونتيجة لذلك: <strong>قياس الإضاءة غير قابل للاستخدام على هذا الروبوت</strong>. يقيس micro:bit الضوء بمصفوفته نفسها، لذا فإن <code dir="ltr">input.lightLevel()</code> يُعيد تفعيل الشاشة &mdash; ويستعيد P7 من الشريط مرتين في الثانية. كان العَرَض شريطًا يُضيء عند الإقلاع ثم يبقى مُطفأً.</div>
+
+      <h3>تتبّع الخط بثلاثة حساسات</h3>
+      <p>جدول الحقيقة مأخوذ حرفيًا من برنامج Keyestudio نفسه ولم يُستنتج: على هذا الهيكل <code>1</code> تعني «على الخط».</p>
+      <table class="wikitable">
+        <tr><th>يسار</th><th>وسط</th><th>يمين</th><th>الإجراء</th></tr>
+        <tr><td>0</td><td>1</td><td>0</td><td>مستقيم &mdash; في المنتصف</td></tr>
+        <tr><td>1</td><td>&mdash;</td><td>1</td><td>مستقيم &mdash; تقاطع</td></tr>
+        <tr><td>1</td><td>&mdash;</td><td>0</td><td>انعطاف يسارًا</td></tr>
+        <tr><td>0</td><td>&mdash;</td><td>1</td><td>انعطاف يمينًا</td></tr>
+        <tr><td>0</td><td>0</td><td>0</td><td>توقّف &mdash; فُقد الخط</td></tr>
+      </table>
+
+      <h3>نافذة البرنامج الثابت، والكود المُكرَّر في الصفحة</h3>
+      <p>يعيد زر <strong>⚙ Firmware</strong> استخدام نافذة التطبيق الموجودة أصلًا، ويعرض المصدر الكامل والإصدار والامتدادات وكتلة البلوتوث. وكما في الصفحة البسيطة، المصدر <em>مُدمج</em> بدل تحميله بـ <code>fetch()</code> المحجوب على <code>file://</code>. وهنا يكلّف ذلك نحو 104 كيلوبايت داخل <code>index.html</code>، ومن هنا الأداة:</p>
+      <pre dir="ltr"><code>node tools/embed-firmware.cjs          # rewrite index.html
+node tools/embed-firmware.cjs --check  # exit non-zero on drift</code></pre>
+      <p>الامتداد <code>.cjs</code> ليس نزوة: يعلن <code>package.json</code> عن <code dir="ltr">"type": "module"</code>، لذا سيُعامَل ملف <code>.js</code> كوحدة ES وتفشل <code>require()</code>.</p>
+
+      <h2 id="widgets">الأدوات الـ31</h2>
+      <table class="wikitable">
+        <tr><th>المجموعة</th><th>الأدوات</th></tr>
+        <tr><td>القيادة</td><td>لوحة ميكانوم بثماني جهات مع STOP في المنتصف، منزلق السرعة (0&ndash;100)، مقياس السرعة، زر STOP</td></tr>
+        <tr><td>الرأس</td><td>منزلق المؤازر، مقياس الزاوية</td></tr>
+        <tr><td>الأضواء</td><td>مصباح أيسر، مصباح أيمن</td></tr>
+        <tr><td>شريط NeoPixel</td><td>مفتاح، اللون (9)، السطوع، المؤثر (Solid / Rainbow / Chase / Sparkle)</td></tr>
+        <tr><td>المسافة</td><td>مقياس، رسم متدرّج 30 ثانية، منتقي Auto / Read now، إشعار عائق</td></tr>
+        <tr><td>الخط</td><td>ثلاثة أضواء: يسار، وسط، يمين</td></tr>
+        <tr><td>حساسات micro:bit</td><td>الصوت، الحرارة، الميل X، الميل Y، الزر A، الزر B، لمس الشعار</td></tr>
+        <tr><td>النظام</td><td>إصدار البرنامج الثابت، ساعة التشغيل، منتقي القياسات، منتقي النمط، Buzz</td></tr>
+      </table>
+      <p>يُختار نمطا القيادة الذاتية <strong>Line</strong> و<strong>Avoid</strong> من منتقي Mode؛ وفي النمط اليدوي تعود اللوحة لتتحكّم.</p>
+
+      <h2 id="pins">خريطة الأطراف والمقايضات العتادية</h2>
+      <table class="wikitable">
+        <tr><th>الوظيفة</th><th>الطرف</th><th>النتيجة</th></tr>
+        <tr><td>حساسات الخط: يسار / وسط / يمين</td><td><strong>P3 / P4 / P10</strong></td><td rowspan="2">أطراف مصفوفة &rarr; <code>led.enable(false)</code> إلزامي</td></tr>
+        <tr><td>شريط NeoPixel (4 مصابيح)</td><td><strong>P7</strong></td></tr>
+        <tr><td>الموجات فوق الصوتية</td><td>P15 / P16</td><td>5 فولت من البطارية</td></tr>
+        <tr><td>المؤازر</td><td>P14</td><td>&mdash;</td></tr>
+        <tr><td>المحركات والمصابيح</td><td>I2C <code>0x30</code></td><td>V1 كان يستخدم <code>0x47</code></td></tr>
+      </table>
+      <p>الشريط على <strong>P7</strong>، وهو غير موثّق من Keyestudio لنسخة V2: لا يكشف امتداد V2 أي دالة RGB على الإطلاق، و<code>setLed()</code> يتعامل فقط مع المصباحين تشغيلًا وإطفاءً. عُرف الطرف بمسح عند الإقلاع، محفوظ خلف الثابت <code>NP_PIN_SCAN</code>. لاحظ أن <strong>P8 هو طرف V1</strong> وهو خطأ هنا.</p>
+
+      <h2 id="protocol">مرجع بروتوكول البلوتوث</h2>
+      <table class="wikitable">
+        <tr><th>الاتجاه</th><th>الرسالة</th><th>المعنى</th></tr>
+        <tr><td>التطبيق &rarr; الروبوت</td><td>بايت واحد <code dir="ltr">a</code>&hellip;<code dir="ltr">p</code></td><td>قناع اللوحة الكامل (المسار السريع)</td></tr>
+        <tr><td>التطبيق &rarr; الروبوت</td><td><code>SET id value</code></td><td>تم تشغيل أداة</td></tr>
+        <tr><td>التطبيق &rarr; الروبوت</td><td><code>GETCFGVER</code></td><td>طلب بصمة التخطيط</td></tr>
+        <tr><td>التطبيق &rarr; الروبوت</td><td><code>GETCFG</code></td><td>طلب التخطيط الكامل</td></tr>
+        <tr><td>الروبوت &rarr; التطبيق</td><td><code>CFGVER hash</code></td><td>إجابة قصيرة للمخزن</td></tr>
+        <tr><td>الروبوت &rarr; التطبيق</td><td><code>CFGBEGIN</code> / <code>CFG chunk</code> / <code>CFGEND</code></td><td>التخطيط في قطع Base64 بحجم 18 بايت</td></tr>
+        <tr><td>الروبوت &rarr; التطبيق</td><td><code>UPD id value</code></td><td>قيمة جديدة للعرض</td></tr>
+      </table>
+
+      <h2 id="troubleshooting">حل المشكلات</h2>
+      <table class="wikitable">
+        <tr><th>العَرَض</th><th>السبب / الحل</th></tr>
+        <tr><td>يتصل ويُقرّ الأوامر، لكن لا شيء يتحرك</td><td>برنامج ثابت مكتوب لامتداد V1 على لوحة V2. يجب أن يكون فضاء الأسماء <code>mecanumRobotV2</code>، و<code>state()</code> بلا وسيط.</td></tr>
+        <tr><td>الشريط لا يُضيء أبدًا</td><td>ثلاثة أسباب محتملة: طرف خاطئ (P7 لا P8)، أو المصفوفة ما زالت مفعّلة، أو نداء لـ <code dir="ltr">input.lightLevel()</code> في مكان ما &mdash; فهو يُعيد تفعيل الشاشة ويستعيد P7.</td></tr>
+        <tr><td>حساسات الخط تُرجع قيمًا عشوائية</td><td><code>USE_MATRIX</code> بقي <code>true</code>. الأطراف P3 وP4 وP10 تابعة للشاشة.</td></tr>
+        <tr><td>النصف الأعلى من منزلق السرعة لا يفعل شيئًا</td><td>المقياس 0&ndash;100 لا 0&ndash;255.</td></tr>
+        <tr><td>المسافة دائمًا 0</td><td>تحقّق من تغذية 5 فولت وموصّل الحساس المثبّت على الرأس المتحرك. ويجب أن يكون الروبوت ثابتًا: يُعلَّق القياس أثناء دوران العجلات.</td></tr>
+        <tr><td>الرسم يعرض «waiting for UPD…»</td><td>عيّنة واحدة لا ترسم خطًا. في النسخة الحديثة تُرسم العيّنة المنفردة كنقطة، ويأخذ نمط Auto عيّنات في كل الأنماط.</td></tr>
+        <tr><td>أول اتصال يستغرق عشر ثوانٍ</td><td>هذا متوقّع: نقل كامل للتخطيط. الاتصالات التالية تستخدم بصمة <code>CFGVER</code> وتكون فورية.</td></tr>
+        <tr><td>قيم تتحرك وحدها بدون روبوت</td><td>نسخة قديمة: كان مُحاكي العرض يعمل فوق وصلة حقيقية. أُصلح بتعطيله فور وصول إعداد من الجهاز.</td></tr>
+        <tr><td>نافذة البرنامج الثابت تعرض إصدارًا قديمًا</td><td>أعد تشغيل <code dir="ltr">node tools/embed-firmware.cjs</code>.</td></tr>
+      </table>
+
+      <div class="catlinks">
+        التصنيفات: <a href="index-ar.html">micro:bit</a> | <a href="index-ar.html">بلوتوث</a> | <a href="index-ar.html">روبوتيك</a> | <a href="index-ar.html">تطبيقات ويب</a>
+      </div>
+    </article>
+  </div>
+</div>
+
+<div class="footer-wiki">
+  أُنشئت هذه الصفحة في 13 أغسطس 2026. المحتوى مبني على مستودع <a href="https://github.com/abourdim/keystudio_4wd_mecanum_rxy">keystudio_4wd_mecanum_rxy</a>، وقراءة مباشرة لـ <code>script.js</code> و<code>firmware/main.ts</code>، ومصدر الامتداد <code>mecanum_robot_v2</code>.
+</div>
+
+</body>
+</html>

@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Keyes 4WD Mecanum Remote - Wiki</title>
+<link rel="stylesheet" href="wiki.css">
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-inner">
+    <a class="wiki-logo" href="https://workshop-diy.org"><img src="logo.png" alt="Wiki logo"></a>
+    <a class="masthead-site-link" href="https://workshop-diy.org">workshop-diy.org</a>
+    <div class="masthead-title">
+      Wiki
+      <span class="sub">The free personal knowledge base</span>
+    </div>
+    <div class="masthead-actions">
+      <div class="lang-switch" role="group" aria-label="Language">
+        <a href="keyes-mecanum.html" class="lang-switch-btn" title="Français"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="20" height="40" fill="#002395"/><rect x="20" width="20" height="40" fill="#fff"/><rect x="40" width="20" height="40" fill="#ED2939"/></svg></a>
+        <a href="keyes-mecanum-en.html" class="lang-switch-btn active" title="English"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="60" height="40" fill="#012169"/><path d="M0 0L60 40M60 0L0 40" stroke="#fff" stroke-width="6.5"/><path d="M0 0L60 40M60 0L0 40" stroke="#C8102E" stroke-width="3.5"/><path d="M30 0V40M0 20H60" stroke="#fff" stroke-width="11"/><path d="M30 0V40M0 20H60" stroke="#C8102E" stroke-width="6.5"/></svg></a>
+        <a href="keyes-mecanum-ar.html" class="lang-switch-btn" title="العربية"><svg width="24" height="16" viewBox="0 0 900 600"><defs><clipPath id="glKeyEn"><rect width="450" height="600"/></clipPath></defs><rect width="450" height="600" fill="#006233"/><rect x="450" width="450" height="600" fill="#FFF"/><g fill="#D21034" transform="translate(450,300)"><circle r="125"/><circle cx="25" r="100" fill="#FFF"/><g clip-path="url(#glKeyEn)" transform="translate(-450,-300)"><circle cx="475" cy="300" r="100" fill="#006233"/></g><path d="M85-12l22 67h71l-57 42 22 67-58-42-57 42 21-67-57-42h71z"/></g></svg></a>
+      </div>
+      <div class="masthead-search">
+        <input type="text" placeholder="Search" disabled>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wiki-layout">
+
+  <div class="sidebar">
+    <h3>Navigation</h3>
+    <ul>
+      <li><a href="index-en.html">Main page</a></li>
+      <li><a href="#">Recent changes</a></li>
+      <li><a href="#">Random page</a></li>
+    </ul>
+    <h3>Categories</h3>
+    <ul>
+      <li><a href="index-en.html">Networking</a></li>
+      <li><a href="index-en.html">Linux</a></li>
+      <li><a href="index-en.html">Windows</a></li>
+      <li><a href="index-en.html">Electronics</a></li>
+      <li><a href="index-en.html">ESP32</a></li>
+      <li><a href="index-en.html">micro:bit</a></li>
+    </ul>
+    <h3>Tools</h3>
+    <ul>
+      <li><a href="https://github.com/abourdim/keystudio_4wd_mecanum">View source repository</a></li>
+      <li><a href="keyes-mecanum-rxy-en.html">Widget version (RXY)</a></li>
+    </ul>
+  </div>
+
+  <div class="content-wrap">
+    <div class="article-tabs">
+      <span class="active">Article</span>
+      <span>Discussion</span>
+    </div>
+
+    <article>
+      <h1 class="page-title">Keyes 4WD Mecanum Remote</h1>
+
+      <div class="infobox">
+        <div class="infobox-title">Keyes 4WD Mecanum Remote</div>
+        <table>
+          <tr><th>Type</th><td>Single-page Web Bluetooth remote, no dependencies</td></tr>
+          <tr><th>Hardware</th><td>Keyestudio 4WD Mecanum <strong>V2</strong> + BBC micro:bit V2</td></tr>
+          <tr><th>Extension</th><td><code>mecanumRobotV2</code></td></tr>
+          <tr><th>Firmware</th><td>K4-v4 (MakeCode / JavaScript)</td></tr>
+          <tr><th>Runs on</th><td>Chrome / Edge, including straight from <code>file://</code></td></tr>
+          <tr><th>Repository</th><td><a href="https://github.com/abourdim/keystudio_4wd_mecanum">github.com/abourdim/keystudio_4wd_mecanum</a></td></tr>
+        </table>
+      </div>
+
+      <p class="hatnote">This article covers the <strong>simple</strong> remote for the Keyestudio mecanum robot: one page, four files, a fixed layout. For the configurable widget version, with a drag-and-drop builder and a layout carried by the firmware itself, see <a href="keyes-mecanum-rxy-en.html">Keyes 4WD Mecanum RXY</a>.</p>
+
+      <div class="toc">
+        <div class="toc-title">Contents</div>
+        <ol>
+          <li><a href="#overview">Overview</a></li>
+          <li><a href="#quickstart">Quick start</a></li>
+          <li><a href="#walkthrough">Step-by-step: clone, flash &amp; test</a></li>
+          <li><a href="#understanding">Understanding the code (for newbies)</a></li>
+          <li><a href="#pins">Pin map and hardware traps</a></li>
+          <li><a href="#protocol">Bluetooth protocol reference</a></li>
+          <li><a href="#troubleshooting">Troubleshooting</a></li>
+        </ol>
+      </div>
+
+      <h2 id="overview">Overview</h2>
+      <p>One HTML page, one JavaScript file, one stylesheet, one MakeCode firmware. No build step, no dependencies, no server: open <code>index.html</code> and drive. The layout is fixed &mdash; an 8-way mecanum pad with a centre STOP, a speed slider, the head servo, two headlights, and telemetry (distance, three line sensors).</p>
+      <p>What makes this project worth documenting is not its size but what had to be fixed to make it work at all. Three traps, each silent, each covered below: the micro:bit's inverted UART UUIDs, the wrong MakeCode extension, and the LED matrix stealing the line-sensor pins.</p>
+
+      <h2 id="quickstart">Quick start</h2>
+      <ol>
+        <li>Open <code>index.html</code> in Chrome or Edge &mdash; Chrome treats <code>file://</code> as a secure origin, so no server is needed.</li>
+        <li>Click <strong>⚙ Firmware</strong> in the header, copy the code, paste it into <a href="https://makecode.microbit.org">makecode.microbit.org</a> in JavaScript mode, add the listed extensions, and flash.</li>
+        <li>Return to the page, click <strong>Connect micro:bit</strong> and pick the board.</li>
+        <li>Drive with the pad or the keyboard: <span class="key-value">W A S D</span>, diagonals <span class="key-value">Q E Z C</span>, <span class="key-value">Space</span> to stop.</li>
+      </ol>
+
+      <h2 id="walkthrough">Step-by-step: clone, flash &amp; test</h2>
+      <p>From a bare clone to a robot that drives, verifying at each stage rather than with one test at the end.</p>
+
+      <h3>1. Clone the repository</h3>
+      <pre><code>git clone https://github.com/abourdim/keystudio_4wd_mecanum.git
+cd keystudio_4wd_mecanum</code></pre>
+
+      <h3>2. Open the page</h3>
+      <p>Double-click <code>index.html</code>. Unlike most Web Bluetooth apps this needs no local server: Chrome treats <code>file://</code> as a potentially trustworthy origin. If you'd rather serve it, <code>npx serve .</code> works too.</p>
+
+      <h3>3. Prepare the MakeCode project</h3>
+      <p>Click <strong>⚙ Firmware</strong> in the header. The dialog shows the version, the steps, the extension URL and the <code>pxt.json</code> Bluetooth block. In MakeCode, create a project, switch to JavaScript, then add:</p>
+      <table class="wikitable">
+        <tr><th>Extension</th><th>Source</th></tr>
+        <tr><td><code>mecanum_robot_v2</code></td><td><code>github.com/keyestudio2019/mecanum_robot_v2</code></td></tr>
+        <tr><td>Bluetooth</td><td>built into MakeCode</td></tr>
+      </table>
+      <div class="ambox ambox-warning">Enable <strong>No Pairing Required</strong> in Project Settings. Without it Windows refuses GATT service access and the connection fails after you pick the board.</div>
+
+      <h3>4. Paste and flash</h3>
+      <p><strong>Copy code</strong> in the Firmware dialog, <span class="key-value">Ctrl+A</span> then <span class="key-value">Ctrl+V</span> in MakeCode, Download, drop the <code>.hex</code> on the <code>MICROBIT</code> drive.</p>
+
+      <h3>5. Verify the link, not yet the motors</h3>
+      <p>Click <strong>Connect micro:bit</strong>. The chooser should list <span class="key-value">BBC micro:bit [xxxxx]</span>. Once connected the header reads <code>Connected · K4-v4</code>: that string comes from the firmware itself, so it proves both that the link works <em>and</em> which build is actually flashed.</p>
+
+      <h3>6. Verify app &rarr; robot</h3>
+      <p>Open the browser console (<span class="key-value">F12</span>) and press a direction. Every command the firmware parses is echoed back: <code>[BLE] ack DRV</code>. That is what separates "the command never arrived" from "the command arrived and did nothing" &mdash; two failures that look identical from across the room.</p>
+
+      <h3>7. Verify robot &rarr; app</h3>
+      <p>Without touching anything, the Telemetry card should show a distance in centimetres that changes when you put your hand in front of the sensor, and the three line indicators should react as the robot crosses a black stripe.</p>
+
+      <div class="ambox ambox-success">A working setup: the header reads <code>Connected · K4-v4</code>, the console logs an <code>ack</code> on every press, the wheels move in the direction of the pad, distance tracks your hand, and the three line lights come on one at a time as you slide the robot across a black stripe.</div>
+
+      <h2 id="understanding">Understanding the code (for newbies)</h2>
+      <p class="hatnote">For anyone with the page open who wants to change something. Assumes basic JavaScript, nothing specific to this repository.</p>
+
+      <h3>System architecture, illustrated</h3>
+      <div class="diagram"><pre style="margin:0;border:0;padding:0;background:none;">┌──────────────────┐        Nordic UART        ┌──────────────────┐
+│   🖥️ index.html   │ ◀──────────────────────▶ │   🔲 micro:bit    │
+│      app.js      │      6e400001-...        │  keyes-mecanum-  │
+│  (Chrome/Edge)   │                          │    remote.ts     │
+└──────────────────┘                          └──────────────────┘
+        │                                              │
+        │  press ↖ on the pad                          │
+        │  ── DRV fl 25 ──────────────────▶            │
+        │                                              │
+        │                              drive("fl", 25) │
+        │                                     │        │
+        │                                     ▼        │
+        │                        mecanumRobotV2.Motor()│
+        │                              (I2C 0x30)      │
+        │                                              │
+        │  ◀──────────────── ACK DRV                   │
+        │  ◀──────────────── LINE 0 1 0    (every      │
+        │  ◀──────────────── DIST 67        second)    │
+        │                                              │
+   ┌────┴─────┐                              ┌─────────┴────────┐
+   │ 4 mecanum│                              │ P3/P4/P10 line   │
+   │  wheels  │                              │ P15/P16 sonar    │
+   └──────────┘                              │ P14 servo        │
+                                             └──────────────────┘</pre></div>
+
+      <h3>File layout</h3>
+      <div class="diagram"><pre style="margin:0;border:0;padding:0;background:none;">keystudio_4wd_mecanum/
+├── index.html      ← header, cards, Firmware dialog
+├── app.js          ← Web Bluetooth + pad + dialog      (~90 lines)
+├── styles.css      ← Workshop-DIY theme
+├── logo.svg  assets/workshop-diy-logo.svg
+├── firmware/
+│   └── keyes-mecanum-remote.ts   ← the MakeCode program
+└── tools/
+    └── embed-firmware.js  ← copies the firmware into index.html</pre></div>
+
+      <h3>Trap 1: the micro:bit's UART UUIDs are inverted</h3>
+      <p>The micro:bit reverses the usual Nordic convention. This was the most expensive failure in the project, because it doesn't look like a coding mistake at all:</p>
+      <table class="wikitable">
+        <tr><th>UUID</th><th>Nordic convention</th><th>On micro:bit</th></tr>
+        <tr><td><code>6e400002-…</code></td><td>RX (write)</td><td><strong>TX &mdash; notify</strong> (board &rarr; browser)</td></tr>
+        <tr><td><code>6e400003-…</code></td><td>TX (notify)</td><td><strong>RX &mdash; write</strong> (browser &rarr; board)</td></tr>
+      </table>
+      <p>Swapping them produces <code>NotSupportedError: GATT Error: Not supported.</code> at connect time &mdash; a message that suggests a pairing or driver problem, when in fact it is just <code>startNotifications()</code> called on a write-only characteristic.</p>
+
+      <h3>Trap 2: the micro:bit does not advertise its UART service</h3>
+      <p>Filtering <code>requestDevice()</code> on the UART service never matches anything: the micro:bit does not put that UUID in its advertisement. Filter by name and declare UART as an optional service:</p>
+      <pre><code>device = await navigator.bluetooth.requestDevice({
+  filters: [{ namePrefix: 'BBC micro:bit' }, { namePrefix: 'uBit' }],
+  optionalServices: [UART_SERVICE]
+});</code></pre>
+      <p><code>app.js</code> also wraps every setup call in a timeout, because <code>getPrimaryService()</code> can hang forever without resolving or rejecting, and tears down a half-open GATT server on failure &mdash; otherwise the next attempt fails at exactly the same step.</p>
+
+      <h3>Trap 3: V1 and V2 are not the same extension</h3>
+      <p>Keyestudio ships two extensions with near-identical APIs. Writing code for the wrong one <strong>compiles perfectly and moves nothing</strong>, because the motor driver sits at a different I2C address and never acknowledges:</p>
+      <table class="wikitable">
+        <tr><th></th><th>V1 (<code>mecanumRobot</code>)</th><th>V2 (<code>mecanumRobotV2</code>)</th></tr>
+        <tr><td>Stop</td><td><code>state(MotorState.stop)</code></td><td><code>state()</code>, no argument</td></tr>
+        <tr><td>Line sensors</td><td>P1, P2 (two)</td><td><strong>P3, P4, P10</strong> (three)</td></tr>
+        <tr><td>Motors / headlights</td><td>I2C <code>0x47</code></td><td>I2C <strong><code>0x30</code></strong></td></tr>
+        <tr><td>WS2812 strip</td><td>P8 (documented)</td><td>P7 (undocumented)</td></tr>
+      </table>
+      <div class="ambox ambox-notice">The signature symptom: Bluetooth connects, commands are acknowledged, distance and line sensors report real values &mdash; and absolutely nothing moves. It looks exactly like a flat battery. It isn't one.</div>
+
+      <h3>Trap 4: the LED matrix steals the sensor pins</h3>
+      <p>The V2's three line sensors are on <strong>P3, P4 and P10</strong>, which also drive the rows and columns of the 5×5 matrix. While the display is enabled those pins are multiplexed and a digital read returns noise. Hence, at firmware startup:</p>
+      <pre><code>// The three line sensors are on P3, P4 and P10 -- all LED-matrix pins.
+// This firmware never draws on the matrix, so switching it off is free.
+led.enable(false)</code></pre>
+
+      <h3>The ultrasonic: why a hand-written read</h3>
+      <p>The firmware reads the HC-SR04 with its own sequence rather than <code>mecanumRobotV2.ultra()</code>: a <strong>15 µs</strong> trigger pulse instead of 10, and an explicit <code>PullNone</code> on the echo pin as well as the trigger. 10 µs is the datasheet minimum and clone modules are often marginal there. The extension's version stays as a fallback:</p>
+      <pre><code>let cm = ultraRaw()
+if (cm &lt;= 0) cm = mecanumRobotV2.ultra()
+if (cm &gt; 0) bluetooth.uartWriteLine("DIST " + cm)</code></pre>
+
+      <h3>The Firmware dialog, and why the code is duplicated</h3>
+      <p>The <strong>⚙ Firmware</strong> button shows the full source with a copy button. It is <em>embedded</em> in <code>index.html</code> in a <code>&lt;script type="text/plain"&gt;</code> block rather than loaded with <code>fetch()</code>: the page normally opens from <code>file://</code>, where Chrome blocks <code>fetch()</code>. A runtime read would fail in exactly the situation the dialog is for &mdash; the robot in front of you and no server running.</p>
+      <p>The cost is a second copy of the firmware in the page, hence the regeneration tool, with a mode that reports drift:</p>
+      <pre><code>node tools/embed-firmware.js          # rewrite index.html
+node tools/embed-firmware.js --check  # exit non-zero if the two differ</code></pre>
+      <p>The displayed version is parsed out of the embedded source (<code>uartWriteLine("VER ...")</code>) rather than hardcoded, so the dialog cannot claim a build the file is not.</p>
+
+      <h3>One command, round trip, in order</h3>
+      <div class="diagram"><pre style="margin:0;border:0;padding:0;background:none;">Browser                                      micro:bit
+    │                                             │
+    │  pointerdown on ↑                           │
+    │  drive('f') ─▶ send("DRV f 25")             │
+    │ ─────────────────────────────────────────▶  │
+    │                              onUartDataReceived
+    │                              p = ["DRV","f","25"]
+    │                              drive("f", 25)
+    │                              wheels(1,1,1,1,25)
+    │                                     │       │
+    │  ◀───────────────────────── "ACK DRV"       │
+    │                                             │
+    │  pointerup ─▶ send("STOP")                  │
+    │ ─────────────────────────────────────────▶  │
+    │                              state()  (stop)
+    │  ◀───────────────────────── "ACK STOP"      │
+    │                                             │
+    │        nothing for 1.5 s:                   │
+    │        the watchdog stops the wheels        │</pre></div>
+      <p>The watchdog runs in its own 200 ms loop, separate from the 1 s telemetry loop: a blocking ultrasonic read must never delay a motor stop.</p>
+
+      <h2 id="pins">Pin map and hardware traps</h2>
+      <p>Read from the extension source, not inferred:</p>
+      <table class="wikitable">
+        <tr><th>Function</th><th>Pin</th><th>Note</th></tr>
+        <tr><td>Line sensors left / center / right</td><td><strong>P3 / P4 / P10</strong></td><td>Matrix pins &mdash; require <code>led.enable(false)</code></td></tr>
+        <tr><td>Ultrasonic trigger / echo</td><td>P15 / P16</td><td>Needs 5 V from the battery</td></tr>
+        <tr><td>Head servo</td><td>P14</td><td>Trim <code>SERVO_OFFSET = 20</code></td></tr>
+        <tr><td>Motors, headlights</td><td>I2C <code>0x30</code></td><td>Via <code>Motor()</code> / <code>setLed()</code></td></tr>
+      </table>
+      <p>Speed is on the extension's <strong>0&ndash;100</strong> scale, not a 0&ndash;255 PWM duty. Sending 200 is the same as sending 100: the whole top half of the slider then does nothing.</p>
+
+      <h2 id="protocol">Bluetooth protocol reference</h2>
+      <p>Nordic UART, newline-delimited lines.</p>
+      <table class="wikitable">
+        <tr><th>Direction</th><th>Message</th><th>Meaning</th></tr>
+        <tr><td>App &rarr; robot</td><td><code>DRV direction speed</code></td><td><code>f b l r fl fr bl br</code>, speed 0&ndash;100</td></tr>
+        <tr><td>App &rarr; robot</td><td><code>STOP</code></td><td>All four wheels stop</td></tr>
+        <tr><td>App &rarr; robot</td><td><code>SERVO angle</code></td><td>0&ndash;180, trim applied</td></tr>
+        <tr><td>App &rarr; robot</td><td><code>LED L|R 0|1</code></td><td>Left or right headlight</td></tr>
+        <tr><td>App &rarr; robot</td><td><code>HELLO</code></td><td>Request the version</td></tr>
+        <tr><td>Robot &rarr; app</td><td><code>DIST cm</code></td><td>Ultrasonic distance</td></tr>
+        <tr><td>Robot &rarr; app</td><td><code>LINE l c r</code></td><td>Three sensors, <code>1</code> = on the line</td></tr>
+        <tr><td>Robot &rarr; app</td><td><code>VER version</code></td><td>Firmware version</td></tr>
+        <tr><td>Robot &rarr; app</td><td><code>ACK command</code></td><td>Echo of every parsed command</td></tr>
+      </table>
+
+      <h2 id="troubleshooting">Troubleshooting</h2>
+      <table class="wikitable">
+        <tr><th>Symptom</th><th>Cause / fix</th></tr>
+        <tr><td>The Bluetooth chooser stays empty</td><td>Filtering on the UART service instead of the name &mdash; the micro:bit does not advertise that UUID. See <a href="#understanding">trap 2</a>.</td></tr>
+        <tr><td><code>NotSupportedError: GATT Error: Not supported.</code></td><td>TX/RX UUIDs swapped. <code>6e400002</code> notifies, <code>6e400003</code> takes writes.</td></tr>
+        <tr><td>Connects and acknowledges, but nothing moves</td><td>Almost always the wrong extension: V1 code on a V2 board. Check the namespace is <code>mecanumRobotV2</code>.</td></tr>
+        <tr><td>Line sensors report nonsense</td><td>LED matrix still enabled. <code>led.enable(false)</code> is required: P3, P4 and P10 belong to it.</td></tr>
+        <tr><td>Distance always 0</td><td>The HC-SR04 needs 5 V from the battery: the board's power switch must be on, USB alone is not enough. Also check the connector, which rides the moving servo head.</td></tr>
+        <tr><td>The top half of the speed slider does nothing</td><td>The extension expects 0&ndash;100; anything above is clamped.</td></tr>
+        <tr><td>The servo does not point straight at 90°</td><td>Adjust <code>SERVO_OFFSET</code> in the firmware (20 by default on this chassis).</td></tr>
+        <tr><td>The Firmware dialog shows an old version</td><td>The firmware was edited without re-running <code>node tools/embed-firmware.js</code>.</td></tr>
+      </table>
+
+      <div class="catlinks">
+        Categories: <a href="index-en.html">micro:bit</a> | <a href="index-en.html">Bluetooth</a> | <a href="index-en.html">Robotics</a> | <a href="index-en.html">Web apps</a>
+      </div>
+    </article>
+  </div>
+</div>
+
+<div class="footer-wiki">
+  This page was created on 13 August 2026. Content based on the <a href="https://github.com/abourdim/keystudio_4wd_mecanum">keystudio_4wd_mecanum</a> repository, a direct reading of the app and firmware code, and the <code>mecanum_robot_v2</code> extension source.
+</div>
+
+</body>
+</html>

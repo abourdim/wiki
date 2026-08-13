@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Keyes 4WD Mecanum Remote - Wiki</title>
+<link rel="stylesheet" href="wiki.css">
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-inner">
+    <a class="wiki-logo" href="https://workshop-diy.org"><img src="logo.png" alt="شعار الويكي"></a>
+    <a class="masthead-site-link" href="https://workshop-diy.org">workshop-diy.org</a>
+    <div class="masthead-title">
+      ويكي
+      <span class="sub">قاعدة المعرفة الشخصية والمجانية</span>
+    </div>
+    <div class="masthead-actions">
+      <div class="lang-switch" role="group" aria-label="اللغة">
+        <a href="keyes-mecanum.html" class="lang-switch-btn" title="Français"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="20" height="40" fill="#002395"/><rect x="20" width="20" height="40" fill="#fff"/><rect x="40" width="20" height="40" fill="#ED2939"/></svg></a>
+        <a href="keyes-mecanum-en.html" class="lang-switch-btn" title="English"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="60" height="40" fill="#012169"/><path d="M0 0L60 40M60 0L0 40" stroke="#fff" stroke-width="6.5"/><path d="M0 0L60 40M60 0L0 40" stroke="#C8102E" stroke-width="3.5"/><path d="M30 0V40M0 20H60" stroke="#fff" stroke-width="11"/><path d="M30 0V40M0 20H60" stroke="#C8102E" stroke-width="6.5"/></svg></a>
+        <a href="keyes-mecanum-ar.html" class="lang-switch-btn active" title="العربية"><svg width="24" height="16" viewBox="0 0 900 600"><defs><clipPath id="glKeyAr"><rect width="450" height="600"/></clipPath></defs><rect width="450" height="600" fill="#006233"/><rect x="450" width="450" height="600" fill="#FFF"/><g fill="#D21034" transform="translate(450,300)"><circle r="125"/><circle cx="25" r="100" fill="#FFF"/><g clip-path="url(#glKeyAr)" transform="translate(-450,-300)"><circle cx="475" cy="300" r="100" fill="#006233"/></g><path d="M85-12l22 67h71l-57 42 22 67-58-42-57 42 21-67-57-42h71z"/></g></svg></a>
+      </div>
+      <div class="masthead-search">
+        <input type="text" placeholder="بحث" disabled>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wiki-layout">
+
+  <div class="sidebar">
+    <h3>التنقل</h3>
+    <ul>
+      <li><a href="index-ar.html">الصفحة الرئيسية</a></li>
+      <li><a href="#">أحدث التغييرات</a></li>
+      <li><a href="#">صفحة عشوائية</a></li>
+    </ul>
+    <h3>التصنيفات</h3>
+    <ul>
+      <li><a href="index-ar.html">الشبكات</a></li>
+      <li><a href="index-ar.html">لينكس</a></li>
+      <li><a href="index-ar.html">ويندوز</a></li>
+      <li><a href="index-ar.html">الإلكترونيات</a></li>
+      <li><a href="index-ar.html">ESP32</a></li>
+      <li><a href="index-ar.html">micro:bit</a></li>
+    </ul>
+    <h3>أدوات</h3>
+    <ul>
+      <li><a href="https://github.com/abourdim/keystudio_4wd_mecanum">عرض المستودع المصدري</a></li>
+      <li><a href="keyes-mecanum-rxy-ar.html">نسخة الأدوات (RXY)</a></li>
+    </ul>
+  </div>
+
+  <div class="content-wrap">
+    <div class="article-tabs">
+      <span class="active">مقالة</span>
+      <span>نقاش</span>
+    </div>
+
+    <article>
+      <h1 class="page-title">Keyes 4WD Mecanum Remote</h1>
+
+      <div class="infobox">
+        <div class="infobox-title">Keyes 4WD Mecanum Remote</div>
+        <table>
+          <tr><th>النوع</th><td>وحدة تحكم بصفحة واحدة عبر Web Bluetooth، بدون أي تبعيات</td></tr>
+          <tr><th>العتاد</th><td>Keyestudio 4WD Mecanum <strong>V2</strong> + BBC micro:bit V2</td></tr>
+          <tr><th>الامتداد</th><td><code>mecanumRobotV2</code></td></tr>
+          <tr><th>البرنامج الثابت</th><td>K4-v4 (MakeCode / JavaScript)</td></tr>
+          <tr><th>يعمل على</th><td>Chrome / Edge، حتى من <code>file://</code> مباشرة</td></tr>
+          <tr><th>المستودع</th><td><a href="https://github.com/abourdim/keystudio_4wd_mecanum">github.com/abourdim/keystudio_4wd_mecanum</a></td></tr>
+        </table>
+      </div>
+
+      <p class="hatnote">تغطي هذه المقالة وحدة التحكم <strong>البسيطة</strong> لروبوت ميكانوم من Keyestudio: صفحة واحدة، أربعة ملفات، تخطيط ثابت. للنسخة القابلة للتخصيص بالأدوات، مع منشئ بالسحب والإفلات وتخطيط يحمله البرنامج الثابت نفسه، انظر <a href="keyes-mecanum-rxy-ar.html">Keyes 4WD Mecanum RXY</a>.</p>
+
+      <div class="toc">
+        <div class="toc-title">المحتويات</div>
+        <ol>
+          <li><a href="#overview">نظرة عامة</a></li>
+          <li><a href="#quickstart">البدء السريع</a></li>
+          <li><a href="#walkthrough">خطوة بخطوة: النسخ، الحرق والاختبار</a></li>
+          <li><a href="#understanding">فهم الكود (للمبتدئين)</a></li>
+          <li><a href="#pins">خريطة الأطراف ومصائد العتاد</a></li>
+          <li><a href="#protocol">مرجع بروتوكول البلوتوث</a></li>
+          <li><a href="#troubleshooting">حل المشكلات</a></li>
+        </ol>
+      </div>
+
+      <h2 id="overview">نظرة عامة</h2>
+      <p>صفحة HTML واحدة، ملف JavaScript واحد، ورقة أنماط واحدة، وبرنامج ثابت واحد بـ MakeCode. لا خطوة بناء، لا تبعيات، لا خادم: تفتح <code>index.html</code> وتقود. التخطيط ثابت &mdash; لوحة ميكانوم بثماني جهات مع زر توقف في المنتصف، منزلق للسرعة، محرك مؤازر للرأس، مصباحان، وقياسات حية (المسافة وثلاثة حساسات خط).</p>
+      <p>ما يجعل هذا المشروع جديرًا بالتوثيق ليس حجمه بل ما تطلّبه إصلاحه ليعمل أصلًا. ثلاثة مصائد، كل واحد منها صامت، وكلها موثّقة أدناه: انعكاس معرّفات UART في micro:bit، امتداد MakeCode الخاطئ، ومصفوفة LED التي تسرق أطراف حساسات الخط.</p>
+
+      <h2 id="quickstart">البدء السريع</h2>
+      <ol>
+        <li>افتح <code>index.html</code> في Chrome أو Edge &mdash; يعتبر Chrome المسار <code>file://</code> أصلًا آمنًا، لذا لا حاجة لخادم.</li>
+        <li>اضغط <strong>⚙ Firmware</strong> في الترويسة، انسخ الكود، الصقه في <a href="https://makecode.microbit.org">makecode.microbit.org</a> بنمط JavaScript، أضف الامتدادات المذكورة، ثم احرق.</li>
+        <li>عد إلى الصفحة، اضغط <strong>Connect micro:bit</strong> واختر اللوحة.</li>
+        <li>قُد باللوحة أو بلوحة المفاتيح: <span class="key-value">W A S D</span>، الأقطار <span class="key-value">Q E Z C</span>، و<span class="key-value">Space</span> للتوقف.</li>
+      </ol>
+
+      <h2 id="walkthrough">خطوة بخطوة: النسخ، الحرق والاختبار</h2>
+      <p>من نسخة فارغة للمستودع إلى روبوت يتحرك، مع تحقّق في كل مرحلة بدل اختبار واحد في النهاية.</p>
+
+      <h3>١. نسخ المستودع</h3>
+      <pre dir="ltr"><code>git clone https://github.com/abourdim/keystudio_4wd_mecanum.git
+cd keystudio_4wd_mecanum</code></pre>
+
+      <h3>٢. فتح الصفحة</h3>
+      <p>انقر نقرًا مزدوجًا على <code>index.html</code>. بخلاف معظم تطبيقات Web Bluetooth، لا يحتاج هذا إلى خادم محلي: يتعامل Chrome مع <code>file://</code> كأصل جدير بالثقة. وإن أردت تقديمه عبر خادم، فإن <code>npx serve .</code> يعمل أيضًا.</p>
+
+      <h3>٣. تحضير مشروع MakeCode</h3>
+      <p>اضغط <strong>⚙ Firmware</strong> في الترويسة. تعرض النافذة الإصدار والخطوات ورابط الامتداد وكتلة البلوتوث الخاصة بـ <code>pxt.json</code>. في MakeCode: أنشئ مشروعًا، انتقل إلى JavaScript، ثم أضف:</p>
+      <table class="wikitable">
+        <tr><th>الامتداد</th><th>المصدر</th></tr>
+        <tr><td><code>mecanum_robot_v2</code></td><td><code>github.com/keyestudio2019/mecanum_robot_v2</code></td></tr>
+        <tr><td>Bluetooth</td><td>مدمج في MakeCode</td></tr>
+      </table>
+      <div class="ambox ambox-warning">فعّل <strong>No Pairing Required</strong> في إعدادات المشروع. بدونه يرفض ويندوز الوصول إلى خدمات GATT ويفشل الاتصال بعد اختيار اللوحة.</div>
+
+      <h3>٤. اللصق والحرق</h3>
+      <p>زر <strong>Copy code</strong> في نافذة البرنامج الثابت، ثم <span class="key-value">Ctrl+A</span> و<span class="key-value">Ctrl+V</span> في MakeCode، ثم Download، ثم اسحب ملف <code>.hex</code> إلى قرص <code>MICROBIT</code>.</p>
+
+      <h3>٥. التحقق من الوصلة، وليس المحركات بعد</h3>
+      <p>اضغط <strong>Connect micro:bit</strong>. يجب أن يُظهر المنتقي <span class="key-value">BBC micro:bit [xxxxx]</span>. بعد الاتصال تعرض الترويسة <code>Connected · K4-v4</code>: هذه السلسلة تأتي من البرنامج الثابت نفسه، فهي تُثبت أن الوصلة تعمل <em>و</em> أي إصدار محروق فعلًا.</p>
+
+      <h3>٦. التحقق من الاتجاه: التطبيق &rarr; الروبوت</h3>
+      <p>افتح وحدة تحكم المتصفح (<span class="key-value">F12</span>) واضغط أي جهة. كل أمر يحلّله البرنامج الثابت يُعاد صداه: <code>[BLE] ack DRV</code>. هذا ما يفصل «الأمر لم يصل أبدًا» عن «الأمر وصل ولم يفعل شيئًا» &mdash; وهما فشلان يبدوان متطابقين من بعيد.</p>
+
+      <h3>٧. التحقق من الاتجاه: الروبوت &rarr; التطبيق</h3>
+      <p>بدون لمس أي شيء، يجب أن تُظهر بطاقة القياسات مسافة بالسنتيمترات تتغيّر عند وضع يدك أمام الحساس، وأن تتفاعل مؤشرات الخط الثلاثة عند عبور شريط أسود.</p>
+
+      <div class="ambox ambox-success">التركيب السليم: الترويسة تعرض <code>Connected · K4-v4</code>، والوحدة الطرفية تسجّل <code>ack</code> عند كل ضغطة، والعجلات تدور باتجاه اللوحة، والمسافة تتابع اليد، وأضواء الخط الثلاثة تُضيء واحدًا بعد الآخر عند تمرير الروبوت عبر شريط أسود.</div>
+
+      <h2 id="understanding">فهم الكود (للمبتدئين)</h2>
+      <p class="hatnote">لمن فتح الصفحة ويريد تعديل شيء. يفترض أساسيات JavaScript، ولا شيء خاصًا بهذا المستودع.</p>
+
+      <h3>معمارية النظام، مصوّرة</h3>
+      <div class="diagram" dir="ltr"><pre style="margin:0;border:0;padding:0;background:none;">┌──────────────────┐        Nordic UART        ┌──────────────────┐
+│   🖥️ index.html   │ ◀──────────────────────▶ │   🔲 micro:bit    │
+│      app.js      │      6e400001-...        │  keyes-mecanum-  │
+│  (Chrome/Edge)   │                          │    remote.ts     │
+└──────────────────┘                          └──────────────────┘
+        │                                              │
+        │  press ↖ on the pad                          │
+        │  ── DRV fl 25 ──────────────────▶            │
+        │                                              │
+        │                              drive("fl", 25) │
+        │                                     │        │
+        │                                     ▼        │
+        │                        mecanumRobotV2.Motor()│
+        │                              (I2C 0x30)      │
+        │                                              │
+        │  ◀──────────────── ACK DRV                   │
+        │  ◀──────────────── LINE 0 1 0                │
+        │  ◀──────────────── DIST 67                   │
+        │                                              │
+   ┌────┴─────┐                              ┌─────────┴────────┐
+   │ 4 mecanum│                              │ P3/P4/P10 line   │
+   │  wheels  │                              │ P15/P16 sonar    │
+   └──────────┘                              │ P14 servo        │
+                                             └──────────────────┘</pre></div>
+
+      <h3>تنظيم الملفات</h3>
+      <div class="diagram" dir="ltr"><pre style="margin:0;border:0;padding:0;background:none;">keystudio_4wd_mecanum/
+├── index.html      ← header, cards, Firmware dialog
+├── app.js          ← Web Bluetooth + pad + dialog      (~90 lines)
+├── styles.css      ← Workshop-DIY theme
+├── logo.svg  assets/workshop-diy-logo.svg
+├── firmware/
+│   └── keyes-mecanum-remote.ts   ← the MakeCode program
+└── tools/
+    └── embed-firmware.js  ← copies the firmware into index.html</pre></div>
+
+      <h3>المصيدة ١: معرّفات UART في micro:bit معكوسة</h3>
+      <p>يعكس micro:bit اصطلاح Nordic المعتاد. كان هذا أغلى فشل في المشروع، لأنه لا يبدو خطأً برمجيًا على الإطلاق:</p>
+      <table class="wikitable">
+        <tr><th>المعرّف</th><th>اصطلاح Nordic</th><th>في micro:bit</th></tr>
+        <tr><td><code>6e400002-…</code></td><td>RX (كتابة)</td><td><strong>TX &mdash; إشعار</strong> (اللوحة &rarr; المتصفح)</td></tr>
+        <tr><td><code>6e400003-…</code></td><td>TX (إشعار)</td><td><strong>RX &mdash; كتابة</strong> (المتصفح &rarr; اللوحة)</td></tr>
+      </table>
+      <p>تبديلهما ينتج <code dir="ltr">NotSupportedError: GATT Error: Not supported.</code> عند الاتصال &mdash; رسالة تُوحي بمشكلة إقران أو تعريف، مع أنها في الحقيقة مجرد <code>startNotifications()</code> على خاصية للكتابة فقط.</p>
+
+      <h3>المصيدة ٢: micro:bit لا يُعلن عن خدمة UART</h3>
+      <p>تصفية <code>requestDevice()</code> بخدمة UART لا تُطابق شيئًا أبدًا: لا يضع micro:bit ذلك المعرّف في إطار إعلانه. صفِّ بالاسم وأعلن UART كخدمة اختيارية:</p>
+      <pre dir="ltr"><code>device = await navigator.bluetooth.requestDevice({
+  filters: [{ namePrefix: 'BBC micro:bit' }, { namePrefix: 'uBit' }],
+  optionalServices: [UART_SERVICE]
+});</code></pre>
+      <p>كما يغلّف <code>app.js</code> كل خطوة إعداد بمهلة زمنية، لأن <code>getPrimaryService()</code> قد يتوقّف إلى الأبد دون نجاح ولا فشل، ويهدم خادم GATT المفتوح جزئيًا عند الخطأ &mdash; وإلا فستفشل المحاولة التالية في النقطة نفسها بالضبط.</p>
+
+      <h3>المصيدة ٣: V1 وV2 ليسا الامتداد نفسه</h3>
+      <p>تنشر Keyestudio امتدادين بواجهتين شبه متطابقتين. كتابة كود للامتداد الخاطئ <strong>تُترجم بنجاح تام ولا تُحرّك شيئًا</strong>، لأن مشغّل المحركات على عنوان I2C مختلف ولا يُقرّ أبدًا:</p>
+      <table class="wikitable">
+        <tr><th></th><th>V1 (<code>mecanumRobot</code>)</th><th>V2 (<code>mecanumRobotV2</code>)</th></tr>
+        <tr><td>التوقف</td><td><code>state(MotorState.stop)</code></td><td><code>state()</code> بدون وسيط</td></tr>
+        <tr><td>حساسات الخط</td><td>P1، P2 (اثنان)</td><td><strong>P3، P4، P10</strong> (ثلاثة)</td></tr>
+        <tr><td>المحركات / المصابيح</td><td>I2C <code>0x47</code></td><td>I2C <strong><code>0x30</code></strong></td></tr>
+        <tr><td>شريط WS2812</td><td>P8 (موثّق)</td><td>P7 (غير موثّق)</td></tr>
+      </table>
+      <div class="ambox ambox-notice">العَرَض المميّز: البلوتوث يتصل، والأوامر تُقرّ، والمسافة وحساسات الخط تُرجع قيمًا حقيقية &mdash; ولا شيء يتحرّك على الإطلاق. يبدو تمامًا مثل بطارية فارغة. وهو ليس كذلك.</div>
+
+      <h3>المصيدة ٤: مصفوفة LED تسرق أطراف الحساسات</h3>
+      <p>حساسات الخط الثلاثة في V2 على <strong>P3 وP4 وP10</strong>، وهي أيضًا تُشغّل صفوف وأعمدة مصفوفة 5×5. وطالما كانت الشاشة مفعّلة تكون هذه الأطراف مُتعدَّدة الإرسال، فتُرجع القراءة الرقمية ضجيجًا. ومن هنا، عند بدء البرنامج الثابت:</p>
+      <pre dir="ltr"><code>// The three line sensors are on P3, P4 and P10 -- all LED-matrix pins.
+// This firmware never draws on the matrix, so switching it off is free.
+led.enable(false)</code></pre>
+
+      <h3>الموجات فوق الصوتية: لماذا قراءة مكتوبة يدويًا</h3>
+      <p>يقرأ البرنامج الثابت الحساس HC-SR04 بتسلسله الخاص بدل <code>mecanumRobotV2.ultra()</code>: نبضة إطلاق بـ <strong>15 ميكروثانية</strong> بدل 10، و<code>PullNone</code> صريح على طرف الصدى إضافة إلى طرف الإطلاق. إن 10 ميكروثانية هي الحد الأدنى في ورقة البيانات، والوحدات المُقلَّدة غالبًا على الحد. نسخة الامتداد تبقى كخطة بديلة:</p>
+      <pre dir="ltr"><code>let cm = ultraRaw()
+if (cm &lt;= 0) cm = mecanumRobotV2.ultra()
+if (cm &gt; 0) bluetooth.uartWriteLine("DIST " + cm)</code></pre>
+
+      <h3>نافذة البرنامج الثابت، ولماذا الكود مُكرَّر</h3>
+      <p>يعرض زر <strong>⚙ Firmware</strong> المصدر الكامل مع زر نسخ. وهو <em>مُدمج</em> في <code>index.html</code> داخل كتلة <code dir="ltr">&lt;script type="text/plain"&gt;</code> بدل تحميله بـ <code>fetch()</code>: تُفتح الصفحة عادةً من <code>file://</code> حيث يحجب Chrome الدالة <code>fetch()</code>. القراءة وقت التشغيل ستفشل تحديدًا في الحالة التي وُجدت النافذة من أجلها &mdash; الروبوت أمامك ولا خادم يعمل.</p>
+      <p>ثمن ذلك نسخة ثانية من البرنامج الثابت داخل الصفحة، ومن هنا أداة إعادة التوليد، مع وضع يُبلّغ عن الانحراف:</p>
+      <pre dir="ltr"><code>node tools/embed-firmware.js          # rewrite index.html
+node tools/embed-firmware.js --check  # exit non-zero if the two differ</code></pre>
+      <p>الإصدار المعروض يُستخرج من المصدر المُدمج (<code dir="ltr">uartWriteLine("VER ...")</code>) ولا يُكتب يدويًا، حتى لا تستطيع النافذة الادّعاء بإصدار لا يطابق الملف.</p>
+
+      <h3>رحلة أمر واحد، بالترتيب</h3>
+      <div class="diagram" dir="ltr"><pre style="margin:0;border:0;padding:0;background:none;">Browser                                      micro:bit
+    │                                             │
+    │  pointerdown on ↑                           │
+    │  drive('f') ─▶ send("DRV f 25")             │
+    │ ─────────────────────────────────────────▶  │
+    │                              onUartDataReceived
+    │                              p = ["DRV","f","25"]
+    │                              drive("f", 25)
+    │                              wheels(1,1,1,1,25)
+    │                                     │       │
+    │  ◀───────────────────────── "ACK DRV"       │
+    │                                             │
+    │  pointerup ─▶ send("STOP")                  │
+    │ ─────────────────────────────────────────▶  │
+    │                              state()  (stop)
+    │  ◀───────────────────────── "ACK STOP"      │
+    │                                             │
+    │        nothing for 1.5 s:                   │
+    │        the watchdog stops the wheels        │</pre></div>
+      <p>يعمل كلب الحراسة في حلقته الخاصة كل 200 مللي ثانية، منفصلًا عن حلقة القياسات كل ثانية: قراءة موجات فوق صوتية مُعطِّلة يجب ألا تؤخّر إيقاف المحركات أبدًا.</p>
+
+      <h2 id="pins">خريطة الأطراف ومصائد العتاد</h2>
+      <p>مقروءة من مصدر الامتداد، وليست مُستنتجة:</p>
+      <table class="wikitable">
+        <tr><th>الوظيفة</th><th>الطرف</th><th>ملاحظة</th></tr>
+        <tr><td>حساسات الخط: يسار / وسط / يمين</td><td><strong>P3 / P4 / P10</strong></td><td>أطراف المصفوفة &mdash; تتطلب <code>led.enable(false)</code></td></tr>
+        <tr><td>الموجات فوق الصوتية: إطلاق / صدى</td><td>P15 / P16</td><td>تحتاج 5 فولت من البطارية</td></tr>
+        <tr><td>محرك رأس مؤازر</td><td>P14</td><td>تعديل <code>SERVO_OFFSET = 20</code></td></tr>
+        <tr><td>المحركات والمصابيح</td><td>I2C <code>0x30</code></td><td>عبر <code>Motor()</code> و<code>setLed()</code></td></tr>
+      </table>
+      <p>السرعة على مقياس الامتداد <strong>0&ndash;100</strong>، وليست نسبة نبض 0&ndash;255. إرسال 200 يساوي إرسال 100: عندها لا يفعل النصف الأعلى من المنزلق أي شيء.</p>
+
+      <h2 id="protocol">مرجع بروتوكول البلوتوث</h2>
+      <p>Nordic UART، أسطر منتهية بسطر جديد.</p>
+      <table class="wikitable">
+        <tr><th>الاتجاه</th><th>الرسالة</th><th>المعنى</th></tr>
+        <tr><td>التطبيق &rarr; الروبوت</td><td><code>DRV direction speed</code></td><td><code dir="ltr">f b l r fl fr bl br</code>، السرعة 0&ndash;100</td></tr>
+        <tr><td>التطبيق &rarr; الروبوت</td><td><code>STOP</code></td><td>توقّف العجلات الأربع</td></tr>
+        <tr><td>التطبيق &rarr; الروبوت</td><td><code>SERVO angle</code></td><td>0&ndash;180 مع تطبيق التعديل</td></tr>
+        <tr><td>التطبيق &rarr; الروبوت</td><td><code dir="ltr">LED L|R 0|1</code></td><td>المصباح الأيسر أو الأيمن</td></tr>
+        <tr><td>التطبيق &rarr; الروبوت</td><td><code>HELLO</code></td><td>طلب الإصدار</td></tr>
+        <tr><td>الروبوت &rarr; التطبيق</td><td><code>DIST cm</code></td><td>مسافة الموجات فوق الصوتية</td></tr>
+        <tr><td>الروبوت &rarr; التطبيق</td><td><code>LINE l c r</code></td><td>ثلاثة حساسات، <code>1</code> تعني على الخط</td></tr>
+        <tr><td>الروبوت &rarr; التطبيق</td><td><code>VER version</code></td><td>إصدار البرنامج الثابت</td></tr>
+        <tr><td>الروبوت &rarr; التطبيق</td><td><code>ACK command</code></td><td>صدى كل أمر تم تحليله</td></tr>
+      </table>
+
+      <h2 id="troubleshooting">حل المشكلات</h2>
+      <table class="wikitable">
+        <tr><th>العَرَض</th><th>السبب / الحل</th></tr>
+        <tr><td>منتقي البلوتوث يبقى فارغًا</td><td>التصفية بخدمة UART بدل الاسم &mdash; لا يُعلن micro:bit عن ذلك المعرّف. انظر <a href="#understanding">المصيدة ٢</a>.</td></tr>
+        <tr><td><code dir="ltr">NotSupportedError: GATT Error: Not supported.</code></td><td>معرّفات TX/RX مُبدَّلة. <code>6e400002</code> يُشعر و<code>6e400003</code> يستقبل الكتابة.</td></tr>
+        <tr><td>يتصل ويُقرّ الأوامر، لكن لا شيء يتحرك</td><td>غالبًا الامتداد الخاطئ: كود V1 على لوحة V2. تحقّق أن فضاء الأسماء هو <code>mecanumRobotV2</code>.</td></tr>
+        <tr><td>حساسات الخط تُرجع قيمًا عشوائية</td><td>مصفوفة LED ما زالت مفعّلة. <code>led.enable(false)</code> ضروري: الأطراف P3 وP4 وP10 تابعة لها.</td></tr>
+        <tr><td>المسافة دائمًا 0</td><td>يحتاج HC-SR04 إلى 5 فولت من البطارية: يجب أن يكون مفتاح اللوحة مُشغَّلًا، والـ USB وحده لا يكفي. تحقّق أيضًا من الموصّل المثبّت على رأس المؤازر المتحرك.</td></tr>
+        <tr><td>النصف الأعلى من منزلق السرعة لا يفعل شيئًا</td><td>يتوقّع الامتداد المقياس 0&ndash;100، وكل ما يزيد يُقصّ.</td></tr>
+        <tr><td>المؤازر لا يشير للأمام عند 90°</td><td>عدِّل <code>SERVO_OFFSET</code> في البرنامج الثابت (20 افتراضيًا على هذا الهيكل).</td></tr>
+        <tr><td>نافذة البرنامج الثابت تعرض إصدارًا قديمًا</td><td>عُدِّل البرنامج الثابت دون إعادة تشغيل <code dir="ltr">node tools/embed-firmware.js</code>.</td></tr>
+      </table>
+
+      <div class="catlinks">
+        التصنيفات: <a href="index-ar.html">micro:bit</a> | <a href="index-ar.html">بلوتوث</a> | <a href="index-ar.html">روبوتيك</a> | <a href="index-ar.html">تطبيقات ويب</a>
+      </div>
+    </article>
+  </div>
+</div>
+
+<div class="footer-wiki">
+  أُنشئت هذه الصفحة في 13 أغسطس 2026. المحتوى مبني على مستودع <a href="https://github.com/abourdim/keystudio_4wd_mecanum">keystudio_4wd_mecanum</a>، وقراءة مباشرة لكود التطبيق والبرنامج الثابت، ومصدر الامتداد <code>mecanum_robot_v2</code>.
+</div>
+
+</body>
+</html>

@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Keyes 4WD Mecanum RXY - Wiki</title>
+<link rel="stylesheet" href="wiki.css">
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-inner">
+    <a class="wiki-logo" href="https://workshop-diy.org"><img src="logo.png" alt="Logo du Wiki"></a>
+    <a class="masthead-site-link" href="https://workshop-diy.org">workshop-diy.org</a>
+    <div class="masthead-title">
+      Wiki
+      <span class="sub">La base de connaissances personnelle et gratuite</span>
+    </div>
+    <div class="masthead-actions">
+      <div class="lang-switch" role="group" aria-label="Langue">
+        <a href="keyes-mecanum-rxy.html" class="lang-switch-btn active" title="Français"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="20" height="40" fill="#002395"/><rect x="20" width="20" height="40" fill="#fff"/><rect x="40" width="20" height="40" fill="#ED2939"/></svg></a>
+        <a href="keyes-mecanum-rxy-en.html" class="lang-switch-btn" title="English"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="60" height="40" fill="#012169"/><path d="M0 0L60 40M60 0L0 40" stroke="#fff" stroke-width="6.5"/><path d="M0 0L60 40M60 0L0 40" stroke="#C8102E" stroke-width="3.5"/><path d="M30 0V40M0 20H60" stroke="#fff" stroke-width="11"/><path d="M30 0V40M0 20H60" stroke="#C8102E" stroke-width="6.5"/></svg></a>
+        <a href="keyes-mecanum-rxy-ar.html" class="lang-switch-btn" title="العربية"><svg width="24" height="16" viewBox="0 0 900 600"><defs><clipPath id="glKeyRxyFr"><rect width="450" height="600"/></clipPath></defs><rect width="450" height="600" fill="#006233"/><rect x="450" width="450" height="600" fill="#FFF"/><g fill="#D21034" transform="translate(450,300)"><circle r="125"/><circle cx="25" r="100" fill="#FFF"/><g clip-path="url(#glKeyRxyFr)" transform="translate(-450,-300)"><circle cx="475" cy="300" r="100" fill="#006233"/></g><path d="M85-12l22 67h71l-57 42 22 67-58-42-57 42 21-67-57-42h71z"/></g></svg></a>
+      </div>
+      <div class="masthead-search">
+        <input type="text" placeholder="Rechercher" disabled>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wiki-layout">
+
+  <div class="sidebar">
+    <h3>Navigation</h3>
+    <ul>
+      <li><a href="index.html">Page principale</a></li>
+      <li><a href="#">Modifications récentes</a></li>
+      <li><a href="#">Page au hasard</a></li>
+    </ul>
+    <h3>Catégories</h3>
+    <ul>
+      <li><a href="index.html">Réseau</a></li>
+      <li><a href="index.html">Linux</a></li>
+      <li><a href="index.html">Windows</a></li>
+      <li><a href="index.html">Électronique</a></li>
+      <li><a href="index.html">ESP32</a></li>
+      <li><a href="index.html">micro:bit</a></li>
+    </ul>
+    <h3>Outils</h3>
+    <ul>
+      <li><a href="https://github.com/abourdim/keystudio_4wd_mecanum_rxy">Voir le dépôt source</a></li>
+      <li><a href="keyes-mecanum.html">Version simple</a></li>
+      <li><a href="bit-rxy.html">bit-rxy (le constructeur d'origine)</a></li>
+    </ul>
+  </div>
+
+  <div class="content-wrap">
+    <div class="article-tabs">
+      <span class="active">Article</span>
+      <span>Discussion</span>
+    </div>
+
+    <article>
+      <h1 class="page-title">Keyes 4WD Mecanum RXY</h1>
+
+      <div class="infobox">
+        <div class="infobox-title">Keyes 4WD Mecanum RXY</div>
+        <table>
+          <tr><th>Type</th><td>Télécommande à widgets, disposition transportée par le firmware</td></tr>
+          <tr><th>Matériel</th><td>Keyestudio 4WD Mecanum <strong>V2</strong> + BBC micro:bit V2</td></tr>
+          <tr><th>Extensions</th><td><code>mecanumRobotV2</code>, Bluetooth, Neopixel</td></tr>
+          <tr><th>Widgets</th><td>31, définis dans le firmware</td></tr>
+          <tr><th>Firmware</th><td>K4-v17 (MakeCode / JavaScript)</td></tr>
+          <tr><th>Langues</th><td>English, Français, العربية</td></tr>
+          <tr><th>Dépôt</th><td><a href="https://github.com/abourdim/keystudio_4wd_mecanum_rxy">github.com/abourdim/keystudio_4wd_mecanum_rxy</a></td></tr>
+        </table>
+      </div>
+
+      <p class="hatnote">Cet article couvre la version <strong>à widgets</strong> de la télécommande du robot mécanum Keyestudio : la disposition complète vit dans le firmware et est renvoyée à l'application à la connexion. Pour la page simple à disposition fixe, voir <a href="keyes-mecanum.html">Keyes 4WD Mecanum Remote</a>. L'application dérive de <a href="bit-rxy.html">bit-rxy</a>, via la variante Maqueen Lab.</p>
+
+      <div class="toc">
+        <div class="toc-title">Sommaire</div>
+        <ol>
+          <li><a href="#overview">Aperçu</a></li>
+          <li><a href="#quickstart">Démarrage rapide</a></li>
+          <li><a href="#walkthrough">Étape par étape : cloner, flasher &amp; tester</a></li>
+          <li><a href="#understanding">Comprendre le code (pour débutants)</a></li>
+          <li><a href="#widgets">Les 31 widgets</a></li>
+          <li><a href="#pins">Brochage et arbitrages matériels</a></li>
+          <li><a href="#protocol">Référence du protocole Bluetooth</a></li>
+          <li><a href="#troubleshooting">Dépannage</a></li>
+        </ol>
+      </div>
+
+      <h2 id="overview">Aperçu</h2>
+      <p>Deux onglets : <strong>✏️ Build</strong> pour composer une télécommande par glisser-déposer, <strong>▶️ Play</strong> pour la piloter. La particularité, héritée de <a href="bit-rxy.html">bit-rxy</a>, est que la disposition n'est pas stockée dans le navigateur mais <em>dans le firmware</em>, sous forme de chaîne Base64. Le micro:bit sait donc décrire lui-même sa propre interface : n'importe quelle copie de l'application, sur n'importe quelle machine, redessine la bonne télécommande dès la connexion.</p>
+      <p>Par rapport à la <a href="keyes-mecanum.html">page simple</a>, on gagne le pavé mécanum 8 directions à masque binaire, la bande NeoPixel avec effets, les modes autonomes Ligne et Évitement, les capteurs embarqués du micro:bit, et un graphe de distance. On perd la simplicité : 31 widgets, un transfert de configuration d'environ dix secondes, et un firmware de plus de 2 000 lignes.</p>
+
+      <h2 id="quickstart">Démarrage rapide</h2>
+      <ol>
+        <li>Ouvre <code>index.html</code> dans Chrome ou Edge.</li>
+        <li><strong>⚙ Firmware</strong> dans l'en-tête : copie le code, ajoute les trois extensions, flashe.</li>
+        <li>Onglet <strong>▶️ Play</strong>, bouton <strong>Connect</strong>, choisis la carte.</li>
+        <li>Attends le transfert de la disposition (~10 s la première fois, mis en cache ensuite), puis conduis.</li>
+      </ol>
+
+      <h2 id="walkthrough">Étape par étape : cloner, flasher &amp; tester</h2>
+
+      <h3>1. Cloner le dépôt</h3>
+      <pre><code>git clone https://github.com/abourdim/keystudio_4wd_mecanum_rxy.git
+cd keystudio_4wd_mecanum_rxy</code></pre>
+
+      <h3>2. Ouvrir la page</h3>
+      <p>Double-clic sur <code>index.html</code> suffit ; <code>npx serve .</code> fonctionne aussi.</p>
+
+      <h3>3. Les trois extensions</h3>
+      <table class="wikitable">
+        <tr><th>Extension</th><th>Source</th><th>Pourquoi</th></tr>
+        <tr><td><code>mecanum_robot_v2</code></td><td><code>github.com/keyestudio2019/mecanum_robot_v2</code></td><td>Moteurs, servo, phares, capteurs</td></tr>
+        <tr><td>Bluetooth</td><td>intégrée</td><td>Service UART</td></tr>
+        <tr><td>Neopixel</td><td>intégrée</td><td>Bande 4 LED sur P7</td></tr>
+      </table>
+      <div class="ambox ambox-warning">Active <strong>No Pairing Required</strong> dans les paramètres du projet. La fenêtre Firmware contient aussi le bloc <code>bluetooth</code> complet à fusionner dans <code>pxt.json</code> si la liaison reste muette.</div>
+
+      <h3>4. Flasher</h3>
+      <p><strong>Copy code</strong>, coller dans MakeCode en mode JavaScript, Télécharger, déposer le <code>.hex</code>.</p>
+
+      <h3>5. Première connexion : regarder le transfert</h3>
+      <p>Onglet <strong>Play</strong>, <strong>Connect</strong>. L'application demande d'abord une révision courte (<code>GETCFGVER</code>) ; comme rien n'est en cache, elle bascule sur le transfert complet <code>GETCFG</code>, environ 280 blocs à 35 ms. Une dizaine de secondes, une seule fois par disposition.</p>
+
+      <h3>6. Vérifier chaque sous-système</h3>
+      <ol>
+        <li><strong>Entraînement</strong> &mdash; les huit directions du pavé, roues en l'air. Les diagonales doivent translater, pas tourner.</li>
+        <li><strong>Servo</strong> &mdash; le curseur doit balayer la tête ; la jauge suit.</li>
+        <li><strong>Phares</strong> &mdash; les deux interrupteurs.</li>
+        <li><strong>Bande</strong> &mdash; interrupteur Strip, puis une couleur, puis les effets Rainbow / Chase / Sparkle.</li>
+        <li><strong>Distance</strong> &mdash; robot à l'arrêt, la jauge suit la main et le graphe se remplit.</li>
+        <li><strong>Ligne</strong> &mdash; les trois voyants s'allument un par un en travers d'une bande noire.</li>
+        <li><strong>Capteurs</strong> &mdash; son, température, inclinaison X/Y, boutons A/B, contact logo.</li>
+      </ol>
+
+      <div class="ambox ambox-success">Une installation complète : la disposition apparaît seule après connexion, les huit directions translatent correctement, la bande s'anime, la distance suit la main, les trois capteurs de ligne réagissent séparément, et l'horloge de fonctionnement avance dans l'en-tête.</div>
+
+      <h2 id="understanding">Comprendre le code (pour débutants)</h2>
+      <p class="hatnote">Suppose des bases en JavaScript. La partie firmware suppose d'avoir déjà vu du MakeCode en mode JavaScript.</p>
+
+      <h3>Architecture du système, illustrée</h3>
+      <div class="diagram"><pre style="margin:0;border:0;padding:0;background:none;">┌────────────────────────┐                    ┌────────────────────────┐
+│      NAVIGATEUR        │   Nordic UART BLE  │       micro:bit        │
+│                        │ ◀────────────────▶ │      firmware/main.ts  │
+│  ┌──────────────────┐  │                    │                        │
+│  │ Build (canevas)  │  │                    │  ┌──────────────────┐  │
+│  └────────┬─────────┘  │                    │  │ CFG  (Base64 de  │  │
+│           │ export     │                    │  │ la disposition)  │  │
+│  ┌────────▼─────────┐  │  ◀── CFG chunks ── │  └────────┬─────────┘  │
+│  │ Play (runtime)   │  │                    │           │ décrit     │
+│  └────────┬─────────┘  │                    │  ┌────────▼─────────┐  │
+│           │            │  ── octet a..p ──▶ │  │ handleDpadMask() │  │
+│           │            │  ── SET id val ──▶ │  │ handleWidget()   │  │
+│           │            │  ◀── UPD id val ── │  └────────┬─────────┘  │
+└───────────┼────────────┘                    └───────────┼────────────┘
+            │                                             │
+      widgets rendus                            moteurs · servo · bande
+      depuis le CFG                             capteurs · phares</pre></div>
+      <p>Le sens de la flèche « CFG chunks » est l'idée centrale : la disposition remonte du robot vers l'application, jamais l'inverse. L'onglet Build sert à <em>fabriquer</em> un CFG qu'on recopie ensuite dans le firmware ; en usage courant, c'est le firmware qui commande l'affichage.</p>
+
+      <h3>Disposition des fichiers</h3>
+      <div class="diagram"><pre style="margin:0;border:0;padding:0;background:none;">keystudio_4wd_mecanum_rxy/
+├── index.html    ← coquille + fenêtre Firmware + source intégrée
+├── script.js     ← constructeur, runtime, BLE, widgets  (~8 400 l.)
+├── styles.css    ← thème
+├── firmware/
+│   ├── main.ts   ← firmware + constante CFG        (~2 060 l.)
+│   └── pxt.json  ← extensions + réglages Bluetooth
+├── examples/keyes-4wd-mecanum-layout.json  ← même CFG, lisible
+└── tools/embed-firmware.cjs                ← recopie main.ts dans index.html</pre></div>
+
+      <h3>Le cache de configuration : ne pas retransférer 5 Ko à chaque fois</h3>
+      <p>Dix secondes à chaque connexion serait insupportable. À la place, la carte sait d'abord répondre à une question courte :</p>
+      <div class="diagram"><pre style="margin:0;border:0;padding:0;background:none;">App ── GETCFGVER ─────────▶ micro:bit
+App ◀── CFGVER 47c78c1f ──  (empreinte calculée depuis CFG au démarrage)
+     │
+     ├─ empreinte connue ─▶ dessine depuis le cache local     (instantané)
+     │
+     └─ inconnue ─────────▶ GETCFG ──▶ CFGBEGIN / CFG ×280 / CFGEND
+                                        (~10 s, une seule fois)</pre></div>
+      <p>L'empreinte est dérivée du contenu de <code>CFG</code> lui-même, donc elle change automatiquement dès qu'on modifie la disposition : aucun numéro de version à maintenir à la main, et aucun risque de servir un cache périmé.</p>
+
+      <h3>Le pavé mécanum : huit directions dans un seul octet</h3>
+      <p>Chaque appui envoie <strong>un octet</strong>, pas une phrase. L'état complet des directions tient dans quatre bits, et l'octet transmis vaut <code>'a' + masque</code> :</p>
+      <table class="wikitable">
+        <tr><th>Bit</th><th>1</th><th>2</th><th>4</th><th>8</th></tr>
+        <tr><td>Direction</td><td>Haut</td><td>Bas</td><td>Gauche</td><td>Droite</td></tr>
+      </table>
+      <p>Une diagonale n'est donc pas un nouveau concept réseau : c'est simplement deux bits allumés. Le firmware additionne les bits en un vecteur, et la même formule sert aux huit directions :</p>
+      <pre><code>btnFwd  = (mask &amp; 1) != 0
+btnBack = (mask &amp; 2) != 0
+btnLeft = (mask &amp; 4) != 0
+btnRight= (mask &amp; 8) != 0
+
+let ny = 0, nx = 0
+if (btnFwd)  ny += 1
+if (btnBack) ny -= 1
+if (btnLeft) nx -= 1
+if (btnRight)nx += 1
+runMecanum(nx, ny)</code></pre>
+      <table class="wikitable">
+        <tr><th>Bouton</th><th>Masque</th><th>Octet</th><th>nx, ny</th></tr>
+        <tr><td>↑</td><td>1</td><td><code>b</code></td><td>0, +1</td></tr>
+        <tr><td>↖</td><td>5</td><td><code>f</code></td><td>&minus;1, +1</td></tr>
+        <tr><td>↗</td><td>9</td><td><code>j</code></td><td>+1, +1</td></tr>
+        <tr><td>↙</td><td>6</td><td><code>g</code></td><td>&minus;1, &minus;1</td></tr>
+        <tr><td>↘</td><td>10</td><td><code>k</code></td><td>+1, &minus;1</td></tr>
+        <tr><td>■ STOP</td><td>0</td><td><code>a</code></td><td>0, 0</td></tr>
+      </table>
+      <p>Comme chaque paquet porte l'<em>état complet</em> et non un changement, un paquet perdu se répare tout seul au suivant. Une direction maintenue est réémise périodiquement, ce qui permet au chien de garde du firmware de distinguer « toujours appuyé » de « le relâchement s'est perdu ».</p>
+
+      <h3>L'arbitrage matériel : pourquoi la matrice 5×5 reste éteinte</h3>
+      <p>C'est la décision la moins évidente du firmware, et elle a été prise deux fois pour de mauvaises raisons avant d'être prise pour la bonne. Sur ce châssis, quatre broches de la matrice LED sont déjà occupées :</p>
+      <div class="diagram"><pre style="margin:0;border:0;padding:0;background:none;">Broches pilotées par la matrice 5×5 :  P3  P4  P6  P7  P9  P10
+                                        │   │       │       │
+                    capteur ligne G ────┘   │       │       │
+                    capteur ligne C ────────┘       │       │
+                    bande NeoPixel  ────────────────┘       │
+                    capteur ligne D ────────────────────────┘
+
+  affichage actif ─▶ ces broches sont multiplexées
+                  ─▶ lecture des capteurs = bruit
+                  ─▶ la bande ne s'allume pas
+
+  donc :  led.enable(false)   une fois, au démarrage</pre></div>
+      <p>Le firmware conserve tout son code de glyphes derrière une constante <code>USE_MATRIX</code> plutôt que de le supprimer : la remettre à <code>true</code> restaure l'affichage, au prix du suivi de ligne et de la bande.</p>
+      <div class="ambox ambox-notice">Corollaire : <strong>la mesure de luminosité est inutilisable sur ce robot</strong>. Le micro:bit mesure la lumière avec sa propre matrice, donc <code>input.lightLevel()</code> réactive l'affichage &mdash; et reprend P7 à la bande deux fois par seconde. Le symptôme était une bande qui s'allumait au démarrage puis restait éteinte ensuite.</div>
+
+      <h3>Le suivi de ligne à trois capteurs</h3>
+      <p>La table de vérité est reprise telle quelle du programme Keyestudio, pas déduite : sur ce châssis, <code>1</code> signifie « sur la ligne ».</p>
+      <table class="wikitable">
+        <tr><th>G</th><th>C</th><th>D</th><th>Action</th></tr>
+        <tr><td>0</td><td>1</td><td>0</td><td>Tout droit &mdash; centré</td></tr>
+        <tr><td>1</td><td>&mdash;</td><td>1</td><td>Tout droit &mdash; intersection</td></tr>
+        <tr><td>1</td><td>&mdash;</td><td>0</td><td>Virer à gauche</td></tr>
+        <tr><td>0</td><td>&mdash;</td><td>1</td><td>Virer à droite</td></tr>
+        <tr><td>0</td><td>0</td><td>0</td><td>Arrêt &mdash; ligne perdue</td></tr>
+      </table>
+
+      <h3>La fenêtre Firmware, et le firmware recopié dans la page</h3>
+      <p>Le bouton <strong>⚙ Firmware</strong> réutilise la fenêtre modale existante de l'application et affiche la source complète, la version, les extensions et le bloc Bluetooth. Comme pour la page simple, la source est <em>intégrée</em> plutôt que chargée par <code>fetch()</code>, bloqué sur <code>file://</code>. Ici cela pèse environ 104 Ko dans <code>index.html</code>, d'où l'outil :</p>
+      <pre><code>node tools/embed-firmware.cjs          # réécrit index.html
+node tools/embed-firmware.cjs --check  # sort en erreur si dérive</code></pre>
+      <p>L'extension <code>.cjs</code> n'est pas un caprice : <code>package.json</code> déclare <code>"type": "module"</code>, donc un fichier <code>.js</code> serait interprété comme module ES et <code>require()</code> échouerait.</p>
+
+      <h2 id="widgets">Les 31 widgets</h2>
+      <table class="wikitable">
+        <tr><th>Groupe</th><th>Widgets</th></tr>
+        <tr><td>Pilotage</td><td>Pavé mécanum 8 directions avec STOP central, curseur de vitesse (0&ndash;100), jauge de vitesse, bouton STOP</td></tr>
+        <tr><td>Tête</td><td>Curseur de servo ultrason, jauge d'angle</td></tr>
+        <tr><td>Lumières</td><td>Phare gauche, phare droit</td></tr>
+        <tr><td>Bande NeoPixel</td><td>Interrupteur, couleur (9), luminosité, effet (Solid / Rainbow / Chase / Sparkle)</td></tr>
+        <tr><td>Distance</td><td>Jauge, graphe glissant 30 s, sélecteur Auto / Read now, notification d'obstacle</td></tr>
+        <tr><td>Ligne</td><td>Trois voyants : gauche, centre, droite</td></tr>
+        <tr><td>Capteurs micro:bit</td><td>Son, température, inclinaison X, inclinaison Y, bouton A, bouton B, contact logo</td></tr>
+        <tr><td>Système</td><td>Version du firmware, horloge de fonctionnement, sélecteur de télémétrie, sélecteur de mode, Buzz</td></tr>
+      </table>
+      <p>Les modes autonomes <strong>Line</strong> et <strong>Avoid</strong> se choisissent dans le sélecteur Mode ; en mode Manuel, le pavé reprend la main.</p>
+
+      <h2 id="pins">Brochage et arbitrages matériels</h2>
+      <table class="wikitable">
+        <tr><th>Fonction</th><th>Broche</th><th>Conséquence</th></tr>
+        <tr><td>Capteurs de ligne G / C / D</td><td><strong>P3 / P4 / P10</strong></td><td rowspan="2">Broches de matrice &rarr; <code>led.enable(false)</code> obligatoire</td></tr>
+        <tr><td>Bande NeoPixel (4 LED)</td><td><strong>P7</strong></td></tr>
+        <tr><td>Ultrason</td><td>P15 / P16</td><td>Alimentation 5 V batterie</td></tr>
+        <tr><td>Servo</td><td>P14</td><td>&mdash;</td></tr>
+        <tr><td>Moteurs, phares</td><td>I2C <code>0x30</code></td><td>V1 utilisait <code>0x47</code></td></tr>
+      </table>
+      <p>La bande est sur <strong>P7</strong>, non documenté par Keyestudio pour le V2 : l'extension V2 n'expose aucune fonction RGB, <code>setLed()</code> ne gère que les deux phares en tout ou rien. La broche a été trouvée par un balayage au démarrage, conservé derrière la constante <code>NP_PIN_SCAN</code>. Attention, <strong>P8 est la broche du V1</strong> et ne convient pas ici.</p>
+
+      <h2 id="protocol">Référence du protocole Bluetooth</h2>
+      <table class="wikitable">
+        <tr><th>Sens</th><th>Message</th><th>Signification</th></tr>
+        <tr><td>App &rarr; robot</td><td>un octet <code>a</code>&hellip;<code>p</code></td><td>Masque complet du pavé (chemin rapide)</td></tr>
+        <tr><td>App &rarr; robot</td><td><code>SET id valeur</code></td><td>Un widget a été manipulé</td></tr>
+        <tr><td>App &rarr; robot</td><td><code>GETCFGVER</code></td><td>Demande l'empreinte de la disposition</td></tr>
+        <tr><td>App &rarr; robot</td><td><code>GETCFG</code></td><td>Demande la disposition complète</td></tr>
+        <tr><td>Robot &rarr; app</td><td><code>CFGVER empreinte</code></td><td>Réponse courte pour le cache</td></tr>
+        <tr><td>Robot &rarr; app</td><td><code>CFGBEGIN</code> / <code>CFG bloc</code> / <code>CFGEND</code></td><td>Disposition en blocs Base64 de 18 octets</td></tr>
+        <tr><td>Robot &rarr; app</td><td><code>UPD id valeur</code></td><td>Nouvelle valeur à afficher</td></tr>
+      </table>
+
+      <h2 id="troubleshooting">Dépannage</h2>
+      <table class="wikitable">
+        <tr><th>Symptôme</th><th>Cause / solution</th></tr>
+        <tr><td>Connexion, acquittements, mais rien ne bouge</td><td>Firmware écrit pour l'extension V1 sur une carte V2. L'espace de noms doit être <code>mecanumRobotV2</code>, et <code>state()</code> s'appelle sans argument.</td></tr>
+        <tr><td>La bande ne s'allume jamais</td><td>Trois causes possibles : mauvaise broche (P7, pas P8), matrice restée active, ou un appel à <code>input.lightLevel()</code> quelque part &mdash; il rallume l'affichage et reprend P7.</td></tr>
+        <tr><td>Les capteurs de ligne donnent n'importe quoi</td><td><code>USE_MATRIX</code> est resté à <code>true</code>. P3, P4 et P10 appartiennent à l'affichage.</td></tr>
+        <tr><td>La moitié haute du curseur de vitesse ne fait rien</td><td>L'échelle est 0&ndash;100, pas 0&ndash;255.</td></tr>
+        <tr><td>Distance toujours à 0</td><td>Vérifie l'alimentation 5 V et le connecteur du capteur, monté sur la tête mobile. Le robot doit être à l'arrêt : la mesure est suspendue pendant que les roues tournent.</td></tr>
+        <tr><td>Le graphe affiche « waiting for UPD… »</td><td>Un seul échantillon ne trace pas de courbe. Sur une version à jour, un point isolé s'affiche sous forme de point et le mode Auto échantillonne dans tous les modes.</td></tr>
+        <tr><td>La première connexion prend dix secondes</td><td>Normal : transfert complet de la disposition. Les suivantes utilisent l'empreinte <code>CFGVER</code> et sont immédiates.</td></tr>
+        <tr><td>Des valeurs bougent toutes seules, sans robot</td><td>Ancienne version : le simulateur de démonstration tournait par-dessus une liaison réelle. Corrigé en le désactivant dès qu'une configuration vient de l'appareil.</td></tr>
+        <tr><td>La fenêtre Firmware montre une ancienne version</td><td>Relance <code>node tools/embed-firmware.cjs</code>.</td></tr>
+      </table>
+
+      <div class="catlinks">
+        Catégories : <a href="index.html">micro:bit</a> | <a href="index.html">Bluetooth</a> | <a href="index.html">Robotique</a> | <a href="index.html">Applications web</a>
+      </div>
+    </article>
+  </div>
+</div>
+
+<div class="footer-wiki">
+  Cette page a été créée le 13 août 2026. Contenu basé sur le dépôt <a href="https://github.com/abourdim/keystudio_4wd_mecanum_rxy">keystudio_4wd_mecanum_rxy</a>, une relecture directe de <code>script.js</code> et <code>firmware/main.ts</code>, et la source de l'extension <code>mecanum_robot_v2</code>.
+</div>
+
+</body>
+</html>
