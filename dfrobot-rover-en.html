@@ -71,8 +71,8 @@
           <tr><th>Hardware</th><td>micro:bit <strong>V2</strong> + DFRobot micro:Driver DFR0548</td></tr>
           <tr><th>Extensions</th><td><code>pxt-motor</code>, <code>pxt-oled-ssd1306</code>, plus <code>settings</code> added by hand</td></tr>
           <tr><th>Widgets</th><td>31 on the Expert panel, described by the firmware</td></tr>
-          <tr><th>Firmware</th><td>R1-v19 (MakeCode / JavaScript)</td></tr>
-          <tr><th>App</th><td>rxy_web v2.27</td></tr>
+          <tr><th>Firmware</th><td>R1-v27 (MakeCode / JavaScript)</td></tr>
+          <tr><th>App</th><td>rxy_web v2.28</td></tr>
           <tr><th>Languages</th><td>English, Français, العربية</td></tr>
           <tr><th>Repository</th><td><a href="https://github.com/abourdim/dfrobot-rover">github.com/abourdim/dfrobot-rover</a></td></tr>
         </table>
@@ -154,7 +154,7 @@ https://github.com/tinkertanker/pxt-oled-ssd1306</code></pre>
 
       <h3>6. Read the self-test</h3>
       <p>Every power-up, before anything connects, for two and a half seconds:</p>
-      <pre><code>Rover R1-v19
+      <pre><code>Rover R1-v27
 Driver 0x40  ok
 Sonar  42 cm
 Trim  L +7  R -7</code></pre>
@@ -195,7 +195,9 @@ Trim  L +7  R -7</code></pre>
         <tr><td>Auto</td><td>The text until the app connects, the eyes afterwards</td></tr>
         <tr><td>Radar</td><td>The polar radar scope</td></tr>
       </table>
-      <p><strong>Auto</strong> is the one worth choosing: before a connection the only useful thing on that screen is <em>which</em> micro:bit this is; afterwards the app is already showing every number.</p>
+      <p>Whatever the setting, <strong>a rover with no connection shows the status text</strong>, and its first line is the micro:bit&rsquo;s own name &mdash; the one thing worth knowing before a link exists. Face and Radar are really about what happens <em>once connected</em>.</p>
+      <p><strong>Without a phone:</strong> buttons <strong>A</strong> and <strong>B</strong> cycle the setting, A forwards and B back, in the order the app lists them. The mode is named on the glass for a moment before it takes over. That matters more than it sounds: the setting you most want to change is the one showing the wrong thing to help you connect &mdash; and at that moment the phone is not yet talking to the robot.</p>
+      <p><strong>Beeps.</strong> The <strong>Beeps</strong> selector on the Screen panel, off until asked. Four events, each a different <em>shape</em> so you can tell them apart across a room without looking up: a rising pair on connect, a falling pair when the link is lost, one short blip for an obstacle inside 25 cm, and a tick when trim reaches the flash. That last one earns its place, because writing trim is the only moment where &ldquo;did that actually save?&rdquo; is a real question. Off by default, because a room of robots all chirping at every obstacle is a room nobody can teach in.</p>
       <p>For the radar, also set <strong>Head</strong> to <strong>Sweep</strong>: without it the head stays at 90&deg; and only one bearing can ever be drawn.</p>
 
       <h2 id="understanding">Understanding the code (for beginners)</h2>
@@ -225,11 +227,12 @@ let pr = WHEEL_STOP - Math.idiv(r * 90, DRIVE_SPEED_MAX) - trimR</code></pre>
       <table class="wikitable">
         <tr><th>Expression</th><th>Trigger</th></tr>
         <tr><td>Pupils follow the head</td><td>Always &mdash; they track <strong>Look</strong></td></tr>
-        <tr><td>Blink</td><td>Every 2.5&ndash;6 s</td></tr>
+        <tr><td>Blink, and one in four is a <strong>wink</strong></td><td>Every 2.5&ndash;6 s</td></tr>
+        <tr><td><strong>Happy</strong>, two arcs</td><td>The micro:bit&rsquo;s <strong>logo</strong> is touched</td></tr>
         <tr><td>Worried, brows up</td><td>Something closer than 25 cm</td></tr>
         <tr><td>Dizzy</td><td>For 2 s after a spin</td></tr>
         <tr><td>Asleep</td><td>20 s with no driving</td></tr>
-        <tr><td>Alarmed, pupils shrunk</td><td>Picked up or tipped past 45&deg;</td></tr>
+        <tr><td>Alarmed, pupils shrunk</td><td>Lifted or tipped 45&deg; <strong>from however it was sitting at power-up</strong></td></tr>
       </table>
       <p>The worried brow is a wedge cut out of the top of the eye, deepest at the <em>outer</em> edge so the inner ends ride up. Cut the other way, the same shape reads as angry.</p>
 

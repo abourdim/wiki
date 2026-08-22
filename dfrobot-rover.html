@@ -71,8 +71,8 @@
           <tr><th>Matériel</th><td>micro:bit <strong>V2</strong> + DFRobot micro:Driver DFR0548</td></tr>
           <tr><th>Extensions</th><td><code>pxt-motor</code>, <code>pxt-oled-ssd1306</code>, plus <code>settings</code> ajoutée à la main</td></tr>
           <tr><th>Widgets</th><td>31 sur le panneau Expert, décrits par le firmware</td></tr>
-          <tr><th>Firmware</th><td>R1-v19 (MakeCode / JavaScript)</td></tr>
-          <tr><th>Application</th><td>rxy_web v2.27</td></tr>
+          <tr><th>Firmware</th><td>R1-v27 (MakeCode / JavaScript)</td></tr>
+          <tr><th>Application</th><td>rxy_web v2.28</td></tr>
           <tr><th>Langues</th><td>English, Français, العربية</td></tr>
           <tr><th>Dépôt</th><td><a href="https://github.com/abourdim/dfrobot-rover">github.com/abourdim/dfrobot-rover</a></td></tr>
         </table>
@@ -154,7 +154,7 @@ https://github.com/tinkertanker/pxt-oled-ssd1306</code></pre>
 
       <h3>6. Lire l&rsquo;auto-test</h3>
       <p>À chaque mise sous tension, avant toute connexion, l&rsquo;écran affiche quatre lignes pendant deux secondes et demie :</p>
-      <pre><code>Rover R1-v19
+      <pre><code>Rover R1-v27
 Driver 0x40  ok
 Sonar  42 cm
 Trim  L +7  R -7</code></pre>
@@ -195,7 +195,9 @@ Trim  L +7  R -7</code></pre>
         <tr><td>Auto</td><td>Le texte tant que rien n&rsquo;est connecté, les yeux ensuite</td></tr>
         <tr><td>Radar</td><td>L&rsquo;écran radar polaire</td></tr>
       </table>
-      <p><strong>Auto</strong> est le réglage à choisir : avant la connexion, la seule chose utile sur cet écran est de savoir <em>quel</em> micro:bit c&rsquo;est ; après, l&rsquo;application affiche déjà tous les nombres.</p>
+      <p>Quel que soit le réglage, <strong>un rover sans connexion affiche le texte d&rsquo;état</strong>, dont la première ligne est le nom du micro:bit : c&rsquo;est la seule chose utile tant qu&rsquo;aucune liaison n&rsquo;existe. Face et Radar concernent donc ce qui se passe <em>une fois connecté</em>.</p>
+      <p><strong>Sans téléphone :</strong> les boutons <strong>A</strong> et <strong>B</strong> font défiler le réglage, A en avant, B en arrière, dans l&rsquo;ordre où l&rsquo;application les liste. Le nom du mode s&rsquo;affiche un instant avant qu&rsquo;il ne prenne la main. C&rsquo;est plus utile qu&rsquo;il n&rsquo;y paraît : le réglage qu&rsquo;on veut changer est celui qui affiche la mauvaise chose pour aider à se connecter &mdash; et à ce moment-là le téléphone ne parle pas encore au robot.</p>
+      <p><strong>Bips.</strong> Le sélecteur <strong>Beeps</strong> du panneau Screen, désactivé par défaut. Quatre événements, chacun d&rsquo;une <em>forme</em> différente pour les distinguer à l&rsquo;oreille sans lever les yeux : deux notes montantes à la connexion, deux descendantes à la perte de liaison, un bip court pour un obstacle à moins de 25 cm, et un tic quand le trim atteint la flash. Ce dernier est le plus utile : écrire le trim est le seul moment où « est-ce que ça a bien été enregistré ? » est une vraie question. Désactivé par défaut, parce qu&rsquo;une salle de robots qui bipent tous à chaque obstacle est une salle où l&rsquo;on ne peut plus enseigner.</p>
       <p>Pour le radar, mets aussi <strong>Head</strong> sur <strong>Sweep</strong> : sans balayage la tête reste à 90&deg; et une seule direction peut être tracée.</p>
 
       <h2 id="understanding">Comprendre le code (pour débutants)</h2>
@@ -225,11 +227,12 @@ let pr = WHEEL_STOP - Math.idiv(r * 90, DRIVE_SPEED_MAX) - trimR</code></pre>
       <table class="wikitable">
         <tr><th>Expression</th><th>Déclencheur</th></tr>
         <tr><td>Les pupilles suivent la tête</td><td>Toujours &mdash; elles suivent <strong>Look</strong></td></tr>
-        <tr><td>Clignement</td><td>Toutes les 2,5 à 6 s</td></tr>
+        <tr><td>Clignement, et un sur quatre est un <strong>clin d&rsquo;&oelig;il</strong></td><td>Toutes les 2,5 à 6 s</td></tr>
+        <tr><td><strong>Content</strong>, deux arcs</td><td>On touche le <strong>logo</strong> du micro:bit</td></tr>
         <tr><td>Inquiet, sourcils relevés</td><td>Quelque chose à moins de 25 cm</td></tr>
         <tr><td>Vertige</td><td>Pendant 2 s après une toupie</td></tr>
         <tr><td>Endormi</td><td>20 s sans conduite</td></tr>
-        <tr><td>Alarmé, pupilles rétrécies</td><td>Soulevé ou incliné de plus de 45&deg;</td></tr>
+        <tr><td>Alarmé, pupilles rétrécies</td><td>Soulevé ou incliné de 45&deg; <strong>par rapport à sa position au démarrage</strong></td></tr>
       </table>
       <p>Le sourcil inquiet est une entaille creusée dans le haut de l&rsquo;&oelig;il, plus profonde du côté <em>extérieur</em>, pour que les extrémités intérieures remontent. Creusée dans l&rsquo;autre sens, la même forme donne un air fâché.</p>
 

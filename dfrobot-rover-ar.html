@@ -71,8 +71,8 @@
           <tr><th>العتاد</th><td>micro:bit <strong>V2</strong> + لوحة DFRobot micro:Driver DFR0548</td></tr>
           <tr><th>الإضافات</th><td><code>pxt-motor</code> و<code>pxt-oled-ssd1306</code>، مع <code>settings</code> تُضاف يدويًا</td></tr>
           <tr><th>الأدوات</th><td>31 أداة في لوحة Expert، يصفها البرنامج الثابت</td></tr>
-          <tr><th>البرنامج الثابت</th><td>R1-v19 (MakeCode / JavaScript)</td></tr>
-          <tr><th>التطبيق</th><td>rxy_web v2.27</td></tr>
+          <tr><th>البرنامج الثابت</th><td>R1-v27 (MakeCode / JavaScript)</td></tr>
+          <tr><th>التطبيق</th><td>rxy_web v2.28</td></tr>
           <tr><th>اللغات</th><td>English, Français, العربية</td></tr>
           <tr><th>المستودع</th><td><a href="https://github.com/abourdim/dfrobot-rover">github.com/abourdim/dfrobot-rover</a></td></tr>
         </table>
@@ -154,7 +154,7 @@ https://github.com/tinkertanker/pxt-oled-ssd1306</code></pre>
 
       <h3>6. قراءة الاختبار الذاتي</h3>
       <p>عند كل تشغيل، وقبل أي اتصال، لمدة ثانيتين ونصف:</p>
-      <pre><code>Rover R1-v19
+      <pre><code>Rover R1-v27
 Driver 0x40  ok
 Sonar  42 cm
 Trim  L +7  R -7</code></pre>
@@ -195,7 +195,9 @@ Trim  L +7  R -7</code></pre>
         <tr><td>Auto</td><td>النص حتى يتصل التطبيق، ثم العينان</td></tr>
         <tr><td>Radar</td><td>شاشة الرادار القطبية</td></tr>
       </table>
-      <p><strong>Auto</strong> هو الخيار الجدير: قبل الاتصال، الشيء الوحيد المفيد على تلك الشاشة هو معرفة <em>أي</em> micro:bit هذا؛ وبعده يكون التطبيق قد عرض كل الأرقام.</p>
+      <p>أيًّا كان الإعداد، <strong>الروفر غير المتصل يعرض نص الحالة</strong>، وسطره الأول اسم الـ micro:bit &mdash; وهو الشيء الوحيد الذي يهم قبل وجود اتصال. لذا فإن Face وRadar يخصّان ما يحدث <em>بعد</em> الاتصال.</p>
+      <p><strong>بلا هاتف:</strong> يبدّل الزران <strong>A</strong> و<strong>B</strong> الإعداد، A إلى الأمام وB إلى الخلف، بالترتيب نفسه الذي يعرضه التطبيق. ويظهر اسم الوضع على الشاشة لحظة قبل أن يتولى. وهذا أهم مما يبدو: فالإعداد الذي تريد تغييره هو الذي يعرض الشيء الخطأ لمساعدتك على الاتصال &mdash; وفي تلك اللحظة لا يكون الهاتف قد بدأ الحديث مع الروبوت بعد.</p>
+      <p><strong>الأصوات.</strong> محدِّد <strong>Beeps</strong> في لوحة Screen، معطَّل حتى تطلبه. أربعة أحداث، لكلٍّ منها <em>شكل</em> مختلف لتمييزها سمعًا دون رفع البصر: نغمتان صاعدتان عند الاتصال، وهابطتان عند فقد الوصلة، وصفيرة قصيرة لعائق أقرب من 25 سم، وطقّة عند وصول الاستقامة إلى الفلاش. والأخيرة أنفعها، لأن كتابة الاستقامة هي اللحظة الوحيدة التي يكون فيها سؤال «هل حُفظ فعلًا؟» سؤالًا حقيقيًا. وهو معطَّل افتراضيًا لأن قاعة تصفر فيها كل الروبوتات عند كل عائق قاعة لا يمكن التدريس فيها.</p>
       <p>وللرادار اضبط <strong>Head</strong> على <strong>Sweep</strong> أيضًا: بدونه يبقى الرأس عند 90&deg; ولا يمكن رسم سوى اتجاه واحد.</p>
 
       <h2 id="understanding">فهم الشيفرة (للمبتدئين)</h2>
@@ -225,11 +227,12 @@ let pr = WHEEL_STOP - Math.idiv(r * 90, DRIVE_SPEED_MAX) - trimR</code></pre>
       <table class="wikitable">
         <tr><th>التعبير</th><th>المُطلِق</th></tr>
         <tr><td>البؤبؤان يتبعان الرأس</td><td>دائمًا &mdash; يتبعان <strong>Look</strong></td></tr>
-        <tr><td>رمشة</td><td>كل 2.5 إلى 6 ثوانٍ</td></tr>
+        <tr><td>رمشة، وواحدة من كل أربع غمزة</td><td>كل 2.5 إلى 6 ثوانٍ</td></tr>
+        <tr><td><strong>سعيد</strong>، قوسان</td><td>عند لمس <strong>شعار</strong> الـ micro:bit</td></tr>
         <tr><td>قلق، بحاجبين مرفوعين</td><td>شيء أقرب من 25 سم</td></tr>
         <tr><td>دوار</td><td>ثانيتان بعد دوران حول النفس</td></tr>
         <tr><td>نائم</td><td>20 ثانية بلا قيادة</td></tr>
-        <tr><td>مذعور، بؤبؤان ضيقان</td><td>رُفع أو مال أكثر من 45&deg;</td></tr>
+        <tr><td>مذعور، بؤبؤان ضيقان</td><td>رُفع أو مال 45&deg; <strong>عن وضعه لحظة التشغيل</strong></td></tr>
       </table>
       <p>حاجب القلق شقٌّ يُقتطع من أعلى العين، أعمق عند الحافة <em>الخارجية</em> لترتفع نهايتاه الداخليتان. ولو قُطع بالاتجاه المعاكس لقرأه الناظر غضبًا.</p>
 
