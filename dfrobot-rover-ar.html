@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>روفر DFRobot - Wiki</title>
+<link rel="stylesheet" href="wiki.css">
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-inner">
+    <a class="wiki-logo" href="https://workshop-diy.org"><img src="logo.png" alt="شعار الويكي"></a>
+    <a class="masthead-site-link" href="https://workshop-diy.org">workshop-diy.org</a>
+    <div class="masthead-title">
+      Wiki
+      <span class="sub">قاعدة المعرفة الشخصية والمجانية</span>
+    </div>
+    <div class="masthead-actions">
+      <div class="lang-switch" role="group" aria-label="اللغة">
+        <a href="dfrobot-rover.html" class="lang-switch-btn" title="Français"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="20" height="40" fill="#002395"/><rect x="20" width="20" height="40" fill="#fff"/><rect x="40" width="20" height="40" fill="#ED2939"/></svg></a>
+        <a href="dfrobot-rover-en.html" class="lang-switch-btn" title="English"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="60" height="40" fill="#012169"/><path d="M0 0L60 40M60 0L0 40" stroke="#fff" stroke-width="6.5"/><path d="M0 0L60 40M60 0L0 40" stroke="#C8102E" stroke-width="3.5"/><path d="M30 0V40M0 20H60" stroke="#fff" stroke-width="11"/><path d="M30 0V40M0 20H60" stroke="#C8102E" stroke-width="6.5"/></svg></a>
+        <a href="dfrobot-rover-ar.html" class="lang-switch-btn active" title="العربية"><svg width="24" height="16" viewBox="0 0 900 600"><defs><clipPath id="glRa"><rect width="450" height="600"/></clipPath></defs><rect width="450" height="600" fill="#006233"/><rect x="450" width="450" height="600" fill="#FFF"/><g fill="#D21034" transform="translate(450,300)"><circle r="125"/><circle cx="25" r="100" fill="#FFF"/><g clip-path="url(#glRa)" transform="translate(-450,-300)"><circle cx="475" cy="300" r="100" fill="#006233"/></g><path d="M85-12l22 67h71l-57 42 22 67-58-42-57 42 21-67-57-42h71z"/></g></svg></a>
+      </div>
+      <div class="masthead-search">
+        <input type="text" placeholder="بحث" disabled>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wiki-layout">
+
+  <div class="sidebar">
+    <h3>التصفح</h3>
+    <ul>
+      <li><a href="index-ar.html">الصفحة الرئيسية</a></li>
+      <li><a href="#">أحدث التغييرات</a></li>
+      <li><a href="#">صفحة عشوائية</a></li>
+    </ul>
+    <h3>التصنيفات</h3>
+    <ul>
+      <li><a href="index-ar.html">شبكات</a></li>
+      <li><a href="index-ar.html">Linux</a></li>
+      <li><a href="index-ar.html">Windows</a></li>
+      <li><a href="index-ar.html">إلكترونيات</a></li>
+      <li><a href="index-ar.html">ESP32</a></li>
+      <li><a href="index-ar.html">micro:bit</a></li>
+    </ul>
+    <h3>أدوات</h3>
+    <ul>
+      <li><a href="https://github.com/abourdim/dfrobot-rover">مستودع المصدر</a></li>
+      <li><a href="bit-rxy-ar.html">bit-rxy</a></li>
+      <li><a href="keyes-mecanum-rxy-ar.html">Keyes 4WD Mecanum RXY</a></li>
+    </ul>
+  </div>
+
+  <div class="content-wrap">
+    <div class="article-tabs">
+      <span class="active">مقالة</span>
+      <span>نقاش</span>
+    </div>
+
+    <article>
+      <h1 class="page-title">روفر DFRobot</h1>
+
+      <div class="infobox">
+        <div class="infobox-title">روفر DFRobot</div>
+        <table>
+          <tr><th>النوع</th><td>روفر بمحركَي سيرفو، التخطيط محمول داخل البرنامج الثابت</td></tr>
+          <tr><th>العتاد</th><td>micro:bit <strong>V2</strong> + لوحة DFRobot micro:Driver DFR0548</td></tr>
+          <tr><th>الإضافات</th><td><code>pxt-motor</code> و<code>pxt-oled-ssd1306</code>، مع <code>settings</code> تُضاف يدويًا</td></tr>
+          <tr><th>الأدوات</th><td>31 أداة في لوحة Expert، يصفها البرنامج الثابت</td></tr>
+          <tr><th>البرنامج الثابت</th><td>R1-v19 (MakeCode / JavaScript)</td></tr>
+          <tr><th>التطبيق</th><td>rxy_web v2.27</td></tr>
+          <tr><th>اللغات</th><td>English, Français, العربية</td></tr>
+          <tr><th>المستودع</th><td><a href="https://github.com/abourdim/dfrobot-rover">github.com/abourdim/dfrobot-rover</a></td></tr>
+        </table>
+      </div>
+
+      <div class="applink">
+        <a href="https://abourdim.github.io/rxy_web/" target="_blank" rel="noopener"><img class="applink-qr" src="qr/dfrobot-rover.svg" alt="QR: https://abourdim.github.io/rxy_web/" width="104" height="104"></a>
+        <div class="applink-text">
+          <div class="applink-title">افتح التطبيق</div>
+          <div class="applink-url"><a href="https://abourdim.github.io/rxy_web/" target="_blank" rel="noopener">https://abourdim.github.io/rxy_web/</a></div>
+          <div class="applink-hint">امسح هذا الرمز بهاتفك لفتح التطبيق مباشرة. لا يوجد ما يُثبَّت: يعمل داخل المتصفح.</div>
+        </div>
+      </div>
+
+      <p class="hatnote">تتناول هذه المقالة الروفر المبني على لوحة DFRobot micro:Driver بمحركَي سيرفو دائريَي الدوران. يشارك التطبيق نفسه مع بقية السلسلة: التخطيط كامل يعيش داخل البرنامج الثابت ويُرسَل إلى المتصفح عند الاتصال، وهو المبدأ الموروث عن <a href="bit-rxy-ar.html">bit-rxy</a>.</p>
+
+      <div class="toc">
+        <div class="toc-title">المحتويات</div>
+        <ol>
+          <li><a href="#overview">نظرة عامة</a></li>
+          <li><a href="#quickstart">بداية سريعة</a></li>
+          <li><a href="#walkthrough">خطوة بخطوة: الاستنساخ والبرمجة والاختبار</a></li>
+          <li><a href="#understanding">فهم الشيفرة (للمبتدئين)</a></li>
+          <li><a href="#pins">خريطة الأطراف</a></li>
+          <li><a href="#protocol">البروتوكول</a></li>
+          <li><a href="#troubleshooting">حل المشكلات</a></li>
+        </ol>
+      </div>
+
+      <h2 id="overview">نظرة عامة</h2>
+      <p>روفر يسير على محركَي سيرفو دائريَي الدوران، ينظر حوله بمستشعر فوق صوتي محمول على سيرفو ثالث، ويعرض ما يعرفه على شاشة 128&times;32. تقوده من صفحة ويب عبر البلوتوث: لا شيء يُثبَّت، ولا حساب، ولا واي فاي.</p>
+      <p><strong>الروبوت يملك واجهته.</strong> التطبيق مجرد مُصيِّر: يتصل، ويسأل الروفر عن الأدوات التي يملكها، ثم يرسم ما يصله. لا شيء يُضبط في المتصفح، ولا توجد نسخة خاصة من التطبيق لهذا الروبوت.</p>
+      <p>ما يميز هذا الروفر عن بقية السلسلة: محركات سيرفو 360&deg; بدل محركات التيار المستمر، ما يجعل ضبط <em>الاستقامة</em> أمرًا لا مفر منه؛ ورأس متحرك يمسح الغرفة؛ وشاشة صارت مفيدة فعلًا &mdash; اختبار ذاتي، أو وجه، أو شاشة رادار.</p>
+
+      <h2 id="quickstart">بداية سريعة</h2>
+      <ol>
+        <li>شغّل الروفر: يظهر الاختبار الذاتي مدة ثانيتين ونصف.</li>
+        <li>افتح التطبيق في <strong>Chrome</strong> أو <strong>Edge</strong> &mdash; سفاري وفَيَرفُكس لا يدعمان Web Bluetooth.</li>
+        <li>اضغط <strong>Connect</strong> واختر الـ micro:bit الذي يظهر اسمه على شاشة الروبوت.</li>
+        <li>انتظر نقل التخطيط (نحو 10 ثوانٍ أول مرة، ثم يُخزَّن مؤقتًا)، ثم قُد.</li>
+      </ol>
+
+      <h2 id="walkthrough">خطوة بخطوة: الاستنساخ والبرمجة والاختبار</h2>
+
+      <h3>1. استنساخ المستودع</h3>
+      <pre><code>git clone https://github.com/abourdim/dfrobot-rover.git
+cd dfrobot-rover</code></pre>
+      <p>البرنامج الثابت ملف واحد: <code>firmware/rover-remote.ts</code>. لا يوجد بناء محلي &mdash; MakeCode يترجم داخل المتصفح، فاللصق النظيف <strong>هو</strong> خطوة البناء.</p>
+
+      <h3>2. إضافة الإضافتين</h3>
+      <p>افتح <a href="https://makecode.microbit.org">makecode.microbit.org</a>، أنشئ مشروعًا، ثم <em>Extensions</em>. الصق كل رابط بدوره:</p>
+      <pre><code>https://github.com/DFRobot/pxt-motor
+https://github.com/tinkertanker/pxt-oled-ssd1306</code></pre>
+      <p><strong>الصق الرابط ولا تبحث بالاسم.</strong> نشرت DFRobot إضافتها باسم <code>motor</code> العام، فالبحث يعيد كومة من الأشباه، والخيار الخاطئ <em>يُترجم بنجاح ولا يُحرِّك عجلة واحدة</em>.</p>
+      <p><strong>وليس</strong> <code>pxt-neopixel</code>. شريط الإضاءة موصول بالطرف P15 لكن لا شيء يقوده: هذه الإضافة لا تتعايش مع البلوتوث على هذه اللوحة، وبين شريط إضاءة وروبوت يمكن قيادته، يفوز الروبوت.</p>
+
+      <h3>3. إضافة الاعتمادية الخفية: <code>settings</code></h3>
+      <p>يُحفظ ضبط الاستقامة في ذاكرة الفلاش داخل الـ micro:bit، وهذا يحتاج مكتبة <code>settings</code>. البحث عنها في <em>Extensions</em> لا يعطي <strong>شيئًا</strong>: فهي تُشحن مع المحرر لكنها مُعلَّمة كمخفية. أضِفها يدويًا:</p>
+      <ol>
+        <li>افتح <strong>Explorer</strong> أسفل يسار المحرر</li>
+        <li>اضغط <code>pxt.json</code></li>
+        <li>أضف سطرًا داخل <code>dependencies</code>:</li>
+      </ol>
+      <pre><code>"settings": "*"</code></pre>
+      <p>يأتي <strong>أخيرًا</strong>، لذا يحتاج السطر الذي فوقه فاصلة. بدونه يفشل كل سطر <code>settings.</code> برسالة <em>Cannot find name &lsquo;settings&rsquo;</em>. وإضافة <em>Data Logger</em> لا تنفع: فهي تعتمد على <code>flashlog</code> لا على <code>settings</code>.</p>
+
+      <h3>4. إعدادات البلوتوث</h3>
+      <p>أيقونة الترس &rarr; <em>Project Settings</em>. الخطأ فيها يبدو كتطبيق معطّل لا كإعداد خاطئ.</p>
+      <table class="wikitable">
+        <tr><th>الإعداد</th><th>القيمة</th><th>لماذا</th></tr>
+        <tr><td>No Pairing Required</td><td>ON</td><td>وإلا وجب على كل طفل إقران لوحته ثم تصفيرها لإعادة البرمجة.</td></tr>
+        <tr><td>Bluetooth UART service</td><td>ON</td><td>الخدمة الوحيدة المستعملة: البروتوكول كله أسطر نصية.</td></tr>
+        <tr><td>بقية خدمات BLE</td><td>OFF</td><td>كل واحدة تكلّف ذاكرة ومساحة إعلان بلا فائدة.</td></tr>
+      </table>
+      <p>الراديو والبلوتوث لا يجتمعان على هذا العتاد: إضافة البلوتوث <em>تزيل</em> حزمة الراديو، ويطلب MakeCode قبول ذلك.</p>
+
+      <h3>5. اللصق والبرمجة</h3>
+      <p>انتقل إلى عرض <strong>JavaScript</strong>، والصق كامل <code>firmware/rover-remote.ts</code> فوق الموجود، ثم نزّل. تعرض مصفوفة LED رقم الإصدار عند الإقلاع: هكذا تتأكد مما هو مبرمَج فعلًا بدل افتراضه.</p>
+
+      <h3>6. قراءة الاختبار الذاتي</h3>
+      <p>عند كل تشغيل، وقبل أي اتصال، لمدة ثانيتين ونصف:</p>
+      <pre><code>Rover R1-v19
+Driver 0x40  ok
+Sonar  42 cm
+Trim  L +7  R -7</code></pre>
+      <p>يتعطل الروفر بثلاث طرق: سلك مستشعر مفصول، أو لوحة قيادة غير مرئية، أو بطاريات فارغة. <code>Driver 0x40 MISSING</code> تعني اللوحة أو موصلها؛ و<code>Sonar NO ECHO</code> تعني سلك المستشعر، وغالبًا سلك 3V3. الاختبار يستجوب ناقل I&sup2;C فعلًا &mdash; ليس تخمينًا.</p>
+      <p>الشاشة ليست ضمن القائمة عمدًا: إن كنت تقرأ القائمة فالشاشة تعمل.</p>
+
+      <h3>7. الاتصال</h3>
+      <p>اضغط <strong>Connect</strong>. يعرض المتصفح أسماء مثل <code>BBC micro:bit [gazug]</code> &mdash; وهو نفسه ما يعرضه الروفر على شاشته حين لا يكون متصلًا، فلا تخمين لأي روبوت تختار في قاعة مليئة بها.</p>
+
+      <h3>8. تبديل اللوحات</h3>
+      <p>محدِّد <strong>Level</strong> موجود في كل لوحة: تنتقل بين التمارين بقائمة منسدلة بدل إعادة برمجة.</p>
+      <table class="wikitable">
+        <tr><th>اللوحة</th><th>محتواها</th><th>النقل</th></tr>
+        <tr><td>Beginner</td><td>لوحة الاتجاهات وSTOP والمسافة والتنبيه. لا غير.</td><td>~2.8 ث</td></tr>
+        <tr><td>Expert <em>(الافتراضية)</em></td><td>كل ما يستطيعه الروفر &mdash; 31 أداة</td><td>~10.3 ث</td></tr>
+        <tr><td>Drive</td><td>تدوير كل عجلة، ومعرفة اتجاهها، وضبط استقامتها</td><td>~4.8 ث</td></tr>
+        <tr><td>Distance</td><td>المؤشر والتنبيه والرسم البياني والرأس المتحرك</td><td>~3.5 ث</td></tr>
+        <tr><td>Screen</td><td>كتابة رسالة واختيار وضع الشاشة</td><td>~1.9 ث</td></tr>
+      </table>
+
+      <h3>9. ضبط الاستقامة &mdash; الخطوة التي لا تُتخطى</h3>
+      <p>محركا سيرفو 360&deg; لا يدوران بالسرعة نفسها أبدًا، فالروفر الجديد ينحرف دائمًا. لكل عجلة <strong>ثلاث طرق للوصول إلى الرقم نفسه</strong>، لأن تقويم الروبوت ثلاث مهام مختلفة:</p>
+      <table class="wikitable">
+        <tr><th>الأداة</th><th>فائدتها</th></tr>
+        <tr><td><strong>Trim L</strong> / <strong>Trim R</strong></td><td>الاقتراب بسحبة واحدة</td></tr>
+        <tr><td><strong>L &minus; 1</strong> / <strong>L + 1</strong>، <strong>R &minus; 1</strong> / <strong>R + 1</strong></td><td>الأداة التي تهم: «ما زال ينحرف قليلًا» تساوي درجة <em>واحدة</em>، ودرجة واحدة من نبضة السيرفو هي حد الواجهة البرمجية</td></tr>
+        <tr><td><strong>L =</strong> / <strong>R =</strong></td><td>إعادة كتابة رقم دوّنته</td></tr>
+      </table>
+      <p>الثلاثة تقود القيمة نفسها ويعيدها البرنامج الثابت إليها جميعًا، فلا يمكن أن تتناقض. توقّع رقمًا من خانة واحدة؛ وما تجاوز 10 تقريبًا يعني خللًا ميكانيكيًا.</p>
+      <p><strong>الروفر يتذكّرها بنفسه.</strong> تُكتب الاستقامة في فلاشه: تبقى بعد تبديل البطاريات وبعد إعادة البرمجة وعند الانتقال إلى لوح آخر. وتُحفظ بعد <em>ثانيتين</em> من آخر تعديل، لا مع كل حركة للمنزلق &mdash; فللفلاش عدد محدود من دورات المسح، وسحب المنزلق سيل من القيم.</p>
+
+      <h3>10. اختيار ما تعرضه الشاشة</h3>
+      <p>يقدّم محدِّد <strong>Screen</strong> أربعة إعدادات، تُحفظ في الفلاش إلى جانب الاستقامة.</p>
+      <table class="wikitable">
+        <tr><th>الإعداد</th><th>ما يظهر</th></tr>
+        <tr><td>Status</td><td>الاسم والمسافة والاستقامة والسرعة <em>(الافتراضي)</em></td></tr>
+        <tr><td>Face</td><td>عينان</td></tr>
+        <tr><td>Auto</td><td>النص حتى يتصل التطبيق، ثم العينان</td></tr>
+        <tr><td>Radar</td><td>شاشة الرادار القطبية</td></tr>
+      </table>
+      <p><strong>Auto</strong> هو الخيار الجدير: قبل الاتصال، الشيء الوحيد المفيد على تلك الشاشة هو معرفة <em>أي</em> micro:bit هذا؛ وبعده يكون التطبيق قد عرض كل الأرقام.</p>
+      <p>وللرادار اضبط <strong>Head</strong> على <strong>Sweep</strong> أيضًا: بدونه يبقى الرأس عند 90&deg; ولا يمكن رسم سوى اتجاه واحد.</p>
+
+      <h2 id="understanding">فهم الشيفرة (للمبتدئين)</h2>
+
+      <h3>الوصلة العتادية</h3>
+      <p>كل ما يخص هذه اللوحة تحديدًا يقع في ثلاث دوال. تغيير لوحة القيادة يعني إعادة كتابة هذه الثلاث فقط:</p>
+      <pre><code>wheels(l, r)   // مزيج القيادة -&gt; نبضتا سيرفو
+wheelsStop()   // إيقاف العجلتين، مع الاستقامة
+pingCm()       // قراءة فوق صوتية واحدة، أو علامة «لا صدى»</code></pre>
+      <p>كل ما تحت هذه الوصلة هو حزمة rxy المشتركة: البلوتوث، ونقل الإعداد على أجزاء، وذاكرة التخطيط، والقياس عن بعد، وحارس القيادة.</p>
+
+      <h3>المرآة التي تجعل كل شيء يعمل</h3>
+      <pre><code>let pl = WHEEL_STOP + Math.idiv(l * 90, DRIVE_SPEED_MAX) + trimL
+let pr = WHEEL_STOP - Math.idiv(r * 90, DRIVE_SPEED_MAX) - trimR</code></pre>
+      <p>السيرفو الأيمن مركّب في الاتجاه المعاكس، فـ«إلى الأمام» <em>أقل</em> من 90 في تلك الجهة و<em>أكثر</em> منها في اليسرى. لذلك تُضاف الاستقامة يسارًا وتُطرح يمينًا، حتى يعني الرقم الموجب «أكثر إلى الأمام» في العجلتين. وإضافتها إلى الاثنتين هي بالضبط ما جعل روفر ESP32 في السلسلة ينحرف.</p>
+
+      <h3>كيف يصل التخطيط إلى المتصفح</h3>
+      <p>التخطيط سلسلة Base64 مترجمة داخل البرنامج الثابت، واحدة لكل لوحة. عند الاتصال يطلب التطبيق بصمة الإصدار أولًا. فإن كانت لدى المتصفح مخزّنة أجاب <code>CFGOK</code> ولا يُنقل شيء آخر؛ وإلا جاء <code>CFGBEGIN</code> ثم الأجزاء ثم <code>CFGEND</code>.</p>
+      <p>يُدار النقل من الحلقة الرئيسية لا من دالة الاستقبال: فبثّ تخطيط من داخل نداء البلوتوث هو ما كان يكسر إعادة الاتصال تاريخيًا.</p>
+
+      <h3>الشاشة: طريقتان للرسم</h3>
+      <p>يمر النص عبر إضافة OLED. بسيط لكنه بطيء: <strong>عشر معاملات I&sup2;C لكل حرف</strong>، والإضافة لا تتيح تحريك المؤشر &mdash; <code>clear()</code> هي السبيل الوحيد للعودة إلى الأعلى، فكل إعادة رسم هي الشاشة كاملة. ومن هنا القاعدة: لا تُعاد الأسطر إلا حين <em>تتغير فعلًا</em>، وتُقرَّب المسافة إلى 5 سم كي لا يُطلق اضطراب المستشعر وحده إعادة رسم.</p>
+      <p>الوجه والرادار لا يمكن رسمهما هكذا. فـ<code>drawFilledCircle()</code> تستدعي <code>drawLine()</code> لكل عمود، وكل <code>drawShape()</code> تنفق ست أوامر وكتابة <em>لكل عمود-صفحة</em>: قرص ممتلئ واحد يعني مئات المعاملات. لذا يحتفظان بمخزن خاص من 512 بايت ويدفعان صورًا كاملة &mdash; <strong>ثماني كتابات من 65 بايت للشاشة كلها</strong>.</p>
+      <p>وكلاهما يتجمّد ما دامت العجلات تدور: فالإطار 512 بايت على الناقل نفسه الذي تستعمله لوحة القيادة، داخل الحلقة التي تُطعم حارس القيادة. ولهذا يأتي الدوار <em>بعد</em> الدوران لا أثناءه.</p>
+
+      <h3>الوجه</h3>
+      <table class="wikitable">
+        <tr><th>التعبير</th><th>المُطلِق</th></tr>
+        <tr><td>البؤبؤان يتبعان الرأس</td><td>دائمًا &mdash; يتبعان <strong>Look</strong></td></tr>
+        <tr><td>رمشة</td><td>كل 2.5 إلى 6 ثوانٍ</td></tr>
+        <tr><td>قلق، بحاجبين مرفوعين</td><td>شيء أقرب من 25 سم</td></tr>
+        <tr><td>دوار</td><td>ثانيتان بعد دوران حول النفس</td></tr>
+        <tr><td>نائم</td><td>20 ثانية بلا قيادة</td></tr>
+        <tr><td>مذعور، بؤبؤان ضيقان</td><td>رُفع أو مال أكثر من 45&deg;</td></tr>
+      </table>
+      <p>حاجب القلق شقٌّ يُقتطع من أعلى العين، أعمق عند الحافة <em>الخارجية</em> لترتفع نهايتاه الداخليتان. ولو قُطع بالاتجاه المعاكس لقرأه الناظر غضبًا.</p>
+
+      <h3>شاشة الرادار</h3>
+      <p>حلقة عند 30 سم وأخرى عند 100 سم، وشعاع على زاوية الرأس الحقيقية، ونقاط رصد تبقى خمس ثوانٍ: فالمسحة تبني صورة للغرفة بدل عرض قراءة واحدة.</p>
+      <p>القرص <strong>ممدود أفقيًا بمقدار الضعف</strong>. فنصف قرص يتسع في 32 سطرًا لا يتجاوز نصف قطره 31 بكسل، ويترك ثلثي الزجاج أسود. ومقياس المسافة ليس خطيًا &mdash; فالعشرة سنتيمترات الأولى تأخذ ربع نصف القطر &mdash; وهو المقياس نفسه الذي يستعمله التطبيق، ليتفق العرضان على معنى «قريب».</p>
+      <p>ولا تُرسم قراءة «لا صدى» أبدًا: فذلك يعني رسم جدار عند أقصى مدى حول غرفة فارغة.</p>
+
+      <h2 id="pins">خريطة الأطراف</h2>
+      <table class="wikitable">
+        <tr><th>القطعة</th><th>المنفذ</th><th>ملاحظات</th></tr>
+        <tr><td>micro:bit <strong>V2</strong></td><td>الفتحة الحافية</td><td>V2 فقط: لا تكفي ذاكرة V1 للبلوتوث مع الشاشة، وواجهة <code>settings</code> مستبعدة فيها</td></tr>
+        <tr><td>العجلة اليسرى</td><td><strong>S1</strong></td><td>سيرفو 360&deg;؛ <code>90</code> تعني التوقف</td></tr>
+        <tr><td>العجلة اليمنى</td><td><strong>S2</strong></td><td>مركّبة بالمرآة</td></tr>
+        <tr><td>رأس المستشعر</td><td><strong>S3</strong></td><td>يوجّه المستشعر</td></tr>
+        <tr><td>الشاشة</td><td><strong>منفذ I&sup2;C</strong></td><td>SSD1306 128&times;32 على العنوان <code>0x3C</code></td></tr>
+        <tr><td>مستشعر المسافة</td><td><strong>P0</strong> إرسال &middot; <strong>P1</strong> استقبال</td><td>HC-SR04<strong>P</strong>؛ التغذية من <strong>3V3</strong></td></tr>
+        <tr><td>شريط الإضاءة</td><td><strong>P15</strong></td><td>موصول لكنه <strong>غير مُشغَّل</strong></td></tr>
+        <tr><td>البطارية</td><td><strong>مقبس DC</strong></td><td>‏4&times;AA، من 3.5 إلى 5.5 فولت</td></tr>
+      </table>
+      <p>الأطراف الحرة: <code>P2 P12 P13 P14 P16</code>. ويحمل P8 خرج الصوت، نُقل عن P0 لأن P0 هو مُطلِق السونار: فأي صافرة كانت ستُطلق قياسات كاذبة.</p>
+
+      <h2 id="protocol">البروتوكول</h2>
+      <p>أسطر نصية عبر خدمة UART. ثلاث عائلات تكفي لوصف كل شيء:</p>
+      <table class="wikitable">
+        <tr><th>الرسالة</th><th>الاتجاه</th><th>المعنى</th></tr>
+        <tr><td><code>SET &lt;id&gt; &lt;value&gt;</code></td><td>التطبيق &rarr; الروبوت</td><td>تحركت أداة</td></tr>
+        <tr><td><code>UPD &lt;id&gt; &lt;value&gt;</code></td><td>الروبوت &rarr; التطبيق</td><td>تغيّرت قيمة عند الروبوت</td></tr>
+        <tr><td><code>GETCFG</code> &middot; <code>CFGBEGIN</code> &middot; <code>CFG</code> &middot; <code>CFGEND</code></td><td>كلاهما</td><td>نقل التخطيط</td></tr>
+      </table>
+      <p>ولا تستعمله لوحة الاتجاهات: إذ تُرمَّز كل حالة في <strong>بايت ASCII واحد</strong>، فيصير أمر المحرك الكامل بايتين. زمن استجابة القيادة هو الموضع الوحيد الذي كان هذا البروتوكول المقروء سيكلّف فيه أكثر مما يجب.</p>
+
+      <h2 id="troubleshooting">حل المشكلات</h2>
+      <table class="wikitable">
+        <tr><th>العَرَض</th><th>السبب المرجّح</th></tr>
+        <tr><td><em>Cannot find name &lsquo;settings&rsquo;</em></td><td>اعتمادية الخطوة 3 ناقصة في <code>pxt.json</code></td></tr>
+        <tr><td><em>Cannot find name &lsquo;neopixel&rsquo;</em></td><td>برنامج ثابت أقدم من R1-v11، أو أُضيفت إضافة NeoPixel</td></tr>
+        <tr><td>يُترجم لكن لا شيء يتحرك</td><td>إضافة محركات خاطئة: الصق الرابط ولا تبحث بالاسم</td></tr>
+        <tr><td>الروفر ينحرف إلى جهة</td><td>طبيعي مع سيرفو 360&deg;. الخطوة 9.</td></tr>
+        <tr><td><code>Driver 0x40 MISSING</code> عند الإقلاع</td><td>لوحة القيادة غير مرئية على ناقل I&sup2;C: الموصل أو اللوحة</td></tr>
+        <tr><td><code>Sonar NO ECHO</code> عند الإقلاع</td><td>سلك المستشعر، وغالبًا سلك 3V3</td></tr>
+        <tr><td>الرادار يبقى فارغًا</td><td><strong>Head</strong> على <strong>Manual</strong>، أو لا شيء ضمن المدى. اضبط <strong>Sweep</strong> وقرّب يدك.</td></tr>
+        <tr><td>الوجه لا يقلق أبدًا</td><td>اضبط <strong>Telemetry</strong> على <strong>All</strong>: وإلا لا تُقاس المسافة إلا في وضع Avoid</td></tr>
+        <tr><td>النص مزدوج ومتشابك</td><td>تصحيح 128&times;32 ناقص: بعد <code>init</code> أرسل <code>0xA8, 0x1F</code> و<code>0xDA, 0x02</code></td></tr>
+        <tr><td>محركات السيرفو ضعيفة وتتوقف</td><td>تُغذّى من 3.3 فولت. تحقّق من ذلك قبل اتهام الشيفرة.</td></tr>
+      </table>
+
+      <div class="catlinks">
+        التصنيفات: <a href="index-ar.html">micro:bit</a> | <a href="index-ar.html">بلوتوث</a> | <a href="index-ar.html">روبوتات</a> | <a href="index-ar.html">تطبيقات ويب</a>
+      </div>
+    </article>
+  </div>
+</div>
+
+<div class="footer-wiki">
+  أُنشئت هذه الصفحة في 22 أغسطس 2026. المحتوى مبني على مستودع <a href="https://github.com/abourdim/dfrobot-rover">dfrobot-rover</a> وقراءة مباشرة لملف <code>firmware/rover-remote.ts</code>.
+</div>
+
+</body>
+</html>

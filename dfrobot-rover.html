@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DFRobot Rover - Wiki</title>
+<link rel="stylesheet" href="wiki.css">
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-inner">
+    <a class="wiki-logo" href="https://workshop-diy.org"><img src="logo.png" alt="Logo du Wiki"></a>
+    <a class="masthead-site-link" href="https://workshop-diy.org">workshop-diy.org</a>
+    <div class="masthead-title">
+      Wiki
+      <span class="sub">La base de connaissances personnelle et gratuite</span>
+    </div>
+    <div class="masthead-actions">
+      <div class="lang-switch" role="group" aria-label="Langue">
+        <a href="dfrobot-rover.html" class="lang-switch-btn active" title="Français"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="20" height="40" fill="#002395"/><rect x="20" width="20" height="40" fill="#fff"/><rect x="40" width="20" height="40" fill="#ED2939"/></svg></a>
+        <a href="dfrobot-rover-en.html" class="lang-switch-btn" title="English"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="60" height="40" fill="#012169"/><path d="M0 0L60 40M60 0L0 40" stroke="#fff" stroke-width="6.5"/><path d="M0 0L60 40M60 0L0 40" stroke="#C8102E" stroke-width="3.5"/><path d="M30 0V40M0 20H60" stroke="#fff" stroke-width="11"/><path d="M30 0V40M0 20H60" stroke="#C8102E" stroke-width="6.5"/></svg></a>
+        <a href="dfrobot-rover-ar.html" class="lang-switch-btn" title="العربية"><svg width="24" height="16" viewBox="0 0 900 600"><defs><clipPath id="glRf"><rect width="450" height="600"/></clipPath></defs><rect width="450" height="600" fill="#006233"/><rect x="450" width="450" height="600" fill="#FFF"/><g fill="#D21034" transform="translate(450,300)"><circle r="125"/><circle cx="25" r="100" fill="#FFF"/><g clip-path="url(#glRf)" transform="translate(-450,-300)"><circle cx="475" cy="300" r="100" fill="#006233"/></g><path d="M85-12l22 67h71l-57 42 22 67-58-42-57 42 21-67-57-42h71z"/></g></svg></a>
+      </div>
+      <div class="masthead-search">
+        <input type="text" placeholder="Rechercher" disabled>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wiki-layout">
+
+  <div class="sidebar">
+    <h3>Navigation</h3>
+    <ul>
+      <li><a href="index.html">Page principale</a></li>
+      <li><a href="#">Modifications récentes</a></li>
+      <li><a href="#">Page au hasard</a></li>
+    </ul>
+    <h3>Catégories</h3>
+    <ul>
+      <li><a href="index.html">Réseau</a></li>
+      <li><a href="index.html">Linux</a></li>
+      <li><a href="index.html">Windows</a></li>
+      <li><a href="index.html">Électronique</a></li>
+      <li><a href="index.html">ESP32</a></li>
+      <li><a href="index.html">micro:bit</a></li>
+    </ul>
+    <h3>Outils</h3>
+    <ul>
+      <li><a href="https://github.com/abourdim/dfrobot-rover">Voir le dépôt source</a></li>
+      <li><a href="bit-rxy.html">bit-rxy</a></li>
+      <li><a href="keyes-mecanum-rxy.html">Keyes 4WD Mecanum RXY</a></li>
+    </ul>
+  </div>
+
+  <div class="content-wrap">
+    <div class="article-tabs">
+      <span class="active">Article</span>
+      <span>Discussion</span>
+    </div>
+
+    <article>
+      <h1 class="page-title">DFRobot Rover</h1>
+
+      <div class="infobox">
+        <div class="infobox-title">DFRobot Rover</div>
+        <table>
+          <tr><th>Type</th><td>Rover à deux servos, disposition transportée par le firmware</td></tr>
+          <tr><th>Matériel</th><td>micro:bit <strong>V2</strong> + DFRobot micro:Driver DFR0548</td></tr>
+          <tr><th>Extensions</th><td><code>pxt-motor</code>, <code>pxt-oled-ssd1306</code>, plus <code>settings</code> ajoutée à la main</td></tr>
+          <tr><th>Widgets</th><td>31 sur le panneau Expert, décrits par le firmware</td></tr>
+          <tr><th>Firmware</th><td>R1-v19 (MakeCode / JavaScript)</td></tr>
+          <tr><th>Application</th><td>rxy_web v2.27</td></tr>
+          <tr><th>Langues</th><td>English, Français, العربية</td></tr>
+          <tr><th>Dépôt</th><td><a href="https://github.com/abourdim/dfrobot-rover">github.com/abourdim/dfrobot-rover</a></td></tr>
+        </table>
+      </div>
+
+      <div class="applink">
+        <a href="https://abourdim.github.io/rxy_web/" target="_blank" rel="noopener"><img class="applink-qr" src="qr/dfrobot-rover.svg" alt="QR: https://abourdim.github.io/rxy_web/" width="104" height="104"></a>
+        <div class="applink-text">
+          <div class="applink-title">Ouvrir l&rsquo;application</div>
+          <div class="applink-url"><a href="https://abourdim.github.io/rxy_web/" target="_blank" rel="noopener">https://abourdim.github.io/rxy_web/</a></div>
+          <div class="applink-hint">Scanne ce code avec un t&eacute;l&eacute;phone pour ouvrir l&rsquo;application directement. Aucune installation : elle tourne dans le navigateur.</div>
+        </div>
+      </div>
+
+      <p class="hatnote">Cet article couvre le rover à servos à rotation continue construit sur la carte DFRobot micro:Driver. Il partage son application avec les autres robots de la série : la disposition complète vit dans le firmware et est envoyée au navigateur à la connexion, principe hérité de <a href="bit-rxy.html">bit-rxy</a>.</p>
+
+      <div class="toc">
+        <div class="toc-title">Sommaire</div>
+        <ol>
+          <li><a href="#overview">Aperçu</a></li>
+          <li><a href="#quickstart">Démarrage rapide</a></li>
+          <li><a href="#walkthrough">Étape par étape : cloner, flasher &amp; tester</a></li>
+          <li><a href="#understanding">Comprendre le code (pour débutants)</a></li>
+          <li><a href="#pins">Brochage</a></li>
+          <li><a href="#protocol">Protocole</a></li>
+          <li><a href="#troubleshooting">Dépannage</a></li>
+        </ol>
+      </div>
+
+      <h2 id="overview">Aperçu</h2>
+      <p>Un rover à deux roues montées sur des servos à rotation continue, qui regarde autour de lui avec un capteur à ultrasons posé sur un troisième servo, et affiche ce qu&rsquo;il sait sur un écran de 128&times;32 pixels. Il se pilote depuis une page web par Bluetooth : rien à installer, pas de compte, pas de WiFi.</p>
+      <p><strong>Le robot est propriétaire de son interface.</strong> L&rsquo;application est un simple moteur de rendu : elle se connecte, demande au rover quels contrôles il possède, et dessine ce qui arrive. Il n&rsquo;y a rien à configurer dans le navigateur, et aucune version spéciale de l&rsquo;application pour ce robot.</p>
+      <p>Ce qui distingue ce rover des autres de la série : des servos 360&deg; au lieu de moteurs à courant continu, ce qui rend le réglage de <em>trim</em> incontournable ; une tête mobile qui balaie la pièce ; et un écran qui sert vraiment à quelque chose &mdash; auto-test, visage, ou écran radar.</p>
+
+      <h2 id="quickstart">Démarrage rapide</h2>
+      <ol>
+        <li>Allume le rover : l&rsquo;auto-test s&rsquo;affiche pendant deux secondes et demie.</li>
+        <li>Ouvre l&rsquo;application dans <strong>Chrome</strong> ou <strong>Edge</strong> &mdash; Safari et Firefox n&rsquo;ont pas Web Bluetooth.</li>
+        <li><strong>Connect</strong>, puis choisis le micro:bit dont le nom est affiché sur l&rsquo;écran du robot.</li>
+        <li>Attends le transfert de la disposition (~10 s la première fois, mis en cache ensuite), puis conduis.</li>
+      </ol>
+
+      <h2 id="walkthrough">Étape par étape : cloner, flasher &amp; tester</h2>
+
+      <h3>1. Cloner le dépôt</h3>
+      <pre><code>git clone https://github.com/abourdim/dfrobot-rover.git
+cd dfrobot-rover</code></pre>
+      <p>Le firmware est un seul fichier : <code>firmware/rover-remote.ts</code>. Il n&rsquo;y a pas de compilation locale &mdash; MakeCode compile dans le navigateur, donc <strong>un collage propre <em>est</em> l&rsquo;étape de build</strong>.</p>
+
+      <h3>2. Ajouter les deux extensions</h3>
+      <p>Ouvre <a href="https://makecode.microbit.org">makecode.microbit.org</a>, crée un projet, puis <em>Extensions</em>. Colle chaque URL à son tour :</p>
+      <pre><code>https://github.com/DFRobot/pxt-motor
+https://github.com/tinkertanker/pxt-oled-ssd1306</code></pre>
+      <p><strong>Colle l&rsquo;URL, ne cherche pas par nom.</strong> DFRobot a publié la sienne sous le nom générique <code>motor</code> : une recherche renvoie une pile de sosies, et le mauvais choix <em>compile parfaitement sans faire bouger une seule roue</em>.</p>
+      <p><strong>Pas</strong> <code>pxt-neopixel</code>. La bande de LED est câblée sur P15 mais aucun code ne la pilote : cette extension refuse de cohabiter avec Bluetooth sur cette carte, et entre une guirlande et un robot qui roule, c&rsquo;est le robot qui gagne.</p>
+
+      <h3>3. Ajouter la dépendance invisible : <code>settings</code></h3>
+      <p>Le trim des roues est enregistré dans la flash du micro:bit, ce qui demande la bibliothèque <code>settings</code>. La chercher dans <em>Extensions</em> ne donne <strong>rien</strong> : elle est livrée avec l&rsquo;éditeur mais marquée comme masquée. Il faut l&rsquo;ajouter à la main :</p>
+      <ol>
+        <li>Ouvre l&rsquo;<strong>Explorateur</strong>, en bas à gauche de l&rsquo;éditeur</li>
+        <li>Clique sur <code>pxt.json</code></li>
+        <li>Ajoute une ligne dans <code>dependencies</code> :</li>
+      </ol>
+      <pre><code>"settings": "*"</code></pre>
+      <p>Elle se place <strong>en dernier</strong>, donc la ligne au-dessus a besoin d&rsquo;une virgule. Sans elle, chaque ligne <code>settings.</code> échoue avec <em>Cannot find name &lsquo;settings&rsquo;</em>. Ajouter <em>Data Logger</em> ne sert à rien : celui-ci dépend de <code>flashlog</code>, pas de <code>settings</code>.</p>
+
+      <h3>4. Régler le Bluetooth</h3>
+      <p>Roue dentée &rarr; <em>Project Settings</em>. Mal réglés, ces trois points ressemblent à une application cassée.</p>
+      <table class="wikitable">
+        <tr><th>Réglage</th><th>Valeur</th><th>Pourquoi</th></tr>
+        <tr><td>No Pairing Required</td><td>ON</td><td>Sinon chaque enfant doit appairer sa carte, puis la réinitialiser pour la reflasher.</td></tr>
+        <tr><td>Bluetooth UART service</td><td>ON</td><td>Le seul service utilisé : tout le protocole est du texte, ligne par ligne.</td></tr>
+        <tr><td>Tous les autres services BLE</td><td>OFF</td><td>Chacun coûte de la mémoire et de la place dans l&rsquo;annonce, pour rien.</td></tr>
+      </table>
+      <p>Radio et Bluetooth sont incompatibles sur ce matériel : ajouter Bluetooth <em>retire</em> le paquet radio, et MakeCode demande de l&rsquo;accepter.</p>
+
+      <h3>5. Coller et flasher</h3>
+      <p>Passe en vue <strong>JavaScript</strong>, colle tout <code>firmware/rover-remote.ts</code> par-dessus ce qui s&rsquo;y trouve, puis <em>Télécharger</em>. Les LED font défiler la version au démarrage : c&rsquo;est ainsi qu&rsquo;on vérifie ce qui est réellement flashé au lieu de le supposer.</p>
+
+      <h3>6. Lire l&rsquo;auto-test</h3>
+      <p>À chaque mise sous tension, avant toute connexion, l&rsquo;écran affiche quatre lignes pendant deux secondes et demie :</p>
+      <pre><code>Rover R1-v19
+Driver 0x40  ok
+Sonar  42 cm
+Trim  L +7  R -7</code></pre>
+      <p>Un rover tombe en panne de trois façons : fil du capteur débranché, carte pilote non vue, piles à plat. <code>Driver 0x40 MISSING</code> désigne la carte ou son connecteur ; <code>Sonar NO ECHO</code> désigne le capteur, en général son fil 3V3. Le test interroge réellement le bus I&sup2;C &mdash; ce n&rsquo;est pas une supposition.</p>
+      <p>L&rsquo;écran ne figure pas dans la liste, volontairement : si tu peux lire la liste, l&rsquo;écran fonctionne.</p>
+
+      <h3>7. Se connecter</h3>
+      <p>Appuie sur <strong>Connect</strong>. Le sélecteur du navigateur affiche des noms du type <code>BBC micro:bit [gazug]</code> ; c&rsquo;est exactement ce qu&rsquo;affiche l&rsquo;écran du rover quand il n&rsquo;est pas connecté, donc il n&rsquo;y a pas à deviner lequel choisir dans une salle pleine de robots.</p>
+
+      <h3>8. Changer de panneau</h3>
+      <p>Le sélecteur <strong>Level</strong> est présent sur tous les panneaux : on change d&rsquo;exercice avec un menu déroulant, pas en reflashant.</p>
+      <table class="wikitable">
+        <tr><th>Panneau</th><th>Contenu</th><th>Transfert</th></tr>
+        <tr><td>Beginner</td><td>Pavé, STOP, distance, alerte. Rien d&rsquo;autre.</td><td>~2,8 s</td></tr>
+        <tr><td>Expert <em>(par défaut)</em></td><td>Tout ce que le rover sait faire &mdash; 31 widgets</td><td>~10,3 s</td></tr>
+        <tr><td>Drive</td><td>Faire tourner chaque roue, vérifier son sens, régler le trim</td><td>~4,8 s</td></tr>
+        <tr><td>Distance</td><td>Jauge, alerte, graphe et tête mobile</td><td>~3,5 s</td></tr>
+        <tr><td>Screen</td><td>Écrire un message, choisir le mode d&rsquo;écran</td><td>~1,9 s</td></tr>
+      </table>
+
+      <h3>9. Régler le trim &mdash; l&rsquo;étape qu&rsquo;on ne peut pas sauter</h3>
+      <p>Deux servos 360&deg; ne tournent jamais exactement à la même vitesse : un rover neuf tire toujours d&rsquo;un côté. Chaque roue a <strong>trois façons d&rsquo;atteindre le même nombre</strong>, parce que redresser un robot ce sont trois gestes différents :</p>
+      <table class="wikitable">
+        <tr><th>Contrôle</th><th>Usage</th></tr>
+        <tr><td><strong>Trim L</strong> / <strong>Trim R</strong></td><td>S&rsquo;approcher en un seul glissement</td></tr>
+        <tr><td><strong>L &minus; 1</strong> / <strong>L + 1</strong>, <strong>R &minus; 1</strong> / <strong>R + 1</strong></td><td>Le contrôle qui compte : « il tire encore un peu à gauche » vaut <em>un</em> degré, et un degré d&rsquo;impulsion servo est le plancher de l&rsquo;API</td></tr>
+        <tr><td><strong>L =</strong> / <strong>R =</strong></td><td>Retaper un nombre noté ailleurs</td></tr>
+      </table>
+      <p>Les trois pilotent la même valeur et le firmware la renvoie aux trois : ils ne peuvent pas se contredire. Attends-toi à un chiffre à un seul digit ; au-delà de 10, le problème est mécanique.</p>
+      <p><strong>Le rover s&rsquo;en souvient lui-même.</strong> Le trim est écrit dans sa flash : il survit au changement de piles, à un reflash, et au passage sur une autre tablette. Il est enregistré <em>deux secondes après</em> le dernier réglage, jamais à chaque mouvement du curseur &mdash; la flash a un nombre fini de cycles d&rsquo;effacement, et un glissement de curseur est un flot de valeurs.</p>
+
+      <h3>10. Choisir ce qu&rsquo;affiche l&rsquo;écran</h3>
+      <p>Le sélecteur <strong>Screen</strong> propose quatre réglages, gardés en flash à côté du trim.</p>
+      <table class="wikitable">
+        <tr><th>Réglage</th><th>Affichage</th></tr>
+        <tr><td>Status</td><td>Nom, distance, trim, vitesse <em>(par défaut)</em></td></tr>
+        <tr><td>Face</td><td>Deux yeux</td></tr>
+        <tr><td>Auto</td><td>Le texte tant que rien n&rsquo;est connecté, les yeux ensuite</td></tr>
+        <tr><td>Radar</td><td>L&rsquo;écran radar polaire</td></tr>
+      </table>
+      <p><strong>Auto</strong> est le réglage à choisir : avant la connexion, la seule chose utile sur cet écran est de savoir <em>quel</em> micro:bit c&rsquo;est ; après, l&rsquo;application affiche déjà tous les nombres.</p>
+      <p>Pour le radar, mets aussi <strong>Head</strong> sur <strong>Sweep</strong> : sans balayage la tête reste à 90&deg; et une seule direction peut être tracée.</p>
+
+      <h2 id="understanding">Comprendre le code (pour débutants)</h2>
+
+      <h3>La couture matérielle</h3>
+      <p>Tout ce qui est propre à cette carte tient dans trois fonctions. Changer de carte pilote, c&rsquo;est réécrire ces trois-là et rien d&rsquo;autre :</p>
+      <pre><code>wheels(l, r)   // mélange de conduite -&gt; deux impulsions servo
+wheelsStop()   // les deux roues à l&rsquo;arrêt, trim compris
+pingCm()       // une mesure ultrason, ou la sentinelle « pas d&rsquo;écho »</code></pre>
+      <p>Tout ce qui suit cette couture est la pile rxy partagée : Bluetooth, transfert de la configuration en morceaux, cache de disposition, télémétrie, chien de garde de conduite.</p>
+
+      <h3>Le miroir qui fait tout marcher</h3>
+      <pre><code>let pl = WHEEL_STOP + Math.idiv(l * 90, DRIVE_SPEED_MAX) + trimL
+let pr = WHEEL_STOP - Math.idiv(r * 90, DRIVE_SPEED_MAX) - trimR</code></pre>
+      <p>Le servo droit est monté à l&rsquo;envers sur le châssis : « en avant » est <em>en dessous</em> de 90 de ce côté et <em>au-dessus</em> à gauche. Le trim est donc <strong>ajouté</strong> à gauche et <strong>soustrait</strong> à droite, pour qu&rsquo;un nombre positif veuille dire « plus en avant » des deux côtés. L&rsquo;ajouter aux deux est exactement ce qui faisait tourner en rond le rover ESP32 de la série.</p>
+
+      <h3>Comment la disposition arrive dans le navigateur</h3>
+      <p>La disposition est une chaîne Base64 compilée dans le firmware, une par panneau. À la connexion, l&rsquo;application demande d&rsquo;abord une empreinte de version. Si le navigateur a déjà cette version en cache, il répond <code>CFGOK</code> et rien d&rsquo;autre n&rsquo;est transféré ; sinon viennent <code>CFGBEGIN</code>, les morceaux, puis <code>CFGEND</code>.</p>
+      <p>Le transfert est piloté depuis la boucle principale, jamais depuis la fonction de réception : diffuser une disposition depuis l&rsquo;intérieur du rappel BLE est ce qui cassait historiquement les reconnexions.</p>
+
+      <h3>L&rsquo;écran : deux façons de dessiner</h3>
+      <p>Le texte passe par l&rsquo;extension OLED. Simple, mais lent : <strong>dix transactions I&sup2;C par caractère</strong>, et l&rsquo;extension n&rsquo;expose aucun déplacement de curseur &mdash; <code>clear()</code> est le seul retour en haut à gauche, donc chaque redessin est l&rsquo;écran entier. D&rsquo;où la règle : les lignes ne sont redessinées que lorsqu&rsquo;elles <em>changent vraiment</em>, et la distance est arrondie à 5 cm pour que le bruit du capteur ne déclenche pas un redessin à lui seul.</p>
+      <p>Le visage et le radar ne peuvent pas être dessinés ainsi. <code>drawFilledCircle()</code> appelle <code>drawLine()</code> par colonne, et chaque <code>drawShape()</code> dépense six commandes plus une écriture <em>par colonne-page</em> : un seul disque plein coûte plusieurs centaines de transactions. Ils gardent donc leur propre tampon de 512 octets et envoient des images entières &mdash; <strong>huit écritures de 65 octets pour tout l&rsquo;écran</strong>.</p>
+      <p>Les deux se figent tant que les roues tournent : une image, c&rsquo;est 512 octets sur le même bus que la carte pilote, dans la boucle qui nourrit le chien de garde. C&rsquo;est aussi pourquoi le vertige arrive <em>après</em> la toupie et non pendant.</p>
+
+      <h3>Le visage</h3>
+      <table class="wikitable">
+        <tr><th>Expression</th><th>Déclencheur</th></tr>
+        <tr><td>Les pupilles suivent la tête</td><td>Toujours &mdash; elles suivent <strong>Look</strong></td></tr>
+        <tr><td>Clignement</td><td>Toutes les 2,5 à 6 s</td></tr>
+        <tr><td>Inquiet, sourcils relevés</td><td>Quelque chose à moins de 25 cm</td></tr>
+        <tr><td>Vertige</td><td>Pendant 2 s après une toupie</td></tr>
+        <tr><td>Endormi</td><td>20 s sans conduite</td></tr>
+        <tr><td>Alarmé, pupilles rétrécies</td><td>Soulevé ou incliné de plus de 45&deg;</td></tr>
+      </table>
+      <p>Le sourcil inquiet est une entaille creusée dans le haut de l&rsquo;&oelig;il, plus profonde du côté <em>extérieur</em>, pour que les extrémités intérieures remontent. Creusée dans l&rsquo;autre sens, la même forme donne un air fâché.</p>
+
+      <h3>L&rsquo;écran radar</h3>
+      <p>Un anneau à 30 cm, un autre à 100 cm, un faisceau sur l&rsquo;angle réel de la tête, et des détections qui persistent cinq secondes : un balayage construit une image de la pièce au lieu d&rsquo;afficher une mesure isolée.</p>
+      <p>Le disque est <strong>étiré horizontalement d&rsquo;un facteur deux</strong>. Un demi-disque qui tient dans 32 lignes ne peut avoir qu&rsquo;un rayon de 31 pixels et laisserait les deux tiers de l&rsquo;écran noirs. L&rsquo;échelle des distances n&rsquo;est pas linéaire &mdash; les dix premiers centimètres occupent un quart du rayon &mdash; et c&rsquo;est la même que celle de l&rsquo;application, pour que les deux affichages soient d&rsquo;accord sur ce qu&rsquo;est « près ».</p>
+      <p>Une absence d&rsquo;écho n&rsquo;est jamais tracée : ce serait dessiner un mur à portée maximale tout autour d&rsquo;une pièce vide.</p>
+
+      <h2 id="pins">Brochage</h2>
+      <table class="wikitable">
+        <tr><th>Élément</th><th>Connecteur</th><th>Remarques</th></tr>
+        <tr><td>micro:bit <strong>V2</strong></td><td>Port carte</td><td>V2 obligatoire : la V1 manque de mémoire pour Bluetooth plus l&rsquo;écran, et l&rsquo;API <code>settings</code> y est exclue</td></tr>
+        <tr><td>Roue gauche</td><td><strong>S1</strong></td><td>Servo 360&deg; ; <code>90</code> = arrêt</td></tr>
+        <tr><td>Roue droite</td><td><strong>S2</strong></td><td>Montée en miroir</td></tr>
+        <tr><td>Tête</td><td><strong>S3</strong></td><td>Oriente le capteur</td></tr>
+        <tr><td>Écran</td><td><strong>Port I&sup2;C</strong></td><td>SSD1306 128&times;32 à l&rsquo;adresse <code>0x3C</code></td></tr>
+        <tr><td>Capteur de distance</td><td><strong>P0</strong> trig &middot; <strong>P1</strong> echo</td><td>HC-SR04<strong>P</strong> ; alimentation en <strong>3V3</strong></td></tr>
+        <tr><td>Bande de LED</td><td><strong>P15</strong></td><td>Câblée mais <strong>non pilotée</strong></td></tr>
+        <tr><td>Piles</td><td><strong>Prise DC</strong></td><td>4&times;AA, 3,5&ndash;5,5 V</td></tr>
+      </table>
+      <p>Broches libres : <code>P2 P12 P13 P14 P16</code>. P8 porte la sortie sonore, déplacée depuis P0 parce que P0 est le déclencheur du sonar : un bip provoquerait de fausses mesures.</p>
+
+      <h2 id="protocol">Protocole</h2>
+      <p>Des lignes de texte sur le service UART. Trois familles suffisent à tout décrire :</p>
+      <table class="wikitable">
+        <tr><th>Message</th><th>Sens</th><th>Rôle</th></tr>
+        <tr><td><code>SET &lt;id&gt; &lt;valeur&gt;</code></td><td>App &rarr; robot</td><td>Un contrôle a bougé</td></tr>
+        <tr><td><code>UPD &lt;id&gt; &lt;valeur&gt;</code></td><td>Robot &rarr; app</td><td>Une valeur a changé côté robot</td></tr>
+        <tr><td><code>GETCFG</code> &middot; <code>CFGBEGIN</code> &middot; <code>CFG</code> &middot; <code>CFGEND</code></td><td>Les deux</td><td>Transfert de la disposition</td></tr>
+      </table>
+      <p>Le pavé directionnel ne passe pas par là : chaque état est encodé en <strong>un seul octet</strong> ASCII, ce qui donne un ordre moteur complet en deux octets. La latence de conduite est le seul endroit où ce protocole lisible aurait coûté trop cher.</p>
+
+      <h2 id="troubleshooting">Dépannage</h2>
+      <table class="wikitable">
+        <tr><th>Symptôme</th><th>Cause probable</th></tr>
+        <tr><td><em>Cannot find name &lsquo;settings&rsquo;</em></td><td>La dépendance de l&rsquo;étape 3 manque dans <code>pxt.json</code></td></tr>
+        <tr><td><em>Cannot find name &lsquo;neopixel&rsquo;</em></td><td>Firmware antérieur à R1-v11, ou extension NeoPixel ajoutée</td></tr>
+        <tr><td>Ça compile mais rien ne bouge</td><td>Mauvaise extension moteur : colle l&rsquo;URL, ne cherche pas par nom</td></tr>
+        <tr><td>Le rover tire d&rsquo;un côté</td><td>Normal sur des servos 360&deg;. Étape 9.</td></tr>
+        <tr><td><code>Driver 0x40 MISSING</code> à l&rsquo;auto-test</td><td>Carte pilote non vue sur le bus I&sup2;C : connecteur ou carte</td></tr>
+        <tr><td><code>Sonar NO ECHO</code> à l&rsquo;auto-test</td><td>Fil du capteur, en général le 3V3</td></tr>
+        <tr><td>Le radar reste vide</td><td><strong>Head</strong> sur <strong>Manual</strong>, ou rien à portée. Mets <strong>Sweep</strong> et approche la main.</td></tr>
+        <tr><td>Le visage ne s&rsquo;inquiète jamais</td><td>Mets <strong>Telemetry</strong> sur <strong>All</strong> : sinon la distance n&rsquo;est mesurée qu&rsquo;en mode Avoid</td></tr>
+        <tr><td>Texte doublé et entrelacé à l&rsquo;écran</td><td>Correction 128&times;32 absente : après <code>init</code>, envoyer <code>0xA8, 0x1F</code> et <code>0xDA, 0x02</code></td></tr>
+        <tr><td>Les servos sont mous et calent</td><td>Ils sont alimentés en 3,3 V. Vérifie ça avant de suspecter le code.</td></tr>
+      </table>
+
+      <div class="catlinks">
+        Catégories : <a href="index.html">micro:bit</a> | <a href="index.html">Bluetooth</a> | <a href="index.html">Robotique</a> | <a href="index.html">Applications web</a>
+      </div>
+    </article>
+  </div>
+</div>
+
+<div class="footer-wiki">
+  Cette page a été créée le 22 août 2026. Contenu basé sur le dépôt <a href="https://github.com/abourdim/dfrobot-rover">dfrobot-rover</a> et une relecture directe de <code>firmware/rover-remote.ts</code>.
+</div>
+
+</body>
+</html>
