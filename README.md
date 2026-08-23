@@ -13,6 +13,7 @@ Every article is available in French (default), English, and Arabic (RTL). The b
 - micro:bit Playground — 8-tab BLE control panel and sensor dashboard for the BBC micro:bit V2: live sensor graphing, servo control, 5 interactive 3D robot models, and a 30+ command firmware protocol. [FR](bit-playground.html) · [EN](bit-playground-en.html) · [AR](bit-playground-ar.html)
 - Micro:bit Remote Builder (bit-rxy) — Drag-and-drop BLE remote-control builder: design a layout from 12 widget types and it generates matching MakeCode firmware automatically, with one-click flashing over Bluetooth Partial Flashing Service or WebUSB. [FR](bit-rxy.html) · [EN](bit-rxy-en.html) · [AR](bit-rxy-ar.html)
 - ESP32-RXY — ESP32 firmware that impersonates a BBC micro:bit's BLE UART protocol, so the unmodified rxy web app can connect to a plain ESP32-C3 and drive widgets exactly as it would a real micro:bit. [FR](esp32-rxy.html) · [EN](esp32-rxy-en.html) · [AR](esp32-rxy-ar.html)
+- rxy-web — The universal Bluetooth remote for rxy robots: the robot owns the layout, so the app knows no robot in advance — it asks whichever one it just found to send its own interface, then draws it. 20 widget types, a layout-fingerprint cache, and a radar fed by two values the robot already sends. [FR](rxy-web.html) · [EN](rxy-web-en.html) · [AR](rxy-web-ar.html)
 
 ## Index
 

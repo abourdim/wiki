@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>rxy-web - Wiki</title>
+<link rel="stylesheet" href="wiki.css">
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-inner">
+    <a class="wiki-logo" href="https://workshop-diy.org"><img src="logo.png" alt="Wiki logo"></a>
+    <a class="masthead-site-link" href="https://workshop-diy.org">workshop-diy.org</a>
+    <div class="masthead-title">
+      Wiki
+      <span class="sub">The free, personal knowledge base</span>
+    </div>
+    <div class="masthead-actions">
+      <div class="lang-switch" role="group" aria-label="Language">
+        <a href="rxy-web.html" class="lang-switch-btn" title="Français"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="20" height="40" fill="#002395"/><rect x="20" width="20" height="40" fill="#fff"/><rect x="40" width="20" height="40" fill="#ED2939"/></svg></a>
+        <a href="rxy-web-en.html" class="lang-switch-btn active" title="English"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="60" height="40" fill="#012169"/><path d="M0 0L60 40M60 0L0 40" stroke="#fff" stroke-width="6.5"/><path d="M0 0L60 40M60 0L0 40" stroke="#C8102E" stroke-width="3.5"/><path d="M30 0V40M0 20H60" stroke="#fff" stroke-width="11"/><path d="M30 0V40M0 20H60" stroke="#C8102E" stroke-width="6.5"/></svg></a>
+        <a href="rxy-web-ar.html" class="lang-switch-btn" title="العربية"><svg width="24" height="16" viewBox="0 0 900 600"><defs><clipPath id="glRxyWebEn"><rect width="450" height="600"/></clipPath></defs><rect width="450" height="600" fill="#006233"/><rect x="450" width="450" height="600" fill="#FFF"/><g fill="#D21034" transform="translate(450,300)"><circle r="125"/><circle cx="25" r="100" fill="#FFF"/><g clip-path="url(#glRxyWebEn)" transform="translate(-450,-300)"><circle cx="475" cy="300" r="100" fill="#006233"/></g><path d="M85-12l22 67h71l-57 42 22 67-58-42-57 42 21-67-57-42h71z"/></g></svg></a>
+      </div>
+      <div class="masthead-search">
+        <input type="text" placeholder="Search" disabled>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wiki-layout">
+
+  <div class="sidebar">
+    <h3>Navigation</h3>
+    <ul>
+      <li><a href="index-en.html">Main page</a></li>
+      <li><a href="#">Recent changes</a></li>
+      <li><a href="#">Random page</a></li>
+    </ul>
+    <h3>Categories</h3>
+    <ul>
+      <li><a href="index-en.html">Networking</a></li>
+      <li><a href="index-en.html">Linux</a></li>
+      <li><a href="index-en.html">Windows</a></li>
+      <li><a href="index-en.html">Electronics</a></li>
+      <li><a href="index-en.html">ESP32</a></li>
+      <li><a href="index-en.html">micro:bit</a></li>
+    </ul>
+    <h3>Tools</h3>
+    <ul>
+      <li><a href="https://github.com/abourdim/rxy_web">View source repository</a></li>
+    </ul>
+  </div>
+
+  <div class="content-wrap">
+    <div class="article-tabs">
+      <span class="active">Article</span>
+      <span>Talk</span>
+    </div>
+
+    <article>
+      <h1 class="page-title">rxy-web</h1>
+
+      <div class="infobox">
+        <div class="infobox-title">rxy-web</div>
+        <table>
+          <tr><th>Type</th><td>Generic Bluetooth remote &mdash; the robot sends its own interface</td></tr>
+          <tr><th>Hardware</th><td>Any robot speaking the rxy protocol: micro:bit V2, ESP32-C3</td></tr>
+          <tr><th>Widgets</th><td>20 types, including radar, gauge, graph, battery, timer</td></tr>
+          <tr><th>Languages</th><td>English, Français, العربية</td></tr>
+          <tr><th>Runs on</th><td>Chrome / Edge, nothing to install</td></tr>
+          <tr><th>Version</th><td>v2.28</td></tr>
+          <tr><th>Repository</th><td><a href="https://github.com/abourdim/rxy_web">github.com/abourdim/rxy_web</a></td></tr>
+          <tr><th>Live demo</th><td><a href="https://abourdim.github.io/rxy_web/">abourdim.github.io/rxy_web</a></td></tr>
+        </table>
+      </div>
+
+      <div class="applink">
+        <a href="https://abourdim.github.io/rxy_web/" target="_blank" rel="noopener"><img class="applink-qr" src="qr/rxy-web.svg" alt="QR: https://abourdim.github.io/rxy_web/" width="104" height="104"></a>
+        <div class="applink-text">
+          <div class="applink-title">Open the app</div>
+          <div class="applink-url"><a href="https://abourdim.github.io/rxy_web/" target="_blank" rel="noopener">https://abourdim.github.io/rxy_web/</a></div>
+          <div class="applink-hint">Scan this code with a phone to open the app directly. Nothing to install: it runs in the browser.</div>
+        </div>
+      </div>
+
+      <p class="hatnote">This article covers <strong>rxy-web</strong>, the universal Bluetooth remote for rxy robots: it knows no robot in advance, it asks whichever one it just found to send its own interface, then draws it. For this app's ancestor &mdash; the remote-design workshop that generates its own MakeCode firmware for a micro:bit &mdash; see <a href="bit-rxy-en.html">Micro:bit Remote Builder (bit-rxy)</a>.</p>
+
+      <div class="toc">
+        <div class="toc-title">Contents</div>
+        <ol>
+          <li><a href="#overview">Overview</a></li>
+          <li><a href="#quickstart">Quick start</a></li>
+          <li><a href="#walkthrough">Step by step: clone, serve &amp; test</a>
+            <ol>
+              <li><a href="#w1">Clone the repository</a></li>
+              <li><a href="#w2">Serve the site locally</a></li>
+              <li><a href="#w3">Flash a robot</a></li>
+              <li><a href="#w4">Connect</a></li>
+              <li><a href="#w5">Verify the round trip</a></li>
+            </ol>
+          </li>
+          <li><a href="#understanding">Understanding the code (for beginners)</a>
+            <ol>
+              <li><a href="#files">Where everything lives</a></li>
+              <li><a href="#handshake">The connect handshake</a></li>
+              <li><a href="#mtu">The 20 bytes that broke three directions out of four</a></li>
+              <li><a href="#sendpaths">Three ways to send, not one</a></li>
+              <li><a href="#memory">Remembering values, robot by robot</a></li>
+              <li><a href="#modes">Build, Play, Arrange</a></li>
+            </ol>
+          </li>
+          <li><a href="#widgets">Widget catalogue</a></li>
+          <li><a href="#protocol">Bluetooth protocol reference</a></li>
+          <li><a href="#share">Sharing the app</a></li>
+          <li><a href="#troubleshooting">Troubleshooting</a></li>
+        </ol>
+      </div>
+
+      <h2 id="overview">Overview</h2>
+      <p><strong>rxy-web</strong> is a Bluetooth remote that runs in the browser: nothing to install, no account, no WiFi. What separates it from every other app in this family fits in one sentence: <strong>the robot owns the layout</strong>. The app is a renderer &mdash; it connects, asks the robot for its configuration, and draws whatever comes back. Point it at a different robot and it shows that robot's controls instead. There is nothing to configure on the browser side, and no per-robot build of this app.</p>
+      <p>This inverts the approach of <a href="bit-rxy-en.html">bit-rxy</a>, the app it descends from: there you designed a remote in the browser, then generated the matching MakeCode firmware to paste into the board. Here the firmware already exists, it carries its own layout as Base64, and the app simply asks for it on every connect. A child switching robots switches neither tab nor app.</p>
+      <p>In practice one page serves a Keyes 4WD mecanum driven by a micro:bit, a Maqueen, and an ESP32-C3 Super Mini impersonating the micro:bit's UART protocol &mdash; without a single line of the app naming any of them.</p>
+
+      <table class="wikitable">
+        <tr><th>Robot</th><th>Firmware</th></tr>
+        <tr><td>Keyes 4WD Mecanum (micro:bit)</td><td><code>keystudio_4wd_mecanum_rxy</code></td></tr>
+        <tr><td>Maqueen (micro:bit)</td><td><code>maqueen-rxy</code></td></tr>
+        <tr><td>ESP32-C3 Super Mini</td><td><code>esp32c3_super_mini_robot-bit-rxy</code></td></tr>
+      </table>
+
+      <p>The app was forked from <code>keystudio_4wd_mecanum_rxy</code> with its full history, because that app was already a strict superset of bit-rxy. The robot-specific parts &mdash; the Keyes micro:bit firmware, its example layout and its product manifest &mdash; were removed in the commit right after the merge (<code>25bfa76</code>, "Strip the robot-specific parts: rxy_web serves every rxy robot"). Nothing was deleted from the original repositories.</p>
+
+      <h2 id="quickstart">Quick start</h2>
+      <ol>
+        <li>Open <a href="https://abourdim.github.io/rxy_web/">the live app</a> in <strong>Chrome</strong> or <strong>Edge</strong> &mdash; Safari and Firefox have no Web Bluetooth at all.</li>
+        <li>Power the robot on and wait for it to start advertising.</li>
+        <li>Press <strong>Connect</strong> in the top right and pick the robot from the browser's list.</li>
+        <li>The robot's panel appears on its own, and the app switches to the <strong>▶️ Play</strong> tab. There is no "choose the right layout" step.</li>
+      </ol>
+      <div class="ambox ambox-notice">Web Bluetooth needs a <em>secure context</em>. Serve the folder over <code>localhost</code> or HTTPS rather than opening it from a network share or a <code>file:///</code> path.</div>
+
+      <h2 id="walkthrough">Step by step: clone, serve &amp; test</h2>
+      <p>This walkthrough goes from a clean copy of the repository to a verified remote: one command reaching the robot, one value coming back from it.</p>
+
+      <h3 id="w1">1. Clone the repository</h3>
+      <pre><code>git clone https://github.com/abourdim/rxy_web.git
+cd rxy_web</code></pre>
+      <p>There is no build step, no <code>npm install</code>, no framework: three files run the app (<code>index.html</code>, <code>script.js</code>, <code>styles.css</code>).</p>
+
+      <h3 id="w2">2. Serve the site locally</h3>
+      <pre><code>npx serve .</code></pre>
+      <p>Open the printed <span class="key-value">http://localhost:...</span> address in Chrome or Edge. The copy published on GitHub Pages works exactly the same with nothing installed &mdash; that is the one to hand to children.</p>
+
+      <h3 id="w3">3. Flash a robot</h3>
+      <p>The app is robot-neutral: it embeds no firmware, deliberately. The header's <strong>⚙ Firmware</strong> button <em>hides itself</em> as long as the page carries no <code>&lt;script id="fwSource"&gt;</code> block &mdash; a robot-specific fork can add it back and the dialog lights up again on its own. So take the firmware from that robot's own repository (see the table above), paste it into <a href="https://makecode.microbit.org">makecode.microbit.org</a> in JavaScript mode, and flash over USB.</p>
+      <p>On a micro:bit, two MakeCode settings are mandatory or the board connects and stays silent: in <strong>⚙ Project Settings → Edit Settings As Text</strong>, merge the Bluetooth block below into <code>pxt.json</code>, and enable <strong>No Pairing Required</strong>.</p>
+      <pre><code>"bluetooth": {
+    "enabled": 1,
+    "open": 1,
+    "whitelist": 0,
+    "security_level": 0,
+    "uart": 1,
+    "event_service": 1,
+    "device_info_service": 1,
+    "advertising_interval": 200,
+    "advertising_power": 7
+}</code></pre>
+
+      <h3 id="w4">4. Connect</h3>
+      <p>Press <strong>Connect</strong>. The browser's chooser lists <em>every</em> Bluetooth device nearby: the app uses <code>acceptAllDevices: true</code> with the UART service in <code>optionalServices</code>, precisely because a name filter was hiding compatible robots that are not called "BBC micro:bit" &mdash; an ESP32-C3, for instance.</p>
+      <p>A loading overlay then shows the layout transfer, with bytes received, throughput and elapsed seconds. On a reconnect it goes by in a flash: the layout is already cached (see <a href="#handshake">the handshake</a>).</p>
+
+      <h3 id="w5">5. Verify the round trip</h3>
+      <p>A real test is two gestures, one per direction of travel:</p>
+      <ul>
+        <li><strong>Outbound</strong> &mdash; press one direction on the D-pad. The robot must move <em>while</em> your finger is down, and stop on release. If only one direction works, you have just rediscovered the 20-byte bug described <a href="#mtu">below</a>.</li>
+        <li><strong>Inbound</strong> &mdash; watch a gauge or a label fed by the robot (distance, battery, heartbeat). Its value must change without you touching anything.</li>
+      </ul>
+      <p>To see raw traffic, the browser console prints every line prefixed <code>[BLE]</code>, and a <span class="key-value">LOGS</span> panel opens with <span class="key-value">Ctrl+Shift+L</span>.</p>
+
+      <h2 id="understanding">Understanding the code (for beginners)</h2>
+
+      <h3 id="files">Where everything lives</h3>
+      <div class="diagram" dir="ltr"><pre style="margin:0;border:0;padding:0;background:none;">  index.html      <b>&mdash; the page.</b> Header (Connect, language, Share, Config), the two
+                    Build / Play tabs, the 20-widget palette, the modal dialogs,
+                    and the QR code <i>already drawn</i> as SVG.
+
+  script.js       <b>&mdash; everything else.</b> Bluetooth, protocol, layout cache, widget
+                    rendering, drag-and-drop editor, translations.
+                    <code>APP_VERSION</code> is the very first meaningful line of the file.
+
+  styles.css      <b>&mdash; the looks.</b> Light/dark themes, high contrast, RTL.
+
+  tools/make-qr.py  <b>&mdash; the QR generator</b>, run by hand, never by the page
+                    (see <i>Sharing the app</i>).
+
+  assets/         <b>&mdash; screenshot + Workshop-DIY logo.</b></pre></div>
+
+      <h3 id="handshake">The connect handshake</h3>
+      <p>A full layout is over two hundred small Base64 chunks sent one at a time over a slow Bluetooth link. Doing that on every connect is pointless: a robot's layout almost never changes, while reconnecting happens constantly. So the app first asks for a tiny <em>fingerprint</em> of the layout, and only requests the full transfer when its cache does not match.</p>
+      <div class="diagram" dir="ltr"><pre style="margin:0;border:0;padding:0;background:none;">  App  ──▶  Robot     <b>GETCFGVER</b>
+  App  ◀──  Robot     <b>CFGVER 56caff8f</b>        <i>one tiny notification</i>
+
+       cache matches ─────▶  App ──▶ Robot  <b>CFGOK 56caff8f</b>   <i>done, panel shown</i>
+
+       cache differs ─────▶  App ──▶ Robot  <b>GETCFG</b>
+                             App ◀── Robot  <b>CFGBEGIN 228</b>     <i>228 chunks announced</i>
+                             App ◀── Robot  <b>CFG &lt;base64&gt;</b>     <i>×228</i>
+                             App ◀── Robot  <b>CFGEND</b></pre></div>
+      <p>Three details are worth the detour:</p>
+      <ul>
+        <li><strong>The cache is keyed by <code>BluetoothDevice.id</code></strong>, not by the display name, so two robots both called "BBC micro:bit" do not accidentally share a layout. The robot stays the source of truth: a different revision invalidates the cache by itself. If <code>localStorage</code> is unavailable or corrupt, the code simply falls back to <code>GETCFG</code> &mdash; correctness first, speed second.</li>
+        <li><strong>The chunk count is announced on the opening line</strong> (<code>CFGBEGIN 228</code>). Before that, the progress bar was "12 + 4 per chunk, capped at 90": it reached the cap at chunk twenty and then sat motionless on 90% for the rest of the transfer. Clients match that line with <code>startsWith()</code>, so firmware that sends a bare <code>CFGBEGIN</code> still works &mdash; the bar just falls back to an estimate instead of a true fraction.</li>
+        <li><strong>There is a hard refresh</strong>, the header's <strong>↻ Config</strong> button. It clears only the layout cache, never language, theme or projects. And it takes the old controls off the screen while the replacement downloads: a moved or renamed widget could otherwise send the wrong command from a stale panel.</li>
+      </ul>
+
+      <h3 id="mtu">The 20 bytes that broke three directions out of four</h3>
+      <p>This is the most instructive bug in the whole project, and the comment explaining it is still in <code>script.js</code>. The micro:bit's BLE connection uses the default ATT MTU of 23, which leaves <strong>exactly 20 bytes</strong> of payload per write. A longer write does <em>not</em> error: it is silently truncated. The trailing <code>\n</code> therefore never arrives, and the firmware's <code>uartReadUntil(NewLine)</code> waits forever for a line that never completes. The command vanishes, with no error on either side.</p>
+      <div class="diagram" dir="ltr"><pre style="margin:0;border:0;padding:0;background:none;">  SET dpad_move up 1      = 19 bytes  ──▶  fits       <b>✔ worked</b>
+  SET dpad_move down 1    = 21 bytes  ──▶  truncated  <b>✘ lost</b>
+  SET dpad_move left 1    = 21 bytes  ──▶  truncated  <b>✘ lost</b>
+  SET dpad_move right 1   = 22 bytes  ──▶  truncated  <b>✘ lost</b></pre></div>
+      <p>Every command previously confirmed working was 20 bytes or under; every one that "did nothing" was over. The fix is to split each message into 20-byte packets before writing. The reverse direction had always handled this: notifications arrive pre-split (observed live as <code>UPD lbl_heartbeat 14</code> then <code>7</code>) and are reassembled by a receive buffer on the app side. The firmware needed no change at all &mdash; the UART service buffers incoming bytes, so <code>uartReadUntil()</code> reassembles those chunks the same way.</p>
+
+      <h3 id="sendpaths">Three ways to send, not one</h3>
+      <p>Web Bluetooth permits only one GATT operation at a time, so everything goes through a queue &mdash; but the three kinds of traffic have very different requirements, and treating them alike buys either latency or dropped commands.</p>
+      <table class="wikitable">
+        <tr><th>Path</th><th>For what</th><th>Rule</th></tr>
+        <tr><td><code>send()</code></td><td>Continuous controls: joystick, sliders, selects</td><td><strong>Latest value wins.</strong> An overwritten intermediate joystick position is not a bug, it is a skipped frame.</td></tr>
+        <tr><td><code>sendReliable()</code></td><td>Discrete events: button press and release</td><td><strong>FIFO queue, nothing is lost.</strong> Losing a press to coalescing would be a real bug &mdash; the button would stay stuck down.</td></tr>
+        <tr><td>Direct motor write</td><td>D-pad state</td><td><strong>Bypasses the queue entirely.</strong> Each complete state fits in <em>one</em> byte.</td></tr>
+      </table>
+      <p>The third path deserves a word. Rather than sending <code>SET dpad_move up 1</code>, the app encodes the complete state of all four buttons as a bitmask &mdash; <code>U=1, D=2, L=4, R=8</code> &mdash; then adds it to <code>'a'</code> to get a single letter:</p>
+      <div class="diagram" dir="ltr"><pre style="margin:0;border:0;padding:0;background:none;">  nothing           mask 0   ──▶  <b>'a'</b> + '\n'      <i>2 bytes in total</i>
+  up                mask 1   ──▶  <b>'b'</b> + '\n'
+  up + right        mask 9   ──▶  <b>'j'</b> + '\n'      <i>a diagonal is not a special case:</i>
+  all pressed       mask 15  ──▶  <b>'p'</b> + '\n'      <i>it is two bits set at once</i></pre></div>
+      <p>The gain is not only size. Each packet carries the <em>complete</em> current state, so a dropped packet is corrected by the next one instead of leaving a direction stuck on. And because motion must never replay stale history, a new motor packet replaces any motor packet already queued and jumps to the front: at most the write already in progress can be ahead of it.</p>
+
+      <h3 id="memory">Remembering values, robot by robot</h3>
+      <p>A MakeCode program has no persistent storage it can reach, so a calibration like wheel trim dies at every power-off. The app carries it instead. Any widget marked <code>restore</code> has its value saved in the browser and replayed on the next connect.</p>
+      <p>Two decisions there are counter-intuitive and worth noting:</p>
+      <ul>
+        <li><strong>This store is keyed by name, not by id</strong> &mdash; the reverse of the layout cache. <code>BluetoothDevice.id</code> is an opaque per-origin handle the browser is free to mint fresh for a new document, and on a <code>file://</code> page it does exactly that: an id-keyed record is lost by the very reload it exists to survive. A micro:bit's name, by contrast, is derived from its MAC: stable across reloads, and still different for two robots on the same bench.</li>
+        <li><strong>Values are replayed spaced out, not blasted</strong> &mdash; one write every 60 ms after an initial delay. They go over the link that just carried the layout, and a burst of writes straight after <code>CFGEND</code> is exactly what used to wedge the BLE stack on reconnect.</li>
+      </ul>
+      <p>Saving is wired at a single choke point, inside the send functions themselves: every message of the form <code>SET &lt;id&gt; &lt;value&gt;</code> passes through it. No widget type needs its own save call, and a type added later is covered for free.</p>
+
+      <h3 id="modes">Build, Play, Arrange</h3>
+      <p>The app has two tabs and one mode hidden inside the second:</p>
+      <ul>
+        <li><strong>✏️ Build</strong> &mdash; the workshop. Drag widgets from the palette, set their properties, and export the result as <em>Layout JSON</em> or a <em>MakeCode CFG</em> snippet to paste into firmware. This is where the <strong>⚡ Flash to micro:bit</strong> button still lives, inherited from bit-rxy.</li>
+        <li><strong>▶️ Play</strong> &mdash; the runtime. Connected, it shows <em>only</em> the verified layout received from the robot; disconnected, it shows a deep clone of what is in Build.</li>
+        <li><strong>Arrange</strong>, inside Play, repositions a <em>live</em> panel and exports the result &mdash; the fastest way to improve a layout: fix it where you actually use it, then send the CFG back into the firmware.</li>
+      </ul>
+      <p>The rule holding it all together: Build is the authoritative model, Play renders a deep-cloned snapshot, and only an explicit <em>Tidy</em> or an Arrange edit may change geometry. Tab switches, zoom and fullscreen never rewrite positions &mdash; an automatic re-tidy on resize did once exist, and was removed on purpose.</p>
+
+      <h2 id="widgets">Widget catalogue</h2>
+      <p>Twenty palette entries. <code>group</code> and <code>separator</code> are visual only: they carry no state and are never <code>SET</code> or <code>UPD</code> targets, so a client that ignores them stays correct.</p>
+      <table class="wikitable">
+        <tr><th>Widget</th><th>Direction</th><th>Role</th></tr>
+        <tr><td>👆 Button</td><td>app → robot</td><td>Press / release. Can carry its own icon and colour, and spin while held.</td></tr>
+        <tr><td>🎚️ Slider</td><td>app → robot</td><td>Continuous value: speed, servo angle, brightness.</td></tr>
+        <tr><td>🔘 Switch</td><td>app → robot</td><td>On / off.</td></tr>
+        <tr><td>🕹️ Joystick</td><td>app → robot</td><td>Two analogue axes, self-centring.</td></tr>
+        <tr><td>✛ D-Pad</td><td>app → robot</td><td>Four directions, encoded in one byte. Diagonals included.</td></tr>
+        <tr><td>⬅➡ Turn Pad</td><td>app → robot</td><td>The same widget in its two-button model &mdash; a separate palette entry so it is findable.</td></tr>
+        <tr><td>📍 XY Pad</td><td>app → robot</td><td>A point placed in an area, with no self-centring.</td></tr>
+        <tr><td>🔽 Select</td><td>app → robot</td><td>Pick from a list: drive mode, telemetry.</td></tr>
+        <tr><td>⌨️ Edit Field</td><td>app → robot</td><td>Text or number entry.</td></tr>
+        <tr><td>💡 Light</td><td>robot → app</td><td>Indicator lamp.</td></tr>
+        <tr><td>🏷️ Label</td><td>robot → app</td><td>Raw text or number.</td></tr>
+        <tr><td>🧭 Gauge</td><td>robot → app</td><td>Dial: distance, speed, voltage.</td></tr>
+        <tr><td>📈 Graph</td><td>robot → app</td><td>A sent value plotted over time.</td></tr>
+        <tr><td>📡 Radar</td><td>robot → app</td><td>Sweep scope. Reads <em>two</em> widgets, see below.</td></tr>
+        <tr><td>🔋 Battery</td><td>robot → app</td><td>Battery level.</td></tr>
+        <tr><td>⏱️ Timer</td><td>robot → app</td><td>Stopwatch.</td></tr>
+        <tr><td>🔊 Sound</td><td>robot → app</td><td>Triggers a sound on the browser side.</td></tr>
+        <tr><td>🔔 Notification</td><td>robot → app</td><td>A one-off message shown on screen.</td></tr>
+        <tr><td>▣ Group</td><td>&mdash;</td><td>Visual grouping; moves a whole functional section at once.</td></tr>
+        <tr><td>━ Line</td><td>&mdash;</td><td>Horizontal or vertical separator, with an optional label.</td></tr>
+      </table>
+      <p>An <code>image</code> type also exists on the configuration side, for layouts that declare one, with no dedicated palette entry.</p>
+
+      <h3>The radar in detail</h3>
+      <p>The radar is the only widget that receives no value of its own: it reads two others. That is what makes it usable on any robot with a distance sensor on a moving head, without adding a single command to the protocol.</p>
+      <table class="wikitable">
+        <tr><th>Property</th><th>Names the widget carrying…</th></tr>
+        <tr><td><code>source</code></td><td>the distance, in cm</td></tr>
+        <tr><td><code>angleSource</code></td><td>the head angle, 0&ndash;180</td></tr>
+        <tr><td><code>max</code></td><td>beyond this, a reading means "nothing there" (default 200)</td></tr>
+        <tr><td><code>model</code></td><td><code>dots</code> or <code>rays</code></td></tr>
+      </table>
+      <p>Rings at 10, 30 and 100 cm, a beam on the live angle, and detections that persist and fade over five seconds: a sweep builds a picture of the room instead of flashing one number. Blips take their colour from the threshold &mdash; red under 10 cm, amber under 30, green beyond.</p>
+      <div class="ambox ambox-notice">Readings at or past <code>max</code> are <strong>not</strong> plotted. That value is the robot's "no echo", and drawing it would paint a wall at full range around an empty room.</div>
+      <p>Finally, the distance scale is deliberately not linear: the first ten centimetres take a quarter of the radius. That is exactly the scope the dfrobot-rover draws on its own OLED, so the two displays agree about what "close" looks like.</p>
+
+      <h2 id="protocol">Bluetooth protocol reference</h2>
+      <p>A line-oriented protocol over a Nordic-UART-style GATT service. The app never stores a layout; it asks for one on every connect.</p>
+      <table class="wikitable">
+        <tr><th>Role</th><th>UUID</th><th>Direction</th></tr>
+        <tr><td>UART service</td><td><code>6e400001-b5a3-f393-e0a9-e50e24dcca9e</code></td><td>&mdash;</td></tr>
+        <tr><td>"TX" characteristic</td><td><code>6e400002-b5a3-f393-e0a9-e50e24dcca9e</code></td><td><strong>notifications</strong>: robot → app</td></tr>
+        <tr><td>"RX" characteristic</td><td><code>6e400003-b5a3-f393-e0a9-e50e24dcca9e</code></td><td><strong>writes</strong>: app → robot</td></tr>
+      </table>
+      <div class="ambox">TX and RX are named <em>from the peripheral's point of view</em>. So <code>...0002</code> is the one that notifies and <code>...0003</code> the one you write to &mdash; swapping them does not produce a mysterious silence but a blunt <code>NotSupportedError</code> on the first send.</div>
+      <p>The lines exchanged:</p>
+      <div class="diagram" dir="ltr"><pre style="margin:0;border:0;padding:0;background:none;">  app   ──▶ robot   <b>GETCFGVER</b>                    <i>what is your layout's fingerprint?</i>
+  robot ──▶ app     <b>CFGVER</b> &lt;revision&gt;
+  app   ──▶ robot   <b>CFGOK</b> &lt;revision&gt;             <i>already cached, send nothing</i>
+
+  app   ──▶ robot   <b>GETCFG</b>                       <i>send the whole thing</i>
+  robot ──▶ app     <b>CFGBEGIN</b> &lt;chunkCount&gt;
+  robot ──▶ app     <b>CFG</b> &lt;base64 chunk&gt;           <i>… repeated</i>
+  robot ──▶ app     <b>CFGEND</b>
+
+  app   ──▶ robot   <b>SET</b> &lt;widgetId&gt; &lt;value…&gt;      <i>the user did something</i>
+  robot ──▶ app     <b>UPD</b> &lt;widgetId&gt; &lt;value&gt;       <i>here is a reading</i>
+
+  app   ──▶ robot   <b>'a'..'p'</b>                      <i>complete D-pad state, 1 byte</i></pre></div>
+      <p>Firmware may also define the reference canvas geometry in its configuration (width and height). Widget positions and sizes then stay reproducible across clients, instead of each one inferring a different canvas from the occupied extents.</p>
+
+      <h2 id="share">Sharing the app</h2>
+      <p>The header's <strong>⧉ Share</strong> button shows a QR code of <a href="https://abourdim.github.io/rxy_web/">https://abourdim.github.io/rxy_web/</a>, so in a workshop the next person points a phone at your screen instead of typing a URL on a tablet keyboard.</p>
+      <p>Two implementation choices, counter-intuitive but deliberate:</p>
+      <ul>
+        <li><strong>The QR is baked into <code>index.html</code></strong>, not generated at runtime. The address is a constant, so shipping an encoder would be code to maintain for a fixed picture.</li>
+        <li><strong>It always encodes the published address, never <code>location.href</code>.</strong> Demonstrations happen from <code>file://</code> or a laptop's <code>localhost</code> &mdash; a generated code would hand someone a link their phone cannot reach.</li>
+      </ul>
+      <p>Regenerate it only if that address changes:</p>
+      <pre><code>python tools/make-qr.py</code></pre>
+      <p>The tool re-splices the SVG between the <code>qr:begin</code> and <code>qr:end</code> markers, and refuses to write if the path it produced does not reproduce the QR matrix exactly.</p>
+
+      <h2 id="troubleshooting">Troubleshooting</h2>
+      <table class="wikitable">
+        <tr><th>Symptom</th><th>Cause / fix</th></tr>
+        <tr><td>No Connect button, or "Bluetooth not supported"</td><td>Safari and Firefox do not implement Web Bluetooth on any platform. On iPhone and iPad <em>every</em> browser is WebKit-based, so none of them work: that is a platform limit, not a bug. Use Chrome or Edge on desktop or Android.</td></tr>
+        <tr><td>Connection is refused even though the page opens fine</td><td>Web Bluetooth needs a secure context. A <code>file:///</code> path or a network share is not enough &mdash; serve the folder with <code>npx serve .</code> or use the GitHub Pages copy.</td></tr>
+        <tr><td>The robot does not appear in the browser's list</td><td>Check power and range (~10 m), and that no other page or app is already connected to that robot &mdash; one connection at a time. On a micro:bit, check that <code>"uart": 1</code> and <em>No Pairing Required</em> are set in MakeCode.</td></tr>
+        <tr><td>Loading stays stuck at 0%</td><td>The robot answers neither <code>GETCFGVER</code> nor <code>GETCFG</code>. Firmware too old, or a wedged Bluetooth stack: fully reload the page, then power-cycle the robot.</td></tr>
+        <tr><td>The panel shown no longer matches the firmware</td><td>Press <strong>↻ Config</strong> in the header. The layout cache is cleared and the layout re-downloaded in full; language, theme and projects are untouched.</td></tr>
+        <tr><td>Only one D-pad direction works</td><td>The exact signature of the 20-byte bug on an older client: longer commands are truncated with no error. See <a href="#mtu">above</a>. Update the app.</td></tr>
+        <tr><td>The robot keeps driving after release</td><td>A packet was dropped. On a current version the next packet corrects the state, since every byte carries the complete state; if it persists, the firmware is not applying the mask it receives.</td></tr>
+        <tr><td>The <strong>⚙ Firmware</strong> button is missing</td><td>Expected: rxy-web is robot-neutral and embeds no firmware, so the dialog hides itself. The firmware lives in the robot's own repository.</td></tr>
+        <tr><td>A remembered setting does not come back</td><td>Only widgets marked <code>restore</code> in the robot's configuration are remembered, and the store is keyed on the robot's name &mdash; a peripheral advertising no name at all falls back to an id the browser may mint fresh.</td></tr>
+      </table>
+
+      <div class="catlinks">
+        Categories: <a href="index-en.html">micro:bit</a> | <a href="index-en.html">ESP32</a> | <a href="index-en.html">Bluetooth</a> | <a href="index-en.html">Web apps</a>
+      </div>
+    </article>
+  </div>
+</div>
+
+<div class="footer-wiki">
+  This page was created on 23 August 2026. Content based on the <a href="https://github.com/abourdim/rxy_web">rxy_web</a> repository (readme, Git history and source) and a direct code review, at version v2.28.
+</div>
+
+</body>
+</html>
