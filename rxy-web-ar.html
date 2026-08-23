@@ -125,10 +125,14 @@
 
       <table class="wikitable">
         <tr><th>الروبوت</th><th>الفيرموير</th></tr>
-        <tr><td>Keyes 4WD Mecanum (micro:bit)</td><td><code>keystudio_4wd_mecanum_rxy</code></td></tr>
-        <tr><td>Maqueen (micro:bit)</td><td><code>maqueen-rxy</code></td></tr>
-        <tr><td>ESP32-C3 Super Mini</td><td><code>esp32c3_super_mini_robot-bit-rxy</code></td></tr>
+        <tr><td>Keyes 4WD Mecanum (micro:bit)</td><td><a href="https://github.com/abourdim/keystudio_4wd_mecanum_rxy">keystudio_4wd_mecanum_rxy</a></td></tr>
+        <tr><td>Maqueen (micro:bit)</td><td><a href="https://github.com/abourdim/maqueen-rxy">maqueen-rxy</a></td></tr>
+        <tr><td>روفر DFRobot micro:Driver (micro:bit)</td><td><a href="https://github.com/abourdim/dfrobot-rover">dfrobot-rover</a></td></tr>
+        <tr><td>ESP32-C3 Super Mini (b3)</td><td><a href="https://github.com/abourdim/esp32c3_super_mini_robot-bit-rxy">esp32c3_super_mini_robot-bit-rxy</a></td></tr>
+        <tr><td>ESP32-C3 Super Mini &mdash; محركات خدمية + سونار</td><td><a href="https://github.com/abourdim/esp32c3_super_mini_servo_sonar-rxy">esp32c3_super_mini_servo_sonar-rxy</a></td></tr>
+        <tr><td>ESP32-C3 مجرّد، بلا روبوت &mdash; فيرموير مرجعي وعرض للأدوات</td><td><a href="https://github.com/abourdim/esp32-rxy">esp32-rxy</a></td></tr>
       </table>
+      <p>ينضم أي روبوت إلى هذه القائمة بمجرد أن يجيب على <code>GETCFG</code>؛ ولا يسمّي أي جزء من التطبيق أيًّا منها. و<code>esp32-rxy</code> هو النموذج الذي يُبدأ منه لأي لوحة ليست micro:bit &mdash; فهو يحاكي خدمة UART الخاصة بالـ micro:bit، بحيث لا يستطيع التطبيق التفريق.</p>
 
       <p>وُلد التطبيق من تفريع <code>keystudio_4wd_mecanum_rxy</code> بكامل تاريخه، لأن ذلك التطبيق كان أصلًا مجموعة شاملة تمامًا لـ bit-rxy. أما الأجزاء الخاصة بروبوت بعينه &mdash; فيرموير Keyes الخاص بالـ micro:bit، وتخطيطه النموذجي، وملف المنتج &mdash; فأُزيلت في الالتزام التالي للدمج مباشرة (<code>25bfa76</code>). ولم يُحذف شيء من المستودعات الأصلية.</p>
 

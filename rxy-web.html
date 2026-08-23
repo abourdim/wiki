@@ -125,10 +125,14 @@
 
       <table class="wikitable">
         <tr><th>Robot</th><th>Firmware</th></tr>
-        <tr><td>Keyes 4WD Mecanum (micro:bit)</td><td><code>keystudio_4wd_mecanum_rxy</code></td></tr>
-        <tr><td>Maqueen (micro:bit)</td><td><code>maqueen-rxy</code></td></tr>
-        <tr><td>ESP32-C3 Super Mini</td><td><code>esp32c3_super_mini_robot-bit-rxy</code></td></tr>
+        <tr><td>Keyes 4WD Mecanum (micro:bit)</td><td><a href="https://github.com/abourdim/keystudio_4wd_mecanum_rxy">keystudio_4wd_mecanum_rxy</a></td></tr>
+        <tr><td>Maqueen (micro:bit)</td><td><a href="https://github.com/abourdim/maqueen-rxy">maqueen-rxy</a></td></tr>
+        <tr><td>Rover DFRobot micro:Driver (micro:bit)</td><td><a href="https://github.com/abourdim/dfrobot-rover">dfrobot-rover</a></td></tr>
+        <tr><td>ESP32-C3 Super Mini (b3)</td><td><a href="https://github.com/abourdim/esp32c3_super_mini_robot-bit-rxy">esp32c3_super_mini_robot-bit-rxy</a></td></tr>
+        <tr><td>ESP32-C3 Super Mini &mdash; servos + sonar</td><td><a href="https://github.com/abourdim/esp32c3_super_mini_servo_sonar-rxy">esp32c3_super_mini_servo_sonar-rxy</a></td></tr>
+        <tr><td>ESP32-C3 nu, sans robot &mdash; firmware de référence et démo de widgets</td><td><a href="https://github.com/abourdim/esp32-rxy">esp32-rxy</a></td></tr>
       </table>
+      <p>Un robot entre dans cette liste en répondant à <code>GETCFG</code> ; rien dans l'application ne nomme aucun d'eux. <code>esp32-rxy</code> est le modèle à suivre pour une carte qui n'est pas un micro:bit &mdash; il imite le service UART du micro:bit, de sorte que l'application ne voit pas la différence.</p>
 
       <p>L'application est née d'un fork de <code>keystudio_4wd_mecanum_rxy</code>, avec tout son historique, parce que cette application-là était déjà un sur-ensemble strict de bit-rxy. Les parties spécifiques au robot &mdash; le firmware micro:bit Keyes, sa disposition d'exemple et son manifeste produit &mdash; ont été retirées dans le commit qui suit la fusion (<code>25bfa76</code>, « Strip the robot-specific parts: rxy_web serves every rxy robot »). Rien n'a été supprimé des dépôts d'origine.</p>
 

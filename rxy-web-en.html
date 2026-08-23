@@ -125,10 +125,14 @@
 
       <table class="wikitable">
         <tr><th>Robot</th><th>Firmware</th></tr>
-        <tr><td>Keyes 4WD Mecanum (micro:bit)</td><td><code>keystudio_4wd_mecanum_rxy</code></td></tr>
-        <tr><td>Maqueen (micro:bit)</td><td><code>maqueen-rxy</code></td></tr>
-        <tr><td>ESP32-C3 Super Mini</td><td><code>esp32c3_super_mini_robot-bit-rxy</code></td></tr>
+        <tr><td>Keyes 4WD Mecanum (micro:bit)</td><td><a href="https://github.com/abourdim/keystudio_4wd_mecanum_rxy">keystudio_4wd_mecanum_rxy</a></td></tr>
+        <tr><td>Maqueen (micro:bit)</td><td><a href="https://github.com/abourdim/maqueen-rxy">maqueen-rxy</a></td></tr>
+        <tr><td>DFRobot micro:Driver rover (micro:bit)</td><td><a href="https://github.com/abourdim/dfrobot-rover">dfrobot-rover</a></td></tr>
+        <tr><td>ESP32-C3 Super Mini (b3)</td><td><a href="https://github.com/abourdim/esp32c3_super_mini_robot-bit-rxy">esp32c3_super_mini_robot-bit-rxy</a></td></tr>
+        <tr><td>ESP32-C3 Super Mini &mdash; servos + sonar</td><td><a href="https://github.com/abourdim/esp32c3_super_mini_servo_sonar-rxy">esp32c3_super_mini_servo_sonar-rxy</a></td></tr>
+        <tr><td>plain ESP32-C3, no robot &mdash; reference firmware and widget demo</td><td><a href="https://github.com/abourdim/esp32-rxy">esp32-rxy</a></td></tr>
       </table>
+      <p>A robot joins this list by answering <code>GETCFG</code>; nothing in the app names any of them. <code>esp32-rxy</code> is the pattern to start from for a board that is not a micro:bit &mdash; it impersonates the micro:bit's UART service, so the app cannot tell the difference.</p>
 
       <p>The app was forked from <code>keystudio_4wd_mecanum_rxy</code> with its full history, because that app was already a strict superset of bit-rxy. The robot-specific parts &mdash; the Keyes micro:bit firmware, its example layout and its product manifest &mdash; were removed in the commit right after the merge (<code>25bfa76</code>, "Strip the robot-specific parts: rxy_web serves every rxy robot"). Nothing was deleted from the original repositories.</p>
 
