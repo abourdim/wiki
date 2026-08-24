@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>روبوت MV (esp32c3_super_mini_robot-move) - Wiki</title>
+<link rel="stylesheet" href="wiki.css">
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-inner">
+    <a class="wiki-logo" href="https://workshop-diy.org"><img src="logo.png" alt="شعار الويكي"></a>
+    <a class="masthead-site-link" href="https://workshop-diy.org">workshop-diy.org</a>
+    <div class="masthead-title">
+      Wiki
+      <span class="sub">قاعدة المعرفة الشخصية والمجانية</span>
+    </div>
+    <div class="masthead-actions">
+      <div class="lang-switch" role="group" aria-label="اللغة">
+        <a href="robot-mv.html" class="lang-switch-btn" title="Français"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="20" height="40" fill="#002395"/><rect x="20" width="20" height="40" fill="#fff"/><rect x="40" width="20" height="40" fill="#ED2939"/></svg></a>
+        <a href="robot-mv-en.html" class="lang-switch-btn" title="English"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="60" height="40" fill="#012169"/><path d="M0 0L60 40M60 0L0 40" stroke="#fff" stroke-width="6.5"/><path d="M0 0L60 40M60 0L0 40" stroke="#C8102E" stroke-width="3.5"/><path d="M30 0V40M0 20H60" stroke="#fff" stroke-width="11"/><path d="M30 0V40M0 20H60" stroke="#C8102E" stroke-width="6.5"/></svg></a>
+        <a href="robot-mv-ar.html" class="lang-switch-btn active" title="العربية"><svg width="24" height="16" viewBox="0 0 900 600"><defs><clipPath id="glRobotMvAr"><rect width="450" height="600"/></clipPath></defs><rect width="450" height="600" fill="#006233"/><rect x="450" width="450" height="600" fill="#FFF"/><g fill="#D21034" transform="translate(450,300)"><circle r="125"/><circle cx="25" r="100" fill="#FFF"/><g clip-path="url(#glRobotMvAr)" transform="translate(-450,-300)"><circle cx="475" cy="300" r="100" fill="#006233"/></g><path d="M85-12l22 67h71l-57 42 22 67-58-42-57 42 21-67-57-42h71z"/></g></svg></a>
+      </div>
+      <div class="masthead-search">
+        <input type="text" placeholder="بحث" disabled>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wiki-layout">
+
+  <div class="sidebar">
+    <h3>التصفح</h3>
+    <ul>
+      <li><a href="index-ar.html">الصفحة الرئيسية</a></li>
+      <li><a href="#">أحدث التغييرات</a></li>
+      <li><a href="#">صفحة عشوائية</a></li>
+    </ul>
+    <h3>التصنيفات</h3>
+    <ul>
+      <li><a href="index-ar.html">شبكات</a></li>
+      <li><a href="index-ar.html">Linux</a></li>
+      <li><a href="index-ar.html">Windows</a></li>
+      <li><a href="index-ar.html">إلكترونيات</a></li>
+      <li><a href="index-ar.html">ESP32</a></li>
+      <li><a href="index-ar.html">micro:bit</a></li>
+    </ul>
+    <h3>أدوات</h3>
+    <ul>
+      <li><a href="https://github.com/abourdim/esp32c3_super_mini_robot-move">عرض المستودع المصدري</a></li>
+    </ul>
+  </div>
+
+  <div class="content-wrap">
+    <div class="article-tabs">
+      <span class="active">المقال</span>
+      <span>نقاش</span>
+    </div>
+
+    <article>
+      <h1 class="page-title">روبوت MV (esp32c3_super_mini_robot-move)</h1>
+
+      <div class="infobox">
+        <div class="infobox-title">روبوت MV</div>
+        <table>
+          <tr><th>النوع</th><td>عربة بمحركَي سيرفو ورأس سونار دوّار، والواجهة يحملها البرنامج الثابت</td></tr>
+          <tr><th>العتاد</th><td>ESP32-C3 SuperMini مع لوحة <code dir="ltr">30_esp32_c3_move</code> v1</td></tr>
+          <tr><th>المستشعرات</th><td>HC-SR04 على سيرفو الرأس (مسح)</td></tr>
+          <tr><th>البرنامج الثابت</th><td dir="ltr">MV-v6 (Arduino / PlatformIO)</td></tr>
+          <tr><th>التطبيق</th><td dir="ltr">rxy_web v2.33</td></tr>
+          <tr><th>اسم البلوتوث</th><td><code dir="ltr">diy_app_mv</code></td></tr>
+          <tr><th>اللغات</th><td>English, Français, العربية</td></tr>
+          <tr><th>المستودع</th><td dir="ltr"><a href="https://github.com/abourdim/esp32c3_super_mini_robot-move">github.com/abourdim/esp32c3_super_mini_robot-move</a></td></tr>
+        </table>
+      </div>
+
+      <div class="applink">
+        <a href="https://abourdim.github.io/rxy_web/" target="_blank" rel="noopener"><img class="applink-qr" src="qr/robot-mv.svg" alt="QR: https://abourdim.github.io/rxy_web/" width="104" height="104"></a>
+        <div class="applink-text">
+          <div class="applink-title">افتح التطبيق</div>
+          <div class="applink-url" dir="ltr"><a href="https://abourdim.github.io/rxy_web/" target="_blank" rel="noopener">https://abourdim.github.io/rxy_web/</a></div>
+          <div class="applink-hint">امسح هذا الرمز بهاتفك لفتح التطبيق مباشرة. لا حاجة لأي تثبيت: يعمل داخل المتصفح.</div>
+        </div>
+      </div>
+
+      <p class="hatnote">يتناول هذا المقال <strong>روبوت MV</strong>، وهو نقل لـ<a href="https://github.com/abourdim/esp32c3_super_mini_robot-bit-rxy">bit-rxy («b3»)</a> إلى لوحة حاملة مختلفة. الروبوتان يتشاركان المتحكم الدقيق ولا شيء غيره: كل طرف تغيّر. وما يضيفه هنا ولا يملكه b3 هو <strong>رأس دوّار</strong> لمستشعر المسافة، ومعه رادار يرسم الغرفة بدل أن يعرض رقمًا يتغيّر.</p>
+      <p class="hatnote">للتطبيق الذي يقوده، انظر <a href="rxy-web-ar.html">rxy-web</a>. وللروبوت الذي اشتُقّ منه، انظر <a href="bit-rxy-ar.html">bit-rxy</a>.</p>
+
+      <div class="toc">
+        <div class="toc-title">المحتويات</div>
+        <ol>
+          <li><a href="#overview">نظرة عامة</a></li>
+          <li><a href="#quickstart">بداية سريعة</a></li>
+          <li><a href="#walkthrough">خطوة بخطوة: الاستنساخ والتحميل والاختبار</a></li>
+          <li><a href="#understanding">فهم الشيفرة (للمبتدئين)</a></li>
+          <li><a href="#board">اللوحة وتوزيع أطرافها</a></li>
+          <li><a href="#head">الرأس والرادار والمسح</a></li>
+          <li><a href="#troubleshooting">حل المشكلات</a></li>
+        </ol>
+      </div>
+
+      <h2 id="overview">نظرة عامة</h2>
+      <p><strong>الروبوت يملك واجهته بنفسه.</strong> التطبيق لا يعرف أي روبوت مسبقًا: يتصل، ويطلب الإعدادات، ثم يرسم ما يصله. لذلك يرسل روبوت MV لوحته بنفسه &mdash; لوحة الاتجاهات، عصا التحكم، المؤشرات، الرادار &mdash; ولا يحتاج التطبيق إلى إعادة بناء من أجله أبدًا.</p>
+      <p>البرنامج الثابت نقلٌ أمين لـ b3: <em>كل</em> وحدات b3 ما زالت موجودة (الطنّان، مصابيح NeoPixel، قياس البطارية، شاشة OLED، المصابيح). وما ليس مركّبًا على هذه اللوحة يُعطَّل بسطر <code dir="ltr">#define</code> واحد فيختفي عند الترجمة، بدل أن يفشل بصمت أثناء التشغيل. وتركيب شاشة لاحقًا يعني إعادة ذلك السطر إلى 1.</p>
+
+      <div class="ambox">المطبّ الكبير في هذا النقل لم يكن كهربائيًا بل برمجيًا: <strong>ثلاثة سيرفو بدل اثنين</strong>. انظر <a href="#understanding">فهم الشيفرة</a> &mdash; إنه نوع الأعطال التي تبدو كخلل في البروتوكول وليست كذلك.</div>
+
+      <h2 id="quickstart">بداية سريعة</h2>
+      <ol>
+        <li>شغّل الروبوت وتأكد أن المصباح الأخضر يومض (لم يتصل بعد).</li>
+        <li>افتح <a href="https://abourdim.github.io/rxy_web/">rxy_web</a> في Chrome أو Edge، على هاتف أو حاسوب.</li>
+        <li>اضغط <strong>Connect</strong> واختر <code dir="ltr">diy_app_mv</code> من القائمة.</li>
+        <li>تظهر اللوحة تلقائيًا. اختر <strong>Expert</strong> من محدّد <em>Level</em> لرؤية كل شيء.</li>
+        <li>اضغط <strong>Sweep</strong>: يبدأ الرأس بالمسح ويبدأ الرادار برسم الغرفة.</li>
+      </ol>
+
+      <h2 id="walkthrough">خطوة بخطوة: الاستنساخ والتحميل والاختبار</h2>
+      <p>يمضي هذا المسار من مستودع فارغ إلى روبوت مُتحقَّق منه: يسير في الاتجاه الصحيح، ويقيس، ورادارُه يتبع الرأس.</p>
+
+      <h3>١. استنساخ المستودع</h3>
+      <pre dir="ltr"><code>git clone https://github.com/abourdim/esp32c3_super_mini_robot-move.git
+cd esp32c3_super_mini_robot-move/01_software/01_app</code></pre>
+
+      <h3>٢. الترجمة</h3>
+      <p>المشروع يستخدم PlatformIO. لا شيء لإعداده: المنصّة والمكتبات مثبّتة في <code dir="ltr">platformio.ini</code>.</p>
+      <pre dir="ltr"><code>pio run -e esp32-c3-devkitm-1</code></pre>
+      <p>الترجمة الناجحة تُبلّغ عن نحو <span class="key-value">٩١٪ من الذاكرة</span>. هذا متوقع: مجموعة وحدات b3 الكاملة تملأ التقسيم الافتراضي تقريبًا.</p>
+
+      <h3>٣. التحميل عبر USB</h3>
+      <pre dir="ltr"><code>pio run -e esp32-c3-devkitm-1 -t upload</code></pre>
+      <p>لوحة ESP32-C3 SuperMini تُحمَّل عبر منفذ USB الأصلي فيها، دون مُحوّل تسلسلي. إذا فشل التحميل، اضغط زر <strong>BOOT</strong> مع توصيل اللوحة.</p>
+
+      <div class="ambox">منفذ USB-CDC الأصلي يجعل مراقب المنفذ التسلسلي يتصل <em>بعد</em> الإقلاع، لذا لن ترى شيئًا عند البدء في الغالب. هذا طبيعي وليس عطلًا.</div>
+
+      <h3>٤. التحقق من المنفذ التسلسلي</h3>
+      <pre dir="ltr"><code>pio device monitor</code></pre>
+      <p>ما يهم عند الإقلاع:</p>
+      <pre dir="ltr"><code>[BLE] init - device_name: diy_app_mv
+[BLE] advertising: YES
+[OLED] absent - screen disabled on I2C 8/9</code></pre>
+      <p>والأهم، ما يجب ألّا يظهر: <code dir="ltr">Halting...</code>. انظر <a href="#troubleshooting">حل المشكلات</a>.</p>
+
+      <h3>٥. اختبار اتجاه السير</h3>
+      <p>اتصل، وانتقل إلى <strong>Expert</strong>، واضغط سهم <em>الأعلى</em>. يجب أن يتقدّم الروبوت. إذا تراجع فهذا ليس تبادلًا بين اليمين واليسار بل انعكاس في القطبية: اعكس <code dir="ltr">CONFIG_SERVO_INVERT_DRIVE</code> في <code dir="ltr">00_config.h</code> وأعد التحميل.</p>
+
+      <h3>٦. اختبار المستشعر</h3>
+      <p>مرّر يدك أمام HC-SR04. يجب أن يستجيب مؤشر <em>Distance</em> والرسم البياني فورًا.</p>
+
+      <h3>٧. اختبار الرأس والرادار</h3>
+      <p>حرّك منزلق <strong>Head</strong>: يدور الرأس ويتبعه شعاع الرادار. ثم فعّل <strong>Sweep</strong>: يمسح الرأس وحده ويمتلئ الرادار بنقاط تتلاشى خلال خمس ثوانٍ.</p>
+
+      <div class="ambox ambox-success">القاعدة السليمة تبدو هكذا: الروبوت يتقدّم حين تطلب التقدّم، والمسافة تتغيّر حين تقرّب يدك، وشعاع الرادار يتحرك مع الرأس &mdash; الأنظمة الثلاثة مؤكَّدة كل على حدة.</div>
+
+      <h2 id="understanding">فهم الشيفرة (للمبتدئين)</h2>
+      <p class="hatnote">لمن شغّل الروبوت ويريد فتح الشيفرة لتعديل شيء فيها. يفترض أساسيات C/C++ دون شيء خاص بهذا المشروع.</p>
+
+      <h3>بنية النظام، مصوّرة</h3>
+      <div class="diagram" dir="ltr"><pre style="margin:0;border:0;padding:0;background:none;">┌──────────────────┐        Bluetooth         ┌──────────────────┐
+│                  │  ◄─────────────────────► │                  │
+│   📱 rxy_web     │        BLE / UART        │  🤖 Robot MV     │
+│    (browser)     │                          │   (ESP32-C3)     │
+│                  │                          │                  │
+│  draws whatever  │   GETCFG  ──────────►    │   owns the       │
+│  the robot sends │   ◄────── CFG (base64)   │   layout         │
+└──────────────────┘                          └────────┬─────────┘
+                                                       │
+                          ┌────────────────────────────┼──────────────┐
+                          │                            │              │
+                     ┌────▼────┐               ┌───────▼──────┐  ┌────▼────┐
+                     │ 2 wheel │               │  head servo  │  │ HC-SR04 │
+                     │ servos  │               │     (J6)     │  │  (J10)  │
+                     │ J5, J12 │               └───────┬──────┘  └────┬────┘
+                     └─────────┘                       │              │
+                                                       └──── radar ───┘
+                                                    (angle + distance)</pre></div>
+
+      <h3>البروتوكول في ثلاث رسائل</h3>
+      <p>كل شيء يمر عبر خدمة بلوتوث من نوع UART. ثلاث مبادلات تكفي لفهمه:</p>
+      <table class="wikitable">
+        <tr><th>الرسالة</th><th>الاتجاه</th><th>الوظيفة</th></tr>
+        <tr><td><code dir="ltr">GETCFGVER</code></td><td>التطبيق ← الروبوت</td><td>«ما إصدار واجهتك؟» يجيب الروبوت بـ<code dir="ltr">CFGVER</code> ورمز. وإن كانت الواجهة محفوظة في الهاتف، يُتجاوَز النقل كله.</td></tr>
+        <tr><td><code dir="ltr">GETCFG</code></td><td>التطبيق ← الروبوت</td><td>أرسل لي واجهتك. يجيب الروبوت بسلسلة أجزاء base64.</td></tr>
+        <tr><td><code dir="ltr">SET</code> / <code dir="ltr">UPD</code></td><td>الاتجاهان</td><td><code dir="ltr">SET</code> يعني أن المستخدم لمس عنصرًا. و<code dir="ltr">UPD</code> يعني أن الروبوت ينشر قيمة (مسافة، جهد، زاوية الرأس).</td></tr>
+      </table>
+
+      <h3>الملفات بترتيب أهميتها</h3>
+      <table class="wikitable">
+        <tr><th>الملف</th><th>وظيفته</th></tr>
+        <tr><td><code dir="ltr">00_config.h</code></td><td>كل الأطراف وكل مفاتيح الخصائص. الملف الوحيد اللازم لفهم اللوحة.</td></tr>
+        <tr><td><code dir="ltr">01_src.ino</code></td><td><code dir="ltr">setup()</code> و<code dir="ltr">loop()</code>. قصير وواضح عن قصد.</td></tr>
+        <tr><td><code dir="ltr">03_bit-rxy.cpp</code></td><td>بروتوكول البلوتوث والواجهات المرمّزة وتوجيه العناصر. الملف الأكبر.</td></tr>
+        <tr><td><code dir="ltr">04_tasks.cpp</code></td><td>مزج القيادة: لوحة الاتجاهات والعصا ← سرعتا العجلتين.</td></tr>
+        <tr><td><code dir="ltr">09_servos.cpp</code></td><td>السيرفوهات الثلاثة، ومسح الرأس، وإزاحة التوسيط.</td></tr>
+        <tr><td><code dir="ltr">12_ultrasonic.cpp</code></td><td>قراءة واحدة من HC-SR04، بحدّ أقصى ١٥ ملّي ثانية.</td></tr>
+      </table>
+
+      <h3>مطبّ مؤقتات PWM</h3>
+      <p>يحجز b3 مؤقتًا <strong>واحدًا</strong> من LEDC ويربط سيرفوين: مقاس مضبوط تمامًا. والرأس يجعلها ثلاثة &mdash; وحين تنفد المؤقتات من ESP32Servo فإنه لا يحذّر: يطبع <code dir="ltr">All PWM timers allocated!</code> ثم <strong>يتوقف داخل <code dir="ltr">attach()</code></strong>. فلا تعود <code dir="ltr">setup()</code> أبدًا.</p>
+      <p>وهذا غير مرئي من الخارج. إذ تكون NimBLE قد انطلقت على مهمّتها الخاصة، فيبقى الروبوت <em>يبثّ</em> والتطبيق <em>يتصل</em>. لكنه ببساطة لا يجيب على شيء، لأن <code dir="ltr">remotexy_handler()</code> تعيش داخل <code dir="ltr">loop()</code>، و<code dir="ltr">loop()</code> لم تعمل ولو مرة واحدة. يبدو الأمر خللًا في البروتوكول، وليس كذلك.</p>
+      <pre dir="ltr"><code>ESP32PWM::allocateTimer(0);
+ESP32PWM::allocateTimer(1);
+ESP32PWM::allocateTimer(2);
+ESP32PWM::allocateTimer(3);</code></pre>
+
+      <h3>لماذا تبقى المعايرات بعد قطع التيار</h3>
+      <p>تُكتب معايرات العجلات وإزاحة الرأس في ذاكرة NVS الدائمة، لأنها تصف <em>كيف رُكِّب الروبوت</em> &mdash; لا كيف يُقاد في هذه اللحظة. والكتابة مؤجَّلة ثانيتين بعد آخر حركة للمنزلق، فيكلّف جرّه على كامل مداه كتابة واحدة بدل ستين.</p>
+      <p>أما <em>زاوية</em> الرأس فلا تُحفظ: إنها أداة تحكّم حيّة، واستعادة اتجاه الأمس عند الإقلاع ستوجّه المستشعر إلى حيث لم يطلب أحد.</p>
+
+      <h2 id="board">اللوحة وتوزيع أطرافها</h2>
+      <p>قُرئ توزيع الأطراف من قائمة وصلات الدارة المطبوعة، لا من المخطط: فالمخطط يسمّي كل وصلة <code dir="ltr">gpio_NN</code> ولا يقول شيئًا عمّا تقوده.</p>
+
+      <table class="wikitable">
+        <tr><th>الطرف</th><th>الموصّل</th><th>الاستعمال</th></tr>
+        <tr><td dir="ltr">5</td><td dir="ltr">J5, TXB0104</td><td>سيرفو العجلة اليسرى</td></tr>
+        <tr><td dir="ltr">10</td><td dir="ltr">J12, TXB0104</td><td>سيرفو العجلة اليمنى</td></tr>
+        <tr><td dir="ltr">6 / 7</td><td dir="ltr">J10, TXB0104</td><td>HC-SR04 إرسال / استقبال</td></tr>
+        <tr><td dir="ltr">1</td><td dir="ltr">J6</td><td>سيرفو الرأس (٣٫٣ فولت مباشرة)</td></tr>
+        <tr><td dir="ltr">0</td><td dir="ltr">J7</td><td>المصباح الأخضر</td></tr>
+        <tr><td dir="ltr">21</td><td dir="ltr">J8</td><td>المصباح الأحمر</td></tr>
+        <tr><td dir="ltr">20</td><td dir="ltr">J9</td><td>شريط NeoPixel (معطّل)</td></tr>
+        <tr><td dir="ltr">3</td><td dir="ltr">SW1</td><td>زر، والضغط المطوّل يفتح التحديث اللاسلكي</td></tr>
+        <tr><td dir="ltr">2, 8, 9</td><td><strong>لا شيء</strong></td><td>وسادات الوحدة فقط &mdash; ولهذا لا توجد شاشة</td></tr>
+      </table>
+
+      <div class="ambox ambox-warning"><strong>اترك J1 إلى J4 فارغة.</strong> الموصّلات ثلاثية الأطراف J6 إلى J9 تتشارك وصلاتها مع بوابات الترانزستورات التي تقود الأطراف اللولبية J1 إلى J4. فكل ما يُوصَل بموصّل ثلاثي يشغّل معه طرفه التوأم. وفي المقابل تصبح مصابيح اللوحة الصفراء (D6 إلى D9) مؤشرات نشاط مجانية.</div>
+
+      <div class="ambox ambox-warning"><strong>خط تغذية السيرفو يحتاج مكثّفًا.</strong> ثلاثة سيرفوهات تتشارك تغذية ESP32، ولوحة v1 لا تحمل عليها سوى ١٠٠ نانو فاراد. ومحرك SG90 يسحب نحو ٧٠٠ ملّي أمبير عند التعطّل. أضف <strong>٤٧٠ إلى ١٠٠٠ ميكرو فاراد</strong> عند الموصّلات، وغذِّ السيرفوهات من طرف الدخل لا عبر طرف ٥ فولت في الوحدة &mdash; وإلا انخفض الجهد أثناء السير وأعاد C3 الإقلاع.</div>
+
+      <h2 id="head">الرأس والرادار والمسح</h2>
+      <p>عنصر <strong>الرادار</strong> في التطبيق لا يحمل قيمة خاصة به: يقرأ مؤشر المسافة ومنزلق الرأس بالمعرّف. ومن أجله وُجد الرأس.</p>
+
+      <h3>المسح مضبوط على إيقاع القياس</h3>
+      <p>يتقدّم الرأس خطوة <em>في كل دورة إرسال</em>، لا على مؤقّت خاص به، وتقع الخطوة <strong>بعد</strong> إرسال مسافة الدورة وزاويتها. هذا الترتيب هو المقصود كله: الرادار يرسم أزواج (زاوية، مسافة)، والتقدّم المستقل سيرسم قراءات عند اتجاهات لم يكن المستشعر موجَّهًا إليها حين أُخذت. ثم تحصل كل خطوة على دورة كاملة، ٥٠٠ ملّي ثانية، لتستقر قبل القياس التالي.</p>
+      <p>ويقع الانعكاس <strong>عند</strong> الحدّ لا بعده: فالارتداد عن الحدّ يُبقي الرأس على مصدّه دورة إضافية في كل مسحة &mdash; تلعثم مرئي على الشاشة، وسيرفو متوقّف قسرًا طوال ذلك.</p>
+
+      <h3>إزاحة التوسيط</h3>
+      <p>حامل الرأس يُلصق أو يُبرغى باليد، فطلب ٩٠ درجة لا يشير إلى الأمام تمامًا إلا نادرًا. ومنزلق <strong>Head trim</strong> (مع زرَّي H−1 وH+1) يعوّض هذا الفارق.</p>
+      <p>والنقطة المهمة: تُطبَّق الإزاحة <em>حيث يُكتب السيرفو</em>، لا على الاتجاه المنشور. فالرادار يجب أن يرسم حيث يصوّب المستشعر فعلًا، أي الاتجاه المصحَّح. ونشر النبضة الخام سيزيح كل الاكتشافات بمقدار المعايرة &mdash; وهو عكس الغرض من التوسيط تمامًا.</p>
+
+      <h3>أنماط العرض</h3>
+      <p>يقدّم رادار rxy_web خمس أدوات، تُختار من الأزرار أسفل الشاشة، دون إعادة تحميل البرنامج الثابت:</p>
+      <table class="wikitable">
+        <tr><th>النمط</th><th>ما تراه</th></tr>
+        <tr><td dir="ltr">Sweep</td><td>الشاشة القطبية الكلاسيكية، مع أثر يتلاشى</td></tr>
+        <tr><td dir="ltr">Bat</td><td>تحديد الموقع بالصدى: خفّاش، وصيحات تتّسع، والصدى يصعد</td></tr>
+        <tr><td dir="ltr">Sonar</td><td>سونار غوّاصة: أقواس متداخلة وذراع ماسحة</td></tr>
+        <tr><td dir="ltr">LiDAR</td><td>ماسح ليزري: سحابة نقاط، لا نقطة واحدة</td></tr>
+        <tr><td dir="ltr">Heat</td><td>شريط قرب أفقي، بلا اتجاه إطلاقًا</td></tr>
+      </table>
+      <p>وحده <em>Sweep</em> يستعمل الزاوية. أما الأربعة الأخرى فتكتفي بالمسافة، فتعمل على روبوت لا يتحرك مستشعره. وفي نمط Sweep يختار صفٌّ ثانٍ شكل العلامات: نقاط، أشعّة، قطاعات، نجوم أو رموز تعبيرية.</p>
+
+      <h2 id="troubleshooting">حل المشكلات</h2>
+
+      <h3>التطبيق يتصل ثم يتوقف عند «Checking layout version»</h3>
+      <p>الروبوت يبثّ ويقبل الاتصال لكنه لا يجيب على شيء. سببان محتملان، وقد شوهد كلاهما فعليًا:</p>
+      <ul>
+        <li><strong>توقفت <code dir="ltr">setup()</code>.</strong> راجع المنفذ التسلسلي بحثًا عن <code dir="ltr">All PWM timers allocated!</code> يتبعها <code dir="ltr">Halting...</code>. ينقصك استدعاءات <code dir="ltr">ESP32PWM::allocateTimer()</code>.</li>
+        <li><strong>البرنامج الثابت لا يجيب على <code dir="ltr">GETCFGVER</code>.</strong> يتعرّف b3 على هذا الأمر دون أن يردّ عليه. ولم تعد إصدارات التطبيق الحديثة تتراجع تلقائيًا إلى <code dir="ltr">GETCFG</code>، فصار الصمت قاتلًا.</li>
+      </ul>
+
+      <h3>الروبوت يتراجع حين أطلب التقدّم</h3>
+      <p>قطبية المحركات، لا تبادل بين اليمين واليسار &mdash; فتبديل الطرفين سيعطي روبوتًا يدور حول نفسه. اعكس <code dir="ltr">CONFIG_SERVO_INVERT_DRIVE</code>. وهذا يصحّح الاتجاه <em>واتجاه الدوران</em> معًا، لأن كليهما ينبع من الإشارة نفسها.</p>
+
+      <h3>الروبوت يدور ببطء وهو ساكن</h3>
+      <p>عيب موروث من b3: تُضاف المعايرة إلى العجلتين معًا، بينما مدى نبضة العجلة اليمنى معكوس، فتدفع المعايرة الموجبة العجلتين في اتجاهين متعاكسين فيزيائيًا. اجعل قيمتَي <code dir="ltr">CONFIG_SERVO_SPEED_STOP_*_OFFSET</code> صفرًا.</p>
+
+      <h3>شعاع الرادار عالق عند ٩٠ درجة</h3>
+      <p>يرسم الرادار عند آخر اتجاه نشره عنصر <code dir="ltr">head</code>. فإن لم يُعِد البرنامج الثابت نشر الزاوية كل دورة، تحرّك الرأس وبقيت الشاشة ساكنة. صُحِّح منذ MV-v4.</p>
+
+      <h3>إعادة إقلاع عشوائية أثناء السير</h3>
+      <p>غالبًا التغذية لا البرمجيات. انظر تنبيه خط السيرفو في <a href="#board">اللوحة وتوزيع أطرافها</a>.</p>
+
+      <h3>لا يظهر شيء على المنفذ التسلسلي</h3>
+      <p>متوقّع. منفذ USB-CDC الأصلي يعيد التعريف عند إعادة الضبط، فيتصل المراقب بعد رسالة الإقلاع. الروبوت يعمل، لكنه صامت في السكون.</p>
+
+      <hr>
+      <p class="hatnote">مقالات ذات صلة: <a href="rxy-web-ar.html">rxy-web</a> (التطبيق) &middot; <a href="bit-rxy-ar.html">bit-rxy</a> &middot; <a href="dfrobot-rover-ar.html">روفر DFRobot</a> &middot; <a href="esp32-rxy-ar.html">ESP32-RXY</a></p>
+
+    </article>
+  </div>
+</div>
+
+</body>
+</html>

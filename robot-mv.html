@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Robot MV (esp32c3_super_mini_robot-move) - Wiki</title>
+<link rel="stylesheet" href="wiki.css">
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-inner">
+    <a class="wiki-logo" href="https://workshop-diy.org"><img src="logo.png" alt="Logo du Wiki"></a>
+    <a class="masthead-site-link" href="https://workshop-diy.org">workshop-diy.org</a>
+    <div class="masthead-title">
+      Wiki
+      <span class="sub">La base de connaissances personnelle et gratuite</span>
+    </div>
+    <div class="masthead-actions">
+      <div class="lang-switch" role="group" aria-label="Langue">
+        <a href="robot-mv.html" class="lang-switch-btn active" title="Français"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="20" height="40" fill="#002395"/><rect x="20" width="20" height="40" fill="#fff"/><rect x="40" width="20" height="40" fill="#ED2939"/></svg></a>
+        <a href="robot-mv-en.html" class="lang-switch-btn" title="English"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="60" height="40" fill="#012169"/><path d="M0 0L60 40M60 0L0 40" stroke="#fff" stroke-width="6.5"/><path d="M0 0L60 40M60 0L0 40" stroke="#C8102E" stroke-width="3.5"/><path d="M30 0V40M0 20H60" stroke="#fff" stroke-width="11"/><path d="M30 0V40M0 20H60" stroke="#C8102E" stroke-width="6.5"/></svg></a>
+        <a href="robot-mv-ar.html" class="lang-switch-btn" title="العربية"><svg width="24" height="16" viewBox="0 0 900 600"><defs><clipPath id="glRobotMvFr"><rect width="450" height="600"/></clipPath></defs><rect width="450" height="600" fill="#006233"/><rect x="450" width="450" height="600" fill="#FFF"/><g fill="#D21034" transform="translate(450,300)"><circle r="125"/><circle cx="25" r="100" fill="#FFF"/><g clip-path="url(#glRobotMvFr)" transform="translate(-450,-300)"><circle cx="475" cy="300" r="100" fill="#006233"/></g><path d="M85-12l22 67h71l-57 42 22 67-58-42-57 42 21-67-57-42h71z"/></g></svg></a>
+      </div>
+      <div class="masthead-search">
+        <input type="text" placeholder="Rechercher" disabled>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wiki-layout">
+
+  <div class="sidebar">
+    <h3>Navigation</h3>
+    <ul>
+      <li><a href="index.html">Page principale</a></li>
+      <li><a href="#">Modifications récentes</a></li>
+      <li><a href="#">Page au hasard</a></li>
+    </ul>
+    <h3>Catégories</h3>
+    <ul>
+      <li><a href="index.html">Réseau</a></li>
+      <li><a href="index.html">Linux</a></li>
+      <li><a href="index.html">Windows</a></li>
+      <li><a href="index.html">Électronique</a></li>
+      <li><a href="index.html">ESP32</a></li>
+      <li><a href="index.html">micro:bit</a></li>
+    </ul>
+    <h3>Outils</h3>
+    <ul>
+      <li><a href="https://github.com/abourdim/esp32c3_super_mini_robot-move">Voir le dépôt source</a></li>
+    </ul>
+  </div>
+
+  <div class="content-wrap">
+    <div class="article-tabs">
+      <span class="active">Article</span>
+      <span>Discussion</span>
+    </div>
+
+    <article>
+      <h1 class="page-title">Robot MV (esp32c3_super_mini_robot-move)</h1>
+
+      <div class="infobox">
+        <div class="infobox-title">Robot MV</div>
+        <table>
+          <tr><th>Type</th><td>Rover à deux servos avec tête sonar orientable, disposition transportée par le firmware</td></tr>
+          <tr><th>Matériel</th><td>ESP32-C3 SuperMini + carte porteuse <code>30_esp32_c3_move</code> v1</td></tr>
+          <tr><th>Capteurs</th><td>HC-SR04 sur servo de tête (balayage)</td></tr>
+          <tr><th>Firmware</th><td>MV-v6 (Arduino / PlatformIO)</td></tr>
+          <tr><th>Application</th><td>rxy_web v2.33</td></tr>
+          <tr><th>Nom BLE</th><td><code>diy_app_mv</code></td></tr>
+          <tr><th>Langues</th><td>English, Français, العربية</td></tr>
+          <tr><th>Dépôt</th><td><a href="https://github.com/abourdim/esp32c3_super_mini_robot-move">github.com/abourdim/esp32c3_super_mini_robot-move</a></td></tr>
+        </table>
+      </div>
+
+      <div class="applink">
+        <a href="https://abourdim.github.io/rxy_web/" target="_blank" rel="noopener"><img class="applink-qr" src="qr/robot-mv.svg" alt="QR: https://abourdim.github.io/rxy_web/" width="104" height="104"></a>
+        <div class="applink-text">
+          <div class="applink-title">Ouvrir l&rsquo;application</div>
+          <div class="applink-url"><a href="https://abourdim.github.io/rxy_web/" target="_blank" rel="noopener">https://abourdim.github.io/rxy_web/</a></div>
+          <div class="applink-hint">Scanne ce code avec un t&eacute;l&eacute;phone pour ouvrir l&rsquo;application directement. Aucune installation : elle tourne dans le navigateur.</div>
+        </div>
+      </div>
+
+      <p class="hatnote">Cet article couvre le <strong>Robot MV</strong>, un portage de <a href="https://github.com/abourdim/esp32c3_super_mini_robot-bit-rxy">bit-rxy («&nbsp;b3&nbsp;»)</a> sur une autre carte porteuse. Les deux robots partagent le microcontrôleur et rien d'autre : chaque broche a changé. Ce qu'il ajoute que b3 n'a pas, c'est une <strong>tête orientable</strong> pour le capteur de distance &mdash; et donc un radar qui dessine la pièce au lieu d'afficher un nombre.</p>
+      <p class="hatnote">Pour l'application qui le pilote, voir <a href="rxy-web.html">rxy-web</a>. Pour le robot dont il est issu, voir <a href="bit-rxy.html">bit-rxy</a>.</p>
+
+      <div class="toc">
+        <div class="toc-title">Sommaire</div>
+        <ol>
+          <li><a href="#overview">Aperçu</a></li>
+          <li><a href="#quickstart">Démarrage rapide</a></li>
+          <li><a href="#walkthrough">Étape par étape : cloner, flasher &amp; tester</a></li>
+          <li><a href="#understanding">Comprendre le code (pour débutants)</a></li>
+          <li><a href="#board">La carte et son brochage</a></li>
+          <li><a href="#head">Tête, radar et balayage</a></li>
+          <li><a href="#troubleshooting">Dépannage</a></li>
+        </ol>
+      </div>
+
+      <h2 id="overview">Aperçu</h2>
+      <p><strong>Le robot possède sa propre interface.</strong> L'application ne connaît aucun robot à l'avance : elle se connecte, demande sa configuration, et dessine ce qui revient. Le Robot MV envoie donc lui-même son panneau &mdash; pavé directionnel, joystick, jauges, radar &mdash; et l'application n'a jamais besoin d'être recompilée pour lui.</p>
+      <p>Le firmware est un portage fidèle de b3 : <em>tous</em> les modules de b3 sont encore là (buzzer, NeoPixels, mesure de batterie, écran OLED, LEDs). Ce qui n'est pas monté sur cette carte est désactivé par un seul <code>#define</code> et disparaît à la compilation, plutôt que d'échouer silencieusement à l'exécution. Rebrancher un écran, c'est remettre le <code>#define</code> à 1.</p>
+
+      <div class="ambox">Le grand piège de ce portage n'était pas électrique mais logiciel : <strong>trois servos au lieu de deux</strong>. Voir <a href="#understanding">Comprendre le code</a> &mdash; c'est le genre de panne qui ressemble à un bug de protocole et n'en est pas un.</div>
+
+      <h2 id="quickstart">Démarrage rapide</h2>
+      <ol>
+        <li>Alimente le robot et vérifie que la LED verte clignote (pas encore connecté).</li>
+        <li>Ouvre <a href="https://abourdim.github.io/rxy_web/">rxy_web</a> dans Chrome ou Edge, sur un téléphone ou un PC.</li>
+        <li>Appuie sur <strong>Connect</strong> et choisis <code>diy_app_mv</code> dans la liste.</li>
+        <li>Le panneau apparaît tout seul. Choisis <strong>Expert</strong> dans le sélecteur <em>Level</em> pour tout voir.</li>
+        <li>Appuie sur <strong>Sweep</strong> : la tête se met à balayer et le radar commence à dessiner la pièce.</li>
+      </ol>
+
+      <h2 id="walkthrough">Étape par étape : cloner, flasher &amp; tester</h2>
+      <p>Ce parcours part d'un dépôt vierge jusqu'à un robot vérifié : il roule dans le bon sens, il mesure, et son radar suit la tête.</p>
+
+      <h3>1. Cloner le dépôt</h3>
+      <pre><code>git clone https://github.com/abourdim/esp32c3_super_mini_robot-move.git
+cd esp32c3_super_mini_robot-move/01_software/01_app</code></pre>
+
+      <h3>2. Compiler</h3>
+      <p>Le projet utilise PlatformIO. Rien à configurer : la plateforme et les bibliothèques sont épinglées dans <code>platformio.ini</code>.</p>
+      <pre><code>pio run -e esp32-c3-devkitm-1</code></pre>
+      <p>Une compilation réussie annonce environ <span class="key-value">91 % de flash</span>. C'est normal : le jeu complet des modules de b3 remplit presque la partition par défaut.</p>
+
+      <h3>3. Flasher par USB</h3>
+      <pre><code>pio run -e esp32-c3-devkitm-1 -t upload</code></pre>
+      <p>L'ESP32-C3 SuperMini se flashe par son USB natif, sans adaptateur série. Si l'envoi échoue, garde le bouton <strong>BOOT</strong> enfoncé pendant que tu branches la carte.</p>
+
+      <div class="ambox">L'USB-CDC natif fait que le moniteur série s'attache <em>après</em> le démarrage : la plupart du temps tu ne verras rien au boot. C'est normal, pas une panne.</div>
+
+      <h3>4. Vérifier au moniteur série</h3>
+      <pre><code>pio device monitor</code></pre>
+      <p>Ce qui compte, au démarrage :</p>
+      <pre><code>[BLE] init - device_name: diy_app_mv
+[BLE] advertising: YES
+[OLED] absent - screen disabled on I2C 8/9</code></pre>
+      <p>Et surtout, ce qui ne doit <strong>pas</strong> apparaître : <code>Halting...</code>. Voir <a href="#troubleshooting">Dépannage</a>.</p>
+
+      <h3>5. Tester le sens de marche</h3>
+      <p>Connecte-toi, passe en <strong>Expert</strong>, et appuie sur la flèche <em>haut</em> du pavé. Le robot doit avancer. S'il recule, ce n'est pas un échange gauche/droite mais une inversion de polarité : mets <code>CONFIG_SERVO_INVERT_DRIVE</code> à l'inverse dans <code>00_config.h</code> et reflashe.</p>
+
+      <h3>6. Tester le capteur</h3>
+      <p>Passe la main devant le HC-SR04. La jauge <em>Distance</em> et le graphe doivent réagir immédiatement.</p>
+
+      <h3>7. Tester la tête et le radar</h3>
+      <p>Bouge le curseur <strong>Head</strong> : la tête tourne, et le faisceau du radar suit. Puis active <strong>Sweep</strong> : la tête balaie toute seule et le radar se remplit de détections qui s'estompent sur cinq secondes.</p>
+
+      <div class="ambox ambox-success">Une base saine ressemble à ceci : le robot avance quand tu demandes d'avancer, la distance bouge quand tu approches la main, et le faisceau du radar se déplace en même temps que la tête &mdash; les trois sous-systèmes confirmés indépendamment.</div>
+
+      <h2 id="understanding">Comprendre le code (pour débutants)</h2>
+      <p class="hatnote">Pour qui a le robot en marche et veut ouvrir le code pour le modifier. Suppose des bases en C/C++ mais rien de spécifique à ce projet.</p>
+
+      <h3>Architecture du système, illustrée</h3>
+      <div class="diagram"><pre style="margin:0;border:0;padding:0;background:none;">┌──────────────────┐        Bluetooth         ┌──────────────────┐
+│                  │  ◄─────────────────────► │                  │
+│   📱 rxy_web     │        BLE / UART        │  🤖 Robot MV     │
+│   (navigateur)   │                          │  (ESP32-C3)      │
+│                  │                          │                  │
+│  dessine ce que  │   GETCFG  ──────────►    │  possède la      │
+│  le robot envoie │   ◄────── CFG (base64)   │  disposition     │
+└──────────────────┘                          └────────┬─────────┘
+                                                       │
+                          ┌────────────────────────────┼──────────────┐
+                          │                            │              │
+                     ┌────▼────┐               ┌───────▼──────┐  ┌────▼────┐
+                     │ 2 servos│               │ servo de tête│  │ HC-SR04 │
+                     │  roues  │               │     (J6)     │  │  (J10)  │
+                     │ J5, J12 │               └───────┬──────┘  └────┬────┘
+                     └─────────┘                       │              │
+                                                       └──── radar ───┘
+                                                    (angle + distance)</pre></div>
+
+      <h3>Le protocole, en trois messages</h3>
+      <p>Tout passe par un service BLE de type UART. Trois échanges suffisent à comprendre :</p>
+      <table class="wikitable">
+        <tr><th>Message</th><th>Sens</th><th>Rôle</th></tr>
+        <tr><td><code>GETCFGVER</code></td><td>app → robot</td><td>«&nbsp;quelle est la version de ta disposition&nbsp;?&nbsp;» Le robot répond <code>CFGVER &lt;jeton&gt;</code>. Si le téléphone a déjà cette disposition en cache, tout le transfert est évité.</td></tr>
+        <tr><td><code>GETCFG</code></td><td>app → robot</td><td>envoie-moi ta disposition. Le robot répond par une suite de morceaux base64.</td></tr>
+        <tr><td><code>SET</code> / <code>UPD</code></td><td>les deux sens</td><td><code>SET</code> = l'utilisateur a touché un widget. <code>UPD</code> = le robot publie une valeur (distance, tension, angle de tête).</td></tr>
+      </table>
+
+      <h3>Les fichiers, dans l'ordre où ils comptent</h3>
+      <table class="wikitable">
+        <tr><th>Fichier</th><th>Ce qu'il fait</th></tr>
+        <tr><td><code>00_config.h</code></td><td>toutes les broches et tous les interrupteurs de fonctionnalité. C'est le seul fichier à lire pour comprendre la carte.</td></tr>
+        <tr><td><code>01_src.ino</code></td><td><code>setup()</code> et <code>loop()</code>. Court et lisible exprès.</td></tr>
+        <tr><td><code>03_bit-rxy.cpp</code></td><td>le protocole BLE, les dispositions encodées, et le routage des widgets. Le gros morceau.</td></tr>
+        <tr><td><code>04_tasks.cpp</code></td><td>le mélange de conduite : pavé et joystick → vitesses des deux roues.</td></tr>
+        <tr><td><code>09_servos.cpp</code></td><td>les trois servos, le balayage de la tête et son décalage de centrage.</td></tr>
+        <tr><td><code>12_ultrasonic.cpp</code></td><td>une mesure HC-SR04, plafonnée à 15&nbsp;ms.</td></tr>
+      </table>
+
+      <h3>Le piège des minuteurs PWM</h3>
+      <p>b3 réserve <strong>un</strong> minuteur LEDC et attache deux servos : ça tombe juste. La tête en fait trois &mdash; et quand ESP32Servo n'a plus de minuteur, il n'avertit pas : il affiche <code>All PWM timers allocated!</code> puis <strong>s'arrête à l'intérieur de <code>attach()</code></strong>. <code>setup()</code> ne rend jamais la main.</p>
+      <p>Et c'est invisible de l'extérieur : NimBLE a déjà démarré sur sa propre tâche, donc le robot <em>continue d'émettre</em> et l'application <em>se connecte</em>. Simplement, plus rien ne répond, parce que <code>remotexy_handler()</code> vit dans <code>loop()</code> et que <code>loop()</code> n'a jamais tourné une seule fois. Ça ressemble à un bug de protocole ; ce n'en est pas un.</p>
+      <pre><code>ESP32PWM::allocateTimer(0);
+ESP32PWM::allocateTimer(1);
+ESP32PWM::allocateTimer(2);
+ESP32PWM::allocateTimer(3);</code></pre>
+
+      <h3>Pourquoi les réglages survivent à une coupure</h3>
+      <p>Les trims de roues et le décalage de tête sont écrits en NVS (la mémoire persistante de l'ESP32), parce qu'ils décrivent <em>comment le robot a été assemblé</em> &mdash; pas comment on le conduit à cet instant. L'écriture est différée de deux secondes après le dernier mouvement du curseur : traverser toute la course coûte ainsi une écriture flash, pas soixante.</p>
+      <p>L'angle de la tête, lui, n'est <strong>pas</strong> mémorisé : c'est une commande vivante, et retrouver au démarrage l'orientation d'hier pointerait le capteur là où personne ne l'a demandé.</p>
+
+      <h2 id="board">La carte et son brochage</h2>
+      <p>Le brochage a été relu depuis le <em>netlist</em> du circuit imprimé, pas depuis le schéma : celui-ci nomme tous les signaux <code>gpio_NN</code> et ne dit rien de ce qu'ils commandent.</p>
+
+      <table class="wikitable">
+        <tr><th>GPIO</th><th>Connecteur</th><th>Usage</th></tr>
+        <tr><td>5</td><td>J5, 3 broches, via TXB0104</td><td>servo roue gauche</td></tr>
+        <tr><td>10</td><td>J12, 3 broches, via TXB0104</td><td>servo roue droite</td></tr>
+        <tr><td>6 / 7</td><td>J10, 4 broches, via TXB0104</td><td>HC-SR04 trig / echo</td></tr>
+        <tr><td>1</td><td>J6, 3 broches, <strong>3,3 V brut</strong></td><td>servo de tête</td></tr>
+        <tr><td>0</td><td>J7</td><td>LED verte</td></tr>
+        <tr><td>21</td><td>J8</td><td>LED rouge</td></tr>
+        <tr><td>20</td><td>J9</td><td>bandeau NeoPixel (désactivé)</td></tr>
+        <tr><td>3</td><td>SW1</td><td>bouton, appui long = OTA</td></tr>
+        <tr><td>2, 8, 9</td><td><strong>nulle part</strong></td><td>pastilles du module uniquement &mdash; d'où l'absence d'écran</td></tr>
+      </table>
+
+      <div class="ambox ambox-warning"><strong>Laisse J1 à J4 libres.</strong> Les connecteurs 3 broches J6 à J9 partagent leurs signaux avec les grilles des transistors qui commandent les borniers J1 à J4. Tout ce qu'on branche sur un connecteur 3 broches commute donc aussi son bornier jumeau. En contrepartie, les LED jaunes de la carte (D6 à D9) deviennent des témoins d'activité gratuits.</div>
+
+      <div class="ambox ambox-warning"><strong>Le rail des servos réclame du condensateur.</strong> Trois servos partagent l'alimentation de l'ESP32 et la carte v1 n'a que 100&nbsp;nF dessus. Un SG90 tire environ 700&nbsp;mA à l'arrêt forcé. Ajoute <strong>470 à 1000&nbsp;µF</strong> aux connecteurs, et alimente les servos depuis le bornier d'entrée plutôt qu'à travers la broche 5&nbsp;V du module &mdash; sinon la tension s'effondre en roulant et le C3 redémarre.</div>
+
+      <h2 id="head">Tête, radar et balayage</h2>
+      <p>Le widget <strong>radar</strong> de l'application ne transporte aucune valeur à lui : il lit la jauge de distance et le curseur de tête, par identifiant. C'est pour lui que la tête existe.</p>
+
+      <h3>Le balayage est cadencé sur la mesure</h3>
+      <p>La tête avance d'un cran <em>par cycle de télémétrie</em>, et non sur une minuterie à elle. Le pas est fait <strong>après</strong> l'envoi de la distance et de l'angle du cycle. Cet ordre est tout l'intérêt : le radar trace des couples (angle, distance), et un balayage indépendant peindrait des mesures à des orientations où le capteur ne pointait pas au moment de la mesure. Chaque pas dispose ensuite d'un cycle complet, 500&nbsp;ms, pour se stabiliser avant la mesure suivante.</p>
+      <p>Le demi-tour se fait <strong>à</strong> la butée, pas au-delà : rebondir sur la limite laisserait la tête calée sur sa butée pendant un cycle à chaque balayage &mdash; un à-coup visible à l'écran, et un servo bloqué le temps que ça dure.</p>
+
+      <h3>Le décalage de centrage</h3>
+      <p>Un support de tête est collé ou vissé à la main : commander 90° ne pointe presque jamais droit devant. Le curseur <strong>Head trim</strong> (et les boutons H−1 / H+1) rattrape cet écart.</p>
+      <p>Point important : le décalage s'applique <em>là où le servo est écrit</em>, jamais à l'orientation publiée. Le radar doit tracer là où le capteur vise réellement, c'est-à-dire la direction corrigée. Publier l'impulsion brute décalerait toutes les détections de la valeur du trim &mdash; exactement le contraire du but recherché.</p>
+
+      <h3>Les styles d'affichage</h3>
+      <p>Le radar de rxy_web propose cinq instruments, choisis par les pastilles sous l'écran &mdash; sans rien reflasher :</p>
+      <table class="wikitable">
+        <tr><th>Style</th><th>Ce qu'on voit</th></tr>
+        <tr><td>Sweep</td><td>l'écran polaire classique, avec une traînée qui s'estompe</td></tr>
+        <tr><td>Bat</td><td>écholocation : une chauve-souris, des cris qui s'élargissent, l'écho qui remonte</td></tr>
+        <tr><td>Sonar</td><td>un sonar de sous-marin : arcs concentriques et bras de balayage</td></tr>
+        <tr><td>LiDAR</td><td>un scanner laser : un nuage de points, pas un seul point</td></tr>
+        <tr><td>Heat</td><td>une barre de proximité horizontale, sans orientation du tout</td></tr>
+      </table>
+      <p>Seul <em>Sweep</em> utilise l'angle. Les quatre autres se contentent de la distance et fonctionnent donc sur un robot dont le capteur ne bouge pas. En mode Sweep, une seconde rangée choisit la forme des marqueurs : points, rayons, secteurs, étoiles ou emojis.</p>
+
+      <h2 id="troubleshooting">Dépannage</h2>
+
+      <h3>L'application se connecte puis reste sur «&nbsp;Checking layout version&nbsp;»</h3>
+      <p>Le robot émet et accepte la connexion, mais ne répond à rien. Deux causes possibles, toutes deux vues en vrai :</p>
+      <ul>
+        <li><strong><code>setup()</code> s'est arrêté.</strong> Regarde le moniteur série : <code>All PWM timers allocated!</code> suivi de <code>Halting...</code>. Il manque des <code>ESP32PWM::allocateTimer()</code>.</li>
+        <li><strong>Le firmware ne répond pas à <code>GETCFGVER</code>.</strong> b3 reconnaît cette commande sans y répondre. Les versions récentes de l'application ne se rabattent plus sur <code>GETCFG</code> toutes seules, donc le silence est fatal.</li>
+      </ul>
+
+      <h3>Le robot recule quand je demande d'avancer</h3>
+      <p>Polarité des moteurs, pas inversion gauche/droite &mdash; échanger les deux broches donnerait un robot qui tourne sur lui-même. Bascule <code>CONFIG_SERVO_INVERT_DRIVE</code>. Ça corrige la direction <em>et</em> le sens de rotation, puisque les deux découlent du même signe.</p>
+
+      <h3>Le robot tourne lentement à l'arrêt</h3>
+      <p>Défaut hérité de b3 : le trim est ajouté aux deux roues, alors que la plage d'impulsion de la roue droite est inversée. Un trim positif pousse donc les deux roues dans des directions physiquement opposées. Mets les deux <code>CONFIG_SERVO_SPEED_STOP_*_OFFSET</code> à zéro.</p>
+
+      <h3>Le faisceau du radar reste bloqué à 90°</h3>
+      <p>Le radar trace à l'orientation que le widget <code>head</code> a publiée en dernier. Si le firmware ne republie pas l'angle à chaque cycle, la tête bouge et l'écran ne bouge pas. Corrigé depuis MV-v4.</p>
+
+      <h3>Redémarrages aléatoires en roulant</h3>
+      <p>Presque toujours l'alimentation, pas le logiciel. Voir l'encadré sur le rail des servos dans <a href="#board">La carte et son brochage</a>.</p>
+
+      <h3>Rien ne s'affiche au moniteur série</h3>
+      <p>Attendu. L'USB-CDC natif se ré-énumère au redémarrage, donc le moniteur s'attache après le message de démarrage. Le robot fonctionne&nbsp;; il est simplement silencieux au repos.</p>
+
+      <hr>
+      <p class="hatnote">Articles liés : <a href="rxy-web.html">rxy-web</a> (l'application) &middot; <a href="bit-rxy.html">bit-rxy</a> &middot; <a href="dfrobot-rover.html">DFRobot Rover</a> &middot; <a href="esp32-rxy.html">ESP32-RXY</a></p>
+
+    </article>
+  </div>
+</div>
+
+</body>
+</html>
