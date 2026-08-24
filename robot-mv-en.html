@@ -239,6 +239,9 @@ ESP32PWM::allocateTimer(3);</code></pre>
       <p>A head mount is glued or screwed on by hand, so commanding 90&deg; almost never points dead ahead. The <strong>Head trim</strong> slider (and the H&minus;1 / H+1 buttons) takes up that difference.</p>
       <p>The important part: the offset is applied <em>where the servo is written</em>, never to the bearing that gets published. The radar has to plot where the sensor is really aimed, which is the corrected direction. Publishing the raw pulse instead would shift every detection by the trim &mdash; exactly the opposite of what centring is for.</p>
 
+      <h3>A Radar level of its own</h3>
+      <p>The <em>Level</em> selector offers a ninth panel, <strong>Radar</strong>, given over entirely to the head: the scope, the <em>Head</em> slider, the <em>Sweep</em> toggle, the centring trim, and the distance reading the radar is plotting. The panel explains itself that way &mdash; you can see the number each blip came from.</p>
+
       <h3>Display styles</h3>
       <p>rxy_web's radar offers five instruments, chosen from the chips under the scope &mdash; no reflashing:</p>
       <table class="wikitable">

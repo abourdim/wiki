@@ -239,6 +239,9 @@ ESP32PWM::allocateTimer(3);</code></pre>
       <p>Un support de tête est collé ou vissé à la main : commander 90° ne pointe presque jamais droit devant. Le curseur <strong>Head trim</strong> (et les boutons H−1 / H+1) rattrape cet écart.</p>
       <p>Point important : le décalage s'applique <em>là où le servo est écrit</em>, jamais à l'orientation publiée. Le radar doit tracer là où le capteur vise réellement, c'est-à-dire la direction corrigée. Publier l'impulsion brute décalerait toutes les détections de la valeur du trim &mdash; exactement le contraire du but recherché.</p>
 
+      <h3>Un niveau « Radar » à part</h3>
+      <p>Le sélecteur <em>Level</em> propose un neuvième panneau, <strong>Radar</strong>, entièrement consacré à la tête : l'écran, le curseur <em>Head</em>, l'interrupteur <em>Sweep</em>, le décalage de centrage, et la mesure de distance que le radar est en train de tracer. Le panneau s'explique ainsi tout seul : on voit le nombre d'où vient chaque point.</p>
+
       <h3>Les styles d'affichage</h3>
       <p>Le radar de rxy_web propose cinq instruments, choisis par les pastilles sous l'écran &mdash; sans rien reflasher :</p>
       <table class="wikitable">
