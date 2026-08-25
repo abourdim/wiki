@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 500" width="960" height="500" role="img" aria-label="The ESP32-CAM talks to both the motor driver and the OLED screen down the same two wires, SDA on GPIO 14 and SCL on GPIO 13. Each device has its own address: the motor driver is 0x30 and the screen is 0x3C, so both hear every message but only one answers.">
+  <title>Two wires, two listeners</title>
+
+  <rect width="960" height="500" rx="18" fill="#F5F8F6"/>
+
+  <g font-family="Verdana,sans-serif">
+    <text x="46" y="46" font-size="21" font-weight="bold" fill="#16241D">Why the screen can share the motors' wires</text>
+    <text x="46" y="70" font-size="13" fill="#5B6E64">I&#178;C is a party line. Everyone is on the same two wires, and every message starts with a name.</text>
+  </g>
+
+  <!-- ── the two bus wires ───────────────────────────────────────
+       Drawn first and drawn LONG, because the whole point of the picture
+       is that they are one continuous pair rather than a link per device. -->
+  <g stroke-width="6" stroke-linecap="round">
+    <line x1="248" y1="196" x2="906" y2="196" stroke="#3E8FE0"/>
+    <line x1="248" y1="238" x2="906" y2="238" stroke="#F2C744"/>
+  </g>
+  <g font-family="Verdana,sans-serif" font-size="11" font-weight="bold">
+    <text x="912" y="200" fill="#2F6FA8">SDA</text>
+    <text x="912" y="242" fill="#9A7A12">SCL</text>
+  </g>
+  <g font-family="Verdana,sans-serif" font-size="10" fill="#5B6E64">
+    <text x="912" y="214">GPIO 14</text>
+    <text x="912" y="256">GPIO 13</text>
+  </g>
+
+  <!-- drop lines to each device, so the tee-off is visible -->
+  <g stroke-width="6" stroke-linecap="round">
+    <line x1="404" y1="196" x2="404" y2="300" stroke="#3E8FE0"/>
+    <line x1="440" y1="238" x2="440" y2="300" stroke="#F2C744"/>
+    <line x1="700" y1="196" x2="700" y2="300" stroke="#3E8FE0"/>
+    <line x1="736" y1="238" x2="736" y2="300" stroke="#F2C744"/>
+  </g>
+  <g fill="#F5F8F6" stroke-width="3">
+    <circle cx="404" cy="196" r="6" stroke="#3E8FE0"/>
+    <circle cx="440" cy="238" r="6" stroke="#F2C744"/>
+    <circle cx="700" cy="196" r="6" stroke="#3E8FE0"/>
+    <circle cx="736" cy="238" r="6" stroke="#F2C744"/>
+  </g>
+
+  <!-- ── the brain ───────────────────────────────────────────────── -->
+  <g font-family="Verdana,sans-serif">
+    <rect x="46" y="140" width="202" height="154" rx="12" fill="#1B2A23"/>
+    <text x="147" y="180" text-anchor="middle" font-size="15" font-weight="bold" fill="#EAF3EE">ESP32-CAM</text>
+    <text x="147" y="202" text-anchor="middle" font-size="11" fill="#9DBBAC">does all the talking</text>
+    <rect x="70" y="222" width="154" height="52" rx="8" fill="#2E4137"/>
+    <text x="147" y="242" text-anchor="middle" font-size="10.5" fill="#C7DDD1">nobody speaks unless</text>
+    <text x="147" y="257" text-anchor="middle" font-size="10.5" fill="#C7DDD1">it is spoken to first</text>
+  </g>
+
+  <!-- ── listener 1: the motor driver ────────────────────────────── -->
+  <g font-family="Verdana,sans-serif">
+    <rect x="330" y="300" width="216" height="130" rx="12" fill="#fff" stroke="#C2410C" stroke-width="2.5"/>
+    <rect x="352" y="318" width="60" height="26" rx="13" fill="#C2410C"/>
+    <text x="382" y="336" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#fff">0x30</text>
+    <text x="424" y="336" font-size="12.5" font-weight="bold" fill="#16241D">Motors</text>
+    <text x="352" y="364" font-size="10.5" fill="#5B6E64">STC8G1K08 chip, already</text>
+    <text x="352" y="379" font-size="10.5" fill="#5B6E64">soldered to the board.</text>
+    <text x="352" y="401" font-size="10.5" fill="#5B6E64">It was there before you</text>
+    <text x="352" y="416" font-size="10.5" fill="#5B6E64">added anything.</text>
+  </g>
+
+  <!-- ── listener 2: the screen ──────────────────────────────────── -->
+  <g font-family="Verdana,sans-serif">
+    <rect x="626" y="300" width="216" height="130" rx="12" fill="#fff" stroke="#7A4FD1" stroke-width="2.5"/>
+    <rect x="648" y="318" width="60" height="26" rx="13" fill="#7A4FD1"/>
+    <text x="678" y="336" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#fff">0x3C</text>
+    <text x="720" y="336" font-size="12.5" font-weight="bold" fill="#16241D">Screen</text>
+    <text x="648" y="364" font-size="10.5" fill="#5B6E64">SSD1306, the part you</text>
+    <text x="648" y="379" font-size="10.5" fill="#5B6E64">are adding.</text>
+    <text x="648" y="401" font-size="10.5" fill="#5B6E64">Different number, so no</text>
+    <text x="648" y="416" font-size="10.5" fill="#5B6E64">argument.</text>
+  </g>
+
+  <!-- ── the message travelling down the wire ────────────────────
+       One speech bubble, placed between the two listeners, because the
+       thing worth showing is that BOTH of them hear it. -->
+  <g font-family="Verdana,sans-serif">
+    <rect x="470" y="118" width="180" height="54" rx="10" fill="#16241D"/>
+    <path d="M545 172 L557 172 L549 186 Z" fill="#16241D"/>
+    <text x="560" y="141" text-anchor="middle" font-size="11.5" fill="#8ADCFF">&#8220;0x3C, draw this.&#8221;</text>
+    <text x="560" y="159" text-anchor="middle" font-size="10" fill="#9DBBAC">both hear it &#183; only one answers</text>
+  </g>
+
+  <!-- ── the takeaway ────────────────────────────────────────────── -->
+  <g font-family="Verdana,sans-serif">
+    <rect x="46" y="452" width="868" height="0" fill="none"/>
+    <text x="46" y="462" font-size="12" fill="#16241D">
+      <tspan font-weight="bold">This is why nothing had to be unplugged.</tspan>
+      <tspan fill="#5B6E64"> Adding the screen costs no pins at all &#8212; it just adds a name to a line that was already there.</tspan>
+    </text>
+  </g>
+</svg>

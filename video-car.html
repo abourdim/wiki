@@ -91,6 +91,7 @@
           <li><a href="#walkthrough">Étape par étape : cloner, flasher &amp; tester</a></li>
           <li><a href="#understanding">Comprendre le code (pour débutants)</a></li>
           <li><a href="#features">Fonctionnalités vs. le croquis d'origine</a></li>
+          <li><a href="#oled">&Eacute;cran OLED (optionnel)</a></li>
           <li><a href="#layout">Organisation du dépôt</a></li>
           <li><a href="#builds">Systèmes de build</a></li>
           <li><a href="#troubleshooting">Dépannage</a></li>
@@ -546,12 +547,56 @@ void Car_forward() {
         <tr><td>Vision classique (sans modèles, sans internet)</td><td><strong>Mouvement</strong> (différence d'images), suiveur de <strong>ligne</strong> (seuil adaptatif, foncé sur clair ou clair sur foncé), et <strong>poursuite de couleur</strong> (suivi de tache par chromaticité rg) &mdash; tout en mathématiques de pixels simples, tournant à plein régime.</td></tr>
         <tr><td>Cache de modèle hors ligne</td><td>Les fonctionnalités de vision mettent en cache les scripts/modèles CDN dans IndexedDB après la première utilisation sur un réseau avec internet, puis fonctionnent depuis le propre point d'accès de la voiture ensuite.</td></tr>
         <tr><td>Suivi automatique (autonome)</td><td>Un contrôleur proportionnel pilote la voiture vers une cible COCO-SSD choisie (personne, balle, chien, chat, bouteille, chaise) via le même point d'accès <code>/joystick</code> qu'utilise la conduite manuelle, donc le dispositif de sécurité de 500 ms le couvre aussi. Désarmé par défaut ; toute entrée manuelle reprend le contrôle instantanément.</td></tr>
-        <tr><td>Photo &amp; enregistrement vidéo</td><td>Le panneau de capture télécharge une photo fixe JPEG ou enregistre en <code>.webm</code>/<code>.mp4</code> côté client (Canvas + MediaRecorder).</td></tr>
+        <tr><td>Photo &amp; enregistrement vid&eacute;o</td><td>Le panneau de capture t&eacute;l&eacute;charge une photo fixe JPEG ou enregistre en <code>.webm</code>/<code>.mp4</code> c&ocirc;t&eacute; client (Canvas + MediaRecorder). Les deux portent la marque Workshop-DIY, incrust&eacute;e dans les pixels plut&ocirc;t que superpos&eacute;e &agrave; la page.</td></tr>
+        <tr><td>&Eacute;cran OLED (optionnel)</td><td>SSD1306 128&times;64 &agrave; <code>0x3C</code> sur le bus des moteurs : auto-test au d&eacute;marrage (carte driver, cam&eacute;ra, r&eacute;seau, adresse), &eacute;cran d'&eacute;tat, et un visage anim&eacute; une fois connect&eacute;. Sans module, la voiture se comporte exactement comme avant. Voir <a href="#oled">&Eacute;cran OLED</a>.</td></tr>
         <tr><td>Page de contrôle repensée</td><td>Thème sombre style poste de contrôle de mission / viseur de caméra, panneaux groupés, lectures de curseurs en direct, mise en page réactive.</td></tr>
         <tr><td>Résilience d'initialisation de la caméra</td><td>Réessaie à un XCLK plus bas avant d'abandonner, fait clignoter un motif d'erreur LED visible, active la solution de contournement du détecteur de sous-tension.</td></tr>
       </table>
 
       <p>Ligne et Poursuite de couleur pilotent la voiture et partagent l'arbitre et les règles de sécurité du Suivi automatique : l'entrée manuelle gagne toujours, un seul mode autonome fonctionne à la fois, et une cible perdue arrête la voiture puis se désarme. Mouvement est passif et continue de fonctionner à côté de quoi que ce soit d'autre qui pilote.</p>
+
+      <h2 id="oled">&Eacute;cran OLED (optionnel)</h2>
+      <p>Un module SSD1306 128&times;64 &agrave; l'adresse <code>0x3C</code> se branche sur <strong>les deux m&ecirc;mes fils que le driver moteur</strong> &mdash; GPIO 14 (SDA) et GPIO 13 (SCL). Ces broches sont c&acirc;bl&eacute;es en dur sur la carte driver et ne peuvent pas &ecirc;tre d&eacute;plac&eacute;es, ce qui n'a finalement aucune importance : l'I&sup2;C est une ligne partag&eacute;e, chaque message commence par une adresse, et <code>0x3C</code> et le <code>0x30</code> du driver n'entrent pas en conflit. <strong>L'&eacute;cran ne co&ucirc;te aucune broche.</strong></p>
+      <div class="diagram" dir="ltr"><img src="video-car-oled-bus.svg" alt="L&apos;ESP32-CAM parle au driver moteur 0x30 et &agrave; l&apos;&eacute;cran 0x3C sur les m&ecirc;mes deux fils" style="max-width:100%;display:block;margin:0 auto"></div>
+      <p>Sans &eacute;cran, la voiture se comporte exactement comme avant : le module est sond&eacute; au d&eacute;marrage et tout devient inop&eacute;rant s'il est absent. <code>/status</code> renvoie <code>"oled": 0</code> ou <code>1</code>.</p>
+
+      <h3>O&ugrave; se branchent les quatre fils</h3>
+      <div class="diagram" dir="ltr"><img src="video-car-oled-board.svg" alt="Vue de dessus de la carte driver, avec le Reserve IO interface et le support ESP32-CAM rep&eacute;r&eacute;s" style="max-width:100%;display:block;margin:0 auto"></div>
+      <p>La carte en offre deux sur quatre gratuitement et fait travailler pour les deux autres. Le <strong>Reserve IO interface</strong>, dans le coin de la partie carr&eacute;e, aligne quatre ports 3 broches s&eacute;rigraphi&eacute;s <code>G &middot; 3.3V &middot; S</code> ; les quatre rang&eacute;es partagent le m&ecirc;me rail 3,3 V issu du r&eacute;gulateur AMS1117 de la carte, donc n'importe laquelle fera l'affaire. <strong>VCC et GND viennent de l&agrave;, sans soudure.</strong></p>
+      <p>Le bus, lui, n'existe qu'au niveau du support dans lequel la cam&eacute;ra s'enfiche, o&ugrave; la s&eacute;rigraphie a la bonne id&eacute;e de le nommer : <code>5V &middot; GND &middot; LED &middot; SCL &middot; IO15 &middot; SDA &middot; IO2 &middot; IO4</code>. <code>LED</code> est le GPIO 12, <code>SCL</code> le GPIO 13, <code>SDA</code> le GPIO 14 &mdash; exactement les num&eacute;ros qu'utilise le croquis.</p>
+      <table class="wikitable">
+        <tr><th>Broche OLED</th><th>Vers</th><th>O&ugrave;</th></tr>
+        <tr><td><code>VCC</code></td><td>3,3 V</td><td>Colonne <code>3.3V</code>, Reserve IO interface</td></tr>
+        <tr><td><code>GND</code></td><td>GND</td><td>Colonne <code>G</code>, m&ecirc;me bloc</td></tr>
+        <tr><td><code>SDA</code></td><td>GPIO 14</td><td>Trou marqu&eacute; <code>SDA</code>, support ESP32-CAM</td></tr>
+        <tr><td><code>SCL</code></td><td>GPIO 13</td><td>Trou marqu&eacute; <code>SCL</code>, support ESP32-CAM</td></tr>
+      </table>
+      <div class="diagram" dir="ltr"><img src="video-car-oled-wiring.svg" alt="Les quatre fils : VCC et GND depuis le bloc d&apos;extension, SDA et SCL depuis le support de la cam&eacute;ra" style="max-width:100%;display:block;margin:0 auto"></div>
+      <div class="ambox">
+        <strong>SDA et SCL ne sont pas des trous libres.</strong> Cette carte n'a aucun connecteur I&sup2;C s&eacute;par&eacute;, et avec la cam&eacute;ra en place on ne peut pas y enfoncer un cavalier. Trois solutions : remonter la cam&eacute;ra sur un connecteur superpos&eacute; et prendre le bus sur l'&eacute;tage libre ; souder une queue de cochon &agrave; deux fils par en dessous ; ou piquer le GPIO 14 et le GPIO 13 sur les pastilles du module. Et <strong>prenez le 3,3 V sur le bloc d'extension, jamais sur la broche 3V3 de l'ESP32-CAM</strong> &mdash; ce r&eacute;gulateur porte d&eacute;j&agrave; la cam&eacute;ra et la radio.
+      </div>
+
+      <h3>Ce que l'&eacute;cran affiche</h3>
+      <table class="wikitable">
+        <tr><th>Moment</th><th>&Eacute;cran</th></tr>
+        <tr><td>3 s au d&eacute;marrage</td><td>Le logo Workshop-DIY sur toute la dalle.</td></tr>
+        <tr><td>1,8 s ensuite</td><td><code>VideoCar</code> et le num&eacute;ro de version.</td></tr>
+        <tr><td>4 s ensuite</td><td>Auto-test : carte driver &agrave; <code>0x30</code> (<code>ok</code> ou <code>MISSING</code>), cam&eacute;ra et PSRAM, r&eacute;seau, et <strong>l'adresse &agrave; taper</strong> &mdash; la ligne qui, en mode station, n'existait auparavant que sur la console s&eacute;rie.</td></tr>
+        <tr><td>Personne de connect&eacute;</td><td>&Eacute;cran d'&eacute;tat : adresse, r&eacute;seau et qualit&eacute; de lien, Vitesse et Trim, temps de fonctionnement.</td></tr>
+        <tr><td>Navigateur connect&eacute;</td><td>Le visage : il cligne des yeux, fait des clins d'&oelig;il, regarde dans la direction o&ugrave; il roule, a le tournis apr&egrave;s un demi-tour sur place, s'inqui&egrave;te quand le failsafe coupe les moteurs, et sursaute si une capture cam&eacute;ra &eacute;choue.</td></tr>
+        <tr><td>30 s / 2 min / 25 min d'inactivit&eacute;</td><td>Assombrissement, puis l'adresse qui d&eacute;rive, puis un visage endormi qui d&eacute;rive. <strong>La dalle n'est jamais &eacute;teinte</strong> &mdash; un &eacute;cran noir est indiscernable d'une batterie &agrave; plat, et la d&eacute;rive traite le marquage de la dalle.</td></tr>
+        <tr><td>&Eacute;chec cam&eacute;ra</td><td>Un &eacute;cran d&eacute;di&eacute; nommant le code d'erreur et ce qu'il faut v&eacute;rifier, au lieu du seul triple clignotement de la LED.</td></tr>
+      </table>
+
+      <h3>Deux t&acirc;ches, un seul bus</h3>
+      <p>&Agrave; savoir si vous &eacute;tendez ce code. Les &eacute;critures moteur viennent de la t&acirc;che du serveur HTTP ; l'&eacute;cran est dessin&eacute; depuis <code>loop()</code>. Deux t&acirc;ches FreeRTOS qui utilisent <code>Wire</code> sur un m&ecirc;me bus sans verrou entrelacent leurs transactions &mdash; l'&eacute;cran re&ccedil;oit des octets moteur et la carte driver re&ccedil;oit des pixels, uniquement sous charge. Trois r&egrave;gles s'en chargent :</p>
+      <table class="wikitable">
+        <tr><th>R&egrave;gle</th><th>Pourquoi</th></tr>
+        <tr><td>Un mutex dans <code>SetMotor.h</code> encadre chaque transaction</td><td>Les moteurs l'attendent ind&eacute;finiment (une commande de conduite ne doit jamais &ecirc;tre perdue) ; l'&eacute;cran ne l'attend pas du tout (une trame saut&eacute;e ne co&ucirc;te rien).</td></tr>
+        <tr><td>L'&eacute;cran ne se redessine jamais pendant que les roues tournent</td><td>Une trame compl&egrave;te repr&eacute;sente environ 90 ms de bus &agrave; 100 kHz, et cela ne doit pas s'intercaler entre une commande de joystick et les moteurs.</td></tr>
+        <tr><td>Un visage immobile n'est pas redessin&eacute;</td><td>Une voiture &agrave; l'arr&ecirc;t ne d&eacute;pense aucun temps de bus pour ses propres yeux.</td></tr>
+      </table>
+      <p>Le bus reste &agrave; 100 kHz plut&ocirc;t qu'aux 400 kHz vers lesquels <code>Adafruit_SSD1306</code> basculerait normalement : la chose &agrave; <code>0x30</code> est un STC8G1K08, un petit microcontr&ocirc;leur esclave non document&eacute; qui doit malgr&eacute; tout suivre les conditions START/STOP d'un trafic qui ne lui est pas adress&eacute;.</p>
 
       <h2 id="layout">Organisation du dépôt</h2>
       <pre><code>Codes/                  Original Arduino-IDE-style sketch layout (all 4 sketches)
@@ -621,6 +666,14 @@ report.html               Detailed change report -- what changed, why, and what'
           <td>Le suiveur de ligne zigzague ou perd la ligne</td>
           <td>Baissez <code>LINE_KP</code> plutôt que de l'augmenter (boucle dominée par la latence). Augmentez <code>LINE_TURN_CUT</code> si il rate les virages.</td>
         </tr>
+        <tr>
+          <td>L'&eacute;cran OLED reste noir</td>
+          <td>Regardez <code>/status</code> : <code>"oled": 0</code> signifie que personne n'a r&eacute;pondu &agrave; <code>0x3C</code> au d&eacute;marrage &mdash; donc c&acirc;blage ou adresse (quelques modules sont en <code>0x3D</code>), ou inversion SDA/SCL : SDA est le GPIO 14, SCL le GPIO 13. <code>"oled": 1</code> avec une dalle r&eacute;ellement noire est une panne de c&acirc;blage ou d'alimentation, pas un d&eacute;lai de veille &mdash; plus rien dans le firmware n'&eacute;teint la dalle. V&eacute;rifiez d'abord le 3,3 V.</td>
+        </tr>
+        <tr>
+          <td>L'&eacute;cran fonctionne mais la voiture ne roule plus</td>
+          <td>Presque toujours la biblioth&egrave;que OLED qui r&eacute;initialise le bus sur ses propres broches par d&eacute;faut et emm&egrave;ne les moteurs avec elle, hors des GPIO 14/13. <code>oledInit()</code> passe <code>periphBegin = false</code> &agrave; <code>begin()</code> pr&eacute;cis&eacute;ment pour &eacute;viter cela.</td>
+        </tr>
       </table>
 
       <div class="ambox">
@@ -635,7 +688,7 @@ report.html               Detailed change report -- what changed, why, and what'
 </div>
 
 <div class="footer-wiki">
-  Cette page a été créée le 27 juillet 2026 et modifiée pour la dernière fois le 30 juillet 2026. Contenu adapté du README du dépôt <a href="https://github.com/abourdim/video-car">video-car</a>.
+  Cette page a été créée le 27 juillet 2026 et modifi&eacute;e pour la derni&egrave;re fois le 25 ao&ucirc;t 2026. Contenu adapté du README du dépôt <a href="https://github.com/abourdim/video-car">video-car</a>.
 </div>
 
 </body>

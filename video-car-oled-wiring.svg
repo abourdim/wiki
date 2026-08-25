@@ -1,0 +1,145 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 600" width="960" height="600" role="img" aria-label="Four wires connect the OLED screen to the motor driver board. VCC goes to the 3.3V column of the Reserve IO interface and GND to the G column of that same block, both of which are free holes. SDA and SCL go to the two holes marked SDA and SCL on the ESP32-CAM socket row, which sit under the camera module and need soldering or a stacking header.">
+  <title>Which wire goes where</title>
+
+  <!-- Fixed light card, same convention as the rover's diagrams: this renders
+       as an <img> on GitHub and on a printed build sheet, so it has to look
+       intentional on a white page and a dark one alike. -->
+  <rect width="960" height="600" rx="18" fill="#F5F8F6"/>
+
+  <g font-family="Verdana,sans-serif">
+    <text x="46" y="46" font-size="21" font-weight="bold" fill="#16241D">Which wire goes where</text>
+    <text x="46" y="70" font-size="13" fill="#5B6E64">Two wires are free holes you can plug straight into. Two are not &#8212; read the box at the bottom before you start.</text>
+  </g>
+
+  <!-- ── the driver board ─────────────────────────────────────────
+       Only the two areas you actually touch are drawn. A faithful picture
+       of the whole board would bury the two blocks that matter. -->
+  <rect x="46" y="92" width="300" height="380" rx="14" fill="#1B2A23"/>
+  <text x="196" y="458" text-anchor="middle" font-family="Verdana,sans-serif" font-size="12" fill="#7FA292">Motor driver board</text>
+
+  <!-- Block A: Reserve IO interface. Power comes from here, no soldering. -->
+  <g font-family="Verdana,sans-serif">
+    <rect x="64" y="110" width="264" height="164" rx="9" fill="#2E4137"/>
+    <rect x="64" y="110" width="4" height="164" rx="2" fill="#159E5C"/>
+    <text x="80" y="132" font-size="12.5" font-weight="bold" fill="#EAF3EE">Reserve IO interface</text>
+    <text x="80" y="149" font-size="10" fill="#9DBBAC">top-left of the board &#183; four 3-pin ports</text>
+    <text x="80" y="163" font-size="10" font-weight="bold" fill="#7ED9A6">free holes &#8212; just plug in</text>
+
+    <!-- the 4x3 pad grid, with the two columns you use lit up -->
+    <g font-size="9" fill="#9DBBAC" text-anchor="middle">
+      <text x="112" y="187">G</text>
+      <text x="150" y="187">3.3V</text>
+      <text x="188" y="187">S</text>
+    </g>
+    <g font-size="9" fill="#9DBBAC" text-anchor="end">
+      <text x="98" y="207">IO4</text>
+      <text x="98" y="225">IO2</text>
+      <text x="98" y="243">IO15</text>
+      <text x="98" y="261">IO16</text>
+    </g>
+    <g fill="#43574B">
+      <circle cx="112" cy="222" r="5"/><circle cx="112" cy="240" r="5"/><circle cx="112" cy="258" r="5"/>
+      <circle cx="150" cy="222" r="5"/><circle cx="150" cy="240" r="5"/><circle cx="150" cy="258" r="5"/>
+    </g>
+    <g fill="#38473E">
+      <circle cx="188" cy="204" r="5"/><circle cx="188" cy="222" r="5"/>
+      <circle cx="188" cy="240" r="5"/><circle cx="188" cy="258" r="5"/>
+    </g>
+    <circle cx="112" cy="204" r="6.5" fill="#2A2A2A" stroke="#C9CFCB" stroke-width="2.5"/>
+    <circle cx="150" cy="204" r="6.5" fill="#5A2020" stroke="#D93A3A" stroke-width="2.5"/>
+
+    <text x="212" y="222" font-size="9" fill="#7FA292">any row will do &#8212;</text>
+    <text x="212" y="234" font-size="9" fill="#7FA292">all four share the</text>
+    <text x="212" y="246" font-size="9" fill="#7FA292">same 3.3V rail</text>
+  </g>
+
+  <!-- Block B: the ESP32-CAM socket row. The bus is only available here. -->
+  <g font-family="Verdana,sans-serif">
+    <rect x="64" y="288" width="264" height="150" rx="9" fill="#2E4137"/>
+    <rect x="64" y="288" width="4" height="150" rx="2" fill="#E0801E"/>
+    <text x="80" y="310" font-size="12.5" font-weight="bold" fill="#EAF3EE">ESP32-CAM socket, bottom row</text>
+    <text x="80" y="327" font-size="10" fill="#9DBBAC">the board prints the two names for you</text>
+    <text x="80" y="341" font-size="10" font-weight="bold" fill="#F0B36B">under the camera &#8212; see the box below</text>
+
+    <!-- all eight pins, in the order the silkscreen has them -->
+    <g font-size="9" text-anchor="middle">
+      <text x="96"  y="366" fill="#7FA292">5V</text>
+      <text x="128" y="366" fill="#7FA292">GND</text>
+      <text x="160" y="366" fill="#7FA292">LED</text>
+      <text x="192" y="366" fill="#F2C744" font-weight="bold">SCL</text>
+      <text x="224" y="366" fill="#7FA292">IO15</text>
+      <text x="256" y="366" fill="#3E8FE0" font-weight="bold">SDA</text>
+      <text x="288" y="366" fill="#7FA292">IO2</text>
+      <text x="316" y="366" fill="#7FA292">IO4</text>
+    </g>
+    <rect x="82" y="376" width="248" height="24" rx="5" fill="#232E28"/>
+    <g fill="#38473E">
+      <circle cx="96"  cy="388" r="5"/><circle cx="128" cy="388" r="5"/>
+      <circle cx="160" cy="388" r="5"/><circle cx="224" cy="388" r="5"/>
+      <circle cx="288" cy="388" r="5"/><circle cx="316" cy="388" r="5"/>
+    </g>
+    <circle cx="192" cy="388" r="6.5" fill="#4A3F12" stroke="#F2C744" stroke-width="2.5"/>
+    <circle cx="256" cy="388" r="6.5" fill="#12304A" stroke="#3E8FE0" stroke-width="2.5"/>
+
+    <text x="80" y="422" font-size="9.5" fill="#9DBBAC">SCL is GPIO 13 &#183; SDA is GPIO 14 &#8212; the same two</text>
+    <text x="80" y="433" font-size="9.5" fill="#9DBBAC">wires the motor driver already listens on.</text>
+  </g>
+
+  <!-- ── wires ───────────────────────────────────────────────────
+       Each turns in its own column, ordered so the bundle fans out without
+       a single crossing. A crossing is the one thing that misleads on a
+       diagram whose whole premise is "follow the colour". -->
+  <g fill="none" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="346,204 392,204 392,176 636,176" stroke="#D93A3A"/>
+    <polyline points="346,222 416,222 416,248 636,248" stroke="#3A3A3A"/>
+    <polyline points="346,388 464,388 464,320 636,320" stroke="#3E8FE0"/>
+    <polyline points="346,404 440,404 440,392 636,392" stroke="#F2C744"/>
+  </g>
+
+  <!-- ── the screen module ───────────────────────────────────────── -->
+  <g font-family="Verdana,sans-serif">
+    <rect x="636" y="128" width="278" height="320" rx="12" fill="#14181C" stroke="#2A323A" stroke-width="2"/>
+
+    <!-- pin header down the left edge -->
+    <rect x="640" y="158" width="26" height="252" rx="5" fill="#0C1013"/>
+    <g font-size="12" font-weight="bold">
+      <circle cx="653" cy="176" r="7" fill="#5A2020" stroke="#D93A3A" stroke-width="2.5"/>
+      <text x="674" y="180" fill="#F2F6F4">VCC</text>
+      <circle cx="653" cy="248" r="7" fill="#232323" stroke="#8A8A8A" stroke-width="2.5"/>
+      <text x="674" y="252" fill="#F2F6F4">GND</text>
+      <circle cx="653" cy="320" r="7" fill="#12304A" stroke="#3E8FE0" stroke-width="2.5"/>
+      <text x="674" y="324" fill="#F2F6F4">SDA</text>
+      <circle cx="653" cy="392" r="7" fill="#4A3F12" stroke="#F2C744" stroke-width="2.5"/>
+      <text x="674" y="396" fill="#F2F6F4">SCL</text>
+    </g>
+
+    <!-- the glass, showing the face it will actually wear -->
+    <rect x="734" y="158" width="164" height="120" rx="6" fill="#05080A" stroke="#2A323A" stroke-width="1.5"/>
+    <g fill="#8ADCFF">
+      <rect x="752" y="184" width="56" height="56" rx="12"/>
+      <rect x="824" y="184" width="56" height="56" rx="12"/>
+    </g>
+    <g fill="#05080A">
+      <rect x="770" y="202" width="22" height="22" rx="4"/>
+      <rect x="842" y="202" width="22" height="22" rx="4"/>
+    </g>
+
+    <text x="816" y="308" text-anchor="middle" font-size="13" font-weight="bold" fill="#F2F6F4">SSD1306 OLED</text>
+    <text x="816" y="328" text-anchor="middle" font-size="11" fill="#8FA3AE">128 &#215; 64 &#183; I&#178;C &#183; address 0x3C</text>
+    <text x="816" y="360" text-anchor="middle" font-size="10.5" fill="#6F8592">Some modules print these four in a</text>
+    <text x="816" y="374" text-anchor="middle" font-size="10.5" fill="#6F8592">different order, and a few are 0x3D.</text>
+    <text x="816" y="388" text-anchor="middle" font-size="10.5" fill="#6F8592">Read the labels on YOUR board,</text>
+    <text x="816" y="402" text-anchor="middle" font-size="10.5" fill="#6F8592">not the picture.</text>
+  </g>
+
+  <!-- ── the honest bit ──────────────────────────────────────────
+       The board gives away power for free but not the bus, and a diagram
+       that glossed over that would waste somebody's afternoon. -->
+  <g font-family="Verdana,sans-serif">
+    <rect x="46" y="492" width="868" height="80" rx="10" fill="#FDF3E3" stroke="#E0801E" stroke-width="2"/>
+    <text x="64" y="516" font-size="12.5" font-weight="bold" fill="#8A4B12">SDA and SCL are not spare holes.</text>
+    <text x="64" y="535" font-size="11.5" fill="#6B4A22">This board has no separate I&#178;C socket. Those two pins belong to the socket the ESP32-CAM plugs into, so with the camera</text>
+    <text x="64" y="551" font-size="11.5" fill="#6B4A22">seated you cannot simply push a jumper in. Either seat the camera on a stacking header and take the bus off the spare tier, or</text>
+    <text x="64" y="567" font-size="11.5" fill="#6B4A22">solder a two-wire pigtail to those holes from underneath. Power and ground still come free from the block above.</text>
+  </g>
+</svg>

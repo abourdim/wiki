@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 520" width="960" height="520" role="img" aria-label="A top view of the motor driver board showing where the two areas you need are: the Reserve IO interface at the top left of the rectangular half, near the 3.3 volt regulator and the USB socket, and the ESP32-CAM socket out on the round half of the deck, next to the STC8G1K08 chip.">
+  <title>Where to look on the board</title>
+
+  <rect width="960" height="520" rx="18" fill="#F5F8F6"/>
+
+  <g font-family="Verdana,sans-serif">
+    <text x="46" y="46" font-size="21" font-weight="bold" fill="#16241D">Where to look on the board</text>
+    <text x="46" y="70" font-size="13" fill="#5B6E64">Top view, camera end to the right. Only the landmarks you need are labelled.</text>
+  </g>
+
+  <!-- ── the deck ─────────────────────────────────────────────────
+       A rectangle for the electronics half and a disc for the car half,
+       which is the shape of the real thing and the fastest way to work
+       out which way round you are holding it. -->
+  <g>
+    <circle cx="450" cy="300" r="168" fill="#20262B"/>
+    <rect x="118" y="196" width="340" height="208" rx="10" fill="#20262B"/>
+    <!-- LEGO holes on the disc, the other landmark you can feel for -->
+    <g fill="#14181C">
+      <circle cx="470" cy="160" r="15"/><circle cx="518" cy="168" r="15"/><circle cx="560" cy="192" r="15"/>
+      <circle cx="470" cy="440" r="15"/><circle cx="518" cy="432" r="15"/><circle cx="560" cy="408" r="15"/>
+      <circle cx="514" cy="212" r="15"/><circle cx="514" cy="388" r="15"/>
+    </g>
+  </g>
+
+  <!-- ── landmark: the battery, so the orientation is unmistakable ── -->
+  <rect x="300" y="236" width="104" height="128" rx="8" fill="#2B3238"/>
+  <text x="352" y="306" text-anchor="middle" font-family="Verdana,sans-serif" font-size="10" fill="#7C8891">battery</text>
+
+  <!-- ── landmark: USB and the power switch ──────────────────────── -->
+  <rect x="126" y="292" width="34" height="26" rx="4" fill="#8A929A"/>
+  <text x="143" y="332" text-anchor="middle" font-family="Verdana,sans-serif" font-size="9" fill="#7C8891">USB</text>
+  <rect x="128" y="348" width="52" height="24" rx="4" fill="#3B434A"/>
+  <text x="154" y="386" text-anchor="middle" font-family="Verdana,sans-serif" font-size="9" fill="#7C8891">power</text>
+
+  <!-- ── TARGET 1: the Reserve IO interface ──────────────────────── -->
+  <g>
+    <rect x="150" y="212" width="66" height="52" rx="5" fill="#2E4137" stroke="#159E5C" stroke-width="3"/>
+    <g fill="#5E7A69">
+      <circle cx="164" cy="224" r="3.5"/><circle cx="180" cy="224" r="3.5"/><circle cx="196" cy="224" r="3.5"/>
+      <circle cx="164" cy="236" r="3.5"/><circle cx="180" cy="236" r="3.5"/><circle cx="196" cy="236" r="3.5"/>
+      <circle cx="164" cy="248" r="3.5"/><circle cx="180" cy="248" r="3.5"/><circle cx="196" cy="248" r="3.5"/>
+      <circle cx="164" cy="258" r="3.5"/><circle cx="180" cy="258" r="3.5"/><circle cx="196" cy="258" r="3.5"/>
+    </g>
+  </g>
+  <path d="M216 224 L268 152 L560 152" fill="none" stroke="#159E5C" stroke-width="2.5" stroke-dasharray="6 5"/>
+  <circle cx="216" cy="224" r="5" fill="#159E5C"/>
+
+  <!-- ── TARGET 2: the ESP32-CAM socket ──────────────────────────── -->
+  <g>
+    <rect x="410" y="248" width="112" height="104" rx="7" fill="#2E4137" stroke="#E0801E" stroke-width="3"/>
+    <text x="466" y="284" text-anchor="middle" font-family="Verdana,sans-serif" font-size="10" fill="#C7DDD1">ESP32-CAM</text>
+    <!-- the bottom row, the one that carries SDA and SCL -->
+    <rect x="420" y="322" width="92" height="16" rx="4" fill="#141A17"/>
+    <g fill="#5E7A69">
+      <circle cx="430" cy="330" r="3"/><circle cx="443" cy="330" r="3"/><circle cx="456" cy="330" r="3"/>
+      <circle cx="469" cy="330" r="3"/><circle cx="482" cy="330" r="3"/><circle cx="495" cy="330" r="3"/>
+      <circle cx="508" cy="330" r="3"/>
+    </g>
+  </g>
+  <path d="M512 338 L580 420 L560 420" fill="none" stroke="#E0801E" stroke-width="2.5" stroke-dasharray="6 5"/>
+  <circle cx="512" cy="338" r="5" fill="#E0801E"/>
+
+  <!-- ── the two callout cards ───────────────────────────────────── -->
+  <g font-family="Verdana,sans-serif">
+    <rect x="560" y="120" width="354" height="118" rx="11" fill="#fff" stroke="#159E5C" stroke-width="2.5"/>
+    <text x="582" y="150" font-size="14" font-weight="bold" fill="#16241D">Reserve IO interface</text>
+    <text x="582" y="172" font-size="11.5" fill="#5B6E64">Twelve holes in four rows, silkscreened</text>
+    <text x="582" y="189" font-size="11.5" fill="#5B6E64">G &#183; 3.3V &#183; S. Top corner of the square</text>
+    <text x="582" y="206" font-size="11.5" fill="#5B6E64">half, near the 3.3V regulator.</text>
+    <text x="582" y="228" font-size="11.5" font-weight="bold" fill="#157A47">Take VCC and GND from here.</text>
+  </g>
+
+  <g font-family="Verdana,sans-serif">
+    <rect x="560" y="362" width="354" height="118" rx="11" fill="#fff" stroke="#E0801E" stroke-width="2.5"/>
+    <text x="582" y="392" font-size="14" font-weight="bold" fill="#16241D">ESP32-CAM socket, bottom row</text>
+    <text x="582" y="414" font-size="11.5" fill="#5B6E64">Eight holes along one long edge of the</text>
+    <text x="582" y="431" font-size="11.5" fill="#5B6E64">socket, marked 5V GND LED SCL IO15</text>
+    <text x="582" y="448" font-size="11.5" fill="#5B6E64">SDA IO2 IO4. Follow the silkscreen.</text>
+    <text x="582" y="470" font-size="11.5" font-weight="bold" fill="#A3560F">Take SDA and SCL from here.</text>
+  </g>
+</svg>

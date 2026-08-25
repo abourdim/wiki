@@ -91,6 +91,7 @@
           <li><a href="#walkthrough">Step-by-step: clone, flash &amp; test</a></li>
           <li><a href="#understanding">Understanding the code (for newbies)</a></li>
           <li><a href="#features">Features vs. stock sketch</a></li>
+          <li><a href="#oled">OLED screen (optional)</a></li>
           <li><a href="#layout">Repository layout</a></li>
           <li><a href="#builds">Build systems</a></li>
           <li><a href="#troubleshooting">Troubleshooting</a></li>
@@ -546,12 +547,56 @@ void Car_forward() {
         <tr><td>Classic CV (no models, no internet)</td><td><strong>Motion</strong> (frame differencing), <strong>Line</strong> follower (adaptive threshold, dark-on-light or light-on-dark), and <strong>Colour chase</strong> (rg-chromaticity blob tracking) &mdash; all plain pixel maths, running at full frame rate.</td></tr>
         <tr><td>Offline model cache</td><td>Vision features cache CDN scripts/models in IndexedDB after first use over a network with internet, then work from the car's own AP afterward.</td></tr>
         <tr><td>Follow-me (autonomous)</td><td>Proportional controller drives the car toward a chosen COCO-SSD target (person, ball, dog, cat, bottle, chair) via the same <code>/joystick</code> endpoint manual driving uses, so the 500ms failsafe covers it too. Disarmed by default; any manual input takes over instantly.</td></tr>
-        <tr><td>Snapshot &amp; video recording</td><td>Capture panel downloads a still JPEG or records <code>.webm</code>/<code>.mp4</code> client-side (Canvas + MediaRecorder).</td></tr>
+        <tr><td>Snapshot &amp; video recording</td><td>Capture panel downloads a still JPEG or records <code>.webm</code>/<code>.mp4</code> client-side (Canvas + MediaRecorder). Both carry the Workshop-DIY mark, stamped into the pixels rather than overlaid on the page.</td></tr>
+        <tr><td>OLED screen (optional)</td><td>128&times;64 SSD1306 at <code>0x3C</code> on the motor bus: a boot self-test (driver board, camera, network, address), a status readout, and an animated face once a browser connects. With no module fitted the car behaves exactly as before. See <a href="#oled">OLED screen</a>.</td></tr>
         <tr><td>Redesigned control page</td><td>Dark mission-control / camera-viewfinder HUD theme, grouped panels, live slider readouts, responsive layout.</td></tr>
         <tr><td>Camera init resilience</td><td>Retries at a lower XCLK before giving up, blinks a visible LED error pattern, enables the brownout-detector workaround.</td></tr>
       </table>
 
       <p>Line and Colour chase drive the car and share Follow-me's arbiter and safety rules: manual input always wins, only one autonomous mode runs at a time, and a lost target stops the car and then disarms. Motion is passive and keeps running alongside whatever else is steering.</p>
+
+      <h2 id="oled">OLED screen (optional)</h2>
+      <p>A 128&times;64 SSD1306 module at <code>0x3C</code> goes on <strong>the same two wires as the motor driver</strong> &mdash; GPIO 14 (SDA) and GPIO 13 (SCL). Those pins are bonded to the driver board and cannot be moved, which turns out not to matter: I&sup2;C is a party line, every message starts with an address, and <code>0x3C</code> and the driver's <code>0x30</code> do not collide. <strong>The screen costs no pins at all.</strong></p>
+      <div class="diagram" dir="ltr"><img src="video-car-oled-bus.svg" alt="The ESP32-CAM talks to the motor driver at 0x30 and the screen at 0x3C down the same two wires" style="max-width:100%;display:block;margin:0 auto"></div>
+      <p>With no screen fitted the car behaves exactly as it did before: the module is probed at boot and everything no-ops if it isn't there. <code>/status</code> reports <code>"oled": 0</code> or <code>1</code>.</p>
+
+      <h3>Where the four pins live</h3>
+      <div class="diagram" dir="ltr"><img src="video-car-oled-board.svg" alt="Top view of the driver board with the Reserve IO interface and the ESP32-CAM socket marked" style="max-width:100%;display:block;margin:0 auto"></div>
+      <p>The board hands you two of the four for free and makes you work for the other two. The <strong>Reserve IO interface</strong>, in the corner of the square half, is four 3-pin ports silkscreened <code>G &middot; 3.3V &middot; S</code>; all four rows share the same 3.3V rail off the board's own AMS1117 regulator, so any row will do. <strong>VCC and GND come from here, no soldering.</strong></p>
+      <p>The bus itself only exists at the socket the camera plugs into, where the silkscreen helpfully names it: <code>5V &middot; GND &middot; LED &middot; SCL &middot; IO15 &middot; SDA &middot; IO2 &middot; IO4</code>. <code>LED</code> is GPIO 12, <code>SCL</code> is GPIO 13, <code>SDA</code> is GPIO 14 &mdash; exactly the numbers the sketch uses.</p>
+      <table class="wikitable">
+        <tr><th>OLED pin</th><th>Goes to</th><th>Where</th></tr>
+        <tr><td><code>VCC</code></td><td>3.3V</td><td><code>3.3V</code> column, Reserve IO interface</td></tr>
+        <tr><td><code>GND</code></td><td>GND</td><td><code>G</code> column, same block</td></tr>
+        <tr><td><code>SDA</code></td><td>GPIO 14</td><td>hole marked <code>SDA</code>, ESP32-CAM socket</td></tr>
+        <tr><td><code>SCL</code></td><td>GPIO 13</td><td>hole marked <code>SCL</code>, ESP32-CAM socket</td></tr>
+      </table>
+      <div class="diagram" dir="ltr"><img src="video-car-oled-wiring.svg" alt="The four wires: VCC and GND from the expansion block, SDA and SCL from the camera socket" style="max-width:100%;display:block;margin:0 auto"></div>
+      <div class="ambox">
+        <strong>SDA and SCL are not spare holes.</strong> This board has no separate I&sup2;C connector, and with the camera seated you cannot push a jumper into them. Three ways round it: reseat the camera on a stacking header and take the bus off the spare tier; solder a two-wire pigtail to those holes from underneath; or tap GPIO 14 and GPIO 13 on the ESP32-CAM's own pads. And <strong>take the 3.3V from the expansion block, never from the ESP32-CAM's own 3V3 pin</strong> &mdash; that regulator is already carrying the camera and the radio.
+      </div>
+
+      <h3>What it shows</h3>
+      <table class="wikitable">
+        <tr><th>When</th><th>Screen</th></tr>
+        <tr><td>3s at boot</td><td>The Workshop-DIY logo across the full panel.</td></tr>
+        <tr><td>1.8s after that</td><td><code>VideoCar</code> and the version number.</td></tr>
+        <tr><td>4s after that</td><td>Self-test: driver board at <code>0x30</code> (<code>ok</code> or <code>MISSING</code>), camera and PSRAM, network, and <strong>the address to type</strong> &mdash; the line that in station mode previously existed nowhere but the serial console.</td></tr>
+        <tr><td>Nobody connected</td><td>Status readout: address, network and link quality, Speed and Trim, uptime.</td></tr>
+        <tr><td>Browser connected</td><td>The face: it blinks, winks, looks the way it is driving, gets dizzy after a spin, worries when the failsafe cuts the motors, and is startled by a failed frame grab.</td></tr>
+        <tr><td>30s / 2min / 25min idle</td><td>Dims, then drifts the address around the glass, then a drifting sleeping face. <strong>The panel is never switched off</strong> &mdash; a dark screen is indistinguishable from a flat battery, and the drift is what handles burn-in.</td></tr>
+        <tr><td>Camera failure</td><td>A dedicated screen naming the error code and what to check, instead of only the triple-flashing LED.</td></tr>
+      </table>
+
+      <h3>Two tasks, one bus</h3>
+      <p>Worth knowing if you extend this. Motor writes come from the HTTP server's task; the screen is drawn from <code>loop()</code>. Two FreeRTOS tasks using <code>Wire</code> on one bus with no interlock interleave their transactions &mdash; the screen receives motor bytes and the driver board receives pixel data, only under load. Three rules handle it:</p>
+      <table class="wikitable">
+        <tr><th>Rule</th><th>Why</th></tr>
+        <tr><td>A mutex in <code>SetMotor.h</code> wraps every transaction</td><td>Motors wait indefinitely for it (a drive command must never be dropped); the screen does not wait at all (a skipped frame costs nothing).</td></tr>
+        <tr><td>The screen never redraws while the wheels are turning</td><td>A full frame is about 90ms of bus at 100kHz, and that must not land between a joystick command and the motors.</td></tr>
+        <tr><td>A still face is not redrawn</td><td>A parked car spends no bus time on its own eyes.</td></tr>
+      </table>
+      <p>The bus stays at 100kHz rather than the 400kHz <code>Adafruit_SSD1306</code> would normally switch to: the thing at <code>0x30</code> is an STC8G1K08, an undocumented slave MCU that still has to track START/STOP conditions on traffic addressed elsewhere.</p>
 
       <h2 id="layout">Repository layout</h2>
       <pre><code>Codes/                  Original Arduino-IDE-style sketch layout (all 4 sketches)
@@ -621,6 +666,14 @@ report.html               Detailed change report -- what changed, why, and what'
           <td>Line follower weaves or loses the line</td>
           <td>Lower <code>LINE_KP</code> rather than raising it (latency-dominated loop). Raise <code>LINE_TURN_CUT</code> if it misses corners.</td>
         </tr>
+        <tr>
+          <td>The OLED screen stays blank</td>
+          <td>Check <code>/status</code>: <code>"oled": 0</code> means nothing answered at <code>0x3C</code> when the car booted &mdash; so wiring or address (a few modules are <code>0x3D</code>), or swapped SDA/SCL: SDA is GPIO 14, SCL is GPIO 13. <code>"oled": 1</code> with a genuinely blank panel is a wiring or power fault rather than a timeout &mdash; nothing in the firmware switches the panel off. Check the 3.3V feed first.</td>
+        </tr>
+        <tr>
+          <td>The screen works but the car stopped driving</td>
+          <td>Almost always the OLED library re-initialising the bus onto its own default pins and taking the motors off GPIO 14/13 with it. <code>oledInit()</code> passes <code>periphBegin = false</code> to <code>begin()</code> specifically to prevent this.</td>
+        </tr>
       </table>
 
       <div class="ambox">
@@ -635,7 +688,7 @@ report.html               Detailed change report -- what changed, why, and what'
 </div>
 
 <div class="footer-wiki">
-  This page was created on 27 July 2026 and last edited on 27 July 2026. Content adapted from the <a href="https://github.com/abourdim/video-car">video-car</a> repository README.
+  This page was created on 27 July 2026 and last edited on 25 August 2026. Content adapted from the <a href="https://github.com/abourdim/video-car">video-car</a> repository README.
 </div>
 
 </body>
