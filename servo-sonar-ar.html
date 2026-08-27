@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>سيرفو-سونار (esp32c3_super_mini_servo_sonar-rxy) - Wiki</title>
+<link rel="stylesheet" href="wiki.css">
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-inner">
+    <a class="wiki-logo" href="https://workshop-diy.org"><img src="logo.png" alt="شعار الويكي"></a>
+    <a class="masthead-site-link" href="https://workshop-diy.org">workshop-diy.org</a>
+    <div class="masthead-title">
+      Wiki
+      <span class="sub">قاعدة المعرفة الشخصية والمجانية</span>
+    </div>
+    <div class="masthead-actions">
+      <div class="lang-switch" role="group" aria-label="اللغة">
+        <a href="servo-sonar.html" class="lang-switch-btn" title="Français"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="20" height="40" fill="#002395"/><rect x="20" width="20" height="40" fill="#fff"/><rect x="40" width="20" height="40" fill="#ED2939"/></svg></a>
+        <a href="servo-sonar-en.html" class="lang-switch-btn" title="English"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="60" height="40" fill="#012169"/><path d="M0 0L60 40M60 0L0 40" stroke="#fff" stroke-width="6.5"/><path d="M0 0L60 40M60 0L0 40" stroke="#C8102E" stroke-width="3.5"/><path d="M30 0V40M0 20H60" stroke="#fff" stroke-width="11"/><path d="M30 0V40M0 20H60" stroke="#C8102E" stroke-width="6.5"/></svg></a>
+        <a href="servo-sonar-ar.html" class="lang-switch-btn active" title="العربية"><svg width="24" height="16" viewBox="0 0 900 600"><defs><clipPath id="glServoSonarAr"><rect width="450" height="600"/></clipPath></defs><rect width="450" height="600" fill="#006233"/><rect x="450" width="450" height="600" fill="#FFF"/><g fill="#D21034" transform="translate(450,300)"><circle r="125"/><circle cx="25" r="100" fill="#FFF"/><g clip-path="url(#glServoSonarAr)" transform="translate(-450,-300)"><circle cx="475" cy="300" r="100" fill="#006233"/></g><path d="M85-12l22 67h71l-57 42 22 67-58-42-57 42 21-67-57-42h71z"/></g></svg></a>
+      </div>
+      <div class="masthead-search">
+        <input type="text" placeholder="بحث" disabled>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wiki-layout">
+
+  <div class="sidebar">
+    <h3>التصفح</h3>
+    <ul>
+      <li><a href="index-ar.html">الصفحة الرئيسية</a></li>
+      <li><a href="#">أحدث التغييرات</a></li>
+      <li><a href="#">صفحة عشوائية</a></li>
+    </ul>
+    <h3>التصنيفات</h3>
+    <ul>
+      <li><a href="index-ar.html">شبكات</a></li>
+      <li><a href="index-ar.html">Linux</a></li>
+      <li><a href="index-ar.html">Windows</a></li>
+      <li><a href="index-ar.html">إلكترونيات</a></li>
+      <li><a href="index-ar.html">ESP32</a></li>
+      <li><a href="index-ar.html">micro:bit</a></li>
+    </ul>
+    <h3>أدوات</h3>
+    <ul>
+      <li><a href="https://github.com/abourdim/esp32c3_super_mini_servo_sonar-rxy">عرض المستودع المصدري</a></li>
+    </ul>
+  </div>
+
+  <div class="content-wrap">
+    <div class="article-tabs">
+      <span class="active">المقال</span>
+      <span>نقاش</span>
+    </div>
+
+    <article>
+      <h1 class="page-title">سيرفو-سونار (esp32c3_super_mini_servo_sonar-rxy)</h1>
+
+      <div class="infobox">
+        <div class="infobox-title">سيرفو-سونار</div>
+        <table>
+          <tr><th>النوع</th><td>عربة بمحركَي سيرفو دائريَّين ومستشعر مسافة ثابت، والواجهة يحملها البرنامج الثابت</td></tr>
+          <tr><th>العتاد</th><td>ESP32-C3 SuperMini مع لوحة <code dir="ltr">34_richa_c3_servo_sonar</code> v1</td></tr>
+          <tr><th>المستشعرات</th><td>HC-SR04 ثابت &mdash; بلا رأس دوّار</td></tr>
+          <tr><th>البرنامج الثابت</th><td>S2-v5 (‏Arduino / PlatformIO)</td></tr>
+          <tr><th>التطبيق</th><td>rxy_web v2.34</td></tr>
+          <tr><th>اسم BLE</th><td><code dir="ltr">diy_app_s2</code></td></tr>
+          <tr><th>اسم OTA</th><td><code dir="ltr">wdiy-servo-sonar</code></td></tr>
+          <tr><th>اللغات</th><td>English, Français, العربية</td></tr>
+          <tr><th>المستودع</th><td><a href="https://github.com/abourdim/esp32c3_super_mini_servo_sonar-rxy">github.com/abourdim/esp32c3_super_mini_servo_sonar-rxy</a></td></tr>
+        </table>
+      </div>
+
+      <div class="applink">
+        <a href="https://abourdim.github.io/rxy_web/" target="_blank" rel="noopener"><img class="applink-qr" src="qr/servo-sonar.svg" alt="QR: https://abourdim.github.io/rxy_web/" width="104" height="104"></a>
+        <div class="applink-text">
+          <div class="applink-title">افتح التطبيق</div>
+          <div class="applink-url" dir="ltr"><a href="https://abourdim.github.io/rxy_web/" target="_blank" rel="noopener">https://abourdim.github.io/rxy_web/</a></div>
+          <div class="applink-hint">امسح هذا الرمز بهاتفك لفتح التطبيق مباشرة. لا حاجة لأي تثبيت: يعمل داخل المتصفح.</div>
+        </div>
+      </div>
+
+      <p class="hatnote">يتناول هذا المقال <strong>سيرفو-سونار</strong>، وهو نسخة <em>مختصرة</em> عمدًا من <a href="https://github.com/abourdim/esp32c3_super_mini_robot-bit-rxy">bit-rxy («b3»)</a>: محرّكا سيرفو للدفع، ومستشعر مسافة واحد، ولا شيء غير ذلك. بلا طنّان، ولا شريط مصابيح، ولا شاشة، ولا قياس بطارية.</p>
+      <p class="hatnote">المستودع <em>اشتقاق يحمل تاريخ b3 كاملًا</em>، وليس نسخة: الإصلاحات تنتقل بين الروبوتين عبر <code dir="ltr">cherry-pick</code> بدل النقل اليدوي. للتطبيق الذي يقوده، انظر <a href="rxy-web-ar.html">rxy-web</a>. وللروبوت الذي اشتُقّ منه، انظر <a href="bit-rxy-ar.html">bit-rxy</a>. وللنقل الآخر، ذي الرأس الدوّار، انظر <a href="robot-mv-ar.html">روبوت MV</a>.</p>
+
+      <div class="toc">
+        <div class="toc-title">المحتويات</div>
+        <ol>
+          <li><a href="#overview">نظرة عامة</a></li>
+          <li><a href="#quickstart">بداية سريعة</a></li>
+          <li><a href="#walkthrough">خطوة بخطوة: الاستنساخ والتحميل والاختبار</a></li>
+          <li><a href="#understanding">فهم الشيفرة (للمبتدئين)</a></li>
+          <li><a href="#board">اللوحة وتوزيع أطرافها</a></li>
+          <li><a href="#panels">اللوحات الأربع</a></li>
+          <li><a href="#trim">معايرة العجلتين، والخلل الذي جعلها مفيدة</a></li>
+          <li><a href="#ota">التحديث عبر WiFi</a></li>
+          <li><a href="#troubleshooting">حل المشكلات</a></li>
+        </ol>
+      </div>
+
+      <h2 id="overview">نظرة عامة</h2>
+      <p><strong>الروبوت يملك واجهته بنفسه.</strong> التطبيق لا يعرف أي روبوت مسبقًا: يتصل، ويطلب الإعدادات، ثم يرسم ما يصله. لذلك يرسل سيرفو-سونار لوحاته بنفسه، ولا يحتاج التطبيق إلى إعادة بناء من أجله أبدًا.</p>
+      <p>ما يميّز هذه اللوحة هو ما <em>لا</em> تملكه. فـ b3 يقود طنّانًا وشريط NeoPixel ومصباحَين وشاشة OLED وخط قياس جهد البطارية. أما هنا فلم يبقَ سوى الدفع والمسافة. ومع ذلك لم يُفرَّغ البرنامج الثابت: الوحدات الغائبة تُطفَأ بسطر <code dir="ltr">#define</code> واحد فتختفي عند الترجمة، بدل أن تفشل بصمت أثناء التشغيل.</p>
+      <p>ولهذا الاختصار أثر مباشر على توزيع الأطراف. <strong>الطرف GPIO&nbsp;10 متاح هنا فقط لأن المصابيح والشريط اختفت</strong> &mdash; ففي b3 هذا الطرف هو <code dir="ltr">CONFIG_PIN_LED_RED</code> ومخرج الشريط. وهذا هو فرق التوزيع الوحيد بين الروبوتين: أما HC-SR04 فيبقى على 21 / 20 في كليهما.</p>
+
+      <div class="ambox">من دون رأس دوّار <strong>لا يوجد رادار</strong> بمعنى الودجة القطبية في rxy_web: فتلك تحتاج إلى زاوية، وهذا الروبوت لا ينشر أي زاوية. تظهر المسافة كمؤشر ورسم بياني وتنبيه. أما المسح، فانظر <a href="robot-mv-ar.html">روبوت MV</a>.</div>
+
+      <h2 id="quickstart">بداية سريعة</h2>
+      <ol>
+        <li>شغّل الروبوت. من دون شاشة ولا مصباح، العلامة الوحيدة على الحياة هي ظهور اسم BLE في قائمة الأجهزة.</li>
+        <li>افتح <a href="https://abourdim.github.io/rxy_web/">rxy_web</a> في Chrome أو Edge، على هاتف أو حاسوب.</li>
+        <li>اضغط <strong>Connect</strong> واختر <code dir="ltr">diy_app_s2</code> من القائمة.</li>
+        <li>تظهر اللوحة من تلقاء نفسها. اختر <strong>Expert</strong> من محدّد <em>Level</em> لرؤية كل شيء.</li>
+        <li>سِر إلى الأمام. إن انحرف إلى جهة، صحّح ذلك بمنزلقَي <strong>Trim L</strong> و<strong>Trim R</strong> من دون إعادة تحميل &mdash; انظر <a href="#trim">معايرة العجلتين</a>.</li>
+      </ol>
+
+      <h2 id="walkthrough">خطوة بخطوة: الاستنساخ والتحميل والاختبار</h2>
+      <p>يمضي هذا المسار من مستودع فارغ إلى روبوت مُتحقَّق منه: يسير في الاتجاه الصحيح، ويسير مستقيمًا، ويقيس.</p>
+
+      <h3>1. استنساخ المستودع</h3>
+      <pre dir="ltr"><code>git clone https://github.com/abourdim/esp32c3_super_mini_servo_sonar-rxy.git
+cd esp32c3_super_mini_servo_sonar-rxy/01_software/01_app</code></pre>
+
+      <h3>2. الترجمة</h3>
+      <p>يستعمل المشروع PlatformIO. لا شيء لضبطه: المنصّة والمكتبات مثبّتة في <code dir="ltr">platformio.ini</code> &mdash; أي <code dir="ltr">espressif32 @ 6.7.0</code>، وهي نفسها في b3، ليُبنى الروبوتان بالأدوات ذاتها.</p>
+      <pre dir="ltr"><code>pio run -e esp32-c3-devkitm-1</code></pre>
+
+      <h3>3. التحميل عبر USB</h3>
+      <pre dir="ltr"><code>pio run -e esp32-c3-devkitm-1 -t upload</code></pre>
+      <p>تُحمَّل لوحة ESP32-C3 SuperMini عبر منفذ USB الأصلي فيها، من دون محوّل تسلسلي. وثمة إعدادان في <code dir="ltr">platformio.ini</code> وُضِعا لهذا الغرض وحده، ولا يجوز «تحسينهما»:</p>
+      <ul>
+        <li><code dir="ltr">upload_speed = 115200</code> &mdash; الانتقال إلى 460&nbsp;800 في منتصف التحميل يُسقِط نقطة USB-CDC («<em>No serial data received</em>»).</li>
+        <li><code dir="ltr">upload_flags = --no-stub</code> &mdash; حين يتسلّم الـ stub المهمّة، تُعاد نقطة USB-CDC إلى التعريف فيقع أول أمر بعدها في فراغ («<em>Unable to verify flash chip connection</em>»). البقاء على مُقلِع ROM أبطأ، نحو 60 إلى 90 ثانية، لكنه موثوق.</li>
+      </ul>
+      <p>وإن فشل التحميل رغم ذلك، أبقِ زر <strong>BOOT</strong> مضغوطًا أثناء توصيل اللوحة.</p>
+
+      <h3>4. التحقق من المنفذ التسلسلي</h3>
+      <pre dir="ltr"><code>pio device monitor</code></pre>
+      <p>ما يهمّ عند الإقلاع:</p>
+      <pre dir="ltr"><code>[BLE] init - device_name: diy_app_s2
+[BLE] service_uuid: ...
+[BLE] advertising: YES</code></pre>
+      <div class="ambox">بسبب USB-CDC الأصلي، يتّصل مراقب المنفذ التسلسلي <em>بعد</em> الإقلاع: في الغالب لن ترى شيئًا عند البدء. هذا طبيعي وليس عطلًا. وقد وُضِع <code dir="ltr">monitor_dtr = 0</code> و<code dir="ltr">monitor_rts = 0</code> كي لا يُعيد فتحُ المراقب تشغيلَ اللوحة في وضع التحميل.</div>
+
+      <h3>5. اختبار اتجاه السير</h3>
+      <p>اتصل، وانتقل إلى <strong>Expert</strong>، ثم اضغط سهم <em>الأعلى</em> في لوحة الاتجاهات. يجب أن يتقدّم الروبوت.</p>
+      <p>وإن <strong>دار حول نفسه</strong> بدل التقدّم، فالموصّلان معكوسان: بدّل بين <code dir="ltr">CONFIG_PIN_SERVO_LEFT</code> و<code dir="ltr">CONFIG_PIN_SERVO_RIGHT</code> في <code dir="ltr">00_config.h</code>. فأيّ موصّل هو «اليسار» يتوقف على طريقة تركيب السيرفو على الهيكل، لا على اللوحة.</p>
+
+      <h3>6. اختبار المستشعر</h3>
+      <p>انتقل إلى <strong>Distance</strong> في محدّد <em>Level</em>، ثم مرّر يدك أمام HC-SR04. ينبغي أن يستجيب المؤشر والرسم البياني فورًا.</p>
+
+      <h3>7. ضبط الخط المستقيم</h3>
+      <p>أبقِ <em>الأمام</em> مضغوطًا بضعة أمتار على أرض مستوية. إن انحرف الروبوت، صحّح بـ <strong>Trim L</strong> / <strong>Trim R</strong> من لوحة <em>Drive</em> أو <em>Expert</em>، وأنت تقود. ويؤكّد المنفذ التسلسلي الحفظ:</p>
+      <pre dir="ltr"><code>[TRIM] saved L=0 R=3</code></pre>
+
+      <div class="ambox ambox-success">الحالة السليمة تبدو هكذا: يتقدّم الروبوت حين تطلب التقدّم، ويحافظ على خطّه بضعة أمتار، وتتغيّر المسافة حين تقترب يدك &mdash; أي تأكيد النظامين الفرعيين كلٍّ على حدة.</div>
+
+      <h2 id="understanding">فهم الشيفرة (للمبتدئين)</h2>
+      <p class="hatnote">لمن يعمل روبوته ويريد فتح الشيفرة لتعديلها. يفترض أساسيات C/C++ ولا شيء خاصًّا بهذا المشروع.</p>
+
+      <h3>بنية النظام، مصوَّرة</h3>
+      <div class="diagram" dir="ltr"><pre style="margin:0;border:0;padding:0;background:none;">┌──────────────────┐        Bluetooth         ┌──────────────────┐
+│                  │  ◄─────────────────────► │                  │
+│   📱 rxy_web     │        BLE / UART        │  🤖 Servo-Sonar  │
+│    (browser)     │                          │   (ESP32-C3)     │
+│                  │                          │                  │
+│  draws whatever  │   GETCFG  ──────────►    │   owns the       │
+│  the robot sends │   ◄────── CFG (base64)   │   layout         │
+└──────────────────┘                          └────────┬─────────┘
+                                                       │
+                         ┌─────────────────────────────┼─────────────────────┐
+                         │                             │                     │
+                    ┌────▼─────┐                 ┌─────▼────┐          ┌─────▼─────┐
+                    │ left     │                 │ right    │          │  HC-SR04  │
+                    │ servo    │                 │ servo    │          │  21 / 20  │
+                    │ GPIO 10  │                 │  GPIO 7  │          │   fixed   │
+                    │   (J2)   │                 │   (J3)   │          │           │
+                    └──────────┘                 └──────────┘          └───────────┘</pre></div>
+
+      <h3>البروتوكول في ثلاث رسائل</h3>
+      <p>كل شيء يمرّ عبر خدمة BLE من نوع UART. وثلاثة تبادلات تكفي لفهمه:</p>
+      <table class="wikitable">
+        <tr><th>الرسالة</th><th>الاتجاه</th><th>الدور</th></tr>
+        <tr><td><code dir="ltr">GETCFGVER</code></td><td>التطبيق ← الروبوت</td><td>«ما نسخة واجهتك؟» يردّ الروبوت بـ <code dir="ltr">CFGVER &lt;رمز&gt;</code>. وإن كانت هذه الواجهة محفوظة في ذاكرة الهاتف، يُتجاوز النقل كله &mdash; ويظهر في السجل حينها <code dir="ltr">Client had this layout cached - transfer skipped</code>.</td></tr>
+        <tr><td><code dir="ltr">GETCFG</code></td><td>التطبيق ← الروبوت</td><td>أرسل لي واجهتك. يردّ الروبوت بسلسلة أجزاء بترميز base64، مقطّعة على قياس MTU المتفاوَض عليه.</td></tr>
+        <tr><td><code dir="ltr">SET</code> / <code dir="ltr">UPD</code></td><td>في الاتجاهين</td><td><code dir="ltr">SET</code> = المستخدم لمس ودجة. و<code dir="ltr">UPD</code> = الروبوت ينشر قيمة (مسافة، سرعة، زمن تشغيل، معايرة).</td></tr>
+      </table>
+      <p>ورمز النسخة ليس رقمًا يُحدَّث يدويًا، بل بصمة تُحسَب على الواجهة <em>وعلى</em> <code dir="ltr">B3_FIRMWARE_VERSION</code> معًا. فأي تعديل في لوحة يغيّر الرمز من تلقاء نفسه، وأي تعديل تصادف أن أعطى البصمة ذاتها يظلّ متمايزًا بنسخة البرنامج الثابت.</p>
+
+      <h3>الملفات، بترتيب أهميتها</h3>
+      <table class="wikitable">
+        <tr><th>الملف</th><th>وظيفته</th></tr>
+        <tr><td><code dir="ltr">00_config.h</code></td><td>كل الأطراف وكل مفاتيح الميزات. وهو الملف الوحيد الذي يلزم قراءته لفهم اللوحة.</td></tr>
+        <tr><td><code dir="ltr">01_src.ino</code></td><td>‏<code dir="ltr">setup()</code> و<code dir="ltr">loop()</code>. قصير وواضح عن قصد.</td></tr>
+        <tr><td><code dir="ltr">03_bit-rxy.cpp</code></td><td>بروتوكول BLE، والواجهات المرمّزة، وتوجيه الودجات. وهو الملف الأكبر.</td></tr>
+        <tr><td><code dir="ltr">04_tasks.cpp</code></td><td>مزج القيادة: لوحة الاتجاهات ولوحة الدوران وعصا التحكم ← سرعتا العجلتين، ثم تطبيق المعايرة.</td></tr>
+        <tr><td><code dir="ltr">09_servos.cpp</code></td><td>محرّكا الدفع والإيقاف النظيف.</td></tr>
+        <tr><td><code dir="ltr">12_ultrasonic.cpp</code></td><td>قياس واحد بـ HC-SR04، بسقف 15&nbsp;ملّي ثانية &mdash; أي نحو 2٫5&nbsp;م، وبعدها يُعَدّ القياس لاغيًا بدل تعطيل الحلقة.</td></tr>
+        <tr><td><code dir="ltr">17_ota.cpp</code></td><td>وضع WiFi، والضغط المطوّل على الزر، وبوابة الإعداد.</td></tr>
+        <tr><td><code dir="ltr">gen_layouts.py</code></td><td>يولّد الواجهات الأربع ويدرجها في <code dir="ltr">03_bit-rxy.cpp</code>. انظر أدناه.</td></tr>
+      </table>
+
+      <h3>اللوحات مولَّدة، لا مكتوبة يدويًا</h3>
+      <pre dir="ltr"><code>python 01_software/01_app/gen_layouts.py</code></pre>
+      <p>يعيد السكربت بناء الواجهات الأربع ويدرجها في الشيفرة. والأهم أنه <strong>يفشل</strong> بدل أن يُخرج لوحة معطوبة، وذلك على ثلاثة فحوص:</p>
+      <ul>
+        <li>تداخل ودجتين؛</li>
+        <li>ودجة تتجاوز حدود مجموعتها؛</li>
+        <li>معرّف ودجة <em>لا</em> يقابله معالِج إدخال <em>ولا</em> مرسِل قياسات.</li>
+      </ul>
+      <p>والأخير هو الأهم: زرّ يبدو حيًّا ولا يفعل شيئًا أسوأ من زرّ غائب. ولهذا السبب أُعيد بناء لوحات الاختبار هنا بدل نقلها من b3 كما هي &mdash; فنقلها بلا إعادة تحقّق هو بالضبط ما سمح بمرور سطر تعليمات مبتور.</p>
+
+      <h3>مطبّ مؤقتات PWM (وهو لا يقع هنا)</h3>
+      <p>يستدعي <code dir="ltr">setup()</code> الأمر <code dir="ltr">ESP32PWM::allocateTimer(0)</code> مرة واحدة، ويُربَط محرّكا سيرفو: والعدد يتطابق تمامًا. ويجدر معرفة سبب تدوين هذه التفصيلة &mdash; فإن أضفت محرّكًا ثالثًا، رأسًا دوّارًا مثلًا، فإن ESP32Servo لا ينبّهك: يطبع <code dir="ltr">All PWM timers allocated!</code> ثم <strong>يتوقف داخل <code dir="ltr">attach()</code></strong>، فلا يعود <code dir="ltr">setup()</code> أبدًا.</p>
+      <p>وهذا غير مرئي من الخارج: فـ NimBLE يكون قد انطلق على مهمّته الخاصة، فيظلّ الروبوت <em>يبثّ</em> ويظلّ التطبيق <em>يتصل</em>. غير أنه لا يردّ على شيء. يبدو الأمر كخلل في البروتوكول، وليس كذلك. محرّك إضافي يعني <code dir="ltr">allocateTimer()</code> إضافيًّا.</p>
+
+      <h2 id="board">اللوحة وتوزيع أطرافها</h2>
+      <p>المخطط: <code dir="ltr">01_kicad/31_richa_c3_move/34_richa_c3_servo_sonar/v1</code>.</p>
+
+      <table class="wikitable">
+        <tr><th>GPIO</th><th>الموصّل</th><th>الاستعمال</th></tr>
+        <tr><td>10</td><td>‏J2، الطرف 3</td><td>سيرفو العجلة اليسرى</td></tr>
+        <tr><td>7</td><td>‏J3، الطرف 3</td><td>سيرفو العجلة اليمنى</td></tr>
+        <tr><td>21</td><td>&mdash;</td><td>‏HC-SR04 <em>trig</em></td></tr>
+        <tr><td>20</td><td>&mdash;</td><td>‏HC-SR04 <em>echo</em></td></tr>
+        <tr><td>0</td><td>زر BOOT في الوحدة</td><td>ضغط 3 ثوانٍ = OTA، و8 ثوانٍ = نسيان WiFi</td></tr>
+      </table>
+
+      <p>أما الطرفان 6 و3، اللذان يحملان السيرفو في b3، فغير مستعملين هنا. وبالمقابل لا يكون GPIO&nbsp;10 متاحًا في b3: فهو المصباح الأحمر ومخرج الشريط.</p>
+
+      <div class="ambox ambox-warning"><strong>خط تغذية السيرفو يحتاج مكثّفًا كبيرًا.</strong> يتشارك المحرّكان تغذية <code dir="ltr">VCC</code> مع ESP32، وليس على اللوحة v1 سوى 100&nbsp;نانوفاراد على ذلك الخط. وهذان محرّكا <em>الدفع</em>: يعملان باستمرار لا من حين لآخر، ومحرّك SG90 يسحب نحو 700&nbsp;مِلّي أمبير عند التوقف القسري، مع اندفاع أكبر عند الانطلاق. و100&nbsp;نانوفاراد لا تفعل شيئًا عند هذا التيار: يهبط الجهد فيُعاد تشغيل C3 أثناء السير. أضف <strong>470 إلى 1000&nbsp;ميكروفاراد</strong> عند موصّلات السيرفو، وغذِّها مباشرة من مِربَط الدخل بدل المرور عبر طرف 5&nbsp;فولت في الوحدة، كي لا يمرّ تيار السيرفو عبر الوحدة.</div>
+
+      <h2 id="panels">اللوحات الأربع</h2>
+      <p>يقدّم b3 ثماني لوحات. خمس منها تقود عتادًا غير موجود على هذه اللوحة، فبقيت أربع. ينتقَل بينها بمحدّد <strong>Level</strong>، والاختيار محفوظ في NVS، فانقطاع التيار لا يُرجعك إلى مستوى المبتدئ.</p>
+
+      <table class="wikitable">
+        <tr><th>اللوحة</th><th>ما تحتويه</th></tr>
+        <tr><td><strong>Beginner</strong></td><td>لوحة اتجاهات، ومؤشر مسافة، وتنبيه عائق. بلا منزلق سرعة: في هذا المستوى لوحة الاتجاهات <em>هي</em> أداة التحكم بالسرعة، ووجود ثانية لا يدعو إلا إلى سؤال «لماذا لا يتحرك».</td></tr>
+        <tr><td><strong>Expert</strong></td><td>لوحة اتجاهات + عصا تحكم + سرعة + STOP + لوحة دوران + منزلقا المعايرة، ومؤشر ورسم وتنبيه للمسافة، وتنبيه صوتي، ثم نسخة البرنامج الثابت وزمن التشغيل ومستوى القياسات وحالة الزر وقوة الإشارة.</td></tr>
+        <tr><td><strong>Drive</strong></td><td>نظام فرعي واحد فقط: لوحة اتجاهات، وسرعة، وSTOP، ومؤشر سرعة، ولوحة دوران، ومنزلقا المعايرة، وسطر تعليمات واحد. وهي لوحة ضبط الخط المستقيم.</td></tr>
+        <tr><td><strong>Distance</strong></td><td>مؤشر، وتنبيه، ورسم بياني على 30&nbsp;ثانية.</td></tr>
+      </table>
+
+      <h3>لماذا لوحة دوران منفصلة</h3>
+      <p>في الدفع التفاضلي، يمينًا/يسارًا من دون مركّبة أمامية يعني دوران الروبوت حول نفسه &mdash; وهي الحركة الوحيدة التي تجعل لوحة الاتجاهات الرباعية متعبة، إذ تتطلّب إمساك اتجاه وتصحيحًا متواصلًا. ولوحة <strong>Turn</strong> لا تفعل غير ذلك.</p>
+      <p>وتُدمَج بتّاتها مع بتّات اللوحة الرئيسية داخل البرنامج الثابت بدل معالجتها على حدة: فإمساك <em>الأمام</em> في إحداهما و<em>اليسار</em> في الأخرى يعطي انعطافًا قوسيًّا، لا أمرين يتنازعان المخرج.</p>
+
+      <h2 id="trim">معايرة العجلتين، والخلل الذي جعلها مفيدة</h2>
+      <p>العجلة اليمنى مركّبة معكوسة على الهيكل: مجال نبضتها مقلوب، <code dir="ltr">map(speed, -100, 100, 180, 0)</code> مقابل <code dir="ltr">0..180</code> على اليسار. أما المعايرة فإزاحة نبضة خام، فتقع في <em>إطار كل محرّك على حدة</em>.</p>
+      <p>والنتيجة، في النسخة الموروثة عن b3: إضافة <code dir="ltr">+5</code> نفسها على الجانبين كانت تدفع العجلتين في اتجاهين ماديّين <strong>متعاكسين</strong>.</p>
+
+      <table class="wikitable">
+        <tr><th>الحالة</th><th>العجلة اليسرى</th><th>العجلة اليمنى</th><th>الأثر الظاهر</th></tr>
+        <tr><td>أقصى تقدّم، معايرة ‎+5‎ على الجانبين</td><td>‏180، أي ‎+90‎ عن الحياد</td><td>‏5، أي ‎+85‎ عن الحياد</td><td>اليسرى تسبق اليمنى: ينحرف الروبوت يمينًا</td></tr>
+        <tr><td>عند التوقف، معايرة ‎+5‎ على الجانبين</td><td>‏95: يزحف إلى الأمام</td><td>‏95: يزحف إلى <em>الخلف</em></td><td>يدور الروبوت ببطء حول نفسه وهو ساكن</td></tr>
+        <tr><td><code dir="ltr">stopServos()</code></td><td>90</td><td>90</td><td>المساران لم يتفقا أصلًا على موضع الحياد</td></tr>
+      </table>
+
+      <p>ومنذ <strong>S2-v3</strong> صار المسار الأيمن <em>يطرح</em> معايرته. فالقيمة الموجبة تعني «هذه العجلة تتقدّم أكثر» على الجانبين معًا &mdash; وهي القراءة الوحيدة التي تجعل هذه الثوابت قابلة للاستعمال. وهبطت القيمتان الافتراضيتان من 5 إلى <strong>0</strong>: فعند الصفر تتلقّى العجلتان أمرين متساويين متعاكسين بكامل المدى، وما يبقى من انحراف يكون خطأً ميكانيكيًّا حقيقيًّا أو تفاوتًا في تصنيع السيرفو. وهذا بالضبط ما وُجدت المعايرة من أجله. أما القيمتان 5 الموروثتان عن b3 فكانتا هما نفسها سبب الانحراف الذي جاءتا لتصحيحه.</p>
+
+      <div class="ambox ambox-warning">يحمل b3 الشيفرة ذاتها والخلل ذاته. ولم يُمسّ هنا: الإصلاح متاح لـ <em>cherry-pick</em> إن أعدتَ تشغيل b3.</div>
+
+      <h3>منزلقات بدل ثابت</h3>
+      <p>حتى <strong>S2-v5</strong>، كان تعديل استقامة الروبوت يعني تحرير <code dir="ltr">CONFIG_SERVO_SPEED_STOP_*_OFFSET</code> وإعادة التحميل عبر USB &mdash; وهو أمر لا يصلح في الصف. ومحرّكات السيرفو الدائرية تتفاوت من قطعة إلى أخرى: فهذه معايرة <em>لكل روبوت</em>، لا ثابت.</p>
+      <p>لذلك صار <code dir="ltr">trim_l</code> و<code dir="ltr">trim_r</code> منزلقَين، من ‎&minus;20‎ إلى ‎+20‎ درجة من نبضة السيرفو. ووُضِعا بجوار أدوات القيادة لا في ركن «الإعدادات»: فأنت تضبطهما <em>وأنت تقود</em>، وتراقب إلى أي جهة ينحرف الروبوت. وما تجاوز 20 فهو عطل ميكانيكي لا معايرة.</p>
+      <p>وثلاث تفاصيل في التنفيذ تستحق المعرفة:</p>
+      <ul>
+        <li><strong>أثر فوري وحفظ مؤجَّل.</strong> تُطبَّق القيمة في الذاكرة الحيّة مع أول حزمة، فيظهر الأثر والمنزلق ما زال يتحرك. ولا تُكتَب في NVS إلا بعد 1٫5&nbsp;ثانية من السكون: فسحب المنزلق يرسل <code dir="ltr">SET</code> لكل خطوة، وكتابة الذاكرة عند كل خطوة تستهلك عمرها من أجل قيم يمرّ عليها المستخدم مرورًا.</li>
+        <li><strong>يعيد الروبوت إرسال القيمتين بعد كل نقل للواجهة.</strong> ولولا ذلك لعاد المنزلقان إلى قيمتهما الافتراضية عند كل اتصال بينما يواصل الروبوت السير بالقيمة المحفوظة: فتكذب اللوحة على المستخدم بشأن معايرة الروبوت.</li>
+        <li><strong>تبقى الثوابت هي قيمة المصنع</strong> لرقاقة جديدة. وما إن يُحفَظ شيء حتى تتقدّم NVS عليها.</li>
+      </ul>
+
+      <h2 id="ota">التحديث عبر WiFi</h2>
+      <p>‏WiFi مطفأ في التشغيل العادي: لا شأن له بجلسة تُقاد عبر BLE. وللدخول في وضع OTA، <strong>أبقِ زر BOOT مضغوطًا 3 ثوانٍ</strong> في أي لحظة.</p>
+      <p>ولا تُكتَب أي بيانات اعتماد في الشيفرة. يحفظ WiFiManager آخر شبكة انضمّ إليها في ذاكرته الخاصة، ويفتح نقطة وصول للإعداد باسم <code dir="ltr">WDIY-Robot-Setup</code> كلما تعذّر عليه إعادة الاتصال. ويصبح الروبوت بعدها متاحًا باسم <code dir="ltr">wdiy-servo-sonar</code>. وواصِل الضغط حتى <strong>8 ثوانٍ</strong> لنسيان الشبكة المحفوظة وإجبار البوابة على الفتح.</p>
+      <pre dir="ltr"><code>pio run -e esp32-c3-devkitm-1-ota -t upload --upload-port &lt;robot-ip&gt;</code></pre>
+      <p>يعرض b3 تقدّم التحديث على مصابيح NeoPixel وشاشته. وهذا الروبوت لا يملك أيًّا منهما، فتذهب الحالة إلى المنفذ التسلسلي وحده &mdash; وهو يكفي، لأن اسم نقطة الوصول واسم المضيف كليهما ثابتان.</p>
+
+      <h2 id="troubleshooting">حل المشكلات</h2>
+
+      <h3>يتصل التطبيق ثم يتوقف عند «Checking layout version»</h3>
+      <p>الروبوت يبثّ ويقبل الاتصال، لكنه لا يردّ على شيء. والسبب التاريخي في هذا الروبوت برنامج ثابت كان يعرف <code dir="ltr">GETCFGVER</code> من دون أن يجيب عنه: ونسخ التطبيق الحديثة لم تعد تتراجع تلقائيًا إلى <code dir="ltr">GETCFG</code>، فالصمت قاتل. أُصلح في <strong>S2-v2</strong>. فإن رأيت هذا على نسخة أقدم، فهذا هو السبب.</p>
+      <p>والسبب الآخر المحتمل هو <code dir="ltr">setup()</code> متوقف داخل <code dir="ltr">attach()</code> &mdash; انظر <a href="#understanding">مطبّ مؤقتات PWM</a>.</p>
+
+      <h3>ينحرف الروبوت يمينًا عند التقدّم</h3>
+      <p>قبل S2-v3 كانت هذه علامة المعايرة المطبَّقة بالمقلوب، الموصوفة <a href="#trim">أعلاه</a>. أما بعدها فالأمر متروك للمنزلقين: ارفع <strong>Trim R</strong> حتى يسير مستقيمًا. وهذه هي العبارة المطبوعة على لوحة <em>Drive</em> نفسها.</p>
+
+      <h3>يدور الروبوت ببطء حول نفسه وهو ساكن</h3>
+      <p>الأصل نفسه، وبصورة أسوأ: على العجلة المعكوسة كانت المعايرة الموجبة تدفع إلى الخلف. فإن رأيت هذا فأنت تشغّل نسخة أقدم من S2-v3، أو أعدت نسخ الثوابت القديمة. اجعل قيمتَي <code dir="ltr">CONFIG_SERVO_SPEED_STOP_*_OFFSET</code> صفرًا.</p>
+
+      <h3>يدور الروبوت حول نفسه بدل التقدّم</h3>
+      <p>موصّلا السيرفو معكوسان. بدّل بين <code dir="ltr">CONFIG_PIN_SERVO_LEFT</code> و<code dir="ltr">CONFIG_PIN_SERVO_RIGHT</code>. وهذا ليس عطل «يسير إلى الخلف»: فهنا تدور العجلتان في الاتجاه المادي نفسه.</p>
+
+      <h3>إعادة تشغيل عشوائية أثناء السير</h3>
+      <p>السبب في الغالب الأعم هو التغذية لا البرمجية. انظر إطار خط تغذية السيرفو في <a href="#board">اللوحة وتوزيع أطرافها</a>. وهو أرجح أعطال هذه اللوحة، لأن محرّكي الدفع يُحمّلان الخط باستمرار.</p>
+
+      <h3>لا يظهر شيء على المنفذ التسلسلي</h3>
+      <p>هذا متوقّع. فـ USB-CDC الأصلي يُعاد تعريفه عند إعادة التشغيل، فيتّصل المراقب بعد رسالة الإقلاع. الروبوت يعمل، لكنه صامت في السكون.</p>
+
+      <div class="ambox ambox-warning"><strong>موقع المستودع قديم.</strong> المجلد <code dir="ltr">01_software/01_app/02_web/</code> موروث عن b3 وما زال يصف عتاد <em>ذاك</em> الروبوت: مصابيح وشريط وشاشة وبطارية. وهو ما ينشره <code dir="ltr">pages.yml</code>. تُرك في مكانه بدل حذفه، لكن يجب إعادة كتابته أو إيقاف نشره قبل توجيه أي أحد إليه.</div>
+
+      <hr>
+      <p class="hatnote">مقالات ذات صلة: <a href="rxy-web-ar.html">rxy-web</a> (التطبيق) &middot; <a href="bit-rxy-ar.html">bit-rxy</a> &middot; <a href="robot-mv-ar.html">روبوت MV</a> &middot; <a href="esp32-rxy-ar.html">ESP32-RXY</a></p>
+
+    </article>
+  </div>
+</div>
+
+</body>
+</html>

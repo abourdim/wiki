@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Servo-Sonar (esp32c3_super_mini_servo_sonar-rxy) - Wiki</title>
+<link rel="stylesheet" href="wiki.css">
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-inner">
+    <a class="wiki-logo" href="https://workshop-diy.org"><img src="logo.png" alt="Wiki logo"></a>
+    <a class="masthead-site-link" href="https://workshop-diy.org">workshop-diy.org</a>
+    <div class="masthead-title">
+      Wiki
+      <span class="sub">The free personal knowledge base</span>
+    </div>
+    <div class="masthead-actions">
+      <div class="lang-switch" role="group" aria-label="Language">
+        <a href="servo-sonar.html" class="lang-switch-btn" title="Français"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="20" height="40" fill="#002395"/><rect x="20" width="20" height="40" fill="#fff"/><rect x="40" width="20" height="40" fill="#ED2939"/></svg></a>
+        <a href="servo-sonar-en.html" class="lang-switch-btn active" title="English"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="60" height="40" fill="#012169"/><path d="M0 0L60 40M60 0L0 40" stroke="#fff" stroke-width="6.5"/><path d="M0 0L60 40M60 0L0 40" stroke="#C8102E" stroke-width="3.5"/><path d="M30 0V40M0 20H60" stroke="#fff" stroke-width="11"/><path d="M30 0V40M0 20H60" stroke="#C8102E" stroke-width="6.5"/></svg></a>
+        <a href="servo-sonar-ar.html" class="lang-switch-btn" title="العربية"><svg width="24" height="16" viewBox="0 0 900 600"><defs><clipPath id="glServoSonarEn"><rect width="450" height="600"/></clipPath></defs><rect width="450" height="600" fill="#006233"/><rect x="450" width="450" height="600" fill="#FFF"/><g fill="#D21034" transform="translate(450,300)"><circle r="125"/><circle cx="25" r="100" fill="#FFF"/><g clip-path="url(#glServoSonarEn)" transform="translate(-450,-300)"><circle cx="475" cy="300" r="100" fill="#006233"/></g><path d="M85-12l22 67h71l-57 42 22 67-58-42-57 42 21-67-57-42h71z"/></g></svg></a>
+      </div>
+      <div class="masthead-search">
+        <input type="text" placeholder="Search" disabled>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wiki-layout">
+
+  <div class="sidebar">
+    <h3>Navigation</h3>
+    <ul>
+      <li><a href="index-en.html">Main page</a></li>
+      <li><a href="#">Recent changes</a></li>
+      <li><a href="#">Random page</a></li>
+    </ul>
+    <h3>Categories</h3>
+    <ul>
+      <li><a href="index-en.html">Networking</a></li>
+      <li><a href="index-en.html">Linux</a></li>
+      <li><a href="index-en.html">Windows</a></li>
+      <li><a href="index-en.html">Electronics</a></li>
+      <li><a href="index-en.html">ESP32</a></li>
+      <li><a href="index-en.html">micro:bit</a></li>
+    </ul>
+    <h3>Tools</h3>
+    <ul>
+      <li><a href="https://github.com/abourdim/esp32c3_super_mini_servo_sonar-rxy">View source repository</a></li>
+    </ul>
+  </div>
+
+  <div class="content-wrap">
+    <div class="article-tabs">
+      <span class="active">Article</span>
+      <span>Discussion</span>
+    </div>
+
+    <article>
+      <h1 class="page-title">Servo-Sonar (esp32c3_super_mini_servo_sonar-rxy)</h1>
+
+      <div class="infobox">
+        <div class="infobox-title">Servo-Sonar</div>
+        <table>
+          <tr><th>Type</th><td>Two continuous-rotation drive servos, fixed distance sensor, layout carried by the firmware</td></tr>
+          <tr><th>Hardware</th><td>ESP32-C3 SuperMini + <code>34_richa_c3_servo_sonar</code> v1 carrier board</td></tr>
+          <tr><th>Sensors</th><td>Fixed HC-SR04 &mdash; no turning head</td></tr>
+          <tr><th>Firmware</th><td>S2-v5 (Arduino / PlatformIO)</td></tr>
+          <tr><th>App</th><td>rxy_web v2.34</td></tr>
+          <tr><th>BLE name</th><td><code>diy_app_s2</code></td></tr>
+          <tr><th>OTA name</th><td><code>wdiy-servo-sonar</code></td></tr>
+          <tr><th>Languages</th><td>English, Français, العربية</td></tr>
+          <tr><th>Repository</th><td><a href="https://github.com/abourdim/esp32c3_super_mini_servo_sonar-rxy">github.com/abourdim/esp32c3_super_mini_servo_sonar-rxy</a></td></tr>
+        </table>
+      </div>
+
+      <div class="applink">
+        <a href="https://abourdim.github.io/rxy_web/" target="_blank" rel="noopener"><img class="applink-qr" src="qr/servo-sonar.svg" alt="QR: https://abourdim.github.io/rxy_web/" width="104" height="104"></a>
+        <div class="applink-text">
+          <div class="applink-title">Open the app</div>
+          <div class="applink-url"><a href="https://abourdim.github.io/rxy_web/" target="_blank" rel="noopener">https://abourdim.github.io/rxy_web/</a></div>
+          <div class="applink-hint">Scan this code with a phone to open the app directly. Nothing to install: it runs in the browser.</div>
+        </div>
+      </div>
+
+      <p class="hatnote">This article covers the <strong>Servo-Sonar</strong>, a deliberately <em>reduced</em> version of <a href="https://github.com/abourdim/esp32c3_super_mini_robot-bit-rxy">bit-rxy (&ldquo;b3&rdquo;)</a>: two drive servos, one distance sensor, and nothing else. No buzzer, no strip, no screen, no battery sensing.</p>
+      <p class="hatnote">The repository is a <em>fork with the full history</em> of b3, not a copy: fixes move between the two robots by <code>cherry-pick</code> rather than by hand. For the app that drives it, see <a href="rxy-web-en.html">rxy-web</a>. For the robot it came from, see <a href="bit-rxy-en.html">bit-rxy</a>. For the other port, the one with a turning head, see <a href="robot-mv-en.html">Robot MV</a>.</p>
+
+      <div class="toc">
+        <div class="toc-title">Contents</div>
+        <ol>
+          <li><a href="#overview">Overview</a></li>
+          <li><a href="#quickstart">Quick start</a></li>
+          <li><a href="#walkthrough">Step by step: clone, flash &amp; test</a></li>
+          <li><a href="#understanding">Understanding the code (for beginners)</a></li>
+          <li><a href="#board">The board and its pinout</a></li>
+          <li><a href="#panels">The four panels</a></li>
+          <li><a href="#trim">Wheel trim, and the bug that made it useful</a></li>
+          <li><a href="#ota">Updating over WiFi</a></li>
+          <li><a href="#troubleshooting">Troubleshooting</a></li>
+        </ol>
+      </div>
+
+      <h2 id="overview">Overview</h2>
+      <p><strong>The robot owns its interface.</strong> The app knows no robot in advance: it connects, asks for the configuration, and draws whatever comes back. The Servo-Sonar therefore sends its own panels, and the app never needs recompiling for it.</p>
+      <p>What sets this board apart is what it does <em>not</em> have. b3 drives a buzzer, a NeoPixel strip, two LEDs, an OLED screen and a battery-voltage sense line. Here only drive and distance remain. The firmware was not gutted for that: the absent modules are switched off by a single <code>#define</code> and vanish at compile time, rather than failing silently at runtime.</p>
+      <p>That reduction has a direct effect on the pinout. <strong>GPIO&nbsp;10 is free here only because the LEDs and the strip are gone</strong> &mdash; on b3 that pin is <code>CONFIG_PIN_LED_RED</code> and the strip output. It is the one pin difference between the two robots: the HC-SR04 stays on 21 / 20 on both.</p>
+
+      <div class="ambox">With no turning head, <strong>there is no radar</strong> in the sense of rxy_web's polar widget: that one needs an angle, and this robot publishes none. Distance shows up as a gauge, a graph and an alert. For sweeping, see <a href="robot-mv-en.html">Robot MV</a>.</div>
+
+      <h2 id="quickstart">Quick start</h2>
+      <ol>
+        <li>Power the robot. With no screen and no LED, the only sign of life is the BLE name appearing in the device list.</li>
+        <li>Open <a href="https://abourdim.github.io/rxy_web/">rxy_web</a> in Chrome or Edge, on a phone or a PC.</li>
+        <li>Press <strong>Connect</strong> and pick <code>diy_app_s2</code> from the list.</li>
+        <li>The panel appears by itself. Choose <strong>Expert</strong> in the <em>Level</em> selector to see everything.</li>
+        <li>Drive forward. If it pulls to one side, correct it with the <strong>Trim L</strong> and <strong>Trim R</strong> sliders, with no reflashing &mdash; see <a href="#trim">Wheel trim</a>.</li>
+      </ol>
+
+      <h2 id="walkthrough">Step by step: clone, flash &amp; test</h2>
+      <p>This walkthrough goes from a bare repository to a verified robot: it drives the right way, it drives straight, and it measures.</p>
+
+      <h3>1. Clone the repository</h3>
+      <pre><code>git clone https://github.com/abourdim/esp32c3_super_mini_servo_sonar-rxy.git
+cd esp32c3_super_mini_servo_sonar-rxy/01_software/01_app</code></pre>
+
+      <h3>2. Build</h3>
+      <p>The project uses PlatformIO. Nothing to configure: the platform and the libraries are pinned in <code>platformio.ini</code> &mdash; <code>espressif32 @ 6.7.0</code>, the same as b3, so both robots build against one toolchain.</p>
+      <pre><code>pio run -e esp32-c3-devkitm-1</code></pre>
+
+      <h3>3. Flash over USB</h3>
+      <pre><code>pio run -e esp32-c3-devkitm-1 -t upload</code></pre>
+      <p>The ESP32-C3 SuperMini flashes over its native USB, with no serial adapter. Two settings in <code>platformio.ini</code> exist purely for that, and should not be &ldquo;optimised&rdquo;:</p>
+      <ul>
+        <li><code>upload_speed = 115200</code> &mdash; the mid-upload switch to 460,800 crashes the USB-CDC endpoint (&ldquo;<em>No serial data received</em>&rdquo;).</li>
+        <li><code>upload_flags = --no-stub</code> &mdash; when the stub takes over, the USB-CDC endpoint re-enumerates and the first command after it falls into a dead window (&ldquo;<em>Unable to verify flash chip connection</em>&rdquo;). Staying on the ROM bootloader is slower, roughly 60&ndash;90&nbsp;s, but reliable.</li>
+      </ul>
+      <p>If the upload still fails, hold the <strong>BOOT</strong> button while you plug the board in.</p>
+
+      <h3>4. Check the serial monitor</h3>
+      <pre><code>pio device monitor</code></pre>
+      <p>What matters at startup:</p>
+      <pre><code>[BLE] init - device_name: diy_app_s2
+[BLE] service_uuid: ...
+[BLE] advertising: YES</code></pre>
+      <div class="ambox">Native USB-CDC means the serial monitor attaches <em>after</em> boot: most of the time you will see nothing at startup. That is normal, not a fault. <code>monitor_dtr = 0</code> and <code>monitor_rts = 0</code> are there so that opening the monitor does not reset the board into download mode.</div>
+
+      <h3>5. Test the drive direction</h3>
+      <p>Connect, switch to <strong>Expert</strong>, and press <em>up</em> on the pad. The robot should move forward.</p>
+      <p>If it <strong>spins on the spot</strong> instead, the two connectors are swapped: exchange <code>CONFIG_PIN_SERVO_LEFT</code> and <code>CONFIG_PIN_SERVO_RIGHT</code> in <code>00_config.h</code>. Which connector is &ldquo;left&rdquo; depends on how the servos are mounted on the chassis, not on the board.</p>
+
+      <h3>6. Test the sensor</h3>
+      <p>Switch to <strong>Distance</strong> in the <em>Level</em> selector, then move your hand in front of the HC-SR04. The gauge and the graph should react immediately.</p>
+
+      <h3>7. Set it straight</h3>
+      <p>Hold <em>forward</em> for a few metres of flat floor. If the robot wanders, correct it with <strong>Trim L</strong> / <strong>Trim R</strong> from the <em>Drive</em> or <em>Expert</em> panel, while driving. The serial monitor confirms the save:</p>
+      <pre><code>[TRIM] saved L=0 R=3</code></pre>
+
+      <div class="ambox ambox-success">A healthy baseline looks like this: the robot moves forward when you ask for forward, it holds its line over a few metres, and the distance moves when your hand approaches &mdash; both subsystems confirmed separately.</div>
+
+      <h2 id="understanding">Understanding the code (for beginners)</h2>
+      <p class="hatnote">For someone with the robot running who wants to open the code and change it. Assumes basic C/C++ but nothing specific to this project.</p>
+
+      <h3>System architecture, illustrated</h3>
+      <div class="diagram"><pre style="margin:0;border:0;padding:0;background:none;">┌──────────────────┐        Bluetooth         ┌──────────────────┐
+│                  │  ◄─────────────────────► │                  │
+│   📱 rxy_web     │        BLE / UART        │  🤖 Servo-Sonar  │
+│    (browser)     │                          │   (ESP32-C3)     │
+│                  │                          │                  │
+│  draws whatever  │   GETCFG  ──────────►    │   owns the       │
+│  the robot sends │   ◄────── CFG (base64)   │   layout         │
+└──────────────────┘                          └────────┬─────────┘
+                                                       │
+                         ┌─────────────────────────────┼─────────────────────┐
+                         │                             │                     │
+                    ┌────▼─────┐                 ┌─────▼────┐          ┌─────▼─────┐
+                    │ left     │                 │ right    │          │  HC-SR04  │
+                    │ servo    │                 │ servo    │          │  21 / 20  │
+                    │ GPIO 10  │                 │  GPIO 7  │          │   fixed   │
+                    │   (J2)   │                 │   (J3)   │          │           │
+                    └──────────┘                 └──────────┘          └───────────┘</pre></div>
+
+      <h3>The protocol, in three messages</h3>
+      <p>Everything runs over a UART-style BLE service. Three exchanges are enough to understand it:</p>
+      <table class="wikitable">
+        <tr><th>Message</th><th>Direction</th><th>Role</th></tr>
+        <tr><td><code>GETCFGVER</code></td><td>app → robot</td><td>&ldquo;what version is your layout?&rdquo; The robot answers <code>CFGVER &lt;token&gt;</code>. If the phone already has that layout cached, the whole transfer is skipped &mdash; the log then shows <code>Client had this layout cached - transfer skipped</code>.</td></tr>
+        <tr><td><code>GETCFG</code></td><td>app → robot</td><td>send me your layout. The robot answers with a series of base64 chunks, sized to the negotiated MTU.</td></tr>
+        <tr><td><code>SET</code> / <code>UPD</code></td><td>both ways</td><td><code>SET</code> = the user touched a widget. <code>UPD</code> = the robot publishes a value (distance, speed, uptime, trim).</td></tr>
+      </table>
+      <p>The version token is not a hand-maintained number: it is a fingerprint over the layout <em>and</em> over <code>B3_FIRMWARE_VERSION</code>. A panel edit therefore changes the token by itself, and an edit that happens to collide is still told apart by the firmware version.</p>
+
+      <h3>The files, in the order they matter</h3>
+      <table class="wikitable">
+        <tr><th>File</th><th>What it does</th></tr>
+        <tr><td><code>00_config.h</code></td><td>every pin and every feature switch. The one file to read to understand the board.</td></tr>
+        <tr><td><code>01_src.ino</code></td><td><code>setup()</code> and <code>loop()</code>. Short and readable on purpose.</td></tr>
+        <tr><td><code>03_bit-rxy.cpp</code></td><td>the BLE protocol, the encoded layouts, and widget routing. The big one.</td></tr>
+        <tr><td><code>04_tasks.cpp</code></td><td>the drive mix: pad, turn pad and joystick → two wheel speeds, then trim applied.</td></tr>
+        <tr><td><code>09_servos.cpp</code></td><td>the two drive servos and a clean stop.</td></tr>
+        <tr><td><code>12_ultrasonic.cpp</code></td><td>one HC-SR04 reading, capped at 15&nbsp;ms &mdash; about 2.5&nbsp;m, past which the reading is declared void rather than stalling the loop.</td></tr>
+        <tr><td><code>17_ota.cpp</code></td><td>WiFi mode, the long button press, and the setup portal.</td></tr>
+        <tr><td><code>gen_layouts.py</code></td><td>generates the four layouts and splices them into <code>03_bit-rxy.cpp</code>. See below.</td></tr>
+      </table>
+
+      <h3>The panels are generated, not hand-written</h3>
+      <pre><code>python 01_software/01_app/gen_layouts.py</code></pre>
+      <p>The script rebuilds all four layouts and splices them back into the source. More importantly it <strong>fails</strong> rather than emitting a broken panel, on three checks:</p>
+      <ul>
+        <li>two widgets overlapping;</li>
+        <li>a widget escaping its group;</li>
+        <li>a widget id with <em>neither</em> an input handler <em>nor</em> a telemetry sender.</li>
+      </ul>
+      <p>The last is the important one: a control that looks live and does nothing is worse than a missing control. It is also why the test panels were rebuilt here rather than carried over from b3 unchanged &mdash; carrying them over unvalidated is exactly how a truncated instruction line shipped.</p>
+
+      <h3>The PWM timer trap (which does not bite here)</h3>
+      <p><code>setup()</code> calls <code>ESP32PWM::allocateTimer(0)</code> once, and two servos are attached: an exact fit. It is worth knowing why that detail is written down &mdash; if you add a third servo, a turning head for instance, ESP32Servo does not warn you: it prints <code>All PWM timers allocated!</code> and then <strong>halts inside <code>attach()</code></strong>, so <code>setup()</code> never returns.</p>
+      <p>And it is invisible from outside: NimBLE has already started on its own task, so the robot <em>keeps advertising</em> and the app <em>connects</em>. It simply answers nothing. It reads as a protocol bug; it is not one. One more servo, one more <code>allocateTimer()</code>.</p>
+
+      <h2 id="board">The board and its pinout</h2>
+      <p>Schematic: <code>01_kicad/31_richa_c3_move/34_richa_c3_servo_sonar/v1</code>.</p>
+
+      <table class="wikitable">
+        <tr><th>GPIO</th><th>Connector</th><th>Use</th></tr>
+        <tr><td>10</td><td>J2, pin 3</td><td>left wheel servo</td></tr>
+        <tr><td>7</td><td>J3, pin 3</td><td>right wheel servo</td></tr>
+        <tr><td>21</td><td>&mdash;</td><td>HC-SR04 <em>trig</em></td></tr>
+        <tr><td>20</td><td>&mdash;</td><td>HC-SR04 <em>echo</em></td></tr>
+        <tr><td>0</td><td>module BOOT button</td><td>hold 3&nbsp;s = OTA, 8&nbsp;s = forget WiFi</td></tr>
+      </table>
+
+      <p>GPIO 6 and 3, which carry the servos on b3, are unused here. Conversely GPIO&nbsp;10 would not be available on b3: it is the red LED and the strip output.</p>
+
+      <div class="ambox ambox-warning"><strong>The servo rail wants bulk capacitance.</strong> The two servos share the ESP32's <code>VCC</code> and the v1 board has only 100&nbsp;nF on that rail. These are the <em>drive</em> servos: they run constantly, not occasionally, and an SG90 pulls about 700&nbsp;mA stalled, with a larger startup surge. 100&nbsp;nF does nothing at that current: the rail dips and the C3 browns out mid-drive. Add <strong>470&ndash;1000&nbsp;µF</strong> at the servo connectors, and feed servo power straight from the input terminal rather than through the module's 5V pin, so servo current does not run through the module.</div>
+
+      <h2 id="panels">The four panels</h2>
+      <p>b3 serves eight. Five of them drive hardware this board does not have, so four remain. Switch between them with the <strong>Level</strong> selector; the choice is kept in NVS, so a power cycle does not drop you back to Beginner.</p>
+
+      <table class="wikitable">
+        <tr><th>Panel</th><th>What it has</th></tr>
+        <tr><td><strong>Beginner</strong></td><td>D-pad, distance gauge, obstacle alert. No speed slider: at this level the pad <em>is</em> the speed control, and a second one only invites &ldquo;why won't it move&rdquo;.</td></tr>
+        <tr><td><strong>Expert</strong></td><td>D-pad + joystick + speed + STOP + turn pad + both trims, distance gauge / graph / alert, sound alert, then firmware version, uptime, telemetry level, button state and signal strength.</td></tr>
+        <tr><td><strong>Drive</strong></td><td>one subsystem only: pad, speed, STOP, speed gauge, turn pad, both trims, and one instruction line. This is the straight-line calibration panel.</td></tr>
+        <tr><td><strong>Distance</strong></td><td>gauge, alert, 30&nbsp;s graph.</td></tr>
+      </table>
+
+      <h3>Why a separate turn pad</h3>
+      <p>On a differential drive, left/right with no forward component spins the robot on the spot &mdash; the one movement the 4-way pad makes awkward, since it needs a held direction and constant correction. The <strong>Turn</strong> pad does only that.</p>
+      <p>Its bits merge with the main pad's in the firmware rather than being handled separately: holding <em>forward</em> on one and <em>left</em> on the other is therefore an arc turn, not two commands fighting over the output.</p>
+
+      <h2 id="trim">Wheel trim, and the bug that made it useful</h2>
+      <p>The right wheel is mirrored on the chassis: its pulse range is inverted, <code>map(speed, -100, 100, 180, 0)</code> against <code>0..180</code> on the left. Trim, however, is a raw pulse offset, so it lands in <em>each servo's own frame</em>.</p>
+      <p>The consequence, in the version inherited from b3: adding the same <code>+5</code> on both sides pushed the two wheels in physically <strong>opposite</strong> directions.</p>
+
+      <table class="wikitable">
+        <tr><th>Situation</th><th>Left wheel</th><th>Right wheel</th><th>Visible effect</th></tr>
+        <tr><td>full forward, +5 trim on both</td><td>180, i.e. +90 from neutral</td><td>5, i.e. +85 from neutral</td><td>the left outruns the right: the robot curves right</td></tr>
+        <tr><td>at rest, +5 trim on both</td><td>95: creeps forward</td><td>95: creeps <em>backward</em></td><td>the robot slowly turns on the spot while idle</td></tr>
+        <tr><td><code>stopServos()</code></td><td>90</td><td>90</td><td>the two paths did not even agree on where neutral was</td></tr>
+      </table>
+
+      <p>Since <strong>S2-v3</strong>, the right channel <em>subtracts</em> its trim. A positive value therefore means &ldquo;this wheel drives more forward&rdquo; on both sides &mdash; the only reading that makes these constants usable. Both defaults dropped from 5 to <strong>0</strong>: at zero the two wheels get equal and opposite full-scale commands, so whatever veer remains is real mechanical or servo-tolerance error. That is exactly what trim is for. The 5s inherited from b3 were themselves causing the pull they were supposed to correct.</p>
+
+      <div class="ambox ambox-warning">b3 carries the identical code and the identical bug. It was not touched here: the fix is there to <em>cherry-pick</em> if you put a b3 back into service.</div>
+
+      <h3>Sliders rather than a constant</h3>
+      <p>Until <strong>S2-v5</strong>, straightening a robot meant editing <code>CONFIG_SERVO_SPEED_STOP_*_OFFSET</code> and reflashing over USB &mdash; useless in a classroom. Continuous-rotation servos vary unit to unit: this is <em>per-robot</em> calibration, not a constant.</p>
+      <p><code>trim_l</code> and <code>trim_r</code> are therefore sliders, &minus;20 to +20 degrees of servo pulse. They sit next to the drive controls rather than in a settings corner: you tune them <em>while driving</em>, watching which way the robot pulls. Past 20 it is a mechanical fault, not a trim.</p>
+      <p>Three implementation details are worth knowing:</p>
+      <ul>
+        <li><strong>Immediate effect, deferred save.</strong> The value applies in RAM on the first packet, so the effect is visible while the slider is still moving. It is committed to NVS only after 1.5&nbsp;s of stillness: dragging a slider emits one <code>SET</code> per step, and writing flash on each would burn endurance on values the user is only scrubbing past.</li>
+        <li><strong>The robot echoes both values back after every layout transfer.</strong> Without that, the sliders would snap to their default on each connect while the robot kept driving with the saved value: the panel would be lying about the robot's calibration.</li>
+        <li><strong>The constants remain the factory default</strong> for a fresh chip. Once anything is saved, NVS overrides them.</li>
+      </ul>
+
+      <h2 id="ota">Updating over WiFi</h2>
+      <p>WiFi is off during normal operation: it has no business running during a BLE-driven session. To enter OTA mode, <strong>hold the BOOT button for 3 seconds</strong> at any point.</p>
+      <p>No credentials are written into the code. WiFiManager remembers the last network it joined in its own NVS, and opens a setup access point, <code>WDIY-Robot-Setup</code>, whenever it cannot reconnect. The robot is then reachable as <code>wdiy-servo-sonar</code>. Keep holding to <strong>8 seconds</strong> to forget the saved network and force the portal open.</p>
+      <pre><code>pio run -e esp32-c3-devkitm-1-ota -t upload --upload-port &lt;robot-ip&gt;</code></pre>
+      <p>b3 reports OTA progress on its NeoPixels and OLED. This robot has neither, so status goes to Serial only &mdash; which is enough, because the setup AP name and the hostname are both fixed.</p>
+
+      <h2 id="troubleshooting">Troubleshooting</h2>
+
+      <h3>The app connects then sits on &ldquo;Checking layout version&rdquo;</h3>
+      <p>The robot advertises and accepts the connection, but answers nothing. On this robot the historical cause is firmware that recognised <code>GETCFGVER</code> without answering it: recent app versions no longer fall back to <code>GETCFG</code> on their own, so silence is fatal. Fixed in <strong>S2-v2</strong>. If you see this on an older build, that is it.</p>
+      <p>The other possible cause is a <code>setup()</code> halted inside <code>attach()</code> &mdash; see <a href="#understanding">the PWM timer trap</a>.</p>
+
+      <h3>The robot veers right when driving forward</h3>
+      <p>Before S2-v3 this was the signature of trim applied backwards, described <a href="#trim">above</a>. Since then it is the sliders' job: raise <strong>Trim R</strong> until it runs straight. That is the sentence printed on the <em>Drive</em> panel itself.</p>
+
+      <h3>The robot turns slowly on the spot while idle</h3>
+      <p>Same origin, worse: on the mirrored wheel a positive trim pushed backwards. If you see this, you are running something older than S2-v3, or you copied the old constants back in. Set both <code>CONFIG_SERVO_SPEED_STOP_*_OFFSET</code> to zero.</p>
+
+      <h3>The robot spins on the spot instead of driving forward</h3>
+      <p>The two servo connectors are swapped. Exchange <code>CONFIG_PIN_SERVO_LEFT</code> and <code>CONFIG_PIN_SERVO_RIGHT</code>. This is not the same fault as &ldquo;it drives backwards&rdquo;: here both wheels turn the same physical way.</p>
+
+      <h3>Random reboots while driving</h3>
+      <p>Almost always power, not software. See the servo rail box in <a href="#board">The board and its pinout</a>. It is the most likely fault on this board, because the drive servos load the rail continuously.</p>
+
+      <h3>Nothing appears on the serial monitor</h3>
+      <p>Expected. Native USB-CDC re-enumerates on reset, so the monitor attaches after the boot message. The robot is running; it is simply quiet when idle.</p>
+
+      <div class="ambox ambox-warning"><strong>The repository's site is stale.</strong> <code>01_software/01_app/02_web/</code> is inherited from b3 and still describes <em>its</em> hardware: LEDs, strip, screen, battery. It is what <code>pages.yml</code> publishes. It was left in place rather than deleted, but it should be rewritten or unpublished before anyone is pointed at it.</div>
+
+      <hr>
+      <p class="hatnote">Related articles: <a href="rxy-web-en.html">rxy-web</a> (the app) &middot; <a href="bit-rxy-en.html">bit-rxy</a> &middot; <a href="robot-mv-en.html">Robot MV</a> &middot; <a href="esp32-rxy-en.html">ESP32-RXY</a></p>
+
+    </article>
+  </div>
+</div>
+
+</body>
+</html>
