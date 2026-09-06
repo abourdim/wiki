@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ESP32-CAM Robot m1 (wdi_esp32_cam_robot_m1) - Wiki</title>
+<link rel="stylesheet" href="wiki.css">
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-inner">
+    <a class="wiki-logo" href="https://workshop-diy.org"><img src="logo.png" alt="Logo du Wiki"></a>
+    <a class="masthead-site-link" href="https://workshop-diy.org">workshop-diy.org</a>
+    <div class="masthead-title">
+      Wiki
+      <span class="sub">La base de connaissances personnelle et gratuite</span>
+    </div>
+    <div class="masthead-actions">
+      <div class="lang-switch" role="group" aria-label="Langue">
+        <a href="cam-robot-m1.html" class="lang-switch-btn active" title="Français"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="20" height="40" fill="#002395"/><rect x="20" width="20" height="40" fill="#fff"/><rect x="40" width="20" height="40" fill="#ED2939"/></svg></a>
+        <a href="cam-robot-m1-en.html" class="lang-switch-btn" title="English"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="60" height="40" fill="#012169"/><path d="M0 0L60 40M60 0L0 40" stroke="#fff" stroke-width="6.5"/><path d="M0 0L60 40M60 0L0 40" stroke="#C8102E" stroke-width="3.5"/><path d="M30 0V40M0 20H60" stroke="#fff" stroke-width="11"/><path d="M30 0V40M0 20H60" stroke="#C8102E" stroke-width="6.5"/></svg></a>
+        <a href="cam-robot-m1-ar.html" class="lang-switch-btn" title="العربية"><svg width="24" height="16" viewBox="0 0 900 600"><defs><clipPath id="glCamRobotM1Fr"><rect width="450" height="600"/></clipPath></defs><rect width="450" height="600" fill="#006233"/><rect x="450" width="450" height="600" fill="#FFF"/><g fill="#D21034" transform="translate(450,300)"><circle r="125"/><circle cx="25" r="100" fill="#FFF"/><g clip-path="url(#glCamRobotM1Fr)" transform="translate(-450,-300)"><circle cx="475" cy="300" r="100" fill="#006233"/></g><path d="M85-12l22 67h71l-57 42 22 67-58-42-57 42 21-67-57-42h71z"/></g></svg></a>
+      </div>
+      <div class="masthead-search">
+        <input type="text" placeholder="Rechercher" disabled>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wiki-layout">
+
+  <div class="sidebar">
+    <h3>Navigation</h3>
+    <ul>
+      <li><a href="index.html">Page principale</a></li>
+      <li><a href="#">Modifications récentes</a></li>
+      <li><a href="#">Page au hasard</a></li>
+    </ul>
+    <h3>Catégories</h3>
+    <ul>
+      <li><a href="index.html">Réseau</a></li>
+      <li><a href="index.html">Linux</a></li>
+      <li><a href="index.html">Windows</a></li>
+      <li><a href="index.html">Électronique</a></li>
+      <li><a href="index.html">ESP32</a></li>
+      <li><a href="index.html">micro:bit</a></li>
+    </ul>
+    <h3>Outils</h3>
+    <ul>
+      <li><a href="https://github.com/abourdim/wdi_esp32_cam_robot_m1">Voir le dépôt source</a></li>
+    </ul>
+  </div>
+
+  <div class="content-wrap">
+    <div class="article-tabs">
+      <span class="active">Article</span>
+      <span>Discussion</span>
+    </div>
+
+    <article>
+      <h1 class="page-title">ESP32-CAM Robot m1 (wdi_esp32_cam_robot_m1)</h1>
+
+      <div class="infobox">
+        <div class="infobox-title">ESP32-CAM Robot m1</div>
+        <table>
+          <tr><th>Type</th><td>Rover WiFi à deux moteurs, vidéo en direct, suivi de couleur, interface servie par le robot</td></tr>
+          <tr><th>Matériel</th><td>ESP32-CAM AI-Thinker (OV2640, PSRAM)</td></tr>
+          <tr><th>Pilote moteur</th><td>Un MOSFET côté bas par moteur &mdash; <strong>pas de pont en H</strong></td></tr>
+          <tr><th>Marche arrière</th><td>Non &mdash; impossible avec ce circuit</td></tr>
+          <tr><th>Vidéo</th><td>MJPEG, port 81</td></tr>
+          <tr><th>Autonomie</th><td>Suivi de couleur, calculé dans le navigateur</td></tr>
+          <tr><th>Firmware</th><td>Arduino / PlatformIO</td></tr>
+          <tr><th>AP de secours</th><td><code>ESP32-Robot-XXXX</code> / <code>88888888</code>, avec portail captif</td></tr>
+          <tr><th>Langues</th><td>English, Français, العربية</td></tr>
+          <tr><th>Dépôt</th><td><a href="https://github.com/abourdim/wdi_esp32_cam_robot_m1">github.com/abourdim/wdi_esp32_cam_robot_m1</a></td></tr>
+        </table>
+      </div>
+
+      <div class="applink">
+        <a href="https://github.com/abourdim/wdi_esp32_cam_robot_m1" target="_blank" rel="noopener"><img class="applink-qr" src="qr/cam-robot-m1.svg" alt="QR: https://github.com/abourdim/wdi_esp32_cam_robot_m1" width="104" height="104"></a>
+        <div class="applink-text">
+          <div class="applink-title">Ouvrir le dépôt</div>
+          <div class="applink-url"><a href="https://github.com/abourdim/wdi_esp32_cam_robot_m1" target="_blank" rel="noopener">https://github.com/abourdim/wdi_esp32_cam_robot_m1</a></div>
+          <div class="applink-hint">Comme <a href="cam-robot.html">m2</a>, ce robot sert sa propre page. Mais ici tu n&rsquo;as même pas besoin de taper l&rsquo;adresse&nbsp;: rejoins son WiFi et la page s&rsquo;ouvre toute seule.</div>
+        </div>
+      </div>
+
+      <p class="hatnote"><strong>m1 n'est pas une version antérieure de <a href="cam-robot.html">m2</a>&nbsp;: c'est un autre robot.</strong> Même module ESP32-CAM, mais une carte moteur entièrement différente, et donc des capacités opposées. m1 ne sait pas reculer&nbsp;; en revanche il suit une couleur, fait un bruit de moteur, et ouvre sa page tout seul &mdash; trois choses que m2 n'a pas.</p>
+      <p class="hatnote">Le partage des rôles est net&nbsp;: <strong>m1 est le plus riche en logiciel, m2 le plus solide en électronique.</strong> Cet article détaille ce qui appartient à m1 et renvoie à <a href="cam-robot.html">m2</a> pour la mécanique commune aux deux.</p>
+
+      <div class="toc">
+        <div class="toc-title">Sommaire</div>
+        <ol>
+          <li><a href="#overview">Aperçu</a></li>
+          <li><a href="#quickstart">Démarrage rapide</a></li>
+          <li><a href="#board">La carte et son brochage : un MOSFET par moteur</a></li>
+          <li><a href="#ledc">Pourquoi m1 a échappé au bug du timer LEDC</a></li>
+          <li><a href="#follow">Suivre une couleur</a></li>
+          <li><a href="#sound">Le son du robot</a></li>
+          <li><a href="#portal">Le portail captif</a></li>
+          <li><a href="#driving">Conduire : maintien et arrêt automatique</a></li>
+          <li><a href="#shared">Ce que m1 partage avec m2</a></li>
+          <li><a href="#walkthrough">Cloner, flasher &amp; tester</a></li>
+          <li><a href="#troubleshooting">Dépannage</a></li>
+        </ol>
+      </div>
+
+      <h2 id="overview">Aperçu</h2>
+      <p>Comme <a href="cam-robot.html">m2</a>, m1 est son propre serveur&nbsp;: le firmware contient la page complète, la sert sur le port 80, diffuse la vidéo sur le port 81, et rien ne s'installe. L'interface compressée pèse ici 41&nbsp;Ko.</p>
+      <p>Ce qui sépare vraiment les deux robots tient en une phrase&nbsp;: <strong>m1 a une meilleure application et une moins bonne carte moteur.</strong> Il suit une couleur, il chante, il ouvre sa page tout seul &mdash; mais il ne peut pas reculer, parce que son électronique ne le permet pas.</p>
+      <p>C'est une comparaison utile en atelier, précisément parce qu'elle ne va pas dans le sens attendu. Un numéro de version plus grand ne veut pas dire «&nbsp;mieux partout&nbsp;»&nbsp;: m2 a gagné un pont en H et la marche arrière, et n'a pas repris le suivi de couleur ni le son.</p>
+
+      <h2 id="quickstart">Démarrage rapide</h2>
+      <ol>
+        <li>Alimente le robot. Il essaie le réseau configuré pendant 10&nbsp;secondes, puis ouvre son point d'accès.</li>
+        <li>Rejoins <code>ESP32-Robot-XXXX</code>, mot de passe <code>88888888</code>.</li>
+        <li><strong>Ne tape rien.</strong> Le téléphone vérifie s'il a Internet, le robot lui répond, et une page de connexion s'ouvre d'elle-même. Appuie sur <strong>Open the robot</strong>. Voir <a href="#portal">Le portail captif</a>.</li>
+        <li>Appuie sur une flèche et garde le doigt dessus.</li>
+        <li>Ouvre <strong>Follow</strong>, tape sur une balle rouge dans l'image, puis <strong>Follow</strong>&nbsp;: le robot y va tout seul.</li>
+      </ol>
+
+      <h2 id="board">La carte et son brochage : un MOSFET par moteur</h2>
+      <p>C'est le cœur de ce qui distingue m1. La carte porte <strong>un seul MOSFET côté bas par moteur</strong>. Un MOSFET commute un moteur, dans un seul sens.</p>
+
+      <table class="wikitable">
+        <tr><th>Signal</th><th>Broche</th><th>Rôle</th></tr>
+        <tr><td>Grille moteur gauche</td><td>GPIO13</td><td>PWM, un sens uniquement</td></tr>
+        <tr><td>Grille moteur droit</td><td>GPIO12</td><td>PWM, un sens uniquement</td></tr>
+        <tr><td>LED flash</td><td>GPIO4</td><td>Éclairage et clignotement de démarrage</td></tr>
+      </table>
+
+      <p>La conséquence est directe et n'a rien de logiciel&nbsp;:</p>
+      <ul>
+        <li>Avancer&nbsp;: oui.</li>
+        <li>Tourner&nbsp;: oui, en arrêtant une roue.</li>
+        <li>S'arrêter&nbsp;: oui.</li>
+        <li><strong>Reculer&nbsp;: non.</strong> Aucun firmware ne peut inverser un moteur avec un seul transistor côté bas.</li>
+      </ul>
+
+      <div class="ambox">La marche arrière est désactivée <em>volontairement</em> dans l'interface, et ce n'est pas une limitation à contourner&nbsp;: c'est le circuit. Pour un vrai fonctionnement bidirectionnel il faut un pont en H &mdash; un DRV8833, ou le TB6612FNG que porte <a href="cam-robot.html">m2</a>.</div>
+
+      <p>Autre différence de conduite&nbsp;: m1 donne <strong>un bref coup de pleine puissance au démarrage</strong> pour vaincre l'adhérence initiale, là où m2 utilise une rampe de seize paliers. Les deux résolvent le même problème &mdash; un moteur chargé ne part pas à bas rapport cyclique &mdash; par les deux bouts, et le coup de pleine puissance est le plus dur pour l'alimentation.</p>
+
+      <h2 id="ledc">Pourquoi m1 a échappé au bug du timer LEDC</h2>
+      <p><a href="cam-robot.html#ledc">m2 a longtemps redémarré</a> dès qu'un moteur partait, parce que ses canaux PWM fixes 8 et 9 tombaient sur le timer que <code>esp_camera_init()</code> reprogramme à 20&nbsp;MHz et un bit de résolution. La question se pose naturellement pour m1, qui fait tourner ses moteurs sur la même puce, à côté de la même caméra.</p>
+      <p><strong>m1 n'a jamais eu ce problème, et c'est un coup de chance.</strong></p>
+      <p>Là où m2 réserve des canaux fixes, m1 se contente d'<code>analogWrite()</code> sur GPIO13 et GPIO12, et laisse le cœur Arduino choisir. Or l'allocateur d'<code>analogWrite()</code> compte <em>à rebours depuis le haut</em>&nbsp;:</p>
+      <pre><code>static int cnt_channel = LEDC_CHANNELS;   // 16
+...
+cnt_channel--;
+channel = cnt_channel;                    // 15, puis 14, puis 13...</code></pre>
+      <p>Le premier moteur reçoit donc le canal 15, le second le canal 14. Avec la règle <code>timer = (canal / 2) % 4</code>, les deux atterrissent sur le <strong>timer 3</strong> du groupe basse vitesse. La caméra tient le timer 0. Aucun recouvrement.</p>
+      <p>La leçon est presque contrariante&nbsp;: en réservant explicitement les canaux 8 à 11 pour être rigoureux, m2 s'est mis en collision avec la caméra, tandis que m1 s'en est sorti en ne décidant rien du tout. Le choix explicite reste le bon &mdash; mais il faut alors savoir <em>ce que</em> l'on choisit.</p>
+
+      <div class="ambox ambox-warning">La sécurité de m1 tient à ce qu'il n'y a que <strong>deux</strong> appels <code>analogWrite()</code>. Chaque broche supplémentaire fait descendre le compteur d'un cran&nbsp;: à la septième, l'allocateur arrive au canal 9 et le moteur gauche de m2 revient hanter m1. Ce n'est pas une marge à consommer sans y penser.</div>
+
+      <h2 id="follow">Suivre une couleur</h2>
+      <p>La troisième vue de l'en-tête, à côté de <strong>Drive</strong> et <strong>Program</strong>. Le robot se dirige tout seul vers quelque chose qu'un enfant a choisi en tapant dessus dans l'image.</p>
+      <ol>
+        <li>Ouvre <strong>Follow</strong>.</li>
+        <li>Tape sur la vidéo, sur l'objet à suivre &mdash; une balle rouge, un gobelet bleu. La pastille montre la couleur retenue.</li>
+        <li>Appuie sur <strong>Follow</strong>.</li>
+      </ol>
+      <p>Le robot tourne vers la couleur, roule dessus, et s'arrête quand elle occupe assez de l'image. Un cadre bleu montre ce qu'il a trouvé.</p>
+
+      <h3>Ce n'est pas malin, et c'est justement la leçon</h3>
+      <p>Huit fois par seconde, la page dessine la vidéo dans un canevas de 64&times;48, parcourt les 3072 pixels, et garde ceux dont la couleur correspond. Puis elle vise leur milieu&nbsp;:</p>
+      <ul>
+        <li>tiers central de l'image &mdash; tout droit&nbsp;;</li>
+        <li>à gauche de ça &mdash; tourner à gauche&nbsp;;</li>
+        <li>à droite &mdash; tourner à droite&nbsp;;</li>
+        <li>assez de pixels correspondants pour remplir <strong>Close enough</strong> &mdash; stop&nbsp;;</li>
+        <li>rien pendant une seconde &mdash; stop, et l'état affiche <code>lost it</code>.</li>
+      </ul>
+      <p><strong>How fussy</strong> règle la distance tolérée entre une couleur et celle qui a été choisie. Trop large, et une balle rouge et une chaise orange deviennent la même chose&nbsp;; trop étroit, et un nuage qui passe devant la fenêtre fait perdre la balle. Ce curseur est l'essentiel de l'activité&nbsp;: il rend visible qu'une machine ne «&nbsp;voit&nbsp;» pas un objet, elle compare des nombres.</p>
+      <p>Tout ce calcul se fait <strong>dans le navigateur</strong>, pas sur l'ESP32. Le robot ne reçoit que des ordres de direction, exactement ceux qu'enverrait un enfant.</p>
+
+      <h2 id="sound">Le son du robot</h2>
+      <p>La pastille <strong>Sound</strong> dans l'en-tête. Le robot n'a pas de haut-parleur&nbsp;: c'est la tablette qui fait le bruit, ce qui lui permet d'être un moteur plutôt qu'un bipeur, et ne coûte rien à l'ESP32.</p>
+      <ul>
+        <li>Un ronflement de moteur dont la <strong>hauteur suit le PWM</strong> envoyé aux moteurs.</li>
+        <li>Un petit couinement à l'arrêt.</li>
+        <li>Un bourdonnement descendant quand le garde-fou se déclenche, en même temps que le <code>TIMEOUT</code> rouge sur la vidéo.</li>
+      </ul>
+      <p>La hauteur est la raison d'être de la fonction. Fais monter un moteur lentement&nbsp;: la note grimpe, et l'intervalle où la note monte clairement <em>alors que la roue ne tourne toujours pas</em> est exactement l'adhérence que <a href="#shared">Find the wake-up number</a> chiffre. Un programme rejoué sonne comme la conduite qui l'a enregistré.</p>
+      <p>Une pression sur une direction répond immédiatement d'après les valeurs des curseurs, et le rapport du robot corrige un sondage plus tard &mdash; donc une commande perdue s'<em>entend</em> comme elle se voit.</p>
+      <p><strong>Éteint par défaut</strong>, et mémorisé par navigateur. Dix robots qui ronflent dans une salle sont un problème d'enseignant, et l'allumer délibérément fait partie de la leçon. Les navigateurs refusant qu'une page fasse du bruit avant qu'on l'ait touchée, c'est la première pression qui démarre tout.</p>
+
+      <h2 id="portal">Le portail captif</h2>
+      <p>Personne n'a à taper <code>192.168.4.1</code>.</p>
+      <p>Tant que l'AP de secours est debout, le robot répond à <strong>toutes</strong> les requêtes DNS par sa propre adresse. Un téléphone qui vient de rejoindre le réseau vérifie s'il atteint Internet, se fait répondre par le robot, en conclut que le réseau demande une authentification, et ouvre une page tout seul.</p>
+      <p>Cette page est volontairement minuscule &mdash; le nom du robot et un lien <strong>Open the robot</strong> &mdash; et non l'interface complète. Le navigateur d'authentification qu'ouvre un système d'exploitation est un navigateur restreint (CustomTabs sur Android), où le flux vidéo et le Web Serial se comportent mal&nbsp;; le lien sert donc à en sortir vers le vrai navigateur. Cela évite aussi de traîner les 70&nbsp;Ko d'interface dans un simple test de connectivité.</p>
+      <ul>
+        <li><strong>Uniquement sur l'AP de secours.</strong> Sur le réseau configuré, le robot est un invité et n'a pas à répondre au DNS des autres&nbsp;: un vrai 404 y reste un 404.</li>
+        <li>Le robot n'offre aucune route vers Internet, donc l'appareil continuera d'annoncer qu'il n'a pas de connexion. C'est correct, et c'est même ce qui fait apparaître la page.</li>
+        <li>Si le portail ne s'ouvre pas sur un appareil, rien n'est perdu&nbsp;: ouvre <code>192.168.4.1</code> à la main.</li>
+      </ul>
+      <pre><code>BOOT: Captive portal started; joining the AP opens the robot page</code></pre>
+
+      <h2 id="driving">Conduire : maintien et arrêt automatique</h2>
+      <p>Identique à <a href="cam-robot.html#driving">m2</a>, et pour les mêmes raisons&nbsp;: un bouton maintenu répète sa commande toutes les 250&nbsp;ms, le robot s'arrête tout seul s'il n'entend rien pendant 600&nbsp;ms, le relâchement envoie l'arrêt deux fois à 150&nbsp;ms d'intervalle, et perdre le focus ou masquer l'onglet arrête aussi.</p>
+      <p>Le suivi de couleur et la relecture de programme passent par ces mêmes fonctions. Un robot qui se conduit tout seul obéit donc au même garde-fou qu'un enfant qui appuie&nbsp;: c'est ce qui rend l'autonomie sûre ici, plutôt qu'une couche de sécurité ajoutée par-dessus.</p>
+
+      <h2 id="shared">Ce que m1 partage avec m2</h2>
+      <p>Les deux robots ont la même charpente, décrite en détail dans l'article <a href="cam-robot.html">m2</a>&nbsp;:</p>
+      <ul>
+        <li><strong>Enregistrer et rejouer</strong> &mdash; conduis à la main, et la conduite devient une liste d'instructions modifiable, gardée sur le robot.</li>
+        <li><strong>Trouver le seuil de démarrage</strong> &mdash; l'activité guidée qui monte de 5 en 5 jusqu'à ce que la roue tourne, et qui met un nombre sur le fait que deux moteurs identiques ne le sont pas.</li>
+        <li><strong>Photos</strong>, nom du robot, plafond de vitesse, réglages caméra en NVS.</li>
+        <li><strong>Les deux volets</strong> Settings et Debug, avec l'historique de 64 événements.</li>
+        <li><strong>Console UART0</strong> à 115200 8N1, et l'OTA par navigateur avec le mot de passe <code>88888888</code> sur partitions <code>min_spiffs.csv</code>.</li>
+      </ul>
+
+      <h2 id="walkthrough">Cloner, flasher &amp; tester</h2>
+      <pre><code>git clone https://github.com/abourdim/wdi_esp32_cam_robot_m1
+cd wdi_esp32_cam_robot_m1
+pio run -e esp32cam
+pio run -e esp32cam -t upload --upload-port COM31</code></pre>
+      <p>Mêmes contraintes que m2&nbsp;: adaptateur USB-TTL 3,3&nbsp;V, <strong>GPIO0 à la masse</strong> pendant la mise sous tension, et vitesse de téléversement à 115200. L'interface web est un littéral dans le sketch, et <code>tools/gzip_ui.py</code> régénère <code>index_html_gz.h</code> après toute modification.</p>
+
+      <h2 id="troubleshooting">Dépannage</h2>
+
+      <h3>Le robot ne recule pas</h3>
+      <p>Ce n'est pas une panne. Il n'y a qu'un MOSFET par moteur&nbsp;: voir <a href="#board">La carte et son brochage</a>. Pour reculer, il faut <a href="cam-robot.html">m2</a> ou un autre pont en H.</p>
+
+      <h3>Le suivi de couleur part dans le décor</h3>
+      <p>Élargis ou resserre <strong>How fussy</strong>. Un réglage trop large accroche tout ce qui est vaguement de la bonne teinte, un réglage trop étroit perd la cible dès que la lumière change. Souviens-toi que la comparaison se fait sur une image de 64&times;48&nbsp;: un objet lointain n'y occupe que quelques pixels.</p>
+
+      <h3>Le portail captif ne s'ouvre pas</h3>
+      <p>Certains appareils ne lancent pas la page de connexion. Ouvre <code>192.168.4.1</code> à la main&nbsp;: tout fonctionne de la même façon. Vérifie aussi que tu es bien sur l'AP de secours et non sur le réseau configuré, où le portail est délibérément inactif.</p>
+
+      <h3>Le son ne démarre pas</h3>
+      <p>Les navigateurs interdisent à une page d'émettre un son avant une interaction. Appuie une première fois sur un bouton, puis rallume <strong>Sound</strong>.</p>
+
+      <h3>La carte redémarre au démarrage d'un moteur</h3>
+      <p>Sur m1, le suspect n'est pas le timer LEDC (voir <a href="#ledc">plus haut</a>) mais <strong>le coup de pleine puissance</strong> au démarrage, qui sollicite le rail 5&nbsp;V bien plus brutalement qu'une rampe. Vérifie l'alimentation et le découplage avant de chercher un défaut logiciel.</p>
+
+      <hr>
+      <p class="hatnote">Articles liés : <a href="cam-robot.html">ESP32-CAM Robot (m2)</a> &middot; <a href="video-car.html">VideoCar</a> &middot; <a href="rxy-web.html">rxy-web</a> &middot; <a href="robot-mv.html">Robot MV</a></p>
+
+    </article>
+  </div>
+</div>
+
+</body>
+</html>

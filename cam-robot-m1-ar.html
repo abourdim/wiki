@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>روبوت ESP32-CAM طراز m1 ‏(wdi_esp32_cam_robot_m1) - Wiki</title>
+<link rel="stylesheet" href="wiki.css">
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-inner">
+    <a class="wiki-logo" href="https://workshop-diy.org"><img src="logo.png" alt="شعار الويكي"></a>
+    <a class="masthead-site-link" href="https://workshop-diy.org">workshop-diy.org</a>
+    <div class="masthead-title">
+      Wiki
+      <span class="sub">قاعدة المعرفة الشخصية والمجانية</span>
+    </div>
+    <div class="masthead-actions">
+      <div class="lang-switch" role="group" aria-label="اللغة">
+        <a href="cam-robot-m1.html" class="lang-switch-btn" title="Français"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="20" height="40" fill="#002395"/><rect x="20" width="20" height="40" fill="#fff"/><rect x="40" width="20" height="40" fill="#ED2939"/></svg></a>
+        <a href="cam-robot-m1-en.html" class="lang-switch-btn" title="English"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="60" height="40" fill="#012169"/><path d="M0 0L60 40M60 0L0 40" stroke="#fff" stroke-width="6.5"/><path d="M0 0L60 40M60 0L0 40" stroke="#C8102E" stroke-width="3.5"/><path d="M30 0V40M0 20H60" stroke="#fff" stroke-width="11"/><path d="M30 0V40M0 20H60" stroke="#C8102E" stroke-width="6.5"/></svg></a>
+        <a href="cam-robot-m1-ar.html" class="lang-switch-btn active" title="العربية"><svg width="24" height="16" viewBox="0 0 900 600"><defs><clipPath id="glCamRobotM1Ar"><rect width="450" height="600"/></clipPath></defs><rect width="450" height="600" fill="#006233"/><rect x="450" width="450" height="600" fill="#FFF"/><g fill="#D21034" transform="translate(450,300)"><circle r="125"/><circle cx="25" r="100" fill="#FFF"/><g clip-path="url(#glCamRobotM1Ar)" transform="translate(-450,-300)"><circle cx="475" cy="300" r="100" fill="#006233"/></g><path d="M85-12l22 67h71l-57 42 22 67-58-42-57 42 21-67-57-42h71z"/></g></svg></a>
+      </div>
+      <div class="masthead-search">
+        <input type="text" placeholder="بحث" disabled>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wiki-layout">
+
+  <div class="sidebar">
+    <h3>التصفح</h3>
+    <ul>
+      <li><a href="index-ar.html">الصفحة الرئيسية</a></li>
+      <li><a href="#">أحدث التغييرات</a></li>
+      <li><a href="#">صفحة عشوائية</a></li>
+    </ul>
+    <h3>التصنيفات</h3>
+    <ul>
+      <li><a href="index-ar.html">شبكات</a></li>
+      <li><a href="index-ar.html">Linux</a></li>
+      <li><a href="index-ar.html">Windows</a></li>
+      <li><a href="index-ar.html">إلكترونيات</a></li>
+      <li><a href="index-ar.html">ESP32</a></li>
+      <li><a href="index-ar.html">micro:bit</a></li>
+    </ul>
+    <h3>أدوات</h3>
+    <ul>
+      <li><a href="https://github.com/abourdim/wdi_esp32_cam_robot_m1">عرض المستودع المصدري</a></li>
+    </ul>
+  </div>
+
+  <div class="content-wrap">
+    <div class="article-tabs">
+      <span class="active">المقال</span>
+      <span>نقاش</span>
+    </div>
+
+    <article>
+      <h1 class="page-title">روبوت ESP32-CAM طراز m1 ‏(wdi_esp32_cam_robot_m1)</h1>
+
+      <div class="infobox">
+        <div class="infobox-title">روبوت ESP32-CAM طراز m1</div>
+        <table>
+          <tr><th>النوع</th><td>عربة واي-فاي بمحرّكين، بثّ فيديو حيّ، وتتبّع لون، والواجهة يقدّمها الروبوت نفسه</td></tr>
+          <tr><th>العتاد</th><td>ESP32-CAM من AI-Thinker ‏(OV2640 مع PSRAM)</td></tr>
+          <tr><th>سائق المحرّكات</th><td>ترانزستور MOSFET واحد في الطرف المنخفض لكل محرّك &mdash; <strong>بلا جسر H</strong></td></tr>
+          <tr><th>الرجوع للخلف</th><td>غير متاح &mdash; مستحيل بهذه الدارة</td></tr>
+          <tr><th>الفيديو</th><td>MJPEG على المنفذ 81</td></tr>
+          <tr><th>الاستقلالية</th><td>تتبّع لون، يُحسَب داخل المتصفّح</td></tr>
+          <tr><th>البرنامج الثابت</th><td>Arduino / PlatformIO</td></tr>
+          <tr><th>نقطة الوصول الاحتياطية</th><td><code dir="ltr">ESP32-Robot-XXXX</code> / <code dir="ltr">88888888</code>، مع بوّابة أسيرة</td></tr>
+          <tr><th>اللغات</th><td>English, Français, العربية</td></tr>
+          <tr><th>المستودع</th><td><a href="https://github.com/abourdim/wdi_esp32_cam_robot_m1" dir="ltr">github.com/abourdim/wdi_esp32_cam_robot_m1</a></td></tr>
+        </table>
+      </div>
+
+      <div class="applink">
+        <a href="https://github.com/abourdim/wdi_esp32_cam_robot_m1" target="_blank" rel="noopener"><img class="applink-qr" src="qr/cam-robot-m1.svg" alt="QR: https://github.com/abourdim/wdi_esp32_cam_robot_m1" width="104" height="104"></a>
+        <div class="applink-text">
+          <div class="applink-title">افتح المستودع</div>
+          <div class="applink-url"><a href="https://github.com/abourdim/wdi_esp32_cam_robot_m1" target="_blank" rel="noopener" dir="ltr">https://github.com/abourdim/wdi_esp32_cam_robot_m1</a></div>
+          <div class="applink-hint">مثل <a href="cam-robot-ar.html">m2</a>، يقدّم هذا الروبوت صفحته بنفسه. لكنك هنا لا تكتب العنوان أصلًا: اتّصل بشبكته فتُفتح الصفحة وحدها.</div>
+        </div>
+      </div>
+
+      <p class="hatnote"><strong>ليس m1 نسخة أقدم من <a href="cam-robot-ar.html">m2</a>، بل روبوت آخر.</strong> الوحدة نفسها ESP32-CAM، ولوحة محرّكات مختلفة كليًّا، ومن ثمّ قدرات متعاكسة. لا يستطيع m1 الرجوع للخلف؛ لكنه في المقابل يتتبّع لونًا، ويُصدر صوت محرّك، ويفتح صفحته بنفسه &mdash; وهي ثلاثة أمور لا يفعلها m2.</p>
+      <p class="hatnote">والقسمة واضحة: <strong>m1 أفضل برمجيًّا، وm2 أمتن إلكترونيًّا.</strong> يتناول هذا المقال ما يخصّ m1 وحده، ويحيل إلى <a href="cam-robot-ar.html">m2</a> في الآليات المشتركة بينهما.</p>
+
+      <div class="toc">
+        <div class="toc-title">المحتويات</div>
+        <ol>
+          <li><a href="#overview">نظرة عامة</a></li>
+          <li><a href="#quickstart">البداية السريعة</a></li>
+          <li><a href="#board">اللوحة وأطرافها: ترانزستور واحد لكل محرّك</a></li>
+          <li><a href="#ledc">لماذا نجا m1 من عطل مؤقّت LEDC</a></li>
+          <li><a href="#follow">تتبّع لون</a></li>
+          <li><a href="#sound">صوت الروبوت</a></li>
+          <li><a href="#portal">البوّابة الأسيرة</a></li>
+          <li><a href="#driving">القيادة: الضغط المستمر والإيقاف التلقائي</a></li>
+          <li><a href="#shared">ما يشترك فيه m1 مع m2</a></li>
+          <li><a href="#walkthrough">الاستنساخ والبرمجة والاختبار</a></li>
+          <li><a href="#troubleshooting">حلّ المشكلات</a></li>
+        </ol>
+      </div>
+
+      <h2 id="overview">نظرة عامة</h2>
+      <p>مثل <a href="cam-robot-ar.html">m2</a>، فإنّ m1 خادم نفسه: البرنامج الثابت يحمل الصفحة كاملة، ويقدّمها على المنفذ 80، ويبثّ الفيديو على المنفذ 81، ولا شيء يُثبَّت. والواجهة المضغوطة هنا 41 كيلوبايت.</p>
+      <p>وما يفصل الروبوتين حقًّا يختصره سطر واحد: <strong>تطبيق m1 أفضل، ولوحة محرّكاته أضعف.</strong> فهو يتتبّع لونًا، ويُغنّي، ويفتح صفحته بنفسه &mdash; لكنه لا يستطيع الرجوع للخلف، لأن إلكترونياته لا تسمح بذلك.</p>
+      <p>وهذه مقارنة نافعة في الورشة، لأنها لا تسير في الاتجاه المتوقَّع. فرقم الإصدار الأعلى لا يعني «أفضل في كل شيء»: ربح m2 جسر H والرجوع للخلف، ولم ينقل عنه تتبّع اللون ولا الصوت.</p>
+
+      <h2 id="quickstart">البداية السريعة</h2>
+      <ol>
+        <li>شغّل الروبوت. يجرّب الشبكة المهيّأة عشر ثوانٍ، ثم يفتح نقطة وصوله.</li>
+        <li>اتّصل بشبكة <code dir="ltr">ESP32-Robot-XXXX</code>، وكلمة المرور <code dir="ltr">88888888</code>.</li>
+        <li><strong>لا تكتب شيئًا.</strong> يتحقّق الهاتف من وجود إنترنت، فيردّ عليه الروبوت، فتُفتح صفحة تسجيل دخول من تلقاء نفسها. اضغط <strong>Open the robot</strong>. انظر <a href="#portal">البوّابة الأسيرة</a>.</li>
+        <li>اضغط سهمًا وأبقِ إصبعك عليه.</li>
+        <li>افتح <strong>Follow</strong>، والمس كرة حمراء في الصورة، ثم اضغط <strong>Follow</strong>: يذهب الروبوت إليها وحده.</li>
+      </ol>
+
+      <h2 id="board">اللوحة وأطرافها: ترانزستور واحد لكل محرّك</h2>
+      <p>هذا هو جوهر ما يميّز m1. تحمل اللوحة <strong>ترانزستور MOSFET واحدًا في الطرف المنخفض لكل محرّك</strong>. والترانزستور الواحد يشغّل محرّكًا واحدًا، في اتجاه واحد فقط.</p>
+
+      <table class="wikitable">
+        <tr><th>الإشارة</th><th>الطرف</th><th>الوظيفة</th></tr>
+        <tr><td>بوّابة المحرّك الأيسر</td><td>GPIO13</td><td>نبض، في اتجاه واحد فقط</td></tr>
+        <tr><td>بوّابة المحرّك الأيمن</td><td>GPIO12</td><td>نبض، في اتجاه واحد فقط</td></tr>
+        <tr><td>مصباح الفلاش</td><td>GPIO4</td><td>الإضاءة ووميض الإقلاع</td></tr>
+      </table>
+
+      <p>والنتيجة مباشرة، وليست مسألة برمجية:</p>
+      <ul>
+        <li>التقدّم للأمام: نعم.</li>
+        <li>الانعطاف: نعم، بإيقاف إحدى العجلتين.</li>
+        <li>التوقّف: نعم.</li>
+        <li><strong>الرجوع للخلف: لا.</strong> فلا برنامج ثابت يستطيع عكس محرّك عبر ترانزستور واحد في الطرف المنخفض.</li>
+      </ul>
+
+      <div class="ambox">الرجوع للخلف مُعطَّل <em>عن قصد</em> في الواجهة، وليس قيدًا يُلتَفّ عليه: إنها الدارة نفسها. والتحكّم ثنائي الاتجاه الحقيقي يحتاج جسر H &mdash; مثل DRV8833، أو TB6612FNG الذي يحمله <a href="cam-robot-ar.html">m2</a>.</div>
+
+      <p>وثمّة فارق آخر في القيادة: يعطي m1 <strong>دفعة قصيرة بكامل الطاقة عند الانطلاق</strong> للتغلّب على الاحتكاك الساكن، بينما يستعمل m2 رمّة من ستّ عشرة درجة. وكلاهما يعالج المشكلة نفسها &mdash; إذ لا ينطلق محرّك محمّل عند دورة تشغيل منخفضة &mdash; لكن من طرفين متقابلين، ودفعة الطاقة الكاملة أقسى بكثير على التغذية.</p>
+
+      <h2 id="ledc">لماذا نجا m1 من عطل مؤقّت LEDC</h2>
+      <p><a href="cam-robot-ar.html#ledc">ظلّ m2 يُعيد التشغيل طويلًا</a> كلما انطلق محرّك، لأن قناتَي النبض الثابتتين 8 و 9 كانتا تقعان على المؤقّت الذي تعيد <code dir="ltr">esp_camera_init()</code> برمجته إلى 20 ميغاهرتز بدقّة بت واحد. والسؤال يطرح نفسه عن m1، الذي يدير محرّكيه على الرقاقة نفسها، بجوار الكاميرا نفسها.</p>
+      <p><strong>لم يُصب m1 بهذا العطل قط، وذلك محض حظّ.</strong></p>
+      <p>فحيث يحجز m2 قنوات ثابتة، يكتفي m1 باستدعاء <code dir="ltr">analogWrite()</code> على GPIO13 و GPIO12 ويترك الاختيار لنواة Arduino. وموزّع <code dir="ltr">analogWrite()</code> يعدّ <em>تنازليًّا من الأعلى</em>:</p>
+      <pre dir="ltr"><code>static int cnt_channel = LEDC_CHANNELS;   // 16
+...
+cnt_channel--;
+channel = cnt_channel;                    // 15, then 14, then 13...</code></pre>
+      <p>فيأخذ المحرّك الأول القناة 15، والثاني القناة 14. وبتطبيق القاعدة <code dir="ltr">timer = (channel / 2) % 4</code>، تقع القناتان على <strong>المؤقّت 3</strong> من مجموعة السرعة المنخفضة. والكاميرا تحتفظ بالمؤقّت 0. فلا تداخل البتّة.</p>
+      <p>والدرس يكاد يكون مزعجًا: فبحجزه القنوات 8 إلى 11 صراحةً توخّيًا للدقّة، اصطدم m2 بالكاميرا، بينما نجا m1 لأنه لم يقرّر شيئًا أصلًا. ويبقى الحجز الصريح هو الصواب &mdash; لكن بشرط معرفة <em>ما</em> الذي تحجزه.</p>
+
+      <div class="ambox ambox-warning">تقوم سلامة m1 على أن هناك <strong>طرفين اثنين فقط</strong> يستعملان <code dir="ltr">analogWrite()</code>. وكل طرف إضافي يُنزل العدّاد درجة: وعند السابع يبلغ الموزّع القناة 9، فيعود محرّك m2 الأيسر ليطارد m1. وهذا ليس هامشًا يُنفَق دون تفكير.</div>
+
+      <h2 id="follow">تتبّع لون</h2>
+      <p>العرض الثالث في الشريط العلوي، إلى جانب <strong>Drive</strong> و<strong>Program</strong>. يقود الروبوت نفسه نحو شيء اختاره الطفل بلمسه على الفيديو.</p>
+      <ol>
+        <li>افتح <strong>Follow</strong>.</li>
+        <li>المس على الفيديو الشيء المراد تتبّعه &mdash; كرة حمراء، أو كوب أزرق. وتُظهر العيّنة اللون الذي التُقط.</li>
+        <li>اضغط <strong>Follow</strong>.</li>
+      </ol>
+      <p>ينعطف الروبوت نحو اللون، ويسير إليه، ويتوقّف حين يملأ اللونُ قدرًا كافيًا من الصورة. ويُظهر إطار أزرق على الفيديو ما وجده.</p>
+
+      <h3>ليس ذكيًّا، وهذا هو الدرس</h3>
+      <p>ثماني مرات في الثانية، ترسم الصفحة الفيديو داخل لوحة 64&times;48، وتمرّ على البكسلات الـ3072 كلها، وتحتفظ بما يطابق لونه المطلوب. ثم توجّه نحو منتصفها:</p>
+      <ul>
+        <li>الثلث الأوسط من الإطار &mdash; إلى الأمام؛</li>
+        <li>يسار ذلك &mdash; انعطاف يسارًا؛</li>
+        <li>يمينه &mdash; انعطاف يمينًا؛</li>
+        <li>بكسلات مطابقة كافية لملء <strong>Close enough</strong> &mdash; توقّف؛</li>
+        <li>لا شيء مطابق لمدة ثانية &mdash; توقّف، وتقرأ الحالة <code dir="ltr">lost it</code>.</li>
+      </ul>
+      <p>و<strong>How fussy</strong> يحدّد كم يبعد اللون عن المختار ويظلّ محسوبًا. فبتوسيع كافٍ تصير الكرة الحمراء والكرسي البرتقالي شيئًا واحدًا؛ وبتضييق كافٍ تُفقد الكرة لمجرّد مرور غيمة أمام النافذة. وهذا المزلاق هو معظم النشاط: فهو يُظهر أن الآلة لا «ترى» شيئًا، بل تقارن أرقامًا.</p>
+      <p>وكل هذا الحساب يجري <strong>داخل المتصفّح</strong> لا على ESP32. فلا يتلقّى الروبوت سوى أوامر اتجاه &mdash; هي نفسها التي يرسلها طفل.</p>
+
+      <h2 id="sound">صوت الروبوت</h2>
+      <p>شارة <strong>Sound</strong> في الشريط العلوي. لا يملك الروبوت مكبّر صوت: فاللوح هو من يُصدر الصوت، ولذلك أمكن أن يكون صوت محرّك لا مجرّد صفّارة، ولا يكلّف ESP32 شيئًا.</p>
+      <ul>
+        <li>هدير محرّك <strong>تتبع طبقتُه قيمةَ النبض</strong> المُعطاة للمحرّكات.</li>
+        <li>زقزقة قصيرة عند التوقّف.</li>
+        <li>طنين هابط حين ينطلق مؤقّت الأمان، مع ظهور <code dir="ltr">TIMEOUT</code> الأحمر على الفيديو.</li>
+      </ul>
+      <p>والطبقة هي سبب وجود هذه الميزة. ارفع محرّكًا واحدًا ببطء فترتفع النغمة؛ والمدى الذي ترتفع فيه النغمة بوضوح <em>والعجلة ما تزال ساكنة</em> هو بالضبط الاحتكاك الساكن الذي يضع له <a href="#shared">Find the wake-up number</a> رقمًا. والبرنامج المُعاد تشغيله يبدو صوته كصوت القيادة التي سجّلته.</p>
+      <p>والضغط على اتجاه يستجيب فورًا اعتمادًا على قيم المزالق، ثم يصحّحه تقرير الروبوت نفسه بعد استطلاع لاحق &mdash; فالأمر الضائع يُسمَع كما يُرى.</p>
+      <p><strong>مطفأ افتراضيًّا</strong>، ومحفوظ لكل متصفّح. فعشرة روبوتات تهدر في غرفة واحدة مشكلةُ معلّم، وتشغيله عن قصد جزء من الدرس. والمتصفّحات ترفض أن تُصدر صفحةٌ صوتًا قبل أن يلمسها أحد، فأول ضغطة هي ما يبدأ كل شيء.</p>
+
+      <h2 id="portal">البوّابة الأسيرة</h2>
+      <p>لا أحد مضطرّ لكتابة <code dir="ltr">192.168.4.1</code>.</p>
+      <p>ما دامت نقطة الوصول الاحتياطية قائمة، يردّ الروبوت على <strong>كل</strong> استعلام DNS بعنوانه هو. فالهاتف الذي انضمّ للتوّ يتحقّق من بلوغ الإنترنت، فيجيبه الروبوت بدلًا من ذلك، فيستنتج أن الشبكة تطلب تسجيل دخول، ويفتح صفحة من تلقاء نفسه.</p>
+      <p>وتلك الصفحة صغيرة عن قصد &mdash; اسم الروبوت ورابط <strong>Open the robot</strong> &mdash; لا الواجهة الكاملة. فمتصفّح تسجيل الدخول الذي يفتحه نظام التشغيل متصفّح مقيّد (CustomTabs على أندرويد)، يسيء فيه بثّ الفيديو و Web Serial التصرّف معًا، فوُضع الرابط للخروج منه إلى المتصفّح الحقيقي. كما يعني ذلك ألّا تُجرّ واجهة الـ70 كيلوبايت في اختبار اتصال بسيط.</p>
+      <ul>
+        <li><strong>على نقطة الوصول الاحتياطية فقط.</strong> فعلى الشبكة المهيّأة يكون الروبوت ضيفًا ولا شأن له بالردّ على DNS نيابةً عن أحد: و404 الحقيقي يبقى 404.</li>
+        <li>ولا يوفّر الروبوت أي منفذ إلى الإنترنت، فيظلّ الجهاز المتصل يعلن أنه بلا اتصال. وهذا صحيح، وهو نفسه ما يُظهر صفحة تسجيل الدخول.</li>
+        <li>وإن لم تُفتح البوّابة على جهاز ما، فلا شيء يضيع: افتح <code dir="ltr">192.168.4.1</code> يدويًّا.</li>
+      </ul>
+      <pre dir="ltr"><code>BOOT: Captive portal started; joining the AP opens the robot page</code></pre>
+
+      <h2 id="driving">القيادة: الضغط المستمر والإيقاف التلقائي</h2>
+      <p>مطابق لـ<a href="cam-robot-ar.html#driving">m2</a>، وللأسباب نفسها: الزرّ المضغوط يكرّر أمره كل 250 ملّي ثانية، ويوقف الروبوت نفسه إن لم يسمع شيئًا 600 ملّي ثانية، ورفع الإصبع يرسل الإيقاف مرتين بفاصل 150 ملّي ثانية، وفقدان التركيز أو إخفاء التبويب يوقف أيضًا.</p>
+      <p>ويمرّ تتبّع اللون وإعادة تشغيل البرامج عبر هذه الدوالّ نفسها. فالروبوت الذي يقود نفسه يخضع للحارس نفسه الذي يخضع له طفل يضغط زرًّا &mdash; وهذا ما يجعل الاستقلالية آمنة هنا، بدل طبقة أمان مُضافة فوقها.</p>
+
+      <h2 id="shared">ما يشترك فيه m1 مع m2</h2>
+      <p>يتقاسم الروبوتان الهيكل نفسه، الموصوف تفصيلًا في مقال <a href="cam-robot-ar.html">m2</a>:</p>
+      <ul>
+        <li><strong>التسجيل وإعادة التشغيل</strong> &mdash; قُد بيدك فتصير القيادة قائمة تعليمات قابلة للتعديل، محفوظة على الروبوت.</li>
+        <li><strong>إيجاد عتبة الانطلاق</strong> &mdash; النشاط الموجَّه الذي يصعد خمسًا خمسًا حتى تدور العجلة، فيضع رقمًا على حقيقة أن محرّكين متطابقين ليسا متطابقين.</li>
+        <li><strong>الصور</strong>، واسم الروبوت، وسقف السرعة، وإعدادات الكاميرا في NVS.</li>
+        <li><strong>اللوحتان الجانبيتان</strong> Settings و Debug، مع سجلّ الأحداث الأربعة والستين.</li>
+        <li><strong>طرفية UART0</strong> بسرعة 115200 8N1، والتحديث اللاسلكي عبر المتصفّح بكلمة المرور <code dir="ltr">88888888</code> على تقسيم <code dir="ltr">min_spiffs.csv</code>.</li>
+      </ul>
+
+      <h2 id="walkthrough">الاستنساخ والبرمجة والاختبار</h2>
+      <pre dir="ltr"><code>git clone https://github.com/abourdim/wdi_esp32_cam_robot_m1
+cd wdi_esp32_cam_robot_m1
+pio run -e esp32cam
+pio run -e esp32cam -t upload --upload-port COM31</code></pre>
+      <p>القيود نفسها كما في m2: محوّل USB-TTL بجهد 3.3 فولت، و<strong>إبقاء GPIO0 على الأرضي</strong> أثناء التشغيل، وسرعة رفع 115200. وواجهة الويب نصّ داخل السكربت، ويعيد <code dir="ltr">tools/gzip_ui.py</code> توليد <code dir="ltr">index_html_gz.h</code> بعد أي تعديل.</p>
+
+      <h2 id="troubleshooting">حلّ المشكلات</h2>
+
+      <h3>الروبوت لا يرجع للخلف</h3>
+      <p>ليس عطلًا. فثمّة ترانزستور واحد لكل محرّك: انظر <a href="#board">اللوحة وأطرافها</a>. وللرجوع للخلف تحتاج <a href="cam-robot-ar.html">m2</a> أو جسر H آخر.</p>
+
+      <h3>تتبّع اللون يشرد</h3>
+      <p>وسّع <strong>How fussy</strong> أو ضيّقه. فالتوسيع المفرط يتعلّق بكل ما يقارب اللون المطلوب، والتضييق المفرط يفقد الهدف بمجرّد تغيّر الإضاءة. وتذكّر أن المقارنة تجري على صورة 64&times;48: فالجسم البعيد لا يشغل فيها سوى بضعة بكسلات.</p>
+
+      <h3>البوّابة الأسيرة لا تُفتح</h3>
+      <p>بعض الأجهزة لا تُطلق صفحة تسجيل الدخول. افتح <code dir="ltr">192.168.4.1</code> يدويًّا؛ فكل شيء يعمل كما هو. وتأكّد أيضًا أنك على نقطة الوصول الاحتياطية لا على الشبكة المهيّأة، حيث البوّابة معطّلة عن قصد.</p>
+
+      <h3>الصوت لا يبدأ</h3>
+      <p>تمنع المتصفّحات الصفحةَ من إصدار صوت قبل أي تفاعل. اضغط زرًّا مرة، ثم أعِد تشغيل <strong>Sound</strong>.</p>
+
+      <h3>تُعيد اللوحة التشغيل عند انطلاق محرّك</h3>
+      <p>على m1 ليس المتّهم مؤقّت LEDC (انظر <a href="#ledc">أعلاه</a>) بل <strong>دفعة الطاقة الكاملة</strong> عند الانطلاق، وهي تضرب خطّ 5 فولت أقسى بكثير من الرمّة التدريجية. تحقّق من التغذية ومن مكثّفات الفصل قبل البحث عن عطل برمجي.</p>
+
+      <hr>
+      <p class="hatnote">مقالات ذات صلة: <a href="cam-robot-ar.html">روبوت ESP32-CAM ‏(m2)</a> &middot; <a href="video-car-ar.html">VideoCar</a> &middot; <a href="rxy-web-ar.html">rxy-web</a> &middot; <a href="robot-mv-ar.html">Robot MV</a></p>
+
+    </article>
+  </div>
+</div>
+
+</body>
+</html>
