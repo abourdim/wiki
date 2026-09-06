@@ -15,6 +15,7 @@ Every article is available in French (default), English, and Arabic (RTL). The b
 - ESP32-RXY — ESP32 firmware that impersonates a BBC micro:bit's BLE UART protocol, so the unmodified rxy web app can connect to a plain ESP32-C3 and drive widgets exactly as it would a real micro:bit. [FR](esp32-rxy.html) · [EN](esp32-rxy-en.html) · [AR](esp32-rxy-ar.html)
 - rxy-web — The universal Bluetooth remote for rxy robots: the robot owns the layout, so the app knows no robot in advance — it asks whichever one it just found to send its own interface, then draws it. 20 widget types, a layout-fingerprint cache, and a radar fed by two values the robot already sends. [FR](rxy-web.html) · [EN](rxy-web-en.html) · [AR](rxy-web-ar.html)
 - Servo-Sonar — A reduced bit-rxy: two continuous-rotation drive servos, one HC-SR04, and nothing else. Four firmware-served panels, and per-wheel trim sliders that are set from the app while driving and kept in NVS. [FR](servo-sonar.html) · [EN](servo-sonar-en.html) · [AR](servo-sonar-ar.html)
+- ESP32-CAM Robot -- Wi-Fi rover on a single ESP32-CAM: live MJPEG video, two motors on a TB6612FNG, record-and-replay programs kept on the robot, and a web interface the firmware serves itself. Includes the LEDC timer collision that let the camera clock silently saturate the left motor's PWM. [FR](cam-robot.html) · [EN](cam-robot-en.html) · [AR](cam-robot-ar.html)
 
 ## Index
 

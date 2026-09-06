@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ESP32-CAM Robot (wdi_esp32_cam_robot_m2) - Wiki</title>
+<link rel="stylesheet" href="wiki.css">
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-inner">
+    <a class="wiki-logo" href="https://workshop-diy.org"><img src="logo.png" alt="Wiki logo"></a>
+    <a class="masthead-site-link" href="https://workshop-diy.org">workshop-diy.org</a>
+    <div class="masthead-title">
+      Wiki
+      <span class="sub">The free personal knowledge base</span>
+    </div>
+    <div class="masthead-actions">
+      <div class="lang-switch" role="group" aria-label="Language">
+        <a href="cam-robot.html" class="lang-switch-btn" title="Français"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="20" height="40" fill="#002395"/><rect x="20" width="20" height="40" fill="#fff"/><rect x="40" width="20" height="40" fill="#ED2939"/></svg></a>
+        <a href="cam-robot-en.html" class="lang-switch-btn active" title="English"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="60" height="40" fill="#012169"/><path d="M0 0L60 40M60 0L0 40" stroke="#fff" stroke-width="6.5"/><path d="M0 0L60 40M60 0L0 40" stroke="#C8102E" stroke-width="3.5"/><path d="M30 0V40M0 20H60" stroke="#fff" stroke-width="11"/><path d="M30 0V40M0 20H60" stroke="#C8102E" stroke-width="6.5"/></svg></a>
+        <a href="cam-robot-ar.html" class="lang-switch-btn" title="العربية"><svg width="24" height="16" viewBox="0 0 900 600"><defs><clipPath id="glCamRobotEn"><rect width="450" height="600"/></clipPath></defs><rect width="450" height="600" fill="#006233"/><rect x="450" width="450" height="600" fill="#FFF"/><g fill="#D21034" transform="translate(450,300)"><circle r="125"/><circle cx="25" r="100" fill="#FFF"/><g clip-path="url(#glCamRobotEn)" transform="translate(-450,-300)"><circle cx="475" cy="300" r="100" fill="#006233"/></g><path d="M85-12l22 67h71l-57 42 22 67-58-42-57 42 21-67-57-42h71z"/></g></svg></a>
+      </div>
+      <div class="masthead-search">
+        <input type="text" placeholder="Search" disabled>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wiki-layout">
+
+  <div class="sidebar">
+    <h3>Navigation</h3>
+    <ul>
+      <li><a href="index-en.html">Main page</a></li>
+      <li><a href="#">Recent changes</a></li>
+      <li><a href="#">Random page</a></li>
+    </ul>
+    <h3>Categories</h3>
+    <ul>
+      <li><a href="index-en.html">Networking</a></li>
+      <li><a href="index-en.html">Linux</a></li>
+      <li><a href="index-en.html">Windows</a></li>
+      <li><a href="index-en.html">Electronics</a></li>
+      <li><a href="index-en.html">ESP32</a></li>
+      <li><a href="index-en.html">micro:bit</a></li>
+    </ul>
+    <h3>Tools</h3>
+    <ul>
+      <li><a href="https://github.com/abourdim/wdi_esp32_cam_robot_m2">View source repository</a></li>
+    </ul>
+  </div>
+
+  <div class="content-wrap">
+    <div class="article-tabs">
+      <span class="active">Article</span>
+      <span>Discussion</span>
+    </div>
+
+    <article>
+      <h1 class="page-title">ESP32-CAM Robot (wdi_esp32_cam_robot_m2)</h1>
+
+      <div class="infobox">
+        <div class="infobox-title">ESP32-CAM Robot</div>
+        <table>
+          <tr><th>Type</th><td>Two-motor Wi-Fi rover with live video and a firmware-served interface</td></tr>
+          <tr><th>Hardware</th><td>AI-Thinker ESP32-CAM (OV2640, PSRAM) + TB6612FNG</td></tr>
+          <tr><th>Motor driver</th><td>SparkFun ROB-14450 &mdash; PWMA and PWMB tied together</td></tr>
+          <tr><th>Video</th><td>MJPEG on port 81 &mdash; VGA at quality 12 by default</td></tr>
+          <tr><th>Firmware</th><td>v1.2 (Arduino / PlatformIO)</td></tr>
+          <tr><th>Interface</th><td>Served by the robot itself; nothing to install</td></tr>
+          <tr><th>Fallback AP</th><td><code>ESP32-Robot-XXXX</code> / <code>88888888</code> / <code>192.168.4.1</code></td></tr>
+          <tr><th>Console</th><td>UART0, 115200 8N1</td></tr>
+          <tr><th>Languages</th><td>English, Français, العربية</td></tr>
+          <tr><th>Repository</th><td><a href="https://github.com/abourdim/wdi_esp32_cam_robot_m2">github.com/abourdim/wdi_esp32_cam_robot_m2</a></td></tr>
+        </table>
+      </div>
+
+      <div class="applink">
+        <a href="https://github.com/abourdim/wdi_esp32_cam_robot_m2" target="_blank" rel="noopener"><img class="applink-qr" src="qr/cam-robot.svg" alt="QR: https://github.com/abourdim/wdi_esp32_cam_robot_m2" width="104" height="104"></a>
+        <div class="applink-text">
+          <div class="applink-title">Open the repository</div>
+          <div class="applink-url"><a href="https://github.com/abourdim/wdi_esp32_cam_robot_m2" target="_blank" rel="noopener">https://github.com/abourdim/wdi_esp32_cam_robot_m2</a></div>
+          <div class="applink-hint">This robot has no hosted app &mdash; it serves its own page. Join its Wi-Fi and open <code>http://192.168.4.1</code>. No install, no app store.</div>
+        </div>
+      </div>
+
+      <p class="hatnote">This article covers the <strong>ESP32-CAM Robot</strong>, revision <code>m2</code>: one camera, two motors, and a single chip running both. The robot hosts its interface inside its own firmware, which makes it self-contained &mdash; but it also forces the camera and the motors to share hardware, which is where the failure described below comes from.</p>
+      <p class="hatnote">For a rover where the app lives apart from the robot, see <a href="rxy-web-en.html">rxy-web</a>. For the other camera robot, the one whose camera board does not drive the motors at all, see <a href="video-car-en.html">VideoCar</a>.</p>
+
+      <div class="toc">
+        <div class="toc-title">Contents</div>
+        <ol>
+          <li><a href="#overview">Overview</a></li>
+          <li><a href="#quickstart">Quick start</a></li>
+          <li><a href="#walkthrough">Step by step: clone, flash &amp; test</a></li>
+          <li><a href="#board">The board and its pinout</a></li>
+          <li><a href="#ledc">The LEDC timer bug: when the camera clock steals a motor's PWM</a></li>
+          <li><a href="#driving">Driving: hold, keepalive, and the dead man's switch</a></li>
+          <li><a href="#video">The video and its overlays</a></li>
+          <li><a href="#ui">The web interface</a></li>
+          <li><a href="#program">Record and replay</a></li>
+          <li><a href="#threshold">Finding the wake-up number</a></li>
+          <li><a href="#network">Networking: the fallback access point</a></li>
+          <li><a href="#serial">UART0 serial console</a></li>
+          <li><a href="#ota">Updating over Wi-Fi</a></li>
+          <li><a href="#troubleshooting">Troubleshooting</a></li>
+        </ol>
+      </div>
+
+      <h2 id="overview">Overview</h2>
+      <p><strong>The robot is its own server.</strong> There is nothing to install: the firmware carries the complete HTML page, serves it on port 80, and streams video on port 81. A phone, a tablet or a laptop opens one address and drives.</p>
+      <p>That is the fundamental difference from the <a href="rxy-web-en.html">rxy</a> rovers, where a hosted app asks the robot for its layout. Here there is no app at all, so there is no app version to match &mdash; but the page rides in the robot's flash, and every interface change means reflashing.</p>
+      <p>The page is stored <em>compressed</em>. The HTML literal is 154&nbsp;KB; <code>tools/gzip_ui.py</code> produces a 36&nbsp;KB gzip copy in <code>index_html_gz.h</code>, and that is what goes over Wi-Fi &mdash; the same link carrying the video. Forget to re-run the script and the firmware notices at boot on its own: it compares the recorded length and hash against the literal it was built with, and falls back to serving the page uncompressed, saying so in the log.</p>
+
+      <div class="ambox">One chip does everything: the camera, both motors, Wi-Fi and the web server. That is what makes this robot small and cheap, and it is also the source of its most confusing faults. See <a href="#ledc">the LEDC timer bug</a>.</div>
+
+      <h2 id="quickstart">Quick start</h2>
+      <ol>
+        <li>Power the robot. The flash LED blinks three times: the CPU is running.</li>
+        <li>It tries the configured Wi-Fi network for 10&nbsp;seconds. If that fails, it opens its own access point.</li>
+        <li>Join <code>ESP32-Robot-XXXX</code>, password <code>88888888</code>. The <code>XXXX</code> comes from the MAC address, so several classroom robots do not collide.</li>
+        <li>Open <code>http://192.168.4.1</code>. The picture appears, and the header shows the robot name and a <strong>Live</strong> pill.</li>
+        <li>Press an arrow and <strong>hold it</strong>: the robot drives while you hold, and not half a second longer.</li>
+      </ol>
+
+      <h2 id="walkthrough">Step by step: clone, flash &amp; test</h2>
+      <p>The repository is an ordinary Arduino sketch at the root, with a PlatformIO project pointing at it. Both build the same file.</p>
+      <pre><code>git clone https://github.com/abourdim/wdi_esp32_cam_robot_m2
+cd wdi_esp32_cam_robot_m2
+pio run -e esp32cam</code></pre>
+      <p>Flashing goes through a 3.3&nbsp;V USB-TTL adapter. This carrier board has no auto-reset: you must <strong>hold GPIO0 low</strong> while powering up to enter upload mode.</p>
+      <pre><code>pio run -e esp32cam -t upload --upload-port COM31
+pio device monitor -b 115200</code></pre>
+      <p>Upload speed is deliberately pinned to 115200 in <code>platformio.ini</code>. A faster link often connects and then dies right after the baud switch, which shows up as a baffling failure halfway through a transfer.</p>
+      <p>A second environment, <code>esp32cam-debug</code>, produces a symbol-rich image. Use it only to reproduce a crash: PlatformIO's exception decoder needs the matching <code>firmware.elf</code> to translate a backtrace.</p>
+
+      <div class="ambox">Arduino compiles <strong>every</strong> <code>.ino</code> file in one folder. Never leave two firmware versions side by side: the error it produces (<code>redefinition of ssid</code>) does not say where it came from.</div>
+
+      <h2 id="board">The board and its pinout</h2>
+      <p>The driver is a <strong>TB6612FNG</strong> (SparkFun ROB-14450 module). The important detail in the schematic, the one everything else in the motor firmware follows from: <strong>PWMA and PWMB are wired to the same pin</strong>, GPIO12.</p>
+      <p>The usual TB6612 arrangement puts PWM on the enable input and uses the direction inputs as plain on/off. That is impossible here without losing independent left and right speed control. So the firmware inverts the logic: <strong>GPIO12 is held high continuously</strong>, and PWM is applied to one direction input per motor. Direction is chosen by deciding which of the two inputs carries the duty cycle.</p>
+
+      <table class="wikitable">
+        <tr><th>Signal</th><th>Pin</th><th>Role</th></tr>
+        <tr><td>PWMA + PWMB</td><td>GPIO12</td><td>Shared enable, held high while moving</td></tr>
+        <tr><td>AIN1</td><td>GPIO2</td><td>Motor A / J6 &mdash; <em>left</em>, forward</td></tr>
+        <tr><td>AIN2</td><td>GPIO13</td><td>Motor A / J6 &mdash; reverse</td></tr>
+        <tr><td>BIN1</td><td>GPIO15</td><td>Motor B / J7 &mdash; <em>right</em>, forward</td></tr>
+        <tr><td>BIN2</td><td>GPIO14</td><td>Motor B / J7 &mdash; reverse</td></tr>
+        <tr><td>STBY</td><td>+5&nbsp;V</td><td>Hard-wired enabled</td></tr>
+        <tr><td>Flash LED</td><td>GPIO4</td><td>Lighting and the boot blink</td></tr>
+      </table>
+
+      <p>Starting is gradual: <strong>16 steps of 12&nbsp;ms</strong> up to the requested duty and never beyond it. When both motors start together, the second is staggered by five steps (about 60&nbsp;ms) so the two inrush currents do not coincide. A direction change always passes through a stop with a 60&nbsp;ms pause: slamming a loaded geared motor from forward into reverse punishes the gearbox and creates one more current spike.</p>
+
+      <h2 id="ledc">The LEDC timer bug: when the camera clock steals a motor's PWM</h2>
+      <p>This is the most instructive failure on this robot, and it held out for a long time because every symptom pointed at hardware.</p>
+      <p><strong>The symptom.</strong> Any command that drove the left motor reset the board instantly: <code>rst:0xc</code>, no backtrace, no <em>Guru Meditation</em>. Sometimes the camera fell over first, with an <code>SCCB_Write Failed</code> followed by a sensor probe that got no answer at all. Commands that drove only the right motor ran indefinitely.</p>
+      <p><strong>The false trail.</strong> An asymmetry like that looks like a seized motor or a weak supply. Changing the left motor's speed &mdash; from 71 to 146 out of 255 &mdash; made no difference whatsoever, which seemed to confirm a mechanical fault. It was in fact the decisive clue, misread.</p>
+      <p><strong>The cause.</strong> The Arduino core has no LEDC channel allocator: group and timer are derived from the <em>channel number</em> and nothing else.</p>
+      <pre><code>group = channel / 8        (0 = high speed, 1 = low speed)
+timer = (channel / 2) % 4</code></pre>
+      <p>And <code>esp_camera_init()</code> reprograms <strong>low-speed timer 0</strong> to 20&nbsp;MHz with a duty resolution of <strong>one single bit</strong>, to generate the sensor's XCLK. Channels 8 and 9 &mdash; the left motor &mdash; land on exactly that timer.</p>
+      <p>So from camera init onward, the left motor had one bit of resolution. Nothing failed loudly: <code>ledcWrite()</code> kept returning normally, but <em>every</em> non-zero value saturated the comparator and pinned the pin high. The soft start ramped through sixteen steps that were all already 100&nbsp;%. The left motor therefore took a maximum current step, all at once, on every command &mdash; and the board collapsed.</p>
+
+      <div class="ambox ambox-warning">This is also why changing the speed achieved nothing: <strong>71 and 146 saturate one bit in exactly the same way.</strong> A setting with no effect is not proof of a mechanical fault; it can be proof that the setting never reaches the hardware at all.</div>
+
+      <p><strong>The fix.</strong> The left motor moved to channels 12 and 13 (timer 2); the right stays on 10 and 11 (timer 1). The camera keeps timer 0, the flash LED keeps timer 3 of the high-speed group. Nothing overlaps any more.</p>
+      <p>Two guards stop the fault coming back. <code>static_assert</code>s on the channel numbers <strong>fail the build</strong> if a motor channel or the LED lands on the camera's timer. And <code>verifyMotorLedcTimers()</code> reads the two timers' real frequency back after <em>every</em> <code>esp_camera_init()</code> &mdash; at boot and after each in-place sensor recovery &mdash; then writes it to the log:</p>
+      <pre><code>BOOT: Motor LEDC timers OK; left 1000 Hz, right 1000 Hz</code></pre>
+      <p>If some future Arduino core or camera driver update moves a timer anyway, that line will say so, and the firmware stops the motors rather than leaving them at full power.</p>
+      <p>The lesson generalises: on any ESP32-CAM board, <strong>keep motor and servo PWM off channels 8 and 9.</strong> The failure is silent by construction.</p>
+
+      <h2 id="driving">Driving: hold, keepalive, and the dead man's switch</h2>
+      <p>The arrows drive only while they are held. Every command is a fire-and-forget request, so any one of them can be lost &mdash; and the one that matters is the <strong>stop</strong>. A dropped stop used to leave a wheel turning until some later command happened to get through.</p>
+      <p>So the robot no longer relies on hearing the stop:</p>
+      <ul>
+        <li>A held button <strong>repeats its command every 250&nbsp;ms</strong>.</li>
+        <li>If the robot hears no motion command for <strong>600&nbsp;ms</strong>, it stops the motors itself and logs <code>SAFETY: motion timeout; motors stopped</code>.</li>
+        <li>The release sends stop <strong>twice</strong>, 150&nbsp;ms apart.</li>
+        <li>Losing window focus, hiding the tab, or leaving the page also stops.</li>
+      </ul>
+      <p>A lost packet, a closed laptop, a browser that never reported the release, a robot that drives out of range: they all end the same way, motors stopped within about half a second.</p>
+      <p>Keepalive repeats are not written to the event log &mdash; several entries a second would bury everything else &mdash; so a held button still shows as one command.</p>
+
+      <h2 id="video">The video and its overlays</h2>
+      <p>The MJPEG stream is served on port <strong>81</strong>, VGA at quality 12 with two frame buffers when PSRAM is present, QVGA when it is not. Quality 12 rather than 10 because the Wi-Fi link, not the sensor, sets the frame rate.</p>
+      <ul>
+        <li>The camera always hands over its <strong>newest</strong> frame. Queued frames would arrive a capture late, which looks like lag even when the frame rate is fine.</li>
+        <li>Wi-Fi modem sleep is switched off: left on, the radio parks between beacons and the picture stutters.</li>
+        <li><strong>One viewer at a time.</strong> A second browser is told the stream is in use rather than left with a picture that never arrives.</li>
+        <li>The page <strong>reconnects on its own</strong>. A failed capture and a reboot both end the stream without any error the browser can see; the page notices within a few seconds.</li>
+        <li>The stream <strong>pauses while its tab is hidden</strong>, so a forgotten tab does not hold the single viewer slot.</li>
+      </ul>
+      <p>The overlays are not burned into the image: they are page elements sitting beside it. So they stay upright at every display rotation, and anything that records the stream gets clean frames. Burning them in would mean decoding, drawing and re-encoding every frame on the ESP32, costing far more frame rate than the mark is worth.</p>
+      <p>Bottom right, three readouts at 30&nbsp;% opacity <em>at rest</em>, coming up to full the moment one of them matters: the robot is moving (<code>RIGHT 220/0</code>, blue), the signal is at or below &minus;75&nbsp;dBm (amber &mdash; the earliest honest warning that you are driving out of range, since the video outlasts the commands), or the dead man's switch has just fired (<code>TIMEOUT</code>, red, three seconds).</p>
+      <p>The frame rate is measured <em>on the robot</em>: a browser reports a multipart image as loaded once, on the first frame, and cannot count them.</p>
+
+      <h2 id="ui">The web interface</h2>
+      <p>A sticky header, and two collapsible sidebars. The split is by what you are doing: <strong>Settings</strong> is what you change on the robot, <strong>Debug</strong> is what you watch while driving it.</p>
+      <p><strong>Settings</strong> gathers the camera (resolution from QQVGA to UXGA, display rotation, JPEG quality, brightness, contrast, saturation, flip and mirror), the robot (name, speed limit, measured wake-up numbers), Wi-Fi (scan and join), the USB serial console, and the OTA uploader.</p>
+      <p><strong>Debug</strong> shows motion state, requested and actual left/right PWM, network mode, IP address, AP client count, RSSI, uptime, stream frame rate, and an exportable <strong>64-event history</strong>.</p>
+      <p>Settings are split by who owns them. What describes <em>the robot</em> &mdash; camera settings, motor speeds, LED &mdash; lives in NVS on the robot and comes back after a power cycle. What describes <em>your browser</em> &mdash; display rotation, serial baud, which sections are open &mdash; stays in <code>localStorage</code>. Putting the former in the browser would break in two ways: a phone and a laptop would restore two different sets of values and overwrite each other, and a robot rebooted without the right browser open would come back on firmware defaults.</p>
+      <p>Flash writes are <strong>held for four seconds after the last change</strong>: the sliders send on every movement, and committing at that rate would be hundreds of writes for one drag.</p>
+
+      <div class="ambox">The 0/90/180/270 rotation turns the stream <em>in the browser</em>. Vertical flip and horizontal mirror are sensor settings. The first is free; the second is applied by the camera.</div>
+
+      <h2 id="program">Record and replay</h2>
+      <p>The header offers two views of the same column, <strong>Drive</strong> and <strong>Program</strong>, with the video above both so a program can be watched while it runs.</p>
+      <p>Press <strong>Record</strong>, drive the robot by hand, press <strong>Stop</strong>. What you just did becomes a list of instructions:</p>
+      <pre><code>1   0.0s   Forward
+2   1.4s   Stop
+3   0.6s   Right
+4   0.5s   Stop</code></pre>
+      <p><strong>Play</strong> does it again. Change a pause, delete a line, play it again &mdash; that is the whole point. A child drives first and reads their own program second, which is a gentler route into programming than starting from an empty editor.</p>
+      <p>Three slots keep programs <em>on the robot</em>, not in the browser, so a program follows the robot around the classroom rather than the tablet that recorded it.</p>
+      <p>The safety comes from reuse: playback calls exactly the same functions the buttons do, so a replayed drive sends the same 250&nbsp;ms keepalives and obeys the same 600&nbsp;ms timeout. <strong>A program cannot drive the robot in a way a child could not.</strong> An interrupted replay always sends a stop.</p>
+
+      <h2 id="threshold">Finding the wake-up number</h2>
+      <p>Settings &rarr; Robot &rarr; <strong>Measure them</strong> starts a guided activity. It powers one wheel at a time, starting at 20 out of 255, stepping up by 5, and asks whether the wheel is turning. When the child says it is, that number is the motor's starting threshold, and it is saved on the robot.</p>
+      <p>The two motors will disagree, often by 20 or 30. <strong>That difference is the lesson</strong>: identical parts are not identical, and it is why the robot pulls to one side.</p>
+      <p>The activity reuses the steering commands to run one wheel at a time: testing the left wheel goes through the right-turn command. It hides that detail, and restores the driving speeds it found when it started, so a class does not end up wondering why the robot got slow.</p>
+
+      <h2 id="network">Networking: the fallback access point</h2>
+      <p>At boot the robot tries the configured network for 10&nbsp;seconds. If it succeeds, it runs as a station. If not, it opens its own access point: <code>ESP32-Robot-XXXX</code>, password <code>88888888</code>, address <code>192.168.4.1</code>. The <code>XXXX</code> comes from the base MAC address, so several classroom robots do not share a name.</p>
+      <p>A network picked in Settings &rarr; Wi-Fi is stored on the robot, so moving it between a workshop and a classroom no longer means reflashing it. The access point stays up throughout the attempt and after a failure, so it is not possible to lock yourself out of the robot from the robot's own interface.</p>
+      <p>Two behaviours are worth knowing, because they are counter-intuitive:</p>
+      <ul>
+        <li><strong>A scan disturbs the video.</strong> The scan and the access point share one radio. That is why scanning is a button and never something on a timer, and why the robot <strong>refuses to scan while it is moving</strong>: a scan blocks the control server for several seconds, which would starve the motion keepalive and trip the safety timeout mid-manoeuvre.</li>
+        <li><strong>While any client is connected to the fallback AP, the retries stop</strong>, and the log says so once. They resume when the last client leaves. The consequence: if you stay connected to the AP, the robot will not rejoin the normal network on its own. Disconnect for a minute, or reboot it.</li>
+      </ul>
+      <p>With nobody connected, retries back off from 30&nbsp;seconds, doubling to a five-minute cap.</p>
+
+      <div class="ambox ambox-warning"><strong>This is not a security control.</strong> <code>88888888</code> is both the AP password and the OTA password, the page is HTTP, and a Wi-Fi password typed into it travels in clear over the link. That is convenient for a classroom and unsuitable for an untrusted environment.</div>
+
+      <h2 id="serial">UART0 serial console</h2>
+      <p>UART0 runs at 115200 8N1 on <code>U0T</code> / GPIO1 and <code>U0R</code> / GPIO3. Use a <strong>3.3&nbsp;V TTL</strong> adapter; never connect RS-232 voltage levels directly to the ESP32.</p>
+      <table class="wikitable">
+        <tr><th>ESP32-CAM</th><th>USB-TTL adapter</th></tr>
+        <tr><td>U0T / GPIO1</td><td>RX</td></tr>
+        <tr><td>U0R / GPIO3</td><td>TX</td></tr>
+        <tr><td>GND</td><td>GND</td></tr>
+      </table>
+      <p>Five commands: <code>help</code>, <code>status</code>, <code>log</code>, <code>camera</code>, and <code>stop</code>, which performs an emergency motor stop.</p>
+      <p><code>status</code> is the robot's most useful diagnostic, because it prints the PWM <em>actually</em> applied left and right. Holding an arrow in the browser and typing <code>status</code> in the console while it is held separates a firmware fault from a hardware fault in one move.</p>
+      <p>Chrome's Web Serial requires a secure context, and a page opened at <code>http://192.168.x.x</code> is not one: COM port access from the robot's own interface may be blocked even though everything else works. Hence the standalone <code>ESP32_Robot_USB_Serial_Console.html</code>, served from localhost.</p>
+      <pre><code>python -m http.server 8000</code></pre>
+
+      <h2 id="ota">Updating over Wi-Fi</h2>
+      <p>The Debug sidebar contains an OTA uploader. Password: <code>88888888</code>. Motors are stopped before firmware writing, and the robot reboots after a successful transfer.</p>
+      <p>OTA requires the board to have been flashed <strong>once over USB</strong> with a partition scheme that reserves an update slot. The project uses <code>min_spiffs.csv</code>, the "Minimal SPIFFS (1.9MB APP with OTA / 190KB SPIFFS)" entry in the Arduino menu. The board default has no OTA slot, and the uploader would fail at <code>Update.begin()</code>.</p>
+      <p>The file to send is the application alone, <code>*.ino.bin</code> &mdash; never <code>*.bootloader.bin</code>, <code>*.partitions.bin</code> or <code>*.merged.bin</code>.</p>
+      <p>The running firmware's build stamp is shown in the OTA card, deliberately: it is what tells you an upload actually took. Upload, wait for the reboot, check the date changed.</p>
+
+      <h2 id="troubleshooting">Troubleshooting</h2>
+
+      <h3>The board resets as soon as a motor starts</h3>
+      <p>First note <em>which</em> motor. If it is always the same one, and the other runs indefinitely, this is almost never the supply: read <a href="#ledc">the LEDC timer bug</a>. Check the <code>Motor LEDC timers OK</code> line at boot &mdash; if a timer is reported at 20&nbsp;MHz instead of 1000&nbsp;Hz, the fault is back.</p>
+      <p>If both motors cause the reset, then yes, it is the supply: a soft 5&nbsp;V rail, a thin ground, or a missing decoupling capacitor.</p>
+
+      <h3>Only one motor runs, whatever the command</h3>
+      <p>Hold the relevant arrow and type <code>status</code> in the serial console. If the silent motor's PWM is shown there, the firmware is doing its job and the fault is downstream: swap the J6 and J7 connectors. If the fault follows the connector it is the motor or its wiring; if it stays on the same channel it is the TB6612 or the drive pin.</p>
+
+      <h3>The motor buzzes without turning</h3>
+      <p>Duty below that motor's starting threshold. This is usable in class &mdash; see <a href="#threshold">Finding the wake-up number</a> &mdash; but do not leave a stalled motor powered for long.</p>
+
+      <h3>The configured Wi-Fi is never joined</h3>
+      <p>Check the SSID spelling, the password, that a 2.4&nbsp;GHz band exists, the signal level, and the router's security compatibility. The log gives the reason: SSID not found, authentication failed, connection lost. Remember too that <strong>staying connected to the fallback AP suspends the retries</strong>.</p>
+
+      <h3>High resolutions fail</h3>
+      <p>Confirm PSRAM is detected at boot. Without it only the small resolutions work, and a resolution saved on a board with PSRAM is deliberately not restored onto a board without it: the allocation would fail and take the stream with it.</p>
+
+      <h3>The log reports a stale UI asset</h3>
+      <p><code>tools/gzip_ui.py</code> was not re-run after an interface change. The robot then serves 154&nbsp;KB uncompressed instead of 36&nbsp;KB, over the same link as the video. The command is <code>python tools/gzip_ui.py</code>, and the generated header is committed.</p>
+
+      <h3>USB upload fails after the baud switch</h3>
+      <p>Reduce the speed to 115200. This carrier board has no auto-reset: hold GPIO0 low while powering up.</p>
+
+      <hr>
+      <p class="hatnote">Related articles: <a href="video-car-en.html">VideoCar</a> &middot; <a href="rxy-web-en.html">rxy-web</a> &middot; <a href="keyes-mecanum-rxy-en.html">Keyes Mecanum</a> &middot; <a href="robot-mv-en.html">Robot MV</a></p>
+
+    </article>
+  </div>
+</div>
+
+</body>
+</html>

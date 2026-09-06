@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ESP32-CAM Robot (wdi_esp32_cam_robot_m2) - Wiki</title>
+<link rel="stylesheet" href="wiki.css">
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-inner">
+    <a class="wiki-logo" href="https://workshop-diy.org"><img src="logo.png" alt="Logo du Wiki"></a>
+    <a class="masthead-site-link" href="https://workshop-diy.org">workshop-diy.org</a>
+    <div class="masthead-title">
+      Wiki
+      <span class="sub">La base de connaissances personnelle et gratuite</span>
+    </div>
+    <div class="masthead-actions">
+      <div class="lang-switch" role="group" aria-label="Langue">
+        <a href="cam-robot.html" class="lang-switch-btn active" title="Français"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="20" height="40" fill="#002395"/><rect x="20" width="20" height="40" fill="#fff"/><rect x="40" width="20" height="40" fill="#ED2939"/></svg></a>
+        <a href="cam-robot-en.html" class="lang-switch-btn" title="English"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="60" height="40" fill="#012169"/><path d="M0 0L60 40M60 0L0 40" stroke="#fff" stroke-width="6.5"/><path d="M0 0L60 40M60 0L0 40" stroke="#C8102E" stroke-width="3.5"/><path d="M30 0V40M0 20H60" stroke="#fff" stroke-width="11"/><path d="M30 0V40M0 20H60" stroke="#C8102E" stroke-width="6.5"/></svg></a>
+        <a href="cam-robot-ar.html" class="lang-switch-btn" title="العربية"><svg width="24" height="16" viewBox="0 0 900 600"><defs><clipPath id="glCamRobotFr"><rect width="450" height="600"/></clipPath></defs><rect width="450" height="600" fill="#006233"/><rect x="450" width="450" height="600" fill="#FFF"/><g fill="#D21034" transform="translate(450,300)"><circle r="125"/><circle cx="25" r="100" fill="#FFF"/><g clip-path="url(#glCamRobotFr)" transform="translate(-450,-300)"><circle cx="475" cy="300" r="100" fill="#006233"/></g><path d="M85-12l22 67h71l-57 42 22 67-58-42-57 42 21-67-57-42h71z"/></g></svg></a>
+      </div>
+      <div class="masthead-search">
+        <input type="text" placeholder="Rechercher" disabled>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wiki-layout">
+
+  <div class="sidebar">
+    <h3>Navigation</h3>
+    <ul>
+      <li><a href="index.html">Page principale</a></li>
+      <li><a href="#">Modifications récentes</a></li>
+      <li><a href="#">Page au hasard</a></li>
+    </ul>
+    <h3>Catégories</h3>
+    <ul>
+      <li><a href="index.html">Réseau</a></li>
+      <li><a href="index.html">Linux</a></li>
+      <li><a href="index.html">Windows</a></li>
+      <li><a href="index.html">Électronique</a></li>
+      <li><a href="index.html">ESP32</a></li>
+      <li><a href="index.html">micro:bit</a></li>
+    </ul>
+    <h3>Outils</h3>
+    <ul>
+      <li><a href="https://github.com/abourdim/wdi_esp32_cam_robot_m2">Voir le dépôt source</a></li>
+    </ul>
+  </div>
+
+  <div class="content-wrap">
+    <div class="article-tabs">
+      <span class="active">Article</span>
+      <span>Discussion</span>
+    </div>
+
+    <article>
+      <h1 class="page-title">ESP32-CAM Robot (wdi_esp32_cam_robot_m2)</h1>
+
+      <div class="infobox">
+        <div class="infobox-title">ESP32-CAM Robot</div>
+        <table>
+          <tr><th>Type</th><td>Rover WiFi à deux moteurs, vidéo en direct, interface servie par le robot</td></tr>
+          <tr><th>Matériel</th><td>ESP32-CAM AI-Thinker (OV2640, PSRAM) + TB6612FNG</td></tr>
+          <tr><th>Pilote moteur</th><td>SparkFun ROB-14450 &mdash; PWMA et PWMB reliés ensemble</td></tr>
+          <tr><th>Vidéo</th><td>MJPEG, port 81 &mdash; VGA qualité 12 par défaut</td></tr>
+          <tr><th>Firmware</th><td>v1.2 (Arduino / PlatformIO)</td></tr>
+          <tr><th>Interface</th><td>Servie par le robot lui-même, sans application à installer</td></tr>
+          <tr><th>AP de secours</th><td><code>ESP32-Robot-XXXX</code> / <code>88888888</code> / <code>192.168.4.1</code></td></tr>
+          <tr><th>Console</th><td>UART0, 115200 8N1</td></tr>
+          <tr><th>Langues</th><td>English, Français, العربية</td></tr>
+          <tr><th>Dépôt</th><td><a href="https://github.com/abourdim/wdi_esp32_cam_robot_m2">github.com/abourdim/wdi_esp32_cam_robot_m2</a></td></tr>
+        </table>
+      </div>
+
+      <div class="applink">
+        <a href="https://github.com/abourdim/wdi_esp32_cam_robot_m2" target="_blank" rel="noopener"><img class="applink-qr" src="qr/cam-robot.svg" alt="QR: https://github.com/abourdim/wdi_esp32_cam_robot_m2" width="104" height="104"></a>
+        <div class="applink-text">
+          <div class="applink-title">Ouvrir le dépôt</div>
+          <div class="applink-url"><a href="https://github.com/abourdim/wdi_esp32_cam_robot_m2" target="_blank" rel="noopener">https://github.com/abourdim/wdi_esp32_cam_robot_m2</a></div>
+          <div class="applink-hint">Ce robot n&rsquo;a pas d&rsquo;application hébergée&nbsp;: il sert sa propre page. Rejoins son WiFi et ouvre <code>http://192.168.4.1</code>. Aucune installation, aucun app store.</div>
+        </div>
+      </div>
+
+      <p class="hatnote">Cet article couvre le <strong>ESP32-CAM Robot</strong>, révision <code>m2</code>&nbsp;: une caméra, deux moteurs, et une seule puce pour les deux. Le robot héberge son interface dans son propre firmware, ce qui le rend autonome mais oblige la caméra et les moteurs à partager des ressources matérielles &mdash; d'où la panne racontée plus bas.</p>
+      <p class="hatnote">Pour un rover où l'application est séparée du robot, voir <a href="rxy-web.html">rxy-web</a>. Pour l'autre robot à caméra, celui dont la carte caméra ne pilote pas les moteurs, voir <a href="video-car.html">VideoCar</a>.</p>
+
+      <div class="toc">
+        <div class="toc-title">Sommaire</div>
+        <ol>
+          <li><a href="#overview">Aperçu</a></li>
+          <li><a href="#quickstart">Démarrage rapide</a></li>
+          <li><a href="#walkthrough">Étape par étape : cloner, flasher &amp; tester</a></li>
+          <li><a href="#board">La carte et son brochage</a></li>
+          <li><a href="#ledc">Le bug du timer LEDC : quand l'horloge de la caméra vole le PWM d'un moteur</a></li>
+          <li><a href="#driving">Conduire : maintien, keepalive et arrêt automatique</a></li>
+          <li><a href="#video">La vidéo et ses incrustations</a></li>
+          <li><a href="#ui">L'interface web</a></li>
+          <li><a href="#program">Enregistrer et rejouer</a></li>
+          <li><a href="#threshold">Trouver le seuil de démarrage</a></li>
+          <li><a href="#network">Réseau : point d'accès de secours</a></li>
+          <li><a href="#serial">Console série UART0</a></li>
+          <li><a href="#ota">Mise à jour par WiFi</a></li>
+          <li><a href="#troubleshooting">Dépannage</a></li>
+        </ol>
+      </div>
+
+      <h2 id="overview">Aperçu</h2>
+      <p><strong>Le robot est son propre serveur.</strong> Il n'y a rien à installer&nbsp;: le firmware contient la page HTML complète, la sert sur le port 80, et diffuse la vidéo sur le port 81. Un téléphone, une tablette ou un PC ouvre une adresse et pilote.</p>
+      <p>C'est la différence de fond avec les rovers <a href="rxy-web.html">rxy</a>, où une application hébergée demande au robot sa disposition. Ici il n'y a pas d'application du tout, donc pas de version d'application à faire correspondre &mdash; mais la page voyage dans la flash du robot, et chaque modification de l'interface demande un reflashage.</p>
+      <p>La page est stockée <em>compressée</em>. Le littéral HTML fait 154&nbsp;Ko&nbsp;; <code>tools/gzip_ui.py</code> en produit une copie gzip de 36&nbsp;Ko dans <code>index_html_gz.h</code>, et c'est elle qui part sur le WiFi &mdash; le même lien qui transporte la vidéo. Si l'on oublie de relancer le script, le firmware s'en aperçoit tout seul au démarrage&nbsp;: il compare la longueur et l'empreinte enregistrées à celles du littéral compilé, et se rabat sur la version non compressée en le disant dans le journal.</p>
+
+      <div class="ambox">Une seule puce fait tout&nbsp;: la caméra, les deux moteurs, le WiFi et le serveur web. C'est ce qui rend ce robot compact et bon marché, et c'est aussi la source de ses pannes les plus déroutantes. Voir <a href="#ledc">le bug du timer LEDC</a>.</div>
+
+      <h2 id="quickstart">Démarrage rapide</h2>
+      <ol>
+        <li>Alimente le robot. La LED flash clignote trois fois&nbsp;: le CPU tourne.</li>
+        <li>Il essaie le réseau WiFi configuré pendant 10&nbsp;secondes. S'il n'y arrive pas, il ouvre son propre point d'accès.</li>
+        <li>Rejoins le réseau <code>ESP32-Robot-XXXX</code>, mot de passe <code>88888888</code>. Les <code>XXXX</code> viennent de l'adresse MAC, donc plusieurs robots de classe ne se confondent pas.</li>
+        <li>Ouvre <code>http://192.168.4.1</code>. L'image apparaît, le bandeau du haut affiche le nom du robot et la pastille <strong>Live</strong>.</li>
+        <li>Appuie sur une flèche et <strong>garde le doigt dessus</strong>&nbsp;: le robot roule tant que tu appuies, et pas une demi-seconde de plus.</li>
+      </ol>
+
+      <h2 id="walkthrough">Étape par étape : cloner, flasher &amp; tester</h2>
+      <p>Le dépôt est un sketch Arduino ordinaire à la racine, doublé d'un projet PlatformIO qui pointe dessus. Les deux compilent le même fichier.</p>
+      <pre><code>git clone https://github.com/abourdim/wdi_esp32_cam_robot_m2
+cd wdi_esp32_cam_robot_m2
+pio run -e esp32cam</code></pre>
+      <p>Le flashage se fait par un adaptateur USB-TTL 3,3&nbsp;V. Cette carte porteuse n'a pas de reset automatique&nbsp;: il faut <strong>maintenir GPIO0 à la masse</strong> pendant la mise sous tension pour entrer en mode téléversement.</p>
+      <pre><code>pio run -e esp32cam -t upload --upload-port COM31
+pio device monitor -b 115200</code></pre>
+      <p>La vitesse de téléversement est volontairement bloquée à 115200 dans <code>platformio.ini</code>. Une liaison plus rapide s'établit souvent puis meurt juste après le changement de débit, ce qui donne un échec incompréhensible en milieu de transfert.</p>
+      <p>Un second environnement, <code>esp32cam-debug</code>, produit une image riche en symboles. Il ne sert qu'à reproduire un plantage&nbsp;: le décodeur d'exception de PlatformIO a besoin du <code>firmware.elf</code> correspondant pour traduire une trace.</p>
+
+      <div class="ambox">Arduino compile <strong>tous</strong> les fichiers <code>.ino</code> d'un même dossier. Ne laisse jamais deux versions du firmware côte à côte&nbsp;: l'erreur qui en sort (<code>redefinition of ssid</code>) ne dit pas d'où elle vient.</div>
+
+      <h2 id="board">La carte et son brochage</h2>
+      <p>Le pilote est un <strong>TB6612FNG</strong> (module SparkFun ROB-14450). Le point important du schéma, celui dont découle tout le reste du firmware moteur&nbsp;: <strong>PWMA et PWMB sont reliés à la même broche</strong>, GPIO12.</p>
+      <p>Le montage habituel du TB6612 met le PWM sur l'entrée d'activation et se sert des entrées de direction en tout-ou-rien. Ici c'est impossible sans perdre le réglage indépendant des deux vitesses. Le firmware inverse donc la logique&nbsp;: <strong>GPIO12 est maintenu haut en permanence</strong>, et le PWM est appliqué à une entrée de direction par moteur. Le sens se choisit en décidant laquelle des deux entrées porte le rapport cyclique.</p>
+
+      <table class="wikitable">
+        <tr><th>Signal</th><th>Broche</th><th>Rôle</th></tr>
+        <tr><td>PWMA + PWMB</td><td>GPIO12</td><td>Activation partagée, maintenue haute en roulant</td></tr>
+        <tr><td>AIN1</td><td>GPIO2</td><td>Moteur A / J6 &mdash; <em>gauche</em>, avant</td></tr>
+        <tr><td>AIN2</td><td>GPIO13</td><td>Moteur A / J6 &mdash; arrière</td></tr>
+        <tr><td>BIN1</td><td>GPIO15</td><td>Moteur B / J7 &mdash; <em>droite</em>, avant</td></tr>
+        <tr><td>BIN2</td><td>GPIO14</td><td>Moteur B / J7 &mdash; arrière</td></tr>
+        <tr><td>STBY</td><td>+5&nbsp;V</td><td>Câblé actif</td></tr>
+        <tr><td>LED flash</td><td>GPIO4</td><td>Éclairage et clignotement de démarrage</td></tr>
+      </table>
+
+      <p>Le démarrage est progressif&nbsp;: <strong>16 paliers de 12&nbsp;ms</strong> jusqu'au rapport cyclique demandé, jamais au-delà. Quand les deux moteurs partent ensemble, le second est décalé de cinq paliers (environ 60&nbsp;ms) pour que les deux appels de courant ne se superposent pas. Un changement de sens passe toujours par un arrêt, avec une pause de 60&nbsp;ms&nbsp;: envoyer un moteur chargé de la marche avant à la marche arrière punit le réducteur et crée une pointe de courant de plus.</p>
+
+      <h2 id="ledc">Le bug du timer LEDC : quand l'horloge de la caméra vole le PWM d'un moteur</h2>
+      <p>C'est la panne la plus instructive de ce robot, et elle a résisté longtemps parce que tous ses symptômes désignaient le matériel.</p>
+      <p><strong>Le symptôme.</strong> Toute commande qui faisait tourner le moteur gauche redémarrait la carte instantanément&nbsp;: <code>rst:0xc</code>, aucune trace de pile, aucun <em>Guru Meditation</em>. Parfois la caméra tombait d'abord, avec un <code>SCCB_Write Failed</code> suivi d'une sonde de capteur qui ne répondait plus du tout. Les commandes qui ne sollicitaient que le moteur droit fonctionnaient indéfiniment.</p>
+      <p><strong>La fausse piste.</strong> Une asymétrie pareille ressemble à un moteur grippé ou à une alimentation trop faible. Changer la vitesse du moteur gauche &mdash; de 71 à 146 sur 255 &mdash; n'a rien changé du tout, ce qui semblait confirmer un défaut mécanique. C'était en réalité l'indice décisif, mal lu.</p>
+      <p><strong>La cause.</strong> Le cœur Arduino ne dispose d'aucun allocateur de canaux LEDC&nbsp;: le groupe et le timer se déduisent du <em>numéro de canal</em>, et rien d'autre.</p>
+      <pre><code>groupe = canal / 8        (0 = haute vitesse, 1 = basse vitesse)
+timer  = (canal / 2) % 4</code></pre>
+      <p>Or <code>esp_camera_init()</code> reprogramme le <strong>timer 0 du groupe basse vitesse</strong> à 20&nbsp;MHz avec une résolution de rapport cyclique d'<strong>un seul bit</strong>, pour fabriquer l'horloge XCLK du capteur. Les canaux 8 et 9 &mdash; ceux du moteur gauche &mdash; tombent exactement sur ce timer.</p>
+      <p>À partir de l'initialisation de la caméra, le moteur gauche n'avait donc plus qu'un bit de résolution. Rien n'échouait bruyamment&nbsp;: <code>ledcWrite()</code> continuait de rendre la main normalement, mais <em>toute</em> valeur non nulle saturait le comparateur et clouait la broche à l'état haut. La rampe de démarrage parcourait seize paliers qui valaient déjà tous 100&nbsp;%. Le moteur gauche prenait donc un appel de courant maximal, d'un coup, à chaque commande &mdash; et la carte s'effondrait.</p>
+
+      <div class="ambox ambox-warning">C'est aussi pourquoi changer la vitesse ne servait à rien&nbsp;: <strong>71 et 146 saturent un bit exactement de la même façon.</strong> Un réglage sans effet n'est pas la preuve d'une panne mécanique&nbsp;; ce peut être la preuve que le réglage n'arrive jamais jusqu'au matériel.</div>
+
+      <p><strong>La correction.</strong> Le moteur gauche est passé aux canaux 12 et 13 (timer 2), le droit reste sur 10 et 11 (timer 1). La caméra garde le timer 0, la LED flash le timer 3 du groupe haute vitesse. Plus aucun recouvrement.</p>
+      <p>Deux garde-fous empêchent la panne de revenir. Des <code>static_assert</code> sur les numéros de canaux <strong>font échouer la compilation</strong> si un canal moteur ou la LED atterrit sur le timer de la caméra. Et <code>verifyMotorLedcTimers()</code> relit la fréquence réelle des deux timers après <em>chaque</em> <code>esp_camera_init()</code> &mdash; au démarrage comme après chaque récupération de capteur &mdash; puis l'écrit dans le journal&nbsp;:</p>
+      <pre><code>BOOT: Motor LEDC timers OK; left 1000 Hz, right 1000 Hz</code></pre>
+      <p>Si un jour une mise à jour du cœur Arduino ou du pilote caméra déplace un timer malgré tout, cette ligne le dira, et le firmware arrêtera les moteurs plutôt que de les laisser à pleine puissance.</p>
+      <p>La leçon est transposable&nbsp;: sur toute carte ESP32-CAM, <strong>garde le PWM des moteurs et des servos hors des canaux 8 et 9.</strong> La panne est silencieuse par construction.</p>
+
+      <h2 id="driving">Conduire : maintien, keepalive et arrêt automatique</h2>
+      <p>Les flèches ne pilotent que tant qu'on les tient. Chaque commande est une requête sans accusé de réception, donc n'importe laquelle peut se perdre &mdash; et celle qui compte, c'est l'<strong>arrêt</strong>. Un arrêt perdu laissait autrefois une roue tourner jusqu'à ce qu'une autre commande passe.</p>
+      <p>Le robot ne compte donc plus sur le fait d'entendre l'arrêt&nbsp;:</p>
+      <ul>
+        <li>Un bouton maintenu <strong>répète sa commande toutes les 250&nbsp;ms</strong>.</li>
+        <li>Si le robot n'entend aucune commande de mouvement pendant <strong>600&nbsp;ms</strong>, il arrête les moteurs de lui-même et journalise <code>SAFETY: motion timeout; motors stopped</code>.</li>
+        <li>Le relâchement envoie l'arrêt <strong>deux fois</strong>, à 150&nbsp;ms d'intervalle.</li>
+        <li>Perdre le focus de la fenêtre, masquer l'onglet ou quitter la page arrête aussi.</li>
+      </ul>
+      <p>Un paquet perdu, un portable qu'on referme, un navigateur qui n'a jamais signalé le relâchement, un robot qui sort de portée&nbsp;: tout se termine pareil, moteurs arrêtés en une demi-seconde environ.</p>
+      <p>Les répétitions du keepalive ne sont pas journalisées &mdash; plusieurs entrées par seconde enterreraient tout le reste &mdash; donc un bouton maintenu n'apparaît que comme une commande.</p>
+
+      <h2 id="video">La vidéo et ses incrustations</h2>
+      <p>Le flux MJPEG sort sur le port <strong>81</strong>, en VGA qualité 12 avec deux tampons quand la PSRAM est présente, en QVGA sinon. Qualité 12 plutôt que 10 parce que c'est le lien WiFi, pas le capteur, qui fixe la cadence.</p>
+      <ul>
+        <li>La caméra livre toujours sa <strong>trame la plus récente</strong>. Une file d'attente arriverait avec une capture de retard, ce qui ressemble à de la latence même quand la cadence est bonne.</li>
+        <li>La veille modem du WiFi est coupée&nbsp;: sinon la radio se gare entre les balises et l'image saccade.</li>
+        <li><strong>Un seul spectateur à la fois.</strong> Un second navigateur est prévenu, plutôt que laissé devant une image qui n'arrive jamais.</li>
+        <li>La page <strong>se reconnecte seule</strong>. Une capture ratée comme un redémarrage terminent le flux sans aucune erreur visible côté navigateur&nbsp;; la page s'en aperçoit en quelques secondes.</li>
+        <li>Le flux <strong>se met en pause quand l'onglet est masqué</strong>, pour ne pas retenir l'unique place de spectateur.</li>
+      </ul>
+      <p>Les incrustations ne sont pas gravées dans l'image&nbsp;: ce sont des éléments de page posés à côté. Elles restent donc droites à toutes les rotations d'affichage, et tout ce qui enregistre le flux récupère des trames propres. Incruster dans la vidéo obligerait l'ESP32 à décoder, dessiner et réencoder chaque trame, pour un coût en cadence bien supérieur à ce que vaut la marque.</p>
+      <p>En bas à droite, trois indicateurs à 30&nbsp;% d'opacité <em>au repos</em>, qui passent au plein dès que l'un d'eux compte&nbsp;: le robot bouge (<code>RIGHT 220/0</code>, bleu), le signal descend à &minus;75&nbsp;dBm ou moins (ambre &mdash; le premier avertissement honnête qu'on sort de portée, la vidéo survivant aux commandes), ou le garde-fou vient de se déclencher (<code>TIMEOUT</code>, rouge, trois secondes).</p>
+      <p>La cadence est mesurée <em>sur le robot</em>&nbsp;: un navigateur considère une image multipart comme chargée une fois, à la première trame, et ne sait pas les compter.</p>
+
+      <h2 id="ui">L'interface web</h2>
+      <p>Un bandeau collant en haut, et deux volets repliables. Le partage se fait par ce que l'on est en train de faire&nbsp;: <strong>Settings</strong> est ce que l'on change sur le robot, <strong>Debug</strong> ce que l'on regarde en roulant.</p>
+      <p><strong>Settings</strong> réunit la caméra (résolution de QQVGA à UXGA, rotation d'affichage, qualité JPEG, luminosité, contraste, saturation, miroirs), le robot (nom, plafond de vitesse, seuils de démarrage mesurés), le WiFi (scan et connexion), la console série USB et le téléversement OTA.</p>
+      <p><strong>Debug</strong> montre l'état de mouvement, les PWM demandés et réellement appliqués à gauche et à droite, le mode réseau, l'adresse IP, le nombre de clients de l'AP, le RSSI, la durée de fonctionnement, la cadence du flux, et un <strong>historique de 64 événements</strong> exportable.</p>
+      <p>Les réglages sont répartis selon leur propriétaire. Ce qui décrit <em>le robot</em> &mdash; réglages caméra, vitesses moteur, LED &mdash; vit en NVS sur le robot, et revient après une coupure. Ce qui décrit <em>ton navigateur</em> &mdash; rotation d'affichage, débit série, volets ouverts &mdash; reste en <code>localStorage</code>. Mettre les premiers dans le navigateur casserait de deux façons&nbsp;: un téléphone et un portable restaureraient deux jeux de valeurs différents en s'écrasant l'un l'autre, et un robot redémarré sans le bon navigateur ouvert repartirait sur les valeurs d'usine.</p>
+      <p>Les écritures en flash sont <strong>retardées de quatre secondes après le dernier changement</strong>&nbsp;: les curseurs émettent à chaque mouvement, et écrire à ce rythme ferait des centaines d'écritures pour un seul glissement.</p>
+
+      <div class="ambox">La rotation 0/90/180/270 tourne le flux <em>dans le navigateur</em>. Le retournement vertical et le miroir horizontal, eux, sont des réglages du capteur. Les premiers sont gratuits, les seconds sont appliqués par la caméra.</div>
+
+      <h2 id="program">Enregistrer et rejouer</h2>
+      <p>Le bandeau propose deux vues d'une même colonne, <strong>Drive</strong> et <strong>Program</strong>, la vidéo restant au-dessus des deux pour qu'un programme puisse être regardé pendant qu'il tourne.</p>
+      <p>On appuie sur <strong>Record</strong>, on conduit à la main, on appuie sur <strong>Stop</strong>. Ce que l'on vient de faire devient une liste d'instructions&nbsp;:</p>
+      <pre><code>1   0.0s   Forward
+2   1.4s   Stop
+3   0.6s   Right
+4   0.5s   Stop</code></pre>
+      <p><strong>Play</strong> le rejoue. Changer une pause, supprimer une ligne, rejouer&nbsp;: c'est tout l'intérêt. L'enfant conduit d'abord et lit son propre programme ensuite, ce qui est une entrée en programmation plus douce que la page blanche.</p>
+      <p>Trois emplacements gardent les programmes <em>sur le robot</em>, pas dans le navigateur, pour qu'un programme suive le robot dans la classe plutôt que la tablette qui l'a enregistré.</p>
+      <p>La sécurité vient de la réutilisation&nbsp;: la lecture appelle exactement les mêmes fonctions que les boutons, donc un programme rejoué envoie les mêmes keepalives de 250&nbsp;ms et obéit au même garde-fou de 600&nbsp;ms. <strong>Un programme ne peut pas piloter le robot d'une manière qu'un enfant ne pourrait pas.</strong> Une lecture interrompue envoie toujours un arrêt.</p>
+
+      <h2 id="threshold">Trouver le seuil de démarrage</h2>
+      <p>Settings &rarr; Robot &rarr; <strong>Measure them</strong> lance une activité guidée. Elle alimente une roue à la fois, part de 20 sur 255, monte de 5 en 5, et demande si la roue tourne. Quand l'enfant répond oui, ce nombre est le seuil de démarrage du moteur, et il est enregistré sur le robot.</p>
+      <p>Les deux moteurs vont être en désaccord, souvent de 20 ou 30. <strong>Cet écart est la leçon</strong>&nbsp;: des pièces identiques ne le sont pas, et c'est pour cela que le robot tire d'un côté.</p>
+      <p>L'activité réutilise les commandes de direction pour ne faire tourner qu'une roue&nbsp;: tester la roue gauche passe par la commande «&nbsp;tourner à droite&nbsp;». Elle masque ce détail, et restaure les vitesses de conduite trouvées au départ, pour qu'une classe ne se demande pas pourquoi le robot est devenu lent.</p>
+
+      <h2 id="network">Réseau : point d'accès de secours</h2>
+      <p>Au démarrage, le robot essaie le réseau configuré pendant 10&nbsp;secondes. S'il y arrive, il tourne en mode station. Sinon il ouvre son propre point d'accès&nbsp;: <code>ESP32-Robot-XXXX</code>, mot de passe <code>88888888</code>, adresse <code>192.168.4.1</code>. Les <code>XXXX</code> viennent de l'adresse MAC de base, donc plusieurs robots de classe ne portent pas le même nom.</p>
+      <p>Un réseau choisi dans Settings &rarr; WiFi est enregistré sur le robot&nbsp;: déplacer le robot d'un atelier à une classe ne demande plus de le reflasher. Le point d'accès reste debout pendant toute la tentative et après un échec, donc il n'est pas possible de s'enfermer dehors depuis l'interface du robot lui-même.</p>
+      <p>Deux comportements méritent d'être connus, parce qu'ils sont contre-intuitifs&nbsp;:</p>
+      <ul>
+        <li><strong>Un scan perturbe la vidéo.</strong> Le scan et le point d'accès partagent une seule radio. C'est pourquoi scanner est un bouton et jamais une minuterie, et pourquoi le robot <strong>refuse de scanner en roulant</strong>&nbsp;: un scan bloque le serveur plusieurs secondes, ce qui affamerait le keepalive et déclencherait le garde-fou en pleine manœuvre.</li>
+        <li><strong>Tant qu'un client est connecté à l'AP de secours, les tentatives de reconnexion s'arrêtent</strong>, et le journal le dit une fois. Elles reprennent au départ du dernier client. Conséquence&nbsp;: si tu restes connecté à l'AP, le robot ne rejoindra pas tout seul le réseau normal. Déconnecte-toi une minute, ou redémarre-le.</li>
+      </ul>
+      <p>Sans personne de connecté, les tentatives s'espacent de 30&nbsp;secondes en doublant jusqu'à un plafond de cinq minutes.</p>
+
+      <div class="ambox ambox-warning"><strong>Ce n'est pas un dispositif de sécurité.</strong> <code>88888888</code> sert à la fois de mot de passe de l'AP et de mot de passe OTA, la page est en HTTP, et le mot de passe WiFi saisi voyage en clair sur le lien. C'est confortable pour une salle de classe et inadapté à un environnement non maîtrisé.</div>
+
+      <h2 id="serial">Console série UART0</h2>
+      <p>UART0 sort en 115200 8N1 sur <code>U0T</code> / GPIO1 et <code>U0R</code> / GPIO3. Il faut un adaptateur <strong>TTL 3,3&nbsp;V</strong>&nbsp;; ne jamais brancher des niveaux RS-232 directement sur l'ESP32.</p>
+      <table class="wikitable">
+        <tr><th>ESP32-CAM</th><th>Adaptateur USB-TTL</th></tr>
+        <tr><td>U0T / GPIO1</td><td>RX</td></tr>
+        <tr><td>U0R / GPIO3</td><td>TX</td></tr>
+        <tr><td>GND</td><td>GND</td></tr>
+      </table>
+      <p>Cinq commandes&nbsp;: <code>help</code>, <code>status</code>, <code>log</code>, <code>camera</code>, et <code>stop</code> qui exécute un arrêt d'urgence des moteurs.</p>
+      <p><code>status</code> est l'outil de diagnostic le plus utile du robot, parce qu'il affiche les PWM <em>réellement</em> appliqués à gauche et à droite. Maintenir une flèche dans le navigateur et taper <code>status</code> dans la console pendant ce temps sépare une panne logicielle d'une panne matérielle en une seule manipulation.</p>
+      <p>Le Web Serial de Chrome exige un contexte sécurisé, et une page ouverte en <code>http://192.168.x.x</code> n'en est pas un&nbsp;: l'accès au port COM depuis l'interface du robot peut être bloqué alors que le reste fonctionne. D'où la page autonome <code>ESP32_Robot_USB_Serial_Console.html</code>, à servir depuis localhost.</p>
+      <pre><code>python -m http.server 8000</code></pre>
+
+      <h2 id="ota">Mise à jour par WiFi</h2>
+      <p>Le volet Debug contient un téléverseur OTA. Mot de passe&nbsp;: <code>88888888</code>. Les moteurs sont arrêtés avant l'écriture du firmware, et le robot redémarre après un transfert réussi.</p>
+      <p>L'OTA exige que la carte ait été flashée <strong>une première fois par USB</strong> avec un schéma de partitions qui réserve un emplacement de mise à jour. Le projet utilise <code>min_spiffs.csv</code>, l'entrée «&nbsp;Minimal SPIFFS (1.9MB APP with OTA / 190KB SPIFFS)&nbsp;» du menu Arduino. Le schéma par défaut de la carte n'a pas d'emplacement OTA, et le téléverseur échouerait dès <code>Update.begin()</code>.</p>
+      <p>Le fichier à envoyer est l'application seule, <code>*.ino.bin</code> &mdash; jamais <code>*.bootloader.bin</code>, <code>*.partitions.bin</code> ni <code>*.merged.bin</code>.</p>
+      <p>L'horodatage de compilation du firmware en cours est affiché dans la carte OTA, et c'est délibéré&nbsp;: c'est lui qui dit qu'un téléversement a réellement pris. Envoyer, attendre le redémarrage, vérifier que la date a changé.</p>
+
+      <h2 id="troubleshooting">Dépannage</h2>
+
+      <h3>La carte redémarre dès qu'un moteur part</h3>
+      <p>Note d'abord <em>quel</em> moteur. Si c'est toujours le même, et que l'autre fonctionne indéfiniment, ce n'est presque jamais l'alimentation&nbsp;: lis <a href="#ledc">le bug du timer LEDC</a>. Vérifie la ligne <code>Motor LEDC timers OK</code> au démarrage &mdash; si un timer y est annoncé à 20&nbsp;MHz au lieu de 1000&nbsp;Hz, la panne est revenue.</p>
+      <p>Si les deux moteurs provoquent le redémarrage, là oui, c'est l'alimentation&nbsp;: un 5&nbsp;V trop mou, une masse trop fine, ou un condensateur de découplage absent.</p>
+
+      <h3>Un seul moteur tourne, quelle que soit la commande</h3>
+      <p>Maintiens la flèche concernée et tape <code>status</code> dans la console série. Si le PWM du moteur muet y est bien affiché, le firmware fait son travail et la panne est en aval&nbsp;: échange les connecteurs J6 et J7. Si le défaut suit le connecteur, c'est le moteur ou son câblage&nbsp;; s'il reste sur la même voie, c'est le TB6612 ou la broche de commande.</p>
+
+      <h3>Le moteur bourdonne sans tourner</h3>
+      <p>Rapport cyclique sous le seuil de démarrage de ce moteur. C'est exploitable en classe &mdash; voir <a href="#threshold">Trouver le seuil de démarrage</a> &mdash; mais ne laisse pas un moteur calé sous tension longtemps.</p>
+
+      <h3>Le WiFi configuré n'est jamais rejoint</h3>
+      <p>Vérifie l'orthographe du SSID, le mot de passe, la présence d'une bande 2,4&nbsp;GHz, le niveau de signal et la compatibilité de sécurité du routeur. Le journal donne la raison&nbsp;: SSID introuvable, échec d'authentification, connexion perdue. Souviens-toi aussi que <strong>rester connecté à l'AP de secours suspend les tentatives</strong>.</p>
+
+      <h3>Les hautes résolutions échouent</h3>
+      <p>Confirme que la PSRAM est détectée au démarrage. Sans elle, seules les petites résolutions passent, et une résolution enregistrée sur une carte à PSRAM n'est délibérément pas restaurée sur une carte qui n'en a pas&nbsp;: l'allocation échouerait et emporterait le flux.</p>
+
+      <h3>Le journal annonce une ressource UI périmée</h3>
+      <p><code>tools/gzip_ui.py</code> n'a pas été relancé après une modification de l'interface. Le robot sert alors 154&nbsp;Ko non compressés au lieu de 36&nbsp;Ko, sur le même lien que la vidéo. La commande est <code>python tools/gzip_ui.py</code>, et l'en-tête généré se commite.</p>
+
+      <h3>Le téléversement USB échoue après le changement de débit</h3>
+      <p>Réduis la vitesse à 115200. Cette carte porteuse n'a pas de reset automatique&nbsp;: maintiens GPIO0 à la masse pendant la mise sous tension.</p>
+
+      <hr>
+      <p class="hatnote">Articles liés : <a href="video-car.html">VideoCar</a> &middot; <a href="rxy-web.html">rxy-web</a> &middot; <a href="keyes-mecanum-rxy.html">Keyes Mecanum</a> &middot; <a href="robot-mv.html">Robot MV</a></p>
+
+    </article>
+  </div>
+</div>
+
+</body>
+</html>
