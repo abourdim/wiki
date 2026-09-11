@@ -69,7 +69,7 @@
           <tr><th>Hardware</th><td>AI-Thinker ESP32-CAM (OV2640, PSRAM) + TB6612FNG</td></tr>
           <tr><th>Motor driver</th><td>SparkFun ROB-14450 &mdash; PWMA and PWMB tied together</td></tr>
           <tr><th>Video</th><td>MJPEG on port 81 &mdash; VGA at quality 12 by default</td></tr>
-          <tr><th>Firmware</th><td>v1.2 (Arduino / PlatformIO)</td></tr>
+          <tr><th>Firmware</th><td>v2.0 (Arduino / PlatformIO)</td></tr>
           <tr><th>Interface</th><td>Served by the robot itself; nothing to install</td></tr>
           <tr><th>Fallback AP</th><td><code>ESP32-Robot-XXXX</code> / <code>88888888</code> / <code>192.168.4.1</code></td></tr>
           <tr><th>Console</th><td>UART0, 115200 8N1</td></tr>
@@ -102,8 +102,10 @@
           <li><a href="#video">The video and its overlays</a></li>
           <li><a href="#ui">The web interface</a></li>
           <li><a href="#program">Record and replay</a></li>
+          <li><a href="#games">Games: the camera as a sensor</a></li>
           <li><a href="#threshold">Finding the wake-up number</a></li>
           <li><a href="#network">Networking: the fallback access point</a></li>
+          <li><a href="#led">What the LED is telling you</a></li>
           <li><a href="#serial">UART0 serial console</a></li>
           <li><a href="#ota">Updating over Wi-Fi</a></li>
           <li><a href="#troubleshooting">Troubleshooting</a></li>
@@ -200,6 +202,9 @@ timer = (channel / 2) % 4</code></pre>
       <p>The frame rate is measured <em>on the robot</em>: a browser reports a multipart image as loaded once, on the first frame, and cannot count them.</p>
 
       <h2 id="ui">The web interface</h2>
+      <p>Three views share the page, chosen in the header &mdash; <strong>Drive</strong>, <strong>Program</strong> and <strong>Games</strong> &mdash; with the video above all three.</p>
+      <p><strong>Drive</strong> is the four arrows with <strong>STOP</strong> in the middle of them, one <strong>Speed</strong> control, and <strong>Light</strong>, in that order. The control a child uses every second sits directly under the thing they have to watch, so on a phone the picture and the arrows are on screen together and driving never means scrolling. Speed moves both motors and keeps whatever difference is set in Settings. Releasing an arrow stops the robot anyway, so STOP is the backup rather than the only way.</p>
+      <p><strong>Settings &rarr; Robot</strong> holds everything that differs from one robot to the next: name, speed limit, <strong>wheel direction</strong>, <strong>motor trim</strong> (the Sync checkbox and the two per-motor sliders) and the measured wake-up numbers &mdash; the same set the robot keeps in NVS. Wheel direction is two checkboxes for a chassis assembled with a motor's leads the other way round.</p>
       <p>A sticky header, and two collapsible sidebars. The split is by what you are doing: <strong>Settings</strong> is what you change on the robot, <strong>Debug</strong> is what you watch while driving it.</p>
       <p><strong>Settings</strong> gathers the camera (resolution from QQVGA to UXGA, display rotation, JPEG quality, brightness, contrast, saturation, flip and mirror), the robot (name, speed limit, measured wake-up numbers), Wi-Fi (scan and join), the USB serial console, and the OTA uploader.</p>
       <p><strong>Debug</strong> shows motion state, requested and actual left/right PWM, network mode, IP address, AP client count, RSSI, uptime, stream frame rate, and an exportable <strong>64-event history</strong>.</p>
@@ -219,6 +224,17 @@ timer = (channel / 2) % 4</code></pre>
       <p>Three slots keep programs <em>on the robot</em>, not in the browser, so a program follows the robot around the classroom rather than the tablet that recorded it.</p>
       <p>The safety comes from reuse: playback calls exactly the same functions the buttons do, so a replayed drive sends the same 250&nbsp;ms keepalives and obeys the same 600&nbsp;ms timeout. <strong>A program cannot drive the robot in a way a child could not.</strong> An interrupted replay always sends a stop.</p>
 
+      <h2 id="games">Games: the camera as a sensor</h2>
+      <p>Four activities in which the camera stops being a picture for a person and becomes the robot's only sensor. One at a time, because only one can drive the robot.</p>
+      <p>While a game runs, the strip of picture it is reading is drawn <strong>on the video</strong>, over the pixels it came from, with its reading in the telemetry line. That is the point of them rather than a debug aid: a child can see what the robot is deciding from, so &ldquo;why did it turn there?&rdquo; is answered by looking instead of by reading code.</p>
+      <p><strong>Follow the torch.</strong> Reads a strip across the middle of the picture, compares the brightness of each half, and turns towards the brighter one. Dim the room and walk backwards with a phone torch.</p>
+      <p><strong>How fast does it turn?</strong> The robot spins itself for two seconds each way and measures how far the picture slid between frames, which becomes degrees per second. Each run records the requested speed, the left rate, the right rate and the gap between them. <em>The gap is the lesson.</em> The two should match and will not, because the motors are not identical &mdash; the same truth the wake-up numbers teach, with the robot measuring itself this time.</p>
+      <p><strong>Follow the line.</strong> Dark tape on a pale floor, read from a strip along the bottom of the picture &mdash; the floor just in front of the wheels. A checkbox handles a pale line on a dark floor. It stops rather than guessing and says which of four things it hit: too dark to see the floor, nothing that looks like tape, a dark patch too wide to be a line, or more than one patch and no way to tell which was meant.</p>
+      <p><strong>Follow the card.</strong> Show it a brightly coloured card and it learns that colour, then turns towards it. A card and not a hand, on purpose: recognising a hand needs a model this page cannot load, and the shortcut people reach for instead &mdash; testing pixels for skin colour &mdash; works for some children and not others. A card works for everyone, and a child can disprove &ldquo;it follows my hand&rdquo; by hiding the card and waving.</p>
+      <p><strong>A hand over the lens stops whichever game is running.</strong> A covered lens is dark, flat, <em>and</em> a change from a lit picture &mdash; all three, or an unlit room would stop the robot too.</p>
+      <div class="ambox">Frames come from <code>/capture</code> on port 80 rather than the stream on port 81: the stream is a different origin, and drawing it into a canvas taints the canvas so the pixels cannot be read back. Every game sends its commands through the same path a held button does, at the same cadence and under the same 600&nbsp;ms timeout &mdash; <strong>a game cannot ask the robot for anything a finger could not.</strong></div>
+      <p>What they cannot do is forward speed. Driving forward makes the picture expand from the centre instead of sliding, and how fast it expands depends on how far away the furniture is. Metres per second would need the camera pointed at the floor, or one calibration drive over a known distance.</p>
+
       <h2 id="threshold">Finding the wake-up number</h2>
       <p>Settings &rarr; Robot &rarr; <strong>Measure them</strong> starts a guided activity. It powers one wheel at a time, starting at 20 out of 255, stepping up by 5, and asks whether the wheel is turning. When the child says it is, that number is the motor's starting threshold, and it is saved on the robot.</p>
       <p>The two motors will disagree, often by 20 or 30. <strong>That difference is the lesson</strong>: identical parts are not identical, and it is why the robot pulls to one side.</p>
@@ -235,6 +251,20 @@ timer = (channel / 2) % 4</code></pre>
       <p>With nobody connected, retries back off from 30&nbsp;seconds, doubling to a five-minute cap.</p>
 
       <div class="ambox ambox-warning"><strong>This is not a security control.</strong> <code>88888888</code> is both the AP password and the OTA password, the page is HTTP, and a Wi-Fi password typed into it travels in clear over the link. That is convenient for a classroom and unsuitable for an untrusted environment.</div>
+
+      <h2 id="led">What the LED is telling you</h2>
+      <p>GPIO4 is the module's flash LED and the robot's only indicator. Every status pattern runs at a few percent of full scale: it is painful to look at near full brightness, and this is a high-power LED on a board that browns out easily. The patterns differ by <strong>rhythm</strong> rather than by count &mdash; nobody reliably counts blinks across a room, and everybody notices fast against slow.</p>
+      <ul>
+        <li><strong>Three short flashes</strong> on power-up &mdash; the CPU is running. If these appear, the board booted and whatever goes wrong next is software.</li>
+        <li><strong>A fast blip, four times a second</strong> &mdash; trying the configured Wi-Fi. This is the ten-second window, and the blip is the dot the serial console prints, for somebody without a cable.</li>
+        <li><strong>Two long marks</strong> &mdash; joined the configured network.</li>
+        <li><strong>Long, short, long</strong> &mdash; the network was unavailable and the fallback access point is up. The normal case in a workshop, not a fault.</li>
+        <li><strong>Groups of short flashes</strong> &mdash; the last group of the address it was given, a digit at a time: 137 is one flash, three flashes, seven flashes. Zero is a single long mark.</li>
+        <li><strong>One dim pulse a second</strong> &mdash; running, joined to the configured network.</li>
+        <li><strong>One dim pulse every five seconds</strong> &mdash; running on the fallback access point.</li>
+        <li><strong>A glow that rises steadily</strong> &mdash; firmware is being written. <strong>Do not cut the power.</strong> It is a glow rather than a blink so it cannot be mistaken for anything above.</li>
+      </ul>
+      <div class="ambox">The heartbeat yields to the light: switch the flash LED on from the page and the pulsing stops until you switch it off again. Boot status does not yield, because nobody has asked for the light yet at that point in the startup.</div>
 
       <h2 id="serial">UART0 serial console</h2>
       <p>UART0 runs at 115200 8N1 on <code>U0T</code> / GPIO1 and <code>U0R</code> / GPIO3. Use a <strong>3.3&nbsp;V TTL</strong> adapter; never connect RS-232 voltage levels directly to the ESP32.</p>
@@ -278,6 +308,12 @@ timer = (channel / 2) % 4</code></pre>
 
       <h3>USB upload fails after the baud switch</h3>
       <p>Reduce the speed to 115200. This carrier board has no auto-reset: hold GPIO0 low while powering up.</p>
+
+      <h3>Forward and backward are swapped</h3>
+      <p>That chassis has a motor's leads the other way round. Left and right are swapped too, because the turn commands share the forward polarity &mdash; it is easy to miss on a table, where a pivot looks plausible either way. Lift the wheels, press forward, and tick whichever wheel turns the wrong way under <strong>Settings &rarr; Robot &rarr; Wheel direction</strong>. The flag is stored on the robot, so the fix follows the robot rather than the browser that made it.</p>
+
+      <h3>A game says it cannot see anything</h3>
+      <p>Each refusal names its own cause. <em>Too dark to see the floor</em> wants more light. <em>More than one dark patch</em> is usually the lens vignette rather than tape, and more contrast between tape and floor fixes it. <em>Cannot see the card</em> after the room has changed means the camera has re-balanced its colours: press <strong>Show it the card</strong> again, which is normal during a session rather than a fault.</p>
 
       <hr>
       <p class="hatnote">Related articles: <a href="cam-robot-m1-en.html">ESP32-CAM Robot m1</a> &middot; <a href="video-car-en.html">VideoCar</a> &middot; <a href="rxy-web-en.html">rxy-web</a> &middot; <a href="keyes-mecanum-rxy-en.html">Keyes Mecanum</a> &middot; <a href="robot-mv-en.html">Robot MV</a></p>

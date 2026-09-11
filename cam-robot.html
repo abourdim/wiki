@@ -69,7 +69,7 @@
           <tr><th>Matériel</th><td>ESP32-CAM AI-Thinker (OV2640, PSRAM) + TB6612FNG</td></tr>
           <tr><th>Pilote moteur</th><td>SparkFun ROB-14450 &mdash; PWMA et PWMB reliés ensemble</td></tr>
           <tr><th>Vidéo</th><td>MJPEG, port 81 &mdash; VGA qualité 12 par défaut</td></tr>
-          <tr><th>Firmware</th><td>v1.2 (Arduino / PlatformIO)</td></tr>
+          <tr><th>Firmware</th><td>v2.0 (Arduino / PlatformIO)</td></tr>
           <tr><th>Interface</th><td>Servie par le robot lui-même, sans application à installer</td></tr>
           <tr><th>AP de secours</th><td><code>ESP32-Robot-XXXX</code> / <code>88888888</code> / <code>192.168.4.1</code></td></tr>
           <tr><th>Console</th><td>UART0, 115200 8N1</td></tr>
@@ -102,8 +102,10 @@
           <li><a href="#video">La vidéo et ses incrustations</a></li>
           <li><a href="#ui">L'interface web</a></li>
           <li><a href="#program">Enregistrer et rejouer</a></li>
+          <li><a href="#games">Jeux : la caméra comme capteur</a></li>
           <li><a href="#threshold">Trouver le seuil de démarrage</a></li>
           <li><a href="#network">Réseau : point d'accès de secours</a></li>
+          <li><a href="#led">Ce que la LED vous dit</a></li>
           <li><a href="#serial">Console série UART0</a></li>
           <li><a href="#ota">Mise à jour par WiFi</a></li>
           <li><a href="#troubleshooting">Dépannage</a></li>
@@ -200,6 +202,9 @@ timer  = (canal / 2) % 4</code></pre>
       <p>La cadence est mesurée <em>sur le robot</em>&nbsp;: un navigateur considère une image multipart comme chargée une fois, à la première trame, et ne sait pas les compter.</p>
 
       <h2 id="ui">L'interface web</h2>
+      <p>Trois vues se partagent la page, choisies dans l'en-tête &mdash; <strong>Drive</strong>, <strong>Program</strong> et <strong>Games</strong> &mdash; avec la vidéo au-dessus des trois.</p>
+      <p><strong>Drive</strong>, c'est les quatre flèches avec <strong>STOP</strong> en leur centre, une seule commande de <strong>vitesse</strong>, puis <strong>Light</strong>, dans cet ordre. La commande qu'un enfant utilise à chaque seconde se trouve juste sous ce qu'il doit regarder : sur un téléphone, l'image et les flèches tiennent ensemble à l'écran et conduire n'oblige jamais à faire défiler. La vitesse déplace les deux moteurs et conserve l'écart réglé dans les paramètres. Relâcher une flèche arrête le robot de toute façon : STOP est le secours, pas le seul moyen.</p>
+      <p><strong>Paramètres &rarr; Robot</strong> rassemble tout ce qui diffère d'un robot à l'autre : nom, limite de vitesse, <strong>sens des roues</strong>, <strong>équilibrage des moteurs</strong> (la case Sync et les deux curseurs) et les seuils de démarrage mesurés &mdash; exactement ce que le robot conserve en NVS. Le sens des roues, ce sont deux cases pour un châssis dont un moteur a été câblé à l'envers.</p>
       <p>Un bandeau collant en haut, et deux volets repliables. Le partage se fait par ce que l'on est en train de faire&nbsp;: <strong>Settings</strong> est ce que l'on change sur le robot, <strong>Debug</strong> ce que l'on regarde en roulant.</p>
       <p><strong>Settings</strong> réunit la caméra (résolution de QQVGA à UXGA, rotation d'affichage, qualité JPEG, luminosité, contraste, saturation, miroirs), le robot (nom, plafond de vitesse, seuils de démarrage mesurés), le WiFi (scan et connexion), la console série USB et le téléversement OTA.</p>
       <p><strong>Debug</strong> montre l'état de mouvement, les PWM demandés et réellement appliqués à gauche et à droite, le mode réseau, l'adresse IP, le nombre de clients de l'AP, le RSSI, la durée de fonctionnement, la cadence du flux, et un <strong>historique de 64 événements</strong> exportable.</p>
@@ -219,6 +224,17 @@ timer  = (canal / 2) % 4</code></pre>
       <p>Trois emplacements gardent les programmes <em>sur le robot</em>, pas dans le navigateur, pour qu'un programme suive le robot dans la classe plutôt que la tablette qui l'a enregistré.</p>
       <p>La sécurité vient de la réutilisation&nbsp;: la lecture appelle exactement les mêmes fonctions que les boutons, donc un programme rejoué envoie les mêmes keepalives de 250&nbsp;ms et obéit au même garde-fou de 600&nbsp;ms. <strong>Un programme ne peut pas piloter le robot d'une manière qu'un enfant ne pourrait pas.</strong> Une lecture interrompue envoie toujours un arrêt.</p>
 
+      <h2 id="games">Jeux : la caméra comme capteur</h2>
+      <p>Quatre activités où la caméra cesse d'être une image pour quelqu'un et devient le seul capteur du robot. Une à la fois, puisqu'une seule peut conduire le robot.</p>
+      <p>Pendant qu'un jeu tourne, la bande d'image qu'il lit est dessinée <strong>sur la vidéo</strong>, par-dessus les pixels dont elle provient, avec sa mesure dans la ligne de télémétrie. C'est là tout l'intérêt, et non un outil de mise au point : un enfant voit ce sur quoi le robot décide, et « pourquoi a-t-il tourné là ? » se répond en regardant plutôt qu'en lisant du code.</p>
+      <p><strong>Suivre la lampe.</strong> Lit une bande au milieu de l'image, compare la luminosité de chaque moitié et tourne vers la plus claire. Baissez la lumière et reculez avec la lampe d'un téléphone.</p>
+      <p><strong>À quelle vitesse tourne-t-il ?</strong> Le robot pivote seul deux secondes dans chaque sens et mesure de combien l'image a glissé d'une prise à l'autre, ce qui donne des degrés par seconde. Chaque essai note la vitesse demandée, le taux à gauche, celui à droite et l'écart entre eux. <em>L'écart est la leçon.</em> Les deux devraient coïncider et ne coïncideront pas, parce que les moteurs ne sont pas identiques &mdash; la même vérité qu'enseignent les seuils de démarrage, le robot se mesurant lui-même cette fois.</p>
+      <p><strong>Suivre la ligne.</strong> Du ruban sombre sur un sol clair, lu dans une bande en bas de l'image &mdash; le sol juste devant les roues. Une case traite le cas inverse, ligne claire sur sol sombre. Il s'arrête plutôt que de deviner et dit laquelle des quatre causes il a rencontrée : trop sombre pour voir le sol, rien qui ressemble à du ruban, une tache trop large pour être une ligne, ou plusieurs taches sans moyen de savoir laquelle compte.</p>
+      <p><strong>Suivre la carte.</strong> Montrez-lui une carte de couleur vive : il apprend cette couleur, puis tourne vers elle. Une carte et non une main, volontairement : reconnaître une main demande un modèle que cette page ne peut pas charger, et le raccourci vers lequel on se tourne alors &mdash; tester les pixels pour la couleur de peau &mdash; fonctionne pour certains enfants et pas pour d'autres. Une carte fonctionne pour tout le monde, et un enfant peut réfuter « il suit ma main » en cachant la carte et en agitant le bras.</p>
+      <p><strong>Une main devant l'objectif arrête le jeu en cours</strong>, quel qu'il soit. Un objectif couvert est sombre, uniforme <em>et</em> un changement par rapport à une image éclairée &mdash; les trois, sinon une pièce non éclairée arrêterait aussi le robot.</p>
+      <div class="ambox">Les images viennent de <code>/capture</code> sur le port 80 et non du flux sur le port 81 : le flux est une origine différente, et le dessiner dans un canvas le contamine, ce qui rend les pixels illisibles. Chaque jeu envoie ses commandes par le même chemin qu'un bouton maintenu, au même rythme et sous le même délai de 600&nbsp;ms &mdash; <strong>un jeu ne peut rien demander au robot qu'un doigt ne pourrait demander.</strong></div>
+      <p>Ce qu'ils ne peuvent pas faire, c'est la vitesse en ligne droite. Avancer fait dilater l'image depuis le centre au lieu de la faire glisser, et la vitesse de cette dilatation dépend de l'éloignement des meubles. Des mètres par seconde exigeraient une caméra dirigée vers le sol, ou un trajet d'étalonnage sur une distance connue.</p>
+
       <h2 id="threshold">Trouver le seuil de démarrage</h2>
       <p>Settings &rarr; Robot &rarr; <strong>Measure them</strong> lance une activité guidée. Elle alimente une roue à la fois, part de 20 sur 255, monte de 5 en 5, et demande si la roue tourne. Quand l'enfant répond oui, ce nombre est le seuil de démarrage du moteur, et il est enregistré sur le robot.</p>
       <p>Les deux moteurs vont être en désaccord, souvent de 20 ou 30. <strong>Cet écart est la leçon</strong>&nbsp;: des pièces identiques ne le sont pas, et c'est pour cela que le robot tire d'un côté.</p>
@@ -235,6 +251,20 @@ timer  = (canal / 2) % 4</code></pre>
       <p>Sans personne de connecté, les tentatives s'espacent de 30&nbsp;secondes en doublant jusqu'à un plafond de cinq minutes.</p>
 
       <div class="ambox ambox-warning"><strong>Ce n'est pas un dispositif de sécurité.</strong> <code>88888888</code> sert à la fois de mot de passe de l'AP et de mot de passe OTA, la page est en HTTP, et le mot de passe WiFi saisi voyage en clair sur le lien. C'est confortable pour une salle de classe et inadapté à un environnement non maîtrisé.</div>
+
+      <h2 id="led">Ce que la LED vous dit</h2>
+      <p>GPIO4 est la LED flash du module et le seul indicateur du robot. Chaque motif d'état tourne à quelques pour cent de l'échelle : elle est pénible à regarder près du maximum, et c'est une LED puissante sur une carte qui s'effondre facilement. Les motifs se distinguent par leur <strong>rythme</strong> plutôt que par un nombre &mdash; personne ne compte des clignotements de façon fiable à travers une salle, mais tout le monde remarque rapide contre lent.</p>
+      <ul>
+        <li><strong>Trois éclats brefs</strong> à la mise sous tension &mdash; le processeur tourne. S'ils apparaissent, la carte a démarré et ce qui échoue ensuite est logiciel.</li>
+        <li><strong>Un bref éclat, quatre fois par seconde</strong> &mdash; tentative de connexion au Wi-Fi configuré. C'est la fenêtre de dix secondes, et l'éclat est le point qu'affiche la console série, pour qui n'a pas de câble.</li>
+        <li><strong>Deux marques longues</strong> &mdash; le réseau configuré est rejoint.</li>
+        <li><strong>Longue, brève, longue</strong> &mdash; le réseau était indisponible et le point d'accès de secours est actif. Le cas normal en atelier, pas une panne.</li>
+        <li><strong>Des groupes d'éclats brefs</strong> &mdash; le dernier groupe de l'adresse obtenue, chiffre par chiffre : 137 donne un éclat, trois éclats, sept éclats. Le zéro est une seule marque longue.</li>
+        <li><strong>Une impulsion faible par seconde</strong> &mdash; en marche, connecté au réseau configuré.</li>
+        <li><strong>Une impulsion faible toutes les cinq secondes</strong> &mdash; en marche sur le point d'accès de secours.</li>
+        <li><strong>Une lueur qui monte régulièrement</strong> &mdash; le micrologiciel est en cours d'écriture. <strong>Ne coupez pas l'alimentation.</strong> C'est une lueur et non un clignotement, pour ne pouvoir être confondue avec rien de ce qui précède.</li>
+      </ul>
+      <div class="ambox">Le battement cède la place à la lumière : allumez la LED flash depuis la page et les impulsions cessent jusqu'à ce que vous l'éteigniez. L'état de démarrage ne cède pas, car personne n'a encore demandé la lumière à ce moment-là.</div>
 
       <h2 id="serial">Console série UART0</h2>
       <p>UART0 sort en 115200 8N1 sur <code>U0T</code> / GPIO1 et <code>U0R</code> / GPIO3. Il faut un adaptateur <strong>TTL 3,3&nbsp;V</strong>&nbsp;; ne jamais brancher des niveaux RS-232 directement sur l'ESP32.</p>
@@ -278,6 +308,12 @@ timer  = (canal / 2) % 4</code></pre>
 
       <h3>Le téléversement USB échoue après le changement de débit</h3>
       <p>Réduis la vitesse à 115200. Cette carte porteuse n'a pas de reset automatique&nbsp;: maintiens GPIO0 à la masse pendant la mise sous tension.</p>
+
+      <h3>Avant et arrière sont inversés</h3>
+      <p>Ce châssis a un moteur câblé à l'envers. La gauche et la droite sont inversées aussi, car les commandes de virage partagent la polarité de la marche avant &mdash; facile à manquer sur une table, où un pivot paraît plausible dans les deux sens. Soulevez les roues, appuyez sur avant, et cochez la roue qui tourne du mauvais côté dans <strong>Paramètres &rarr; Robot &rarr; Sens des roues</strong>. L'indicateur est stocké sur le robot : la correction suit le robot et non le navigateur qui l'a faite.</p>
+
+      <h3>Un jeu dit qu'il ne voit rien</h3>
+      <p>Chaque refus nomme sa cause. <em>Trop sombre pour voir le sol</em> demande plus de lumière. <em>Plus d'une tache sombre</em> est en général le vignettage de l'objectif plutôt que du ruban, et davantage de contraste entre ruban et sol y remédie. <em>Je ne vois pas la carte</em> après un changement dans la pièce signifie que la caméra a réajusté ses couleurs : appuyez de nouveau sur <strong>Montrer la carte</strong>, ce qui est normal au cours d'une séance et non une panne.</p>
 
       <hr>
       <p class="hatnote">Articles liés : <a href="cam-robot-m1.html">ESP32-CAM Robot m1</a> &middot; <a href="video-car.html">VideoCar</a> &middot; <a href="rxy-web.html">rxy-web</a> &middot; <a href="keyes-mecanum-rxy.html">Keyes Mecanum</a> &middot; <a href="robot-mv.html">Robot MV</a></p>
