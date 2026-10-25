@@ -146,6 +146,11 @@
         <li><a href="files/esp32_cam_plugin/esp32_cam_plugin.kicad_pcb">esp32_cam_plugin.kicad_pcb</a> &mdash; le routage de la carte.</li>
         <li><a href="files/esp32_cam_plugin/esp32_cam_plugin.kicad_pro">esp32_cam_plugin.kicad_pro</a> &mdash; le fichier projet. Mettez les trois fichiers dans un même dossier et ouvrez celui-ci.</li>
       </ul>
+      <div class="diagram" style="text-align:center"><a href="cam-plugin-esphome-schematic.png"><img src="cam-plugin-esphome-schematic.png" alt="Schéma de la carte d'extension ESP32-CAM" width="1268" height="916" style="max-width:100%;height:auto;display:block;margin:0 auto"></a><div style="font-size:0.85rem;color:#54595d;margin-top:8px">Le schéma, rév. v4. Les étiquettes de réseau (<code>esp32_io_xx</code>, <code>ftdi_tx</code>, <code>ftdi_rx</code>) sont la source du tableau de brochage.</div></div>
+      <div class="diagram" style="display:flex;flex-wrap:wrap;gap:16px;justify-content:center;text-align:center">
+        <div style="flex:1 1 260px;max-width:380px"><a href="cam-plugin-esphome-3d.jpg"><img src="cam-plugin-esphome-3d.jpg" alt="Rendu 3D de la carte d'extension ESP32-CAM" width="922" height="1148" style="max-width:100%;height:auto;display:block;margin:0 auto"></a><div style="font-size:0.85rem;color:#54595d;margin-top:8px">Vue 3D de la carte.</div></div>
+        <div style="flex:1 1 260px;max-width:380px"><a href="cam-plugin-esphome-pcb.png"><img src="cam-plugin-esphome-pcb.png" alt="Routage de la carte d'extension ESP32-CAM" width="955" height="1173" style="max-width:100%;height:auto;display:block;margin:0 auto"></a><div style="font-size:0.85rem;color:#54595d;margin-top:8px">Routage : cuivre face avant en rouge, face arrière en bleu.</div></div>
+      </div>
       <p>Certains symboles viennent de bibliothèques personnelles (<code>esp32_cam</code>, <code>l9110s</code>, <code>haksys</code>, <code>tinkerforge</code>). KiCad en garde une copie dans le schéma, qui s'ouvre donc sans elles ; seule la modification de ces composants les demande. Le schéma porte encore le PIR HC-SR501 et son étage à transistors, que ce firmware n'utilise pas.</p>
 
       <h2 id="install">Installer ESPHome sous Linux</h2>

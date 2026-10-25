@@ -146,6 +146,11 @@
         <li><a href="files/esp32_cam_plugin/esp32_cam_plugin.kicad_pcb">esp32_cam_plugin.kicad_pcb</a> &mdash; the board layout.</li>
         <li><a href="files/esp32_cam_plugin/esp32_cam_plugin.kicad_pro">esp32_cam_plugin.kicad_pro</a> &mdash; the project file. Put the three files in one folder and open this one.</li>
       </ul>
+      <div class="diagram" style="text-align:center"><a href="cam-plugin-esphome-schematic.png"><img src="cam-plugin-esphome-schematic.png" alt="Schematic of the ESP32-CAM plugin board" width="1268" height="916" style="max-width:100%;height:auto;display:block;margin:0 auto"></a><div style="font-size:0.85rem;color:#54595d;margin-top:8px">The schematic, rev v4. The net labels (<code>esp32_io_xx</code>, <code>ftdi_tx</code>, <code>ftdi_rx</code>) are what the pinout table is built from.</div></div>
+      <div class="diagram" style="display:flex;flex-wrap:wrap;gap:16px;justify-content:center;text-align:center">
+        <div style="flex:1 1 260px;max-width:380px"><a href="cam-plugin-esphome-3d.jpg"><img src="cam-plugin-esphome-3d.jpg" alt="3D render of the ESP32-CAM plugin board" width="922" height="1148" style="max-width:100%;height:auto;display:block;margin:0 auto"></a><div style="font-size:0.85rem;color:#54595d;margin-top:8px">3D view of the board.</div></div>
+        <div style="flex:1 1 260px;max-width:380px"><a href="cam-plugin-esphome-pcb.png"><img src="cam-plugin-esphome-pcb.png" alt="PCB layout of the ESP32-CAM plugin board" width="955" height="1173" style="max-width:100%;height:auto;display:block;margin:0 auto"></a><div style="font-size:0.85rem;color:#54595d;margin-top:8px">PCB layout: front copper in red, back copper in blue.</div></div>
+      </div>
       <p>Some symbols come from personal libraries (<code>esp32_cam</code>, <code>l9110s</code>, <code>haksys</code>, <code>tinkerforge</code>). KiCad keeps a copy inside the schematic, so it opens without them; only editing those parts needs the libraries. The schematic still carries the HC-SR501 PIR and its transistor stage, which this firmware does not use.</p>
 
       <h2 id="install">Installing ESPHome on Linux</h2>
