@@ -73,6 +73,7 @@
           <tr><th>Vidéo</th><td>MJPEG sur le port 8080</td></tr>
           <tr><th>Point d'accès de secours</th><td><code>esp32-cam-test fallback</code></td></tr>
           <tr><th>Configuration</th><td><a href="files/esp32_cam_test.yaml">esp32_cam_test.yaml</a></td></tr>
+          <tr><th>Fichiers KiCad</th><td><a href="https://github.com/abourdim/wiki/tree/main/files/esp32_cam_plugin">esp32_cam_plugin</a> (rév. v4)</td></tr>
         </table>
       </div>
 
@@ -93,6 +94,7 @@
         <ol>
           <li><a href="#overview">Vue d'ensemble</a></li>
           <li><a href="#pinout">Brochage, d'après le schéma</a></li>
+          <li><a href="#kicad">Fichiers KiCad</a></li>
           <li><a href="#install">Installer ESPHome sous Linux</a></li>
           <li><a href="#flash">Configurer &amp; flasher</a></li>
           <li><a href="#tests">La séquence de test</a></li>
@@ -136,6 +138,15 @@
       </ul>
 
       <div class="ambox">La carte vue pendant cette validation n'a ni TP4056 ni MT3608 : le VBUS de l'USB-C va directement sur le 5&nbsp;V. Si votre révision porte le bloc batterie, réglez le MT3608 sur 5,0&ndash;5,1&nbsp;V <em>avant</em> de brancher l'ESP32-CAM &mdash; ces modules sont souvent livrés réglés bien plus haut.</div>
+
+      <h2 id="kicad">Fichiers KiCad</h2>
+      <p>Le projet KiCad 9 de la carte, révision v4, est rangé à côté de cet article :</p>
+      <ul>
+        <li><a href="files/esp32_cam_plugin/esp32_cam_plugin.kicad_sch">esp32_cam_plugin.kicad_sch</a> &mdash; le schéma, avec les étiquettes de réseau d'où vient le brochage ci-dessus.</li>
+        <li><a href="files/esp32_cam_plugin/esp32_cam_plugin.kicad_pcb">esp32_cam_plugin.kicad_pcb</a> &mdash; le routage de la carte.</li>
+        <li><a href="files/esp32_cam_plugin/esp32_cam_plugin.kicad_pro">esp32_cam_plugin.kicad_pro</a> &mdash; le fichier projet. Mettez les trois fichiers dans un même dossier et ouvrez celui-ci.</li>
+      </ul>
+      <p>Certains symboles viennent de bibliothèques personnelles (<code>esp32_cam</code>, <code>l9110s</code>, <code>haksys</code>, <code>tinkerforge</code>). KiCad en garde une copie dans le schéma, qui s'ouvre donc sans elles ; seule la modification de ces composants les demande. Le schéma porte encore le PIR HC-SR501 et son étage à transistors, que ce firmware n'utilise pas.</p>
 
       <h2 id="install">Installer ESPHome sous Linux</h2>
       <p>Installez ESPHome dans son propre environnement virtuel, jamais avec <code>pip install --user</code> :</p>

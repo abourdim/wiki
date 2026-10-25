@@ -73,6 +73,7 @@
           <tr><th>الفيديو</th><td>MJPEG على المنفذ 8080</td></tr>
           <tr><th>نقطة الوصول الاحتياطية</th><td><code dir="ltr">esp32-cam-test fallback</code></td></tr>
           <tr><th>الإعدادات</th><td><a href="files/esp32_cam_test.yaml" dir="ltr">esp32_cam_test.yaml</a></td></tr>
+          <tr><th>ملفات KiCad</th><td><a href="https://github.com/abourdim/wiki/tree/main/files/esp32_cam_plugin" dir="ltr">esp32_cam_plugin</a> (النسخة v4)</td></tr>
         </table>
       </div>
 
@@ -93,6 +94,7 @@
         <ol>
           <li><a href="#overview">نظرة عامة</a></li>
           <li><a href="#pinout">توزيع الأطراف، من المخطّط</a></li>
+          <li><a href="#kicad">ملفات KiCad</a></li>
           <li><a href="#install">تثبيت ESPHome على Linux</a></li>
           <li><a href="#flash">الإعداد والتحميل</a></li>
           <li><a href="#tests">تسلسل الاختبارات</a></li>
@@ -136,6 +138,15 @@
       </ul>
 
       <div class="ambox">اللوحة التي فُحصت في هذا التحقق ليس عليها TP4056 ولا MT3608: خطّ VBUS من USB-C يذهب مباشرة إلى خطّ 5&nbsp;فولت. إن كانت نسختك تحمل دائرة البطارية، فاضبط MT3608 على 5.0&ndash;5.1&nbsp;فولت <em>قبل</em> توصيل ESP32-CAM &mdash; فهذه الوحدات تُشحن غالبًا مضبوطة على قيمة أعلى بكثير.</div>
+
+      <h2 id="kicad">ملفات KiCad</h2>
+      <p>مشروع KiCad 9 الخاص باللوحة، النسخة v4، محفوظ بجانب هذا المقال:</p>
+      <ul>
+        <li><a href="files/esp32_cam_plugin/esp32_cam_plugin.kicad_sch" dir="ltr">esp32_cam_plugin.kicad_sch</a> &mdash; المخطّط، وفيه تسميات الشبكات التي أُخذ منها توزيع الأطراف أعلاه.</li>
+        <li><a href="files/esp32_cam_plugin/esp32_cam_plugin.kicad_pcb" dir="ltr">esp32_cam_plugin.kicad_pcb</a> &mdash; تصميم اللوحة المطبوعة.</li>
+        <li><a href="files/esp32_cam_plugin/esp32_cam_plugin.kicad_pro" dir="ltr">esp32_cam_plugin.kicad_pro</a> &mdash; ملف المشروع. ضع الملفات الثلاثة في مجلّد واحد وافتح هذا الملف.</li>
+      </ul>
+      <p>بعض الرموز مأخوذة من مكتبات شخصية (<code dir="ltr">esp32_cam</code>، <code dir="ltr">l9110s</code>، <code dir="ltr">haksys</code>، <code dir="ltr">tinkerforge</code>). يحتفظ KiCad بنسخة منها داخل المخطّط، فيُفتح دونها؛ ولا تلزم المكتبات إلا لتعديل تلك القطع. وما زال المخطّط يحمل حسّاس الحركة HC-SR501 ومرحلة الترانزستورات الخاصة به، وهذا البرنامج لا يستعملهما.</p>
 
       <h2 id="install">تثبيت ESPHome على Linux</h2>
       <p>ثبّت ESPHome في بيئة افتراضية خاصة به، ولا تستعمل أبدًا <code dir="ltr">pip install --user</code>:</p>
