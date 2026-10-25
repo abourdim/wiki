@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ESP32-CAM plugin board &mdash; ESPHome validation - Wiki</title>
+<link rel="stylesheet" href="wiki.css">
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-inner">
+    <a class="wiki-logo" href="https://workshop-diy.org"><img src="logo.png" alt="Wiki logo"></a>
+    <a class="masthead-site-link" href="https://workshop-diy.org">workshop-diy.org</a>
+    <div class="masthead-title">
+      Wiki
+      <span class="sub">The free personal knowledge base</span>
+    </div>
+    <div class="masthead-actions">
+      <div class="lang-switch" role="group" aria-label="Language">
+        <a href="cam-plugin-esphome.html" class="lang-switch-btn" title="Français"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="20" height="40" fill="#002395"/><rect x="20" width="20" height="40" fill="#fff"/><rect x="40" width="20" height="40" fill="#ED2939"/></svg></a>
+        <a href="cam-plugin-esphome-en.html" class="lang-switch-btn active" title="English"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="60" height="40" fill="#012169"/><path d="M0 0L60 40M60 0L0 40" stroke="#fff" stroke-width="6.5"/><path d="M0 0L60 40M60 0L0 40" stroke="#C8102E" stroke-width="3.5"/><path d="M30 0V40M0 20H60" stroke="#fff" stroke-width="11"/><path d="M30 0V40M0 20H60" stroke="#C8102E" stroke-width="6.5"/></svg></a>
+        <a href="cam-plugin-esphome-ar.html" class="lang-switch-btn" title="العربية"><svg width="24" height="16" viewBox="0 0 900 600"><defs><clipPath id="glCamPluginEsphomeEn"><rect width="450" height="600"/></clipPath></defs><rect width="450" height="600" fill="#006233"/><rect x="450" width="450" height="600" fill="#FFF"/><g fill="#D21034" transform="translate(450,300)"><circle r="125"/><circle cx="25" r="100" fill="#FFF"/><g clip-path="url(#glCamPluginEsphomeEn)" transform="translate(-450,-300)"><circle cx="475" cy="300" r="100" fill="#006233"/></g><path d="M85-12l22 67h71l-57 42 22 67-58-42-57 42 21-67-57-42h71z"/></g></svg></a>
+      </div>
+      <div class="masthead-search">
+        <input type="text" placeholder="Search" disabled>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wiki-layout">
+
+  <div class="sidebar">
+    <h3>Navigation</h3>
+    <ul>
+      <li><a href="index-en.html">Main page</a></li>
+      <li><a href="#">Recent changes</a></li>
+      <li><a href="#">Random page</a></li>
+    </ul>
+    <h3>Categories</h3>
+    <ul>
+      <li><a href="index-en.html">Networking</a></li>
+      <li><a href="index-en.html">Linux</a></li>
+      <li><a href="index-en.html">Windows</a></li>
+      <li><a href="index-en.html">Electronics</a></li>
+      <li><a href="index-en.html">ESP32</a></li>
+      <li><a href="index-en.html">micro:bit</a></li>
+    </ul>
+    <h3>Tools</h3>
+    <ul>
+      <li><a href="https://github.com/abourdim/wiki/blob/main/files/esp32_cam_test.yaml">View the configuration</a></li>
+    </ul>
+  </div>
+
+  <div class="content-wrap">
+    <div class="article-tabs">
+      <span class="active">Article</span>
+      <span>Discussion</span>
+    </div>
+
+    <article>
+      <h1 class="page-title">ESP32-CAM plugin board &mdash; ESPHome validation</h1>
+
+      <div class="infobox">
+        <div class="infobox-title">ESP32-CAM plugin board</div>
+        <table>
+          <tr><th>Type</th><td>Bring-up and test firmware: checks every part of the board from a web page</td></tr>
+          <tr><th>Hardware</th><td>AI-Thinker ESP32-CAM (OV2640, PSRAM) on a custom plugin board</td></tr>
+          <tr><th>On the board</th><td>2 &times; L9110 motor drivers, TX1812 RGB LED (D1), 0.96&Prime; SSD1306 OLED, USB-C power</td></tr>
+          <tr><th>Firmware</th><td>ESPHome <strong>2025.2.2</strong>, Arduino framework, on Linux</td></tr>
+          <tr><th>Web page</th><td>Port 80: controls, tests and logs</td></tr>
+          <tr><th>Video</th><td>MJPEG on port 8080</td></tr>
+          <tr><th>Fallback AP</th><td><code>esp32-cam-test fallback</code></td></tr>
+          <tr><th>Configuration</th><td><a href="files/esp32_cam_test.yaml">esp32_cam_test.yaml</a></td></tr>
+        </table>
+      </div>
+
+      <div class="applink">
+        <a href="https://abourdim.github.io/wiki/cam-plugin-esphome-en.html"><img class="applink-qr" src="qr/page-cam-plugin-esphome-en.svg" alt="QR: https://abourdim.github.io/wiki/cam-plugin-esphome-en.html" width="104" height="104"></a>
+        <div class="applink-text">
+          <div class="applink-title">Open this page on a phone</div>
+          <div class="applink-url"><a href="https://abourdim.github.io/wiki/cam-plugin-esphome-en.html">https://abourdim.github.io/wiki/cam-plugin-esphome-en.html</a></div>
+          <div class="applink-hint">No app to install: the board serves its own test page. Scan this code to carry the procedure to the bench.</div>
+        </div>
+      </div>
+
+      <p class="hatnote"><strong>This is a test bench, not a robot firmware.</strong> Its only job is to prove, one part at a time, that a freshly assembled plugin board works: screen, LED, both motors, camera and power supply. Everything is driven from buttons on a web page.</p>
+      <p class="hatnote">Every pin in the configuration comes from the <strong>net labels of the schematic</strong>. The first version guessed them, before the labels existed &mdash; and the OLED and the LED stayed dark. Read the schematic first.</p>
+
+      <div class="toc">
+        <div class="toc-title">Contents</div>
+        <ol>
+          <li><a href="#overview">Overview</a></li>
+          <li><a href="#pinout">Pinout, from the schematic</a></li>
+          <li><a href="#install">Installing ESPHome on Linux</a></li>
+          <li><a href="#flash">Configure &amp; flash</a></li>
+          <li><a href="#tests">The test sequence</a></li>
+          <li><a href="#oled">The OLED: status pages</a></li>
+          <li><a href="#led">LED D1: colours</a></li>
+          <li><a href="#camera">The camera: stream and live settings</a></li>
+          <li><a href="#traps">Traps met during bring-up</a></li>
+          <li><a href="#troubleshooting">Troubleshooting</a></li>
+        </ol>
+      </div>
+
+      <h2 id="overview">Overview</h2>
+      <p>The firmware is a single ESPHome file. Once flashed, the board joins the Wi-Fi network, shows its address on the OLED, and serves a page with one row per part: switches, sliders, test buttons, and the live log on the right.</p>
+      <p>Each test answers a single question:</p>
+      <ul>
+        <li><strong>I&sup2;C bus and OLED</strong> &mdash; is the screen found, and does it draw correctly to all four edges?</li>
+        <li><strong>LED D1</strong> &mdash; does the RGB LED receive data, in the right colour order?</li>
+        <li><strong>Motors</strong> &mdash; does each L9110 turn its motor both ways?</li>
+        <li><strong>Power</strong> &mdash; does the 5&nbsp;V supply hold with both motors at full power? <em>Uptime</em> is the referee: if it drops back to 0, the board reset.</li>
+        <li><strong>Camera</strong> &mdash; the heaviest load, and the final &ldquo;everything at once&rdquo; check.</li>
+      </ul>
+
+      <h2 id="pinout">Pinout, from the schematic</h2>
+      <table class="wikitable">
+        <tr><th>Part</th><th>Signal</th><th>GPIO</th><th>Note</th></tr>
+        <tr><td rowspan="2">OLED (BB1)</td><td>SDA</td><td>GPIO3</td><td>U0R, net <code>ftdi_tx</code>, pull-up R3 to 3V3</td></tr>
+        <tr><td>SCL</td><td>GPIO1</td><td>U0T, net <code>ftdi_rx</code>, pull-up R4 to 3V3</td></tr>
+        <tr><td>LED D1</td><td>DIN</td><td>GPIO4</td><td>Shared with the module's white flash LED</td></tr>
+        <tr><td rowspan="2">Motor A (U1 &rarr; J1)</td><td>IA</td><td>GPIO13</td><td>U1 pin 6</td></tr>
+        <tr><td>IB</td><td>GPIO2</td><td>U1 pin 7, strapping pin</td></tr>
+        <tr><td rowspan="2">Motor B (U3 &rarr; J3)</td><td>IA</td><td>GPIO15</td><td>U3 pin 6, strapping pin</td></tr>
+        <tr><td>IB</td><td>GPIO14</td><td>U3 pin 7</td></tr>
+        <tr><td>Camera</td><td colspan="2">GPIO0, 5, 18&ndash;27, 32&ndash;39</td><td>Fixed AI-Thinker pinout</td></tr>
+      </table>
+
+      <p>Two consequences follow directly from this table, and they shape everything else:</p>
+      <ul>
+        <li><strong>The OLED sits on the serial port.</strong> GPIO1 and GPIO3 are the UART the USB adapter uses. Serial logging is therefore switched off (<code>baud_rate: 0</code>); the logs appear on the web page instead. And a USB upload with the module on the board risks failing: flash the first time with the module on its MB adapter, then update over Wi-Fi.</li>
+        <li><strong>D1 and the flash LED share GPIO4.</strong> The data pulses meant for D1 make the white flash LED flicker faintly. That is expected and harmless.</li>
+      </ul>
+
+      <div class="ambox">The board seen during this validation has no TP4056 or MT3608: USB-C VBUS goes straight to the 5&nbsp;V rail. If your revision carries the battery block, set the MT3608 to 5.0&ndash;5.1&nbsp;V <em>before</em> plugging in the ESP32-CAM &mdash; these modules often ship set much higher.</div>
+
+      <h2 id="install">Installing ESPHome on Linux</h2>
+      <p>Install ESPHome in its own virtual environment, never with <code>pip install --user</code>:</p>
+      <pre><code>python3 -m venv ~/esphome-venv
+source ~/esphome-venv/bin/activate
+pip install esphome==2025.2.2
+esphome version</code></pre>
+      <p>With a <code>--user</code> install, pip shares packages with everything else on the machine. To fit ESPHome it silently downgraded <code>cryptography</code>, <code>starlette</code> and <code>uvicorn</code>, and broke <code>mcp</code>, <code>fastapi</code> and others. A virtual environment keeps that damage inside one folder.</p>
+      <p><strong>Pin the version.</strong> This configuration is written for 2025.2.2, the release pip picks on Python 3.10. ESPHome 2026 changed several options it uses (see <a href="#traps">Traps</a>).</p>
+      <p>To flash over USB without <code>sudo</code>, add yourself to the <code>dialout</code> group once, then log out and back in:</p>
+      <pre><code>sudo usermod -aG dialout $USER</code></pre>
+
+      <h2 id="flash">Configure &amp; flash</h2>
+      <ol>
+        <li>Download <a href="files/esp32_cam_test.yaml">esp32_cam_test.yaml</a> into a folder.</li>
+        <li>Next to it, create <code>secrets.yaml</code> with a <strong>2.4&nbsp;GHz</strong> network &mdash; the ESP32 cannot join 5&nbsp;GHz:
+          <pre><code>wifi_ssid: "YourWiFi"
+wifi_password: "YourPassword"</code></pre></li>
+        <li>Check, then compile. The first build downloads the toolchain and takes 5&ndash;15&nbsp;minutes:
+          <pre><code>esphome config esp32_cam_test.yaml
+esphome compile esp32_cam_test.yaml</code></pre></li>
+        <li><strong>First flash, over USB.</strong> Take the ESP32-CAM off the plugin board, put it on its MB adapter, then:
+          <pre><code>esphome run esp32_cam_test.yaml --device /dev/ttyUSB0</code></pre>
+          With a bare USB-serial adapter instead of the MB board, tie IO0 to GND while powering up, and remove it afterwards.</li>
+        <li>Put the module back on the board and power it. After about 20&nbsp;seconds the OLED shows the IP address.</li>
+        <li><strong>All later updates go over Wi-Fi</strong>, to the address the OLED shows:
+          <pre><code>esphome run esp32_cam_test.yaml --device 192.168.1.42</code></pre></li>
+      </ol>
+      <p>If the board does not join the network, look for an access point called <code>esp32-cam-test fallback</code>. Its presence means the board runs but the Wi-Fi password is wrong, or the network is 5&nbsp;GHz only.</p>
+
+      <h2 id="tests">The test sequence</h2>
+      <p>Open <code>http://&lt;IP&gt;</code> and work down the table. The log column on the right shows what the board is doing.</p>
+      <table class="wikitable">
+        <tr><th>#</th><th>Test</th><th>Action</th><th>Pass if</th></tr>
+        <tr><td>1</td><td>I&sup2;C / OLED</td><td>Read the boot log; press <strong>Run OLED test</strong></td><td><code>Found i2c device at address 0x3C</code>, and the frame touches all four edges</td></tr>
+        <tr><td>2</td><td>LED D1</td><td>Watch at power-up; press <strong>Run LED test</strong></td><td>Three white blinks, then red &rarr; green &rarr; blue &rarr; white &rarr; off</td></tr>
+        <tr><td>3</td><td>Motor A</td><td>Press <strong>Run motor test</strong></td><td>J1 turns forward 2&nbsp;s, then reverse 2&nbsp;s</td></tr>
+        <tr><td>4</td><td>Motor B</td><td>Same button, continues by itself</td><td>Same on J3</td></tr>
+        <tr><td>5</td><td>Power stress</td><td>Same button: both motors at 100&nbsp;% for 3&nbsp;s</td><td><strong>Uptime keeps counting</strong>, Wi-Fi does not drop</td></tr>
+        <tr><td>6</td><td>Camera</td><td>Open <code>http://&lt;IP&gt;:8080</code></td><td>A live image</td></tr>
+        <tr><td>7</td><td>Battery only</td><td>Unplug USB, repeat 5 and 6</td><td>Still no reset</td></tr>
+      </table>
+      <p>If a motor's &ldquo;forward&rdquo; is backwards for your build, swap its two wires at the screw terminal, or swap its IA/IB pins at the top of the file.</p>
+
+      <h2 id="oled">The OLED: status pages</h2>
+      <p>Three pages rotate every 4&nbsp;seconds:</p>
+      <ol>
+        <li><strong>Network</strong> &mdash; Wi-Fi signal and IP address. This is the page that tells you where to send updates.</li>
+        <li><strong>Outputs</strong> &mdash; each motor (<code>off</code>, <code>+50%</code>, <code>-50%</code>) and D1 brightness.</li>
+        <li><strong>System</strong> &mdash; uptime as h:m:s, free heap and free PSRAM.</li>
+      </ol>
+      <p><strong>Run OLED test</strong> shows a pattern for 4&nbsp;seconds: a frame around the edge, a solid block, fine lines and &ldquo;OLED OK&rdquo;. It makes dead pixels, a cut-off image or a shift obvious. <strong>OLED next page</strong> skips ahead.</p>
+      <p>The screen type is set at the top of the file:</p>
+      <pre><code>  oled_model: "SSD1306 128x64"   # 0.96"
+  #           "SSD1306 128x32"   # 0.91"
+  #           "SH1106 128x64"    # 1.3"
+  oled_address: "0x3C"           # some modules use 0x3D</code></pre>
+      <div class="ambox ambox-notice">A wrong model has an unmistakable symptom: <strong>every line appears twice, stretched</strong>. That is a 128&times;64 panel driven as 128&times;32. On the two-colour panels, the top 16 rows are yellow: on a 128&times;64 page, the first line lands in the yellow band.</div>
+
+      <h2 id="led">LED D1: colours</h2>
+      <p>ESPHome's web page gives a light only an on/off switch and a brightness slider &mdash; no colour picker. The configuration therefore adds an <strong>LED D1 color</strong> drop-down: Off, Red, Green, Blue, White, Yellow, Cyan, Magenta, Orange, Purple. The LED D1 slider still sets the brightness.</p>
+      <p>For an exact colour, send it from a terminal (values 0&ndash;255):</p>
+      <pre><code>curl -X POST "http://192.168.1.42/light/led_d1/turn_on?r=255&amp;g=0&amp;b=128&amp;brightness=150"
+curl -X POST "http://192.168.1.42/light/led_d1/turn_off"</code></pre>
+      <p>The address <code>led_d1</code> comes from the entity name <em>LED D1</em>. Brackets or a slash in a name make the address ugly &mdash; another reason to keep names short.</p>
+      <p>If the colours are wrong or D1 stays dark, two settings at the top of the file help: <code>led_chipset</code> (try <code>SK6812</code>) and <code>led_rgb_order</code> (try <code>RGB</code>). D1 runs on 5&nbsp;V while the ESP32 drives 3.3&nbsp;V: at 5&nbsp;V the data input wants about 3.5&nbsp;V, so the margin is thin. It worked here; a 74AHCT1G125 level shifter is the proper fix if it does not for you.</p>
+
+      <h2 id="camera">The camera: stream and live settings</h2>
+      <p>The video is <strong>not</strong> on the port-80 page &mdash; that page only lists entities. It is at <code>http://&lt;IP&gt;:8080</code>, one viewer at a time. With nobody watching, the log shows <code>Got Image</code> every 10&nbsp;seconds (<code>idle_framerate: 0.1 fps</code>): that line alone proves the camera works.</p>
+      <p>Controls on the web page change the picture live:</p>
+      <table class="wikitable">
+        <tr><th>Control</th><th>Range</th></tr>
+        <tr><td>Cam vertical flip / horizontal mirror</td><td>on / off</td></tr>
+        <tr><td>Cam brightness, contrast, saturation, exposure level</td><td>&minus;2 &hellip; +2</td></tr>
+        <tr><td>Cam JPEG quality</td><td>10 (best) &hellip; 63 (smallest, fastest)</td></tr>
+        <tr><td>Cam white balance</td><td>Auto, Sunny, Cloudy, Office, Home</td></tr>
+        <tr><td>Cam effect</td><td>None, Negative, Grayscale, Red/Green/Blue tint, Sepia</td></tr>
+      </table>
+      <p>They call the camera driver directly (<code>esp_camera_sensor_get()</code>). <strong>Live changes are lost on reboot</strong>: once a setting looks right, copy its value into the <code>esp32_camera:</code> block, where each option is listed with its range.</p>
+      <p>ESPHome flips and mirrors the image by default. On this board that gave an upside-down picture, so both are off at start-up &mdash; a 180&deg; turn. For a smoother stream, lower <code>resolution</code> (try <code>320x240</code>) or raise <code>jpeg_quality</code> (try 20). Measured at 640&times;480: 5&ndash;8 frames per second.</p>
+
+      <h2 id="traps">Traps met during bring-up</h2>
+      <p>Each of these cost a round trip. Most are ESPHome details that the error message does not explain.</p>
+
+      <h3>Wrong pins: a dark screen, a dark LED, a one-way motor</h3>
+      <p>The first configuration guessed the pins. Result: nothing on the OLED, nothing on D1, motor A turning one way only (one of its inputs was wired to nothing), motor B reversed. All four were fixed by reading the net labels. Wherever a pin is uncertain, do not guess: ask the schematic.</p>
+
+      <h3>A substitution inside a one-line mapping</h3>
+      <pre><code>- fan.turn_on: { id: motor_a, speed: ${test_speed} }   # YAML error</code></pre>
+      <p>The <code>{</code> of <code>${</code> opens a second mapping in the middle of the first: <em>expected ',' or '}', but got '{'</em>. Write that step on several lines.</p>
+
+      <h3><code>ignore_strapping_warning</code> on an ordinary pin</h3>
+      <p>The option is an <strong>error</strong> on a pin that is not a strapping pin (<em>GPIO14 is not a strapping pin</em>). Put it only on GPIO0, 2, 5, 12 and 15.</p>
+
+      <h3><code>rmt_channel</code>: required, then forbidden</h3>
+      <p>On ESPHome 2025.2 with the Arduino framework, <code>esp32_rmt_led_strip</code> requires <code>rmt_channel</code>. ESPHome 2026 rejects it as an invalid option. Same for the camera: 2025.2 wants <code>i2c_pins:</code>, 2026 refuses it next to an <code>i2c:</code> block and wants <code>i2c_id:</code>. Hence the pinned version.</p>
+
+      <h3>The drop-down that stopped the board from starting</h3>
+      <p>After the LED D1 color drop-down was added, the board no longer started. A template select publishes its initial value during setup, which fires its <code>on_value</code> &mdash; here, an order to switch D1 off, very probably before the LED driver was ready. The fix is a <code>boot_done</code> flag, set at the end of <code>on_boot</code>, that the drop-down checks before doing anything. The board started again.</p>
+      <p>When a board crash-loops, ESPHome falls back to <strong>safe mode</strong> after about ten failed boots: a minimal firmware that still accepts an OTA upload. So a broken build can often be replaced over Wi-Fi without touching USB.</p>
+
+      <h3>The address changes</h3>
+      <p>The router handed out a different address several times (.33, .133, then .42). <em>No route to host</em> during an upload usually means exactly that, or that the board is unpowered. The first OLED page shows the current address.</p>
+
+      <h3>The video is on another port</h3>
+      <p>The port-80 page never shows video. Looking for it there, while the log shows <code>Got Image</code>, makes the camera look broken when it is not.</p>
+
+      <h3>Windows</h3>
+      <p>Under MSYS2/MINGW64, ESPHome 2026 cannot build: the ESP-IDF tools refuse that environment (<em>MSys/Mingw is no longer supported</em>), yet ESPHome still prints <em>Successfully compiled</em> and the upload then finds no firmware. This validation was done on Linux.</p>
+
+      <h2 id="troubleshooting">Troubleshooting</h2>
+
+      <h3>The board does not start at all</h3>
+      <p>Read the chip's own boot messages, which print even with logging off: module on the MB adapter, IO0 free, then <code>python3 -m serial.tools.miniterm /dev/ttyUSB0 115200</code> and press RST. A repeating <code>Brownout detector was triggered</code> is a power problem; a repeating <code>Guru Meditation</code> is the firmware. Also check that nothing holds GPIO12 high at power-up.</p>
+
+      <h3>The OLED stays blank</h3>
+      <p>No device in the I&sup2;C scan: SDA and SCL swapped, pull-ups missing, or the OLED unpowered. A device at 0x3D: change <code>oled_address</code>. Doubled lines: wrong <code>oled_model</code>.</p>
+
+      <h3>Uptime drops back to 0 during the motor test</h3>
+      <p>The 5&nbsp;V rail sags under both motors. Add 220&ndash;470&nbsp;&micro;F plus 10&nbsp;&micro;F ceramic on +5&nbsp;V near the ESP32-CAM, or give the motors their own supply through J5.</p>
+
+      <h3>No video on port 8080</h3>
+      <p>Only one viewer at a time: close any other tab with the stream. If the picture is dark, check the lens cap and that the camera ribbon is fully seated with its latch closed. If the board resets as the stream opens, comment out the <code>esp32_camera:</code> block to tell a camera fault from a power fault.</p>
+
+      <hr>
+      <p class="hatnote">Related articles: <a href="cam-robot-en.html">ESP32-CAM Robot (m2)</a> &middot; <a href="cam-robot-m1-en.html">ESP32-CAM Robot m1</a> &middot; <a href="video-car-en.html">VideoCar</a> &middot; <a href="workshop-en.html">ESP32-CAM Robot workshop</a></p>
+
+</article>
+  </div>
+</div>
+
+</body>
+</html>

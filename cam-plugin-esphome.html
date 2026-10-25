@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carte d'extension ESP32-CAM &mdash; validation avec ESPHome - Wiki</title>
+<link rel="stylesheet" href="wiki.css">
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-inner">
+    <a class="wiki-logo" href="https://workshop-diy.org"><img src="logo.png" alt="Logo du Wiki"></a>
+    <a class="masthead-site-link" href="https://workshop-diy.org">workshop-diy.org</a>
+    <div class="masthead-title">
+      Wiki
+      <span class="sub">La base de connaissances personnelle et gratuite</span>
+    </div>
+    <div class="masthead-actions">
+      <div class="lang-switch" role="group" aria-label="Langue">
+        <a href="cam-plugin-esphome.html" class="lang-switch-btn active" title="Français"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="20" height="40" fill="#002395"/><rect x="20" width="20" height="40" fill="#fff"/><rect x="40" width="20" height="40" fill="#ED2939"/></svg></a>
+        <a href="cam-plugin-esphome-en.html" class="lang-switch-btn" title="English"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="60" height="40" fill="#012169"/><path d="M0 0L60 40M60 0L0 40" stroke="#fff" stroke-width="6.5"/><path d="M0 0L60 40M60 0L0 40" stroke="#C8102E" stroke-width="3.5"/><path d="M30 0V40M0 20H60" stroke="#fff" stroke-width="11"/><path d="M30 0V40M0 20H60" stroke="#C8102E" stroke-width="6.5"/></svg></a>
+        <a href="cam-plugin-esphome-ar.html" class="lang-switch-btn" title="العربية"><svg width="24" height="16" viewBox="0 0 900 600"><defs><clipPath id="glCamPluginEsphomeFr"><rect width="450" height="600"/></clipPath></defs><rect width="450" height="600" fill="#006233"/><rect x="450" width="450" height="600" fill="#FFF"/><g fill="#D21034" transform="translate(450,300)"><circle r="125"/><circle cx="25" r="100" fill="#FFF"/><g clip-path="url(#glCamPluginEsphomeFr)" transform="translate(-450,-300)"><circle cx="475" cy="300" r="100" fill="#006233"/></g><path d="M85-12l22 67h71l-57 42 22 67-58-42-57 42 21-67-57-42h71z"/></g></svg></a>
+      </div>
+      <div class="masthead-search">
+        <input type="text" placeholder="Rechercher" disabled>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wiki-layout">
+
+  <div class="sidebar">
+    <h3>Navigation</h3>
+    <ul>
+      <li><a href="index.html">Page principale</a></li>
+      <li><a href="#">Modifications récentes</a></li>
+      <li><a href="#">Page au hasard</a></li>
+    </ul>
+    <h3>Catégories</h3>
+    <ul>
+      <li><a href="index.html">Réseau</a></li>
+      <li><a href="index.html">Linux</a></li>
+      <li><a href="index.html">Windows</a></li>
+      <li><a href="index.html">Électronique</a></li>
+      <li><a href="index.html">ESP32</a></li>
+      <li><a href="index.html">micro:bit</a></li>
+    </ul>
+    <h3>Outils</h3>
+    <ul>
+      <li><a href="https://github.com/abourdim/wiki/blob/main/files/esp32_cam_test.yaml">Voir la configuration</a></li>
+    </ul>
+  </div>
+
+  <div class="content-wrap">
+    <div class="article-tabs">
+      <span class="active">Article</span>
+      <span>Discussion</span>
+    </div>
+
+    <article>
+      <h1 class="page-title">Carte d'extension ESP32-CAM &mdash; validation avec ESPHome</h1>
+
+      <div class="infobox">
+        <div class="infobox-title">Carte d'extension ESP32-CAM</div>
+        <table>
+          <tr><th>Type</th><td>Firmware de mise en service et de test : vérifie chaque partie de la carte depuis une page web</td></tr>
+          <tr><th>Matériel</th><td>ESP32-CAM AI-Thinker (OV2640, PSRAM) sur une carte d'extension maison</td></tr>
+          <tr><th>Sur la carte</th><td>2 &times; pilotes moteur L9110, LED RGB TX1812 (D1), OLED SSD1306 0,96&Prime;, alimentation USB-C</td></tr>
+          <tr><th>Firmware</th><td>ESPHome <strong>2025.2.2</strong>, framework Arduino, sous Linux</td></tr>
+          <tr><th>Page web</th><td>Port 80 : commandes, tests et journal</td></tr>
+          <tr><th>Vidéo</th><td>MJPEG sur le port 8080</td></tr>
+          <tr><th>Point d'accès de secours</th><td><code>esp32-cam-test fallback</code></td></tr>
+          <tr><th>Configuration</th><td><a href="files/esp32_cam_test.yaml">esp32_cam_test.yaml</a></td></tr>
+        </table>
+      </div>
+
+      <div class="applink">
+        <a href="https://abourdim.github.io/wiki/cam-plugin-esphome.html"><img class="applink-qr" src="qr/page-cam-plugin-esphome.svg" alt="QR: https://abourdim.github.io/wiki/cam-plugin-esphome.html" width="104" height="104"></a>
+        <div class="applink-text">
+          <div class="applink-title">Ouvrir cette page sur un téléphone</div>
+          <div class="applink-url"><a href="https://abourdim.github.io/wiki/cam-plugin-esphome.html">https://abourdim.github.io/wiki/cam-plugin-esphome.html</a></div>
+          <div class="applink-hint">Rien à installer : la carte sert sa propre page de test. Scannez ce code pour emporter la procédure à l'établi.</div>
+        </div>
+      </div>
+
+      <p class="hatnote"><strong>C'est un banc de test, pas un firmware de robot.</strong> Son seul rôle est de prouver, une partie après l'autre, qu'une carte fraîchement montée fonctionne : écran, LED, les deux moteurs, caméra et alimentation. Tout se pilote par des boutons sur une page web.</p>
+      <p class="hatnote">Chaque broche de la configuration vient des <strong>étiquettes de réseau du schéma</strong>. La première version les devinait, avant que les étiquettes existent &mdash; et l'OLED comme la LED sont restés éteints. Lisez le schéma d'abord.</p>
+
+      <div class="toc">
+        <div class="toc-title">Sommaire</div>
+        <ol>
+          <li><a href="#overview">Vue d'ensemble</a></li>
+          <li><a href="#pinout">Brochage, d'après le schéma</a></li>
+          <li><a href="#install">Installer ESPHome sous Linux</a></li>
+          <li><a href="#flash">Configurer &amp; flasher</a></li>
+          <li><a href="#tests">La séquence de test</a></li>
+          <li><a href="#oled">L'OLED : pages d'état</a></li>
+          <li><a href="#led">La LED D1 : couleurs</a></li>
+          <li><a href="#camera">La caméra : flux et réglages en direct</a></li>
+          <li><a href="#traps">Pièges rencontrés pendant la mise en service</a></li>
+          <li><a href="#troubleshooting">Dépannage</a></li>
+        </ol>
+      </div>
+
+      <h2 id="overview">Vue d'ensemble</h2>
+      <p>Le firmware tient en un seul fichier ESPHome. Une fois flashée, la carte rejoint le réseau Wi-Fi, affiche son adresse sur l'OLED et sert une page avec une ligne par élément : interrupteurs, curseurs, boutons de test, et le journal en direct à droite.</p>
+      <p>Chaque test répond à une seule question :</p>
+      <ul>
+        <li><strong>Bus I&sup2;C et OLED</strong> &mdash; l'écran est-il détecté, et dessine-t-il correctement jusqu'aux quatre bords ?</li>
+        <li><strong>LED D1</strong> &mdash; la LED RGB reçoit-elle les données, dans le bon ordre de couleurs ?</li>
+        <li><strong>Moteurs</strong> &mdash; chaque L9110 fait-il tourner son moteur dans les deux sens ?</li>
+        <li><strong>Alimentation</strong> &mdash; le 5&nbsp;V tient-il avec les deux moteurs à pleine puissance ? L'<em>Uptime</em> sert d'arbitre : s'il retombe à 0, la carte a redémarré.</li>
+        <li><strong>Caméra</strong> &mdash; la charge la plus lourde, et la vérification finale &laquo;&nbsp;tout à la fois&nbsp;&raquo;.</li>
+      </ul>
+
+      <h2 id="pinout">Brochage, d'après le schéma</h2>
+      <table class="wikitable">
+        <tr><th>Élément</th><th>Signal</th><th>GPIO</th><th>Remarque</th></tr>
+        <tr><td rowspan="2">OLED (BB1)</td><td>SDA</td><td>GPIO3</td><td>U0R, réseau <code>ftdi_tx</code>, pull-up R3 vers 3V3</td></tr>
+        <tr><td>SCL</td><td>GPIO1</td><td>U0T, réseau <code>ftdi_rx</code>, pull-up R4 vers 3V3</td></tr>
+        <tr><td>LED D1</td><td>DIN</td><td>GPIO4</td><td>Partagée avec la LED flash blanche du module</td></tr>
+        <tr><td rowspan="2">Moteur A (U1 &rarr; J1)</td><td>IA</td><td>GPIO13</td><td>U1 broche 6</td></tr>
+        <tr><td>IB</td><td>GPIO2</td><td>U1 broche 7, broche de démarrage</td></tr>
+        <tr><td rowspan="2">Moteur B (U3 &rarr; J3)</td><td>IA</td><td>GPIO15</td><td>U3 broche 6, broche de démarrage</td></tr>
+        <tr><td>IB</td><td>GPIO14</td><td>U3 broche 7</td></tr>
+        <tr><td>Caméra</td><td colspan="2">GPIO0, 5, 18&ndash;27, 32&ndash;39</td><td>Brochage AI-Thinker fixe</td></tr>
+      </table>
+
+      <p>Deux conséquences découlent directement de ce tableau, et elles commandent tout le reste :</p>
+      <ul>
+        <li><strong>L'OLED est sur le port série.</strong> GPIO1 et GPIO3 sont l'UART qu'utilise l'adaptateur USB. Le journal série est donc coupé (<code>baud_rate: 0</code>) ; le journal s'affiche sur la page web. Et un téléversement par USB avec le module sur la carte risque d'échouer : flashez la première fois avec le module sur son adaptateur MB, puis mettez à jour par Wi-Fi.</li>
+        <li><strong>D1 et la LED flash partagent GPIO4.</strong> Les impulsions destinées à D1 font scintiller faiblement la LED flash blanche. C'est normal et sans danger.</li>
+      </ul>
+
+      <div class="ambox">La carte vue pendant cette validation n'a ni TP4056 ni MT3608 : le VBUS de l'USB-C va directement sur le 5&nbsp;V. Si votre révision porte le bloc batterie, réglez le MT3608 sur 5,0&ndash;5,1&nbsp;V <em>avant</em> de brancher l'ESP32-CAM &mdash; ces modules sont souvent livrés réglés bien plus haut.</div>
+
+      <h2 id="install">Installer ESPHome sous Linux</h2>
+      <p>Installez ESPHome dans son propre environnement virtuel, jamais avec <code>pip install --user</code> :</p>
+      <pre><code>python3 -m venv ~/esphome-venv
+source ~/esphome-venv/bin/activate
+pip install esphome==2025.2.2
+esphome version</code></pre>
+      <p>Avec une installation <code>--user</code>, pip partage les paquets avec tout le reste de la machine. Pour caser ESPHome, il a rétrogradé sans prévenir <code>cryptography</code>, <code>starlette</code> et <code>uvicorn</code>, et cassé <code>mcp</code>, <code>fastapi</code> et d'autres. Un environnement virtuel enferme ces dégâts dans un seul dossier.</p>
+      <p><strong>Fixez la version.</strong> Cette configuration est écrite pour la 2025.2.2, la version que pip choisit sous Python 3.10. ESPHome 2026 a changé plusieurs options qu'elle utilise (voir <a href="#traps">Pièges</a>).</p>
+      <p>Pour flasher par USB sans <code>sudo</code>, ajoutez-vous une fois au groupe <code>dialout</code>, puis fermez et rouvrez la session :</p>
+      <pre><code>sudo usermod -aG dialout $USER</code></pre>
+
+      <h2 id="flash">Configurer &amp; flasher</h2>
+      <ol>
+        <li>Téléchargez <a href="files/esp32_cam_test.yaml">esp32_cam_test.yaml</a> dans un dossier.</li>
+        <li>À côté, créez <code>secrets.yaml</code> avec un réseau <strong>2,4&nbsp;GHz</strong> &mdash; l'ESP32 ne peut pas rejoindre le 5&nbsp;GHz :
+          <pre><code>wifi_ssid: "VotreWiFi"
+wifi_password: "VotreMotDePasse"</code></pre></li>
+        <li>Vérifiez, puis compilez. La première compilation télécharge la chaîne d'outils et prend 5 à 15&nbsp;minutes :
+          <pre><code>esphome config esp32_cam_test.yaml
+esphome compile esp32_cam_test.yaml</code></pre></li>
+        <li><strong>Premier flash, par USB.</strong> Retirez l'ESP32-CAM de la carte d'extension, posez-le sur son adaptateur MB, puis :
+          <pre><code>esphome run esp32_cam_test.yaml --device /dev/ttyUSB0</code></pre>
+          Avec un simple adaptateur USB-série au lieu de la carte MB, reliez IO0 à GND pendant la mise sous tension, et retirez le cavalier ensuite.</li>
+        <li>Remettez le module sur la carte et alimentez-la. Après une vingtaine de secondes, l'OLED affiche l'adresse IP.</li>
+        <li><strong>Toutes les mises à jour suivantes passent par le Wi-Fi</strong>, vers l'adresse affichée par l'OLED :
+          <pre><code>esphome run esp32_cam_test.yaml --device 192.168.1.42</code></pre></li>
+      </ol>
+      <p>Si la carte ne rejoint pas le réseau, cherchez un point d'accès nommé <code>esp32-cam-test fallback</code>. S'il apparaît, la carte fonctionne mais le mot de passe Wi-Fi est faux, ou le réseau est en 5&nbsp;GHz seulement.</p>
+
+      <h2 id="tests">La séquence de test</h2>
+      <p>Ouvrez <code>http://&lt;IP&gt;</code> et descendez le tableau. La colonne du journal, à droite, montre ce que fait la carte.</p>
+      <table class="wikitable">
+        <tr><th>#</th><th>Test</th><th>Action</th><th>Réussi si</th></tr>
+        <tr><td>1</td><td>I&sup2;C / OLED</td><td>Lire le journal de démarrage ; appuyer sur <strong>Run OLED test</strong></td><td><code>Found i2c device at address 0x3C</code>, et le cadre touche les quatre bords</td></tr>
+        <tr><td>2</td><td>LED D1</td><td>Regarder à la mise sous tension ; appuyer sur <strong>Run LED test</strong></td><td>Trois clignotements blancs, puis rouge &rarr; vert &rarr; bleu &rarr; blanc &rarr; éteint</td></tr>
+        <tr><td>3</td><td>Moteur A</td><td>Appuyer sur <strong>Run motor test</strong></td><td>J1 tourne en avant 2&nbsp;s, puis en arrière 2&nbsp;s</td></tr>
+        <tr><td>4</td><td>Moteur B</td><td>Même bouton, la suite est automatique</td><td>Pareil sur J3</td></tr>
+        <tr><td>5</td><td>Charge</td><td>Même bouton : les deux moteurs à 100&nbsp;% pendant 3&nbsp;s</td><td><strong>L'Uptime continue de compter</strong>, le Wi-Fi ne décroche pas</td></tr>
+        <tr><td>6</td><td>Caméra</td><td>Ouvrir <code>http://&lt;IP&gt;:8080</code></td><td>Une image en direct</td></tr>
+        <tr><td>7</td><td>Batterie seule</td><td>Débrancher l'USB, refaire 5 et 6</td><td>Toujours aucun redémarrage</td></tr>
+      </table>
+      <p>Si l'&laquo;&nbsp;avant&nbsp;&raquo; d'un moteur est à l'envers pour votre montage, croisez ses deux fils au bornier, ou inversez ses broches IA/IB en tête du fichier.</p>
+
+      <h2 id="oled">L'OLED : pages d'état</h2>
+      <p>Trois pages tournent toutes les 4&nbsp;secondes :</p>
+      <ol>
+        <li><strong>Réseau</strong> &mdash; signal Wi-Fi et adresse IP. C'est la page qui dit où envoyer les mises à jour.</li>
+        <li><strong>Sorties</strong> &mdash; chaque moteur (<code>off</code>, <code>+50%</code>, <code>-50%</code>) et la luminosité de D1.</li>
+        <li><strong>Système</strong> &mdash; uptime en h:m:s, mémoire libre et PSRAM libre.</li>
+      </ol>
+      <p><strong>Run OLED test</strong> affiche une mire pendant 4&nbsp;secondes : un cadre sur le bord, un bloc plein, des lignes fines et &laquo;&nbsp;OLED OK&nbsp;&raquo;. Pixels morts, image coupée ou décalée sautent aux yeux. <strong>OLED next page</strong> passe à la page suivante.</p>
+      <p>Le type d'écran se règle en tête du fichier :</p>
+      <pre><code>  oled_model: "SSD1306 128x64"   # 0,96"
+  #           "SSD1306 128x32"   # 0,91"
+  #           "SH1106 128x64"    # 1,3"
+  oled_address: "0x3C"           # certains modules utilisent 0x3D</code></pre>
+      <div class="ambox ambox-notice">Un mauvais modèle a un symptôme impossible à confondre : <strong>chaque ligne apparaît deux fois, étirée</strong>. C'est un écran 128&times;64 piloté comme un 128&times;32. Sur les écrans bicolores, les 16 lignes du haut sont jaunes : sur une page 128&times;64, la première ligne tombe dans la bande jaune.</div>
+
+      <h2 id="led">La LED D1 : couleurs</h2>
+      <p>La page web d'ESPHome ne donne à une lumière qu'un interrupteur et un curseur de luminosité &mdash; pas de sélecteur de couleur. La configuration ajoute donc une liste déroulante <strong>LED D1 color</strong> : Off, Red, Green, Blue, White, Yellow, Cyan, Magenta, Orange, Purple. Le curseur LED D1 règle toujours la luminosité.</p>
+      <p>Pour une couleur exacte, envoyez-la depuis un terminal (valeurs 0&ndash;255) :</p>
+      <pre><code>curl -X POST "http://192.168.1.42/light/led_d1/turn_on?r=255&amp;g=0&amp;b=128&amp;brightness=150"
+curl -X POST "http://192.168.1.42/light/led_d1/turn_off"</code></pre>
+      <p>L'adresse <code>led_d1</code> vient du nom de l'entité, <em>LED D1</em>. Des parenthèses ou une barre oblique dans un nom enlaidissent l'adresse &mdash; une raison de plus de garder des noms courts.</p>
+      <p>Si les couleurs sont fausses ou si D1 reste éteinte, deux réglages en tête du fichier aident : <code>led_chipset</code> (essayez <code>SK6812</code>) et <code>led_rgb_order</code> (essayez <code>RGB</code>). D1 est alimentée en 5&nbsp;V alors que l'ESP32 sort du 3,3&nbsp;V : à 5&nbsp;V, l'entrée de données veut environ 3,5&nbsp;V, la marge est donc mince. Ici, ça a fonctionné ; un adaptateur de niveau 74AHCT1G125 est la vraie solution sinon.</p>
+
+      <h2 id="camera">La caméra : flux et réglages en direct</h2>
+      <p>La vidéo n'est <strong>pas</strong> sur la page du port 80 &mdash; celle-ci ne liste que les entités. Elle est sur <code>http://&lt;IP&gt;:8080</code>, un seul spectateur à la fois. Quand personne ne regarde, le journal affiche <code>Got Image</code> toutes les 10&nbsp;secondes (<code>idle_framerate: 0.1 fps</code>) : cette ligne suffit à prouver que la caméra fonctionne.</p>
+      <p>Des commandes sur la page web modifient l'image en direct :</p>
+      <table class="wikitable">
+        <tr><th>Commande</th><th>Plage</th></tr>
+        <tr><td>Cam vertical flip / horizontal mirror</td><td>marche / arrêt</td></tr>
+        <tr><td>Cam brightness, contrast, saturation, exposure level</td><td>&minus;2 &hellip; +2</td></tr>
+        <tr><td>Cam JPEG quality</td><td>10 (meilleure) &hellip; 63 (plus légère, plus rapide)</td></tr>
+        <tr><td>Cam white balance</td><td>Auto, Sunny, Cloudy, Office, Home</td></tr>
+        <tr><td>Cam effect</td><td>None, Negative, Grayscale, Red/Green/Blue tint, Sepia</td></tr>
+      </table>
+      <p>Elles appellent directement le pilote de la caméra (<code>esp_camera_sensor_get()</code>). <strong>Les réglages en direct sont perdus au redémarrage</strong> : quand un réglage vous convient, recopiez sa valeur dans le bloc <code>esp32_camera:</code>, où chaque option est listée avec sa plage.</p>
+      <p>Par défaut, ESPHome retourne et inverse l'image. Sur cette carte, cela donnait une image à l'envers ; les deux sont donc désactivés au démarrage &mdash; un demi-tour. Pour un flux plus fluide, baissez <code>resolution</code> (essayez <code>320x240</code>) ou augmentez <code>jpeg_quality</code> (essayez 20). Mesuré en 640&times;480 : 5 à 8 images par seconde.</p>
+
+      <h2 id="traps">Pièges rencontrés pendant la mise en service</h2>
+      <p>Chacun a coûté un aller-retour. La plupart sont des détails d'ESPHome que le message d'erreur n'explique pas.</p>
+
+      <h3>Mauvaises broches : écran noir, LED éteinte, moteur à sens unique</h3>
+      <p>La première configuration devinait les broches. Résultat : rien sur l'OLED, rien sur D1, le moteur A ne tournant que dans un sens (une de ses entrées n'était reliée à rien), le moteur B inversé. Les quatre ont été corrigés en lisant les étiquettes de réseau. Dès qu'une broche est incertaine, ne devinez pas : demandez au schéma.</p>
+
+      <h3>Une substitution dans un dictionnaire sur une ligne</h3>
+      <pre><code>- fan.turn_on: { id: motor_a, speed: ${test_speed} }   # erreur YAML</code></pre>
+      <p>Le <code>{</code> de <code>${</code> ouvre un second dictionnaire au milieu du premier : <em>expected ',' or '}', but got '{'</em>. Écrivez cette étape sur plusieurs lignes.</p>
+
+      <h3><code>ignore_strapping_warning</code> sur une broche ordinaire</h3>
+      <p>L'option est une <strong>erreur</strong> sur une broche qui n'est pas une broche de démarrage (<em>GPIO14 is not a strapping pin</em>). Ne la mettez que sur GPIO0, 2, 5, 12 et 15.</p>
+
+      <h3><code>rmt_channel</code> : obligatoire, puis interdit</h3>
+      <p>Sous ESPHome 2025.2 avec le framework Arduino, <code>esp32_rmt_led_strip</code> exige <code>rmt_channel</code>. ESPHome 2026 le rejette comme option invalide. Pareil pour la caméra : la 2025.2 veut <code>i2c_pins:</code>, la 2026 le refuse à côté d'un bloc <code>i2c:</code> et veut <code>i2c_id:</code>. D'où la version fixée.</p>
+
+      <h3>La liste déroulante qui empêchait la carte de démarrer</h3>
+      <p>Après l'ajout de la liste LED D1 color, la carte ne démarrait plus. Un select de type template publie sa valeur initiale pendant l'initialisation, ce qui déclenche son <code>on_value</code> &mdash; ici, un ordre d'éteindre D1, très probablement avant que le pilote de la LED soit prêt. La correction est un drapeau <code>boot_done</code>, mis à vrai à la fin de <code>on_boot</code>, que la liste vérifie avant d'agir. La carte a redémarré normalement.</p>
+      <p>Quand une carte plante en boucle, ESPHome passe en <strong>mode sans échec</strong> après une dizaine de démarrages ratés : un firmware minimal qui accepte encore une mise à jour OTA. Un firmware cassé peut donc souvent être remplacé par Wi-Fi, sans toucher à l'USB.</p>
+
+      <h3>L'adresse change</h3>
+      <p>Le routeur a attribué plusieurs adresses différentes (.33, .133, puis .42). <em>No route to host</em> pendant un téléversement veut généralement dire exactement cela, ou que la carte n'est pas alimentée. La première page de l'OLED affiche l'adresse actuelle.</p>
+
+      <h3>La vidéo est sur un autre port</h3>
+      <p>La page du port 80 n'affiche jamais de vidéo. La chercher là, alors que le journal montre <code>Got Image</code>, fait croire la caméra en panne alors qu'elle ne l'est pas.</p>
+
+      <h3>Windows</h3>
+      <p>Sous MSYS2/MINGW64, ESPHome 2026 ne peut pas compiler : les outils ESP-IDF refusent cet environnement (<em>MSys/Mingw is no longer supported</em>), mais ESPHome affiche quand même <em>Successfully compiled</em> et le téléversement ne trouve ensuite aucun firmware. Cette validation a été faite sous Linux.</p>
+
+      <h2 id="troubleshooting">Dépannage</h2>
+
+      <h3>La carte ne démarre pas du tout</h3>
+      <p>Lisez les messages de démarrage de la puce elle-même, qui s'affichent même journal coupé : module sur l'adaptateur MB, IO0 libre, puis <code>python3 -m serial.tools.miniterm /dev/ttyUSB0 115200</code> et appuyez sur RST. Un <code>Brownout detector was triggered</code> qui se répète est un problème d'alimentation ; un <code>Guru Meditation</code> qui se répète vient du firmware. Vérifiez aussi que rien ne tire GPIO12 à l'état haut à la mise sous tension.</p>
+
+      <h3>L'OLED reste noir</h3>
+      <p>Aucun périphérique dans le scan I&sup2;C : SDA et SCL inversés, pull-ups absents, ou OLED non alimenté. Un périphérique en 0x3D : changez <code>oled_address</code>. Lignes doublées : mauvais <code>oled_model</code>.</p>
+
+      <h3>L'Uptime retombe à 0 pendant le test moteur</h3>
+      <p>Le 5&nbsp;V s'effondre sous les deux moteurs. Ajoutez 220&ndash;470&nbsp;&micro;F plus 10&nbsp;&micro;F céramique sur le +5&nbsp;V près de l'ESP32-CAM, ou donnez aux moteurs leur propre alimentation par J5.</p>
+
+      <h3>Pas de vidéo sur le port 8080</h3>
+      <p>Un seul spectateur à la fois : fermez tout autre onglet ouvert sur le flux. Si l'image est sombre, vérifiez le cache de l'objectif et que la nappe de la caméra est bien enfoncée, loquet fermé. Si la carte redémarre à l'ouverture du flux, mettez le bloc <code>esp32_camera:</code> en commentaire pour distinguer un défaut de caméra d'un défaut d'alimentation.</p>
+
+      <hr>
+      <p class="hatnote">Articles liés : <a href="cam-robot.html">ESP32-CAM Robot (m2)</a> &middot; <a href="cam-robot-m1.html">ESP32-CAM Robot m1</a> &middot; <a href="video-car.html">VideoCar</a> &middot; <a href="workshop.html">Atelier Robot ESP32-CAM</a></p>
+
+</article>
+  </div>
+</div>
+
+</body>
+</html>

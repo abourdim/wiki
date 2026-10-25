@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>لوحة توسعة ESP32-CAM &mdash; التحقق بواسطة ESPHome - Wiki</title>
+<link rel="stylesheet" href="wiki.css">
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-inner">
+    <a class="wiki-logo" href="https://workshop-diy.org"><img src="logo.png" alt="شعار الويكي"></a>
+    <a class="masthead-site-link" href="https://workshop-diy.org">workshop-diy.org</a>
+    <div class="masthead-title">
+      Wiki
+      <span class="sub">قاعدة المعرفة الشخصية والمجانية</span>
+    </div>
+    <div class="masthead-actions">
+      <div class="lang-switch" role="group" aria-label="اللغة">
+        <a href="cam-plugin-esphome.html" class="lang-switch-btn" title="Français"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="20" height="40" fill="#002395"/><rect x="20" width="20" height="40" fill="#fff"/><rect x="40" width="20" height="40" fill="#ED2939"/></svg></a>
+        <a href="cam-plugin-esphome-en.html" class="lang-switch-btn" title="English"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="60" height="40" fill="#012169"/><path d="M0 0L60 40M60 0L0 40" stroke="#fff" stroke-width="6.5"/><path d="M0 0L60 40M60 0L0 40" stroke="#C8102E" stroke-width="3.5"/><path d="M30 0V40M0 20H60" stroke="#fff" stroke-width="11"/><path d="M30 0V40M0 20H60" stroke="#C8102E" stroke-width="6.5"/></svg></a>
+        <a href="cam-plugin-esphome-ar.html" class="lang-switch-btn active" title="العربية"><svg width="24" height="16" viewBox="0 0 900 600"><defs><clipPath id="glCamPluginEsphomeAr"><rect width="450" height="600"/></clipPath></defs><rect width="450" height="600" fill="#006233"/><rect x="450" width="450" height="600" fill="#FFF"/><g fill="#D21034" transform="translate(450,300)"><circle r="125"/><circle cx="25" r="100" fill="#FFF"/><g clip-path="url(#glCamPluginEsphomeAr)" transform="translate(-450,-300)"><circle cx="475" cy="300" r="100" fill="#006233"/></g><path d="M85-12l22 67h71l-57 42 22 67-58-42-57 42 21-67-57-42h71z"/></g></svg></a>
+      </div>
+      <div class="masthead-search">
+        <input type="text" placeholder="بحث" disabled>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wiki-layout">
+
+  <div class="sidebar">
+    <h3>التصفح</h3>
+    <ul>
+      <li><a href="index-ar.html">الصفحة الرئيسية</a></li>
+      <li><a href="#">أحدث التغييرات</a></li>
+      <li><a href="#">صفحة عشوائية</a></li>
+    </ul>
+    <h3>التصنيفات</h3>
+    <ul>
+      <li><a href="index-ar.html">شبكات</a></li>
+      <li><a href="index-ar.html">Linux</a></li>
+      <li><a href="index-ar.html">Windows</a></li>
+      <li><a href="index-ar.html">إلكترونيات</a></li>
+      <li><a href="index-ar.html">ESP32</a></li>
+      <li><a href="index-ar.html">micro:bit</a></li>
+    </ul>
+    <h3>أدوات</h3>
+    <ul>
+      <li><a href="https://github.com/abourdim/wiki/blob/main/files/esp32_cam_test.yaml">عرض الإعدادات</a></li>
+    </ul>
+  </div>
+
+  <div class="content-wrap">
+    <div class="article-tabs">
+      <span class="active">المقال</span>
+      <span>نقاش</span>
+    </div>
+
+    <article>
+      <h1 class="page-title">لوحة توسعة ESP32-CAM &mdash; التحقق بواسطة ESPHome</h1>
+
+      <div class="infobox">
+        <div class="infobox-title">لوحة توسعة ESP32-CAM</div>
+        <table>
+          <tr><th>النوع</th><td>برنامج تشغيل أوّلي واختبار: يفحص كل جزء من اللوحة من صفحة ويب</td></tr>
+          <tr><th>العتاد</th><td><bdi dir="ltr">ESP32-CAM</bdi> من <bdi dir="ltr">AI-Thinker (OV2640, PSRAM)</bdi> على لوحة توسعة مصمَّمة خصيصًا</td></tr>
+          <tr><th>على اللوحة</th><td>مشغّلا محرّكات L9110 عدد 2، صمام RGB طراز TX1812 ‏(D1)، شاشة OLED طراز SSD1306 مقاس 0.96 بوصة، تغذية USB-C</td></tr>
+          <tr><th>البرنامج الثابت</th><td>ESPHome <strong dir="ltr">2025.2.2</strong>، إطار Arduino، على Linux</td></tr>
+          <tr><th>صفحة الويب</th><td>المنفذ 80: أوامر واختبارات وسجلّ</td></tr>
+          <tr><th>الفيديو</th><td>MJPEG على المنفذ 8080</td></tr>
+          <tr><th>نقطة الوصول الاحتياطية</th><td><code dir="ltr">esp32-cam-test fallback</code></td></tr>
+          <tr><th>الإعدادات</th><td><a href="files/esp32_cam_test.yaml" dir="ltr">esp32_cam_test.yaml</a></td></tr>
+        </table>
+      </div>
+
+      <div class="applink">
+        <a href="https://abourdim.github.io/wiki/cam-plugin-esphome-ar.html"><img class="applink-qr" src="qr/page-cam-plugin-esphome-ar.svg" alt="QR: https://abourdim.github.io/wiki/cam-plugin-esphome-ar.html" width="104" height="104"></a>
+        <div class="applink-text">
+          <div class="applink-title">افتح هذه الصفحة على الهاتف</div>
+          <div class="applink-url"><a href="https://abourdim.github.io/wiki/cam-plugin-esphome-ar.html" dir="ltr">https://abourdim.github.io/wiki/cam-plugin-esphome-ar.html</a></div>
+          <div class="applink-hint">لا شيء لتثبيته: اللوحة تقدّم صفحة الاختبار بنفسها. امسح هذا الرمز لتحمل الخطوات معك إلى طاولة العمل.</div>
+        </div>
+      </div>
+
+      <p class="hatnote"><strong>هذا منصّة اختبار، لا برنامج روبوت.</strong> مهمّته الوحيدة أن يُثبت، جزءًا بعد جزء، أن لوحة رُكّبت للتوّ تعمل: الشاشة، والصمام، والمحرّكان، والكاميرا، والتغذية. وكل شيء يُدار بأزرار على صفحة ويب.</p>
+      <p class="hatnote">كل طرف في الإعدادات مأخوذ من <strong>تسميات الشبكات في المخطّط</strong>. النسخة الأولى خمّنتها قبل أن توجد التسميات &mdash; فبقيت الشاشة والصمام مطفأين. اقرأ المخطّط أولًا.</p>
+
+      <div class="toc">
+        <div class="toc-title">المحتويات</div>
+        <ol>
+          <li><a href="#overview">نظرة عامة</a></li>
+          <li><a href="#pinout">توزيع الأطراف، من المخطّط</a></li>
+          <li><a href="#install">تثبيت ESPHome على Linux</a></li>
+          <li><a href="#flash">الإعداد والتحميل</a></li>
+          <li><a href="#tests">تسلسل الاختبارات</a></li>
+          <li><a href="#oled">شاشة OLED: صفحات الحالة</a></li>
+          <li><a href="#led">الصمام D1: الألوان</a></li>
+          <li><a href="#camera">الكاميرا: البثّ والضبط المباشر</a></li>
+          <li><a href="#traps">فخاخ صادفناها أثناء التشغيل الأوّلي</a></li>
+          <li><a href="#troubleshooting">حلّ المشكلات</a></li>
+        </ol>
+      </div>
+
+      <h2 id="overview">نظرة عامة</h2>
+      <p>البرنامج الثابت ملف ESPHome واحد. بعد تحميله تنضمّ اللوحة إلى شبكة Wi-Fi، وتعرض عنوانها على شاشة OLED، وتقدّم صفحة فيها سطر لكل جزء: مفاتيح، ومنزلقات، وأزرار اختبار، والسجلّ المباشر على الجانب.</p>
+      <p>كل اختبار يجيب عن سؤال واحد:</p>
+      <ul>
+        <li><strong>ناقل I&sup2;C والشاشة</strong> &mdash; هل وُجدت الشاشة، وهل ترسم بشكل صحيح حتى حوافها الأربع؟</li>
+        <li><strong>الصمام D1</strong> &mdash; هل يستقبل صمام RGB البيانات، بترتيب الألوان الصحيح؟</li>
+        <li><strong>المحرّكات</strong> &mdash; هل يدير كل L9110 محرّكه في الاتجاهين؟</li>
+        <li><strong>التغذية</strong> &mdash; هل يصمد خطّ 5&nbsp;فولت والمحرّكان بأقصى قدرة؟ عدّاد <em>Uptime</em> هو الحَكَم: إن عاد إلى 0 فقد أُعيد تشغيل اللوحة.</li>
+        <li><strong>الكاميرا</strong> &mdash; أثقل حِمل، والفحص الأخير &laquo;كل شيء معًا&raquo;.</li>
+      </ul>
+
+      <h2 id="pinout">توزيع الأطراف، من المخطّط</h2>
+      <table class="wikitable">
+        <tr><th>الجزء</th><th>الإشارة</th><th>GPIO</th><th>ملاحظة</th></tr>
+        <tr><td rowspan="2">الشاشة (BB1)</td><td>SDA</td><td>GPIO3</td><td>U0R، الشبكة <code dir="ltr">ftdi_tx</code>، مقاومة رفع R3 إلى 3V3</td></tr>
+        <tr><td>SCL</td><td>GPIO1</td><td>U0T، الشبكة <code dir="ltr">ftdi_rx</code>، مقاومة رفع R4 إلى 3V3</td></tr>
+        <tr><td>الصمام D1</td><td>DIN</td><td>GPIO4</td><td>مشترك مع صمام الفلاش الأبيض في الوحدة</td></tr>
+        <tr><td rowspan="2">المحرّك A <bdi dir="ltr">(U1 &rarr; J1)</bdi></td><td>IA</td><td>GPIO13</td><td>الطرف 6 من U1</td></tr>
+        <tr><td>IB</td><td>GPIO2</td><td>الطرف 7 من U1، طرف إقلاع</td></tr>
+        <tr><td rowspan="2">المحرّك B <bdi dir="ltr">(U3 &rarr; J3)</bdi></td><td>IA</td><td>GPIO15</td><td>الطرف 6 من U3، طرف إقلاع</td></tr>
+        <tr><td>IB</td><td>GPIO14</td><td>الطرف 7 من U3</td></tr>
+        <tr><td>الكاميرا</td><td colspan="2" dir="ltr">GPIO0, 5, 18&ndash;27, 32&ndash;39</td><td>توزيع AI-Thinker الثابت</td></tr>
+      </table>
+
+      <p>ينتج عن هذا الجدول أمران مباشرة، ويحكمان كل ما بعده:</p>
+      <ul>
+        <li><strong>الشاشة موصولة بالمنفذ التسلسلي.</strong> GPIO1 و GPIO3 هما منفذ UART الذي يستعمله محوّل USB. لذلك أُطفئ السجلّ التسلسلي (<code dir="ltr">baud_rate: 0</code>)، ويظهر السجلّ في صفحة الويب بدلًا منه. والتحميل عبر USB والوحدة على اللوحة قد يفشل: حمّل أول مرة والوحدة على محوّل MB الخاص بها، ثم حدّث عبر Wi-Fi.</li>
+        <li><strong>D1 وصمام الفلاش يتشاركان GPIO4.</strong> نبضات البيانات الموجّهة إلى D1 تجعل صمام الفلاش الأبيض يومض خافتًا. هذا متوقّع ولا ضرر منه.</li>
+      </ul>
+
+      <div class="ambox">اللوحة التي فُحصت في هذا التحقق ليس عليها TP4056 ولا MT3608: خطّ VBUS من USB-C يذهب مباشرة إلى خطّ 5&nbsp;فولت. إن كانت نسختك تحمل دائرة البطارية، فاضبط MT3608 على 5.0&ndash;5.1&nbsp;فولت <em>قبل</em> توصيل ESP32-CAM &mdash; فهذه الوحدات تُشحن غالبًا مضبوطة على قيمة أعلى بكثير.</div>
+
+      <h2 id="install">تثبيت ESPHome على Linux</h2>
+      <p>ثبّت ESPHome في بيئة افتراضية خاصة به، ولا تستعمل أبدًا <code dir="ltr">pip install --user</code>:</p>
+      <pre dir="ltr"><code>python3 -m venv ~/esphome-venv
+source ~/esphome-venv/bin/activate
+pip install esphome==2025.2.2
+esphome version</code></pre>
+      <p>مع التثبيت بـ <code dir="ltr">--user</code> يتشارك pip الحزم مع كل ما في الجهاز. وليتّسع لـ ESPHome خفّض بصمت إصدارات <code dir="ltr">cryptography</code> و <code dir="ltr">starlette</code> و <code dir="ltr">uvicorn</code>، فتعطّلت <code dir="ltr">mcp</code> و <code dir="ltr">fastapi</code> وغيرها. البيئة الافتراضية تحصر هذا الضرر في مجلّد واحد.</p>
+      <p><strong>ثبّت رقم الإصدار.</strong> هذه الإعدادات مكتوبة للإصدار 2025.2.2، وهو ما يختاره pip مع Python 3.10. وقد غيّر ESPHome 2026 عدّة خيارات تستعملها (انظر <a href="#traps">الفخاخ</a>).</p>
+      <p>للتحميل عبر USB دون <code dir="ltr">sudo</code>، أضف نفسك مرة واحدة إلى مجموعة <code dir="ltr">dialout</code>، ثم سجّل الخروج وادخل من جديد:</p>
+      <pre dir="ltr"><code>sudo usermod -aG dialout $USER</code></pre>
+
+      <h2 id="flash">الإعداد والتحميل</h2>
+      <ol>
+        <li>نزّل <a href="files/esp32_cam_test.yaml" dir="ltr">esp32_cam_test.yaml</a> في مجلّد.</li>
+        <li>بجانبه أنشئ <code dir="ltr">secrets.yaml</code> بشبكة <strong>2.4&nbsp;غيغاهرتز</strong> &mdash; لا يستطيع ESP32 الانضمام إلى 5&nbsp;غيغاهرتز:
+          <pre dir="ltr"><code>wifi_ssid: "YourWiFi"
+wifi_password: "YourPassword"</code></pre></li>
+        <li>افحص ثم صرّف. التصريف الأول ينزّل سلسلة الأدوات ويستغرق 5 إلى 15&nbsp;دقيقة:
+          <pre dir="ltr"><code>esphome config esp32_cam_test.yaml
+esphome compile esp32_cam_test.yaml</code></pre></li>
+        <li><strong>التحميل الأول عبر USB.</strong> انزع ESP32-CAM عن لوحة التوسعة، وضعه على محوّل MB الخاص به، ثم:
+          <pre dir="ltr"><code>esphome run esp32_cam_test.yaml --device /dev/ttyUSB0</code></pre>
+          إن استعملت محوّل USB تسلسليًّا عاديًّا بدل لوحة MB، فاربط IO0 بـ GND أثناء التشغيل، ثم أزل الوصلة بعد ذلك.</li>
+        <li>أعد الوحدة إلى اللوحة وشغّلها. بعد نحو 20&nbsp;ثانية تعرض الشاشة عنوان IP.</li>
+        <li><strong>كل التحديثات التالية تمرّ عبر Wi-Fi</strong>، إلى العنوان الظاهر على الشاشة:
+          <pre dir="ltr"><code>esphome run esp32_cam_test.yaml --device 192.168.1.42</code></pre></li>
+      </ol>
+      <p>إن لم تنضمّ اللوحة إلى الشبكة، فابحث عن نقطة وصول اسمها <code dir="ltr">esp32-cam-test fallback</code>. وجودها يعني أن اللوحة تعمل لكن كلمة مرور Wi-Fi خاطئة، أو أن الشبكة بتردّد 5&nbsp;غيغاهرتز فقط.</p>
+
+      <h2 id="tests">تسلسل الاختبارات</h2>
+      <p>افتح <code dir="ltr">http://&lt;IP&gt;</code> وانزل في الجدول. عمود السجلّ يبيّن ما تفعله اللوحة.</p>
+      <table class="wikitable">
+        <tr><th>#</th><th>الاختبار</th><th>الإجراء</th><th>ينجح إذا</th></tr>
+        <tr><td>1</td><td>I&sup2;C / الشاشة</td><td>اقرأ سجلّ الإقلاع؛ اضغط <strong dir="ltr">Run OLED test</strong></td><td><code dir="ltr">Found i2c device at address 0x3C</code>، والإطار يلامس الحواف الأربع</td></tr>
+        <tr><td>2</td><td>الصمام D1</td><td>راقب عند التشغيل؛ اضغط <strong dir="ltr">Run LED test</strong></td><td>ثلاث ومضات بيضاء، ثم أحمر &larr; أخضر &larr; أزرق &larr; أبيض &larr; إطفاء</td></tr>
+        <tr><td>3</td><td>المحرّك A</td><td>اضغط <strong dir="ltr">Run motor test</strong></td><td>J1 يدور للأمام ثانيتين، ثم للخلف ثانيتين</td></tr>
+        <tr><td>4</td><td>المحرّك B</td><td>الزر نفسه، يكمل وحده</td><td>الشيء نفسه على J3</td></tr>
+        <tr><td>5</td><td>اختبار الحِمل</td><td>الزر نفسه: المحرّكان بنسبة 100&nbsp;% لمدة 3&nbsp;ثوانٍ</td><td><strong>يستمر Uptime في العدّ</strong>، ولا ينقطع Wi-Fi</td></tr>
+        <tr><td>6</td><td>الكاميرا</td><td>افتح <code dir="ltr">http://&lt;IP&gt;:8080</code></td><td>صورة مباشرة</td></tr>
+        <tr><td>7</td><td>البطارية وحدها</td><td>افصل USB، وأعد 5 و 6</td><td>لا إعادة تشغيل أيضًا</td></tr>
+      </table>
+      <p>إن كان &laquo;الأمام&raquo; لمحرّك ما معكوسًا في تركيبك، فبدّل سلكيه في الموصل، أو بدّل طرفَي IA/IB في أعلى الملف.</p>
+
+      <h2 id="oled">شاشة OLED: صفحات الحالة</h2>
+      <p>ثلاث صفحات تتناوب كل 4&nbsp;ثوانٍ:</p>
+      <ol>
+        <li><strong>الشبكة</strong> &mdash; قوة إشارة Wi-Fi وعنوان IP. هذه الصفحة تخبرك إلى أين ترسل التحديثات.</li>
+        <li><strong>المخرجات</strong> &mdash; كل محرّك (<code dir="ltr">off</code>، <code dir="ltr">+50%</code>، <code dir="ltr">-50%</code>) وسطوع D1.</li>
+        <li><strong>النظام</strong> &mdash; مدة التشغيل بالساعات والدقائق والثواني، والذاكرة الحرّة، وذاكرة PSRAM الحرّة.</li>
+      </ol>
+      <p><strong dir="ltr">Run OLED test</strong> يعرض نمطًا لمدة 4&nbsp;ثوانٍ: إطارًا على الحافة، وكتلة مصمتة، وخطوطًا رفيعة، وعبارة &laquo;OLED OK&raquo;. فتظهر البكسلات الميتة أو الصورة المقطوعة أو المزاحة بوضوح. وزر <strong dir="ltr">OLED next page</strong> ينتقل إلى الصفحة التالية.</p>
+      <p>نوع الشاشة يُضبط في أعلى الملف:</p>
+      <pre dir="ltr"><code>  oled_model: "SSD1306 128x64"   # 0.96"
+  #           "SSD1306 128x32"   # 0.91"
+  #           "SH1106 128x64"    # 1.3"
+  oled_address: "0x3C"           # some modules use 0x3D</code></pre>
+      <div class="ambox ambox-notice">للطراز الخاطئ عَرَض لا يُخطئه أحد: <strong>كل سطر يظهر مرتين، ممطوطًا</strong>. هذه شاشة 128&times;64 تُدار كأنها 128&times;32. وفي الشاشات ثنائية اللون تكون الصفوف الـ 16 العليا صفراء: في صفحة 128&times;64 يقع السطر الأول في الشريط الأصفر.</div>
+
+      <h2 id="led">الصمام D1: الألوان</h2>
+      <p>صفحة الويب في ESPHome لا تعطي الضوء إلا مفتاح تشغيل ومنزلقًا للسطوع &mdash; دون منتقي ألوان. لذلك تضيف الإعدادات قائمة منسدلة <strong dir="ltr">LED D1 color</strong>: Off، Red، Green، Blue، White، Yellow، Cyan، Magenta، Orange، Purple. ويبقى منزلق LED D1 لضبط السطوع.</p>
+      <p>للحصول على لون محدّد، أرسله من الطرفية (القيم من 0 إلى 255):</p>
+      <pre dir="ltr"><code>curl -X POST "http://192.168.1.42/light/led_d1/turn_on?r=255&amp;g=0&amp;b=128&amp;brightness=150"
+curl -X POST "http://192.168.1.42/light/led_d1/turn_off"</code></pre>
+      <p>العنوان <code dir="ltr">led_d1</code> مشتقّ من اسم الكيان <em dir="ltr">LED D1</em>. الأقواس أو الشرطة المائلة في الاسم تُفسد العنوان &mdash; سبب آخر لإبقاء الأسماء قصيرة.</p>
+      <p>إن كانت الألوان خاطئة أو بقي D1 مطفأً، فهناك إعدادان في أعلى الملف يساعدان: <code dir="ltr">led_chipset</code> (جرّب <code dir="ltr">SK6812</code>) و <code dir="ltr">led_rgb_order</code> (جرّب <code dir="ltr">RGB</code>). D1 يعمل على 5&nbsp;فولت بينما يُخرج ESP32 جهد 3.3&nbsp;فولت: وعند 5&nbsp;فولت يحتاج مدخل البيانات نحو 3.5&nbsp;فولت، فالهامش ضيّق. نجح الأمر هنا؛ وإلا فمحوّل المستوى 74AHCT1G125 هو الحلّ الصحيح.</p>
+
+      <h2 id="camera">الكاميرا: البثّ والضبط المباشر</h2>
+      <p>الفيديو <strong>ليس</strong> في صفحة المنفذ 80 &mdash; فهي تعرض الكيانات فقط. إنه على <code dir="ltr">http://&lt;IP&gt;:8080</code>، لمشاهد واحد في كل مرة. وحين لا يشاهد أحد، يعرض السجلّ <code dir="ltr">Got Image</code> كل 10&nbsp;ثوانٍ (<code dir="ltr">idle_framerate: 0.1 fps</code>): وهذا السطر وحده يثبت أن الكاميرا تعمل.</p>
+      <p>أوامر في صفحة الويب تغيّر الصورة مباشرة:</p>
+      <table class="wikitable">
+        <tr><th>الأمر</th><th>المدى</th></tr>
+        <tr><td dir="ltr">Cam vertical flip / horizontal mirror</td><td>تشغيل / إيقاف</td></tr>
+        <tr><td dir="ltr">Cam brightness, contrast, saturation, exposure level</td><td dir="ltr">&minus;2 &hellip; +2</td></tr>
+        <tr><td dir="ltr">Cam JPEG quality</td><td>10 (الأفضل) &hellip; 63 (الأصغر والأسرع)</td></tr>
+        <tr><td dir="ltr">Cam white balance</td><td dir="ltr">Auto, Sunny, Cloudy, Office, Home</td></tr>
+        <tr><td dir="ltr">Cam effect</td><td dir="ltr">None, Negative, Grayscale, Red/Green/Blue tint, Sepia</td></tr>
+      </table>
+      <p>تستدعي هذه الأوامر مشغّل الكاميرا مباشرة (<code dir="ltr">esp_camera_sensor_get()</code>). <strong>الضبط المباشر يضيع عند إعادة التشغيل</strong>: حين يعجبك إعداد ما، انسخ قيمته إلى كتلة <code dir="ltr">esp32_camera:</code>، حيث كل خيار مذكور مع مداه.</p>
+      <p>يقلب ESPHome الصورة ويعكسها افتراضيًّا. وعلى هذه اللوحة أعطى ذلك صورة مقلوبة، فأُطفئ الخياران عند الإقلاع &mdash; أي دوران بمقدار 180&deg;. ولبثّ أسلس، اخفض <code dir="ltr">resolution</code> (جرّب <code dir="ltr">320x240</code>) أو ارفع <code dir="ltr">jpeg_quality</code> (جرّب 20). القياس عند 640&times;480: من 5 إلى 8 صور في الثانية.</p>
+
+      <h2 id="traps">فخاخ صادفناها أثناء التشغيل الأوّلي</h2>
+      <p>كلّف كل واحد منها جولة ذهاب وإياب. ومعظمها تفاصيل في ESPHome لا تشرحها رسالة الخطأ.</p>
+
+      <h3>أطراف خاطئة: شاشة سوداء، صمام مطفأ، محرّك باتجاه واحد</h3>
+      <p>الإعدادات الأولى خمّنت الأطراف. والنتيجة: لا شيء على الشاشة، ولا شيء على D1، والمحرّك A يدور في اتجاه واحد فقط (أحد مدخليه لم يكن موصولًا بشيء)، والمحرّك B معكوس. وقد صُحّحت الأربعة بقراءة تسميات الشبكات. حين يكون طرف ما غير مؤكّد فلا تخمّن: اسأل المخطّط.</p>
+
+      <h3>استبدال داخل قاموس على سطر واحد</h3>
+      <pre dir="ltr"><code>- fan.turn_on: { id: motor_a, speed: ${test_speed} }   # YAML error</code></pre>
+      <p>القوس <code dir="ltr">{</code> في <code dir="ltr">${</code> يفتح قاموسًا ثانيًا في وسط الأول: <em dir="ltr">expected ',' or '}', but got '{'</em>. اكتب هذه الخطوة على عدّة أسطر.</p>
+
+      <h3><code dir="ltr">ignore_strapping_warning</code> على طرف عادي</h3>
+      <p>هذا الخيار <strong>خطأ</strong> على طرف ليس طرف إقلاع (<em dir="ltr">GPIO14 is not a strapping pin</em>). ضعه فقط على GPIO0 و 2 و 5 و 12 و 15.</p>
+
+      <h3><code dir="ltr">rmt_channel</code>: إلزامي، ثم ممنوع</h3>
+      <p>في ESPHome 2025.2 مع إطار Arduino، يشترط <code dir="ltr">esp32_rmt_led_strip</code> وجود <code dir="ltr">rmt_channel</code>. أما ESPHome 2026 فيرفضه كخيار غير صالح. والأمر نفسه مع الكاميرا: الإصدار 2025.2 يريد <code dir="ltr">i2c_pins:</code>، والإصدار 2026 يرفضه بجانب كتلة <code dir="ltr">i2c:</code> ويريد <code dir="ltr">i2c_id:</code>. ومن هنا تثبيت الإصدار.</p>
+
+      <h3>القائمة المنسدلة التي منعت اللوحة من الإقلاع</h3>
+      <p>بعد إضافة قائمة LED D1 color لم تعد اللوحة تُقلع. فقائمة select من نوع template تنشر قيمتها الأولية أثناء التهيئة، وهذا يطلق <code dir="ltr">on_value</code> الخاص بها &mdash; وهنا أمرًا بإطفاء D1، على الأرجح قبل أن يكون مشغّل الصمام جاهزًا. الحلّ علَم <code dir="ltr">boot_done</code> يُضبط في نهاية <code dir="ltr">on_boot</code>، وتتحقق منه القائمة قبل أن تفعل أي شيء. فعادت اللوحة تُقلع.</p>
+      <p>حين تتعطّل اللوحة في حلقة متكرّرة، ينتقل ESPHome إلى <strong>الوضع الآمن</strong> بعد نحو عشر محاولات إقلاع فاشلة: برنامج ثابت مصغّر ما زال يقبل تحديثًا عبر OTA. فكثيرًا ما يمكن استبدال برنامج معطوب عبر Wi-Fi دون لمس USB.</p>
+
+      <h3>العنوان يتغيّر</h3>
+      <p>أعطى الموجّه عناوين مختلفة عدّة مرات (‎.33 ثم ‎.133 ثم ‎.42). ورسالة <em dir="ltr">No route to host</em> أثناء التحميل تعني غالبًا هذا بالضبط، أو أن اللوحة غير مغذّاة. الصفحة الأولى في الشاشة تعرض العنوان الحالي.</p>
+
+      <h3>الفيديو على منفذ آخر</h3>
+      <p>صفحة المنفذ 80 لا تعرض الفيديو أبدًا. والبحث عنه هناك، بينما يعرض السجلّ <code dir="ltr">Got Image</code>، يُوهم بأن الكاميرا معطّلة وهي ليست كذلك.</p>
+
+      <h3>Windows</h3>
+      <p>تحت MSYS2/MINGW64 لا يستطيع ESPHome 2026 التصريف: أدوات ESP-IDF ترفض هذه البيئة (<em dir="ltr">MSys/Mingw is no longer supported</em>)، ومع ذلك يطبع ESPHome عبارة <em dir="ltr">Successfully compiled</em>، ثم لا يجد التحميل أي برنامج ثابت. أُجري هذا التحقق على Linux.</p>
+
+      <h2 id="troubleshooting">حلّ المشكلات</h2>
+
+      <h3>اللوحة لا تُقلع إطلاقًا</h3>
+      <p>اقرأ رسائل الإقلاع التي تطبعها الرقاقة نفسها، وهي تظهر حتى والسجلّ مطفأ: الوحدة على محوّل MB، و IO0 حرّ، ثم <code dir="ltr">python3 -m serial.tools.miniterm /dev/ttyUSB0 115200</code> واضغط RST. تكرار <code dir="ltr">Brownout detector was triggered</code> مشكلة تغذية؛ وتكرار <code dir="ltr">Guru Meditation</code> مشكلة في البرنامج الثابت. وتأكّد أيضًا أن لا شيء يرفع GPIO12 عند التشغيل.</p>
+
+      <h3>الشاشة تبقى سوداء</h3>
+      <p>لا جهاز في مسح I&sup2;C: SDA و SCL مبدّلان، أو مقاومات الرفع غائبة، أو الشاشة غير مغذّاة. جهاز على العنوان 0x3D: غيّر <code dir="ltr">oled_address</code>. أسطر مكرّرة: <code dir="ltr">oled_model</code> خاطئ.</p>
+
+      <h3>يعود Uptime إلى 0 أثناء اختبار المحرّكات</h3>
+      <p>خطّ 5&nbsp;فولت ينهار تحت المحرّكين. أضف 220&ndash;470&nbsp;ميكروفاراد مع 10&nbsp;ميكروفاراد خزفي على ‎+5&nbsp;فولت قرب ESP32-CAM، أو أعطِ المحرّكين تغذيتهما الخاصة عبر J5.</p>
+
+      <h3>لا فيديو على المنفذ 8080</h3>
+      <p>مشاهد واحد في كل مرة: أغلق أي تبويب آخر مفتوح على البثّ. إن كانت الصورة مظلمة، فتحقّق من غطاء العدسة ومن أن شريط الكاميرا مُدخل بالكامل والمزلاج مغلق. وإن أُعيد تشغيل اللوحة عند فتح البثّ، فعطّل كتلة <code dir="ltr">esp32_camera:</code> بتحويلها إلى تعليق، لتميّز عطل الكاميرا من عطل التغذية.</p>
+
+      <hr>
+      <p class="hatnote">مقالات ذات صلة: <a href="cam-robot-ar.html">روبوت ESP32-CAM ‏(m2)</a> &middot; <a href="cam-robot-m1-ar.html">روبوت ESP32-CAM طراز m1</a> &middot; <a href="video-car-ar.html">VideoCar</a> &middot; <a href="workshop-ar.html">ورشة روبوت ESP32-CAM</a></p>
+
+</article>
+  </div>
+</div>
+
+</body>
+</html>

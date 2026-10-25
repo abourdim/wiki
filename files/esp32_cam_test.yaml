@@ -1,0 +1,538 @@
+# ESPHome bring-up / test firmware for esp32_cam_plugin (rev v4)
+# For ESPHome 2025.2.x (Linux)
+#
+# What it tests:
+#   - I2C bus scan (OLED should show at 0x3C) + status pages on the OLED
+#   - Two L9110 motor channels (fwd / rev at 50 %, then both at 100 %)
+#   - Addressable LED D1 (TX1812, WS2812-compatible): R -> G -> B -> W -> off
+#   - Camera (OV2640, AI-Thinker pinout) as a final "everything together" check
+#   - Wi-Fi RSSI / uptime as a power-stability indicator (resets = brownouts)
+#
+# Pins taken from the schematic net labels (2026-10-25):
+#   OLED BB1  SDA = ftdi_tx = U0R = GPIO3,  SCL = ftdi_rx = U0T = GPIO1
+#   LED D1    DIN = GPIO4 (shared with the ESP32-CAM on-board flash LED)
+#   Motor A U1  IA = GPIO13, IB = GPIO2
+#   Motor B U3  IA = GPIO15, IB = GPIO14
+#
+# Usage:
+#   1. Create secrets.yaml next to this file:
+#        wifi_ssid: "your-ssid"
+#        wifi_password: "your-password"
+#   2. First flash over USB with the ESP32-CAM OFF the plugin board (on its
+#      MB adapter): the OLED sits on the UART pins.
+#        esphome run esp32_cam_test.yaml --device /dev/ttyUSB0
+#   3. Put it back on the board; later updates go over Wi-Fi:
+#        esphome run esp32_cam_test.yaml --device <IP shown on the OLED>
+#   4. Open http://<IP> to press the test buttons and read the logs
+#      (serial logging is off: GPIO1/3 carry the OLED I2C bus).
+
+substitutions:
+  name: esp32-cam-test
+  # I2C for OLED (pull-ups R3/R4 to 3V3 on board)
+  pin_sda: GPIO3           # U0R (ftdi_tx net) - pull-up R3 to 3V3
+  pin_scl: GPIO1           # U0T (ftdi_rx net) - pull-up R4 to 3V3
+  # OLED: 0.91" = "SSD1306 128x32", 0.96" = "SSD1306 128x64", 1.3" = "SH1106 128x64"
+  oled_model: "SSD1306 128x64"
+  oled_address: "0x3C"     # some modules use 0x3D (check the I2C scan in the log)
+  # L9110 U1 (motor A, J1) and U3 (motor B, J3)
+  pin_motor_a_ia: GPIO13   # U1 pin 6
+  pin_motor_a_ib: GPIO2    # U1 pin 7 (strapping pin)
+  pin_motor_b_ia: GPIO15   # U3 pin 6 (strapping pin)
+  pin_motor_b_ib: GPIO14   # U3 pin 7
+  # Addressable LED D1 data (also drives the on-board flash LED)
+  pin_led_data: GPIO4
+  # TX1812 is "WS2812-compatible"; if colours are wrong or nothing lights,
+  # try led_chipset SK6812 and/or led_rgb_order RGB
+  led_chipset: WS2812
+  led_rgb_order: GRB
+  motor_pwm_freq: 5kHz
+  test_speed: "50"         # percent
+
+esphome:
+  name: ${name}
+  friendly_name: ESP32-CAM circuit test
+  on_boot:
+    priority: -100
+    then:
+      # Blink LED D1 (GPIO4) 3 times
+      - repeat:
+          count: 3
+          then:
+            - light.turn_on:
+                id: d1
+                red: 100%
+                green: 100%
+                blue: 100%
+                brightness: 50%
+                transition_length: 0s
+            - delay: 200ms
+            - light.turn_off:
+                id: d1
+                transition_length: 0s
+            - delay: 300ms
+      - script.execute: led_test
+      - globals.set: { id: boot_done, value: "true" }
+
+esp32:
+  board: esp32cam
+  framework:
+    type: arduino
+
+psram:
+
+logger:
+  baud_rate: 0             # GPIO1/3 are the OLED I2C bus; logs go to web UI / API
+  level: DEBUG
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  ap:
+    ssid: "${name} fallback"
+
+captive_portal:
+
+api:
+
+ota:
+  - platform: esphome
+
+web_server:
+  port: 80
+
+# ---------------------------------------------------------------- I2C + OLED
+i2c:
+  - id: oled_i2c
+    sda: ${pin_sda}
+    scl: ${pin_scl}
+    scan: true             # check the log: expect "Found i2c device at address 0x3C"
+    frequency: 400kHz
+
+font:
+  - file: "gfonts://Roboto"
+    id: f12
+    size: 12
+  - file: "gfonts://Roboto@700"
+    id: f16b
+    size: 16
+
+globals:
+  - id: boot_done            # true once all components are set up
+    type: bool
+    initial_value: "false"
+  - id: oled_test_running
+    type: bool
+    initial_value: "false"
+
+# Three pages rotate every 4 s: network, outputs, power/uptime.
+# On a 128x64 screen each page shows 4 lines instead of 2.
+display:
+  - platform: ssd1306_i2c
+    id: oled
+    i2c_id: oled_i2c
+    model: ${oled_model}
+    address: ${oled_address}
+    update_interval: 500ms
+    pages:
+      - id: page_network
+        lambda: |-
+          bool tall = it.get_height() > 32;
+          it.printf(0, 0, id(f12), "WiFi %d dBm", (int) id(rssi).state);
+          it.printf(0, 16, id(f12), "%s", id(ip).state.c_str());
+          if (tall) {
+            it.printf(0, 32, id(f12), "%s", App.get_name().c_str());
+            it.printf(0, 48, id(f12), "Page 1/3");
+          }
+      - id: page_outputs
+        lambda: |-
+          bool tall = it.get_height() > 32;
+          auto motor = [](fan::Fan *m) -> std::string {
+            if (!m->state) return "off";
+            char buf[12];
+            snprintf(buf, sizeof(buf), "%s%d%%",
+                     m->direction == fan::FanDirection::FORWARD ? "+" : "-", m->speed);
+            return buf;
+          };
+          it.printf(0, 0, id(f12), "MA %s  MB %s",
+                    motor(id(motor_a)).c_str(), motor(id(motor_b)).c_str());
+          float d1b = id(d1).current_values.is_on()
+                        ? id(d1).current_values.get_brightness() * 100 : 0;
+          it.printf(0, 16, id(f12), "LED D1 %.0f%%", d1b);
+          if (tall) {
+            it.printf(0, 32, id(f12), "Motor PWM ${motor_pwm_freq}");
+            it.printf(0, 48, id(f12), "Page 2/3");
+          }
+      - id: page_power
+        lambda: |-
+          bool tall = it.get_height() > 32;
+          int s = (int) id(up).state;
+          it.printf(0, 0, id(f12), "Up %02d:%02d:%02d", s / 3600, (s / 60) % 60, s % 60);
+          it.printf(0, 16, id(f12), "Heap %u kB", (unsigned) (ESP.getFreeHeap() / 1024));
+          if (tall) {
+            it.printf(0, 32, id(f12), "PSRAM %u kB", (unsigned) (ESP.getFreePsram() / 1024));
+            it.printf(0, 48, id(f12), "Page 3/3");
+          }
+      - id: page_test
+        lambda: |-
+          int w = it.get_width(), h = it.get_height();
+          it.rectangle(0, 0, w, h);                       // frame: all edges visible?
+          it.filled_rectangle(3, 3, 20, h - 6);           // solid block: no dead pixels?
+          for (int x = 26; x < 46; x += 2) it.line(x, 3, x, h - 4);   // fine lines
+          it.print(w - 4, h / 2, id(f16b), TextAlign::CENTER_RIGHT, "OLED OK");
+
+interval:
+  - interval: 4s
+    then:
+      - if:
+          condition:
+            lambda: "return !id(oled_test_running);"
+          then:
+            - script.execute: oled_next
+
+# ---------------------------------------------------------------- Motors
+# Channels 2-5 keep the LEDC away from channel/timer 0 used by the camera XCLK.
+output:
+  - platform: ledc
+    id: motor_a_ia
+    pin: ${pin_motor_a_ia}
+    channel: 2
+    frequency: ${motor_pwm_freq}
+  - platform: ledc
+    id: motor_a_ib
+    pin:
+      number: ${pin_motor_a_ib}
+      ignore_strapping_warning: true
+    channel: 3
+    frequency: ${motor_pwm_freq}
+  - platform: ledc
+    id: motor_b_ia
+    pin:
+      number: ${pin_motor_b_ia}
+      ignore_strapping_warning: true
+    channel: 4
+    frequency: ${motor_pwm_freq}
+  - platform: ledc
+    id: motor_b_ib
+    pin: ${pin_motor_b_ib}
+    channel: 5
+    frequency: ${motor_pwm_freq}
+
+fan:
+  - platform: hbridge
+    id: motor_a
+    name: "Motor A (U1-J1)"
+    pin_a: motor_a_ia
+    pin_b: motor_a_ib
+    decay_mode: slow
+    restore_mode: ALWAYS_OFF
+  - platform: hbridge
+    id: motor_b
+    name: "Motor B (U3-J3)"
+    pin_a: motor_b_ia
+    pin_b: motor_b_ib
+    decay_mode: slow
+    restore_mode: ALWAYS_OFF
+
+# ---------------------------------------------------------------- LED D1
+light:
+  - platform: esp32_rmt_led_strip
+    id: d1
+    name: "LED D1"
+    pin: ${pin_led_data}
+    rmt_channel: 0         # required on the Arduino framework in ESPHome 2025.x
+    num_leds: 1
+    chipset: ${led_chipset}
+    rgb_order: ${led_rgb_order}
+    restore_mode: ALWAYS_OFF
+
+# ---------------------------------------------------------------- Health
+sensor:
+  - platform: wifi_signal
+    id: rssi
+    name: "Wi-Fi RSSI"
+    update_interval: 10s
+  - platform: uptime
+    id: up
+    name: "Uptime"
+    update_interval: 1s
+
+text_sensor:
+  - platform: wifi_info
+    ip_address:
+      id: ip
+      name: "IP"
+  - platform: version
+    name: "ESPHome version"
+
+# ---------------------------------------------------------------- Camera
+# Comment this block out if the board resets: it is the heaviest load and
+# isolates camera/PSRAM issues from the rest of the circuit.
+esp32_camera:
+  name: "Camera"
+  external_clock:
+    pin: GPIO0
+    frequency: 20MHz
+  i2c_pins:
+    sda: GPIO26
+    scl: GPIO27
+  data_pins: [GPIO5, GPIO18, GPIO19, GPIO21, GPIO36, GPIO39, GPIO34, GPIO35]
+  vsync_pin: GPIO25
+  href_pin: GPIO23
+  pixel_clock_pin: GPIO22
+  power_down_pin: GPIO32
+  # Start-up values. The "Cam ..." controls on the web page change them live;
+  # live changes are lost on reboot, so copy the values you like back here.
+  resolution: 640x480      # 160x120 ... 1600x1200 (bigger = slower)
+  jpeg_quality: 12         # 10 = best quality ... 63 = smallest/fastest
+  vertical_flip: false     # both false = image rotated 180 deg vs. the defaults
+  horizontal_mirror: false
+  brightness: 0            # -2 ... 2
+  contrast: 0              # -2 ... 2
+  saturation: 0            # -2 ... 2
+  special_effect: none
+  wb_mode: auto
+  aec_mode: auto
+  ae_level: 0              # -2 ... 2
+  max_framerate: 10 fps
+  idle_framerate: 0.1 fps
+
+esp32_camera_web_server:
+  - port: 8080
+    mode: stream           # http://esp32-cam-test.local:8080
+
+# ---------------------------------------------------------------- Test scripts
+script:
+  - id: led_test
+    mode: restart
+    then:
+      - light.turn_on: { id: d1, red: 100%, green: 0%, blue: 0%, brightness: 40% }
+      - delay: 700ms
+      - light.turn_on: { id: d1, red: 0%, green: 100%, blue: 0%, brightness: 40% }
+      - delay: 700ms
+      - light.turn_on: { id: d1, red: 0%, green: 0%, blue: 100%, brightness: 40% }
+      - delay: 700ms
+      - light.turn_on: { id: d1, red: 100%, green: 100%, blue: 100%, brightness: 40% }
+      - delay: 700ms
+      - light.turn_off: d1
+
+  - id: motor_test
+    mode: single
+    then:
+      - logger.log: "Motor A forward"
+      - fan.turn_on:
+          id: motor_a
+          speed: ${test_speed}
+          direction: forward
+      - delay: 2s
+      - logger.log: "Motor A reverse"
+      - fan.turn_on:
+          id: motor_a
+          speed: ${test_speed}
+          direction: reverse
+      - delay: 2s
+      - fan.turn_off: motor_a
+      - delay: 500ms
+      - logger.log: "Motor B forward"
+      - fan.turn_on:
+          id: motor_b
+          speed: ${test_speed}
+          direction: forward
+      - delay: 2s
+      - logger.log: "Motor B reverse"
+      - fan.turn_on:
+          id: motor_b
+          speed: ${test_speed}
+          direction: reverse
+      - delay: 2s
+      - fan.turn_off: motor_b
+      - delay: 500ms
+      - logger.log: "Both motors forward (stress test for the 5 V rail)"
+      - fan.turn_on: { id: motor_a, speed: 100, direction: forward }
+      - fan.turn_on: { id: motor_b, speed: 100, direction: forward }
+      - delay: 3s
+      - fan.turn_off: motor_a
+      - fan.turn_off: motor_b
+      - logger.log: "Motor test done - check Uptime did not reset"
+
+  # Next status page, skipping the test pattern page
+  - id: oled_next
+    mode: queued
+    then:
+      - display.page.show_next: oled
+      - if:
+          condition:
+            display.is_displaying_page:
+              id: oled
+              page_id: page_test
+          then:
+            - display.page.show_next: oled
+      - component.update: oled
+
+  - id: oled_test
+    mode: restart
+    then:
+      - globals.set: { id: oled_test_running, value: "true" }
+      - display.page.show: page_test
+      - component.update: oled
+      - delay: 4s
+      - globals.set: { id: oled_test_running, value: "false" }
+      - display.page.show: page_network
+      - component.update: oled
+
+# ---------------------------------------------------------------- Camera live controls
+# Talk to the OV2640 directly through the esp32-camera driver.
+switch:
+  - platform: template
+    name: "Cam vertical flip"
+    optimistic: true
+    restore_mode: ALWAYS_OFF          # must match vertical_flip above
+    turn_on_action:
+      - lambda: 'sensor_t *s = esp_camera_sensor_get(); if (s) s->set_vflip(s, 1);'
+    turn_off_action:
+      - lambda: 'sensor_t *s = esp_camera_sensor_get(); if (s) s->set_vflip(s, 0);'
+  - platform: template
+    name: "Cam horizontal mirror"
+    optimistic: true
+    restore_mode: ALWAYS_OFF          # must match horizontal_mirror above
+    turn_on_action:
+      - lambda: 'sensor_t *s = esp_camera_sensor_get(); if (s) s->set_hmirror(s, 1);'
+    turn_off_action:
+      - lambda: 'sensor_t *s = esp_camera_sensor_get(); if (s) s->set_hmirror(s, 0);'
+
+number:
+  - platform: template
+    name: "Cam brightness"
+    optimistic: true
+    min_value: -2
+    max_value: 2
+    step: 1
+    initial_value: 0
+    set_action:
+      - lambda: 'sensor_t *s = esp_camera_sensor_get(); if (s) s->set_brightness(s, (int) x);'
+  - platform: template
+    name: "Cam contrast"
+    optimistic: true
+    min_value: -2
+    max_value: 2
+    step: 1
+    initial_value: 0
+    set_action:
+      - lambda: 'sensor_t *s = esp_camera_sensor_get(); if (s) s->set_contrast(s, (int) x);'
+  - platform: template
+    name: "Cam saturation"
+    optimistic: true
+    min_value: -2
+    max_value: 2
+    step: 1
+    initial_value: 0
+    set_action:
+      - lambda: 'sensor_t *s = esp_camera_sensor_get(); if (s) s->set_saturation(s, (int) x);'
+  - platform: template
+    name: "Cam exposure level"
+    optimistic: true
+    min_value: -2
+    max_value: 2
+    step: 1
+    initial_value: 0
+    set_action:
+      - lambda: 'sensor_t *s = esp_camera_sensor_get(); if (s) s->set_ae_level(s, (int) x);'
+  - platform: template
+    name: "Cam JPEG quality (10 best)"
+    optimistic: true
+    min_value: 10
+    max_value: 63
+    step: 1
+    initial_value: 12
+    set_action:
+      - lambda: 'sensor_t *s = esp_camera_sensor_get(); if (s) s->set_quality(s, (int) x);'
+
+select:
+  - platform: template
+    name: "Cam white balance"
+    optimistic: true
+    options: ["Auto", "Sunny", "Cloudy", "Office", "Home"]
+    initial_option: "Auto"
+    set_action:
+      - lambda: |-
+          sensor_t *s = esp_camera_sensor_get();
+          if (!s) return;
+          int m = 0;
+          if      (x == "Sunny")  m = 1;
+          else if (x == "Cloudy") m = 2;
+          else if (x == "Office") m = 3;
+          else if (x == "Home")   m = 4;
+          s->set_whitebal(s, 1);
+          s->set_awb_gain(s, 1);
+          s->set_wb_mode(s, m);
+  - platform: template
+    name: "Cam effect"
+    optimistic: true
+    options: ["None", "Negative", "Grayscale", "Red tint", "Green tint", "Blue tint", "Sepia"]
+    initial_option: "None"
+    set_action:
+      - lambda: |-
+          sensor_t *s = esp_camera_sensor_get();
+          if (!s) return;
+          int e = 0;
+          if      (x == "Negative")   e = 1;
+          else if (x == "Grayscale")  e = 2;
+          else if (x == "Red tint")   e = 3;
+          else if (x == "Green tint") e = 4;
+          else if (x == "Blue tint")  e = 5;
+          else if (x == "Sepia")      e = 6;
+          s->set_special_effect(s, e);
+  # Colour picker for LED D1 in the web UI (the light row itself only has
+  # on/off + brightness). Brightness still comes from the LED D1 slider.
+  - platform: template
+    id: d1_color
+    name: "LED D1 color"
+    optimistic: true
+    options: ["Off", "Red", "Green", "Blue", "White", "Yellow", "Cyan",
+              "Magenta", "Orange", "Purple"]
+    initial_option: "Off"
+    on_value:
+      then:
+        - lambda: |-
+            // Ignore the initial value published during setup: driving the
+            // LED before its RMT driver is ready crashes the board.
+            if (!id(boot_done)) return;
+            if (x == "Off") {
+              auto off = id(d1).turn_off();
+              off.set_transition_length(0);
+              off.perform();
+              return;
+            }
+            float r = 0, g = 0, b = 0;
+            if      (x == "Red")     { r = 1; }
+            else if (x == "Green")   { g = 1; }
+            else if (x == "Blue")    { b = 1; }
+            else if (x == "White")   { r = 1; g = 1; b = 1; }
+            else if (x == "Yellow")  { r = 1; g = 1; }
+            else if (x == "Cyan")    { g = 1; b = 1; }
+            else if (x == "Magenta") { r = 1; b = 1; }
+            else if (x == "Orange")  { r = 1; g = 0.4; }
+            else if (x == "Purple")  { r = 0.5; b = 1; }
+            auto call = id(d1).turn_on();
+            call.set_rgb(r, g, b);
+            call.set_transition_length(0);
+            call.perform();
+
+button:
+  - platform: template
+    name: "Run OLED test"
+    on_press:
+      - script.execute: oled_test
+  - platform: template
+    name: "OLED next page"
+    on_press:
+      - script.execute: oled_next
+  - platform: template
+    name: "Run motor test"
+    on_press:
+      - script.execute: motor_test
+  - platform: template
+    name: "Run LED test"
+    on_press:
+      - script.execute: led_test
+  - platform: restart
+    name: "Restart"
