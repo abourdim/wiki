@@ -71,13 +71,13 @@
           <tr><th>Moteurs</th><td>TB6612FNG sur la carte robot (J1, J3)</td></tr>
           <tr><th>Lumières</th><td>4 &times; RGB TX1812 (état), D1 + LED flash (phare)</td></tr>
           <tr><th>Écran</th><td>OLED SSD1306 0,96&Prime; sur la carte d'extension</td></tr>
-          <tr><th>Firmware</th><td>ESPHome <strong>2026.7.3</strong>, framework Arduino, sous Linux</td></tr>
+          <tr><th>Firmware</th><td>ESPHome <strong>2026.7.3</strong>, framework Arduino, sous Linux ou Windows</td></tr>
           <tr><th>Page web</th><td>Port 80 : boutons de conduite, curseurs, journal</td></tr>
           <tr><th>Vidéo</th><td>MJPEG sur le port 8080</td></tr>
           <tr><th>Configuration</th><td><a href="files/esp32_cam_robot.yaml">esp32_cam_robot.yaml</a></td></tr>
           <tr><th>Assistant</th><td><a href="files/launch.sh">launch.sh</a> (menu pour enfants)</td></tr>
           <tr><th>Fichiers KiCad</th><td><a href="https://github.com/abourdim/wiki/tree/main/files/esp32_cam_robot_v2">esp32_cam_robot_v2</a>, <a href="https://github.com/abourdim/wiki/tree/main/files/esp32_cam_plugin_v3">esp32_cam_plugin_v3</a></td></tr>
-          <tr><th>État</th><td><span class="status-tag pending">config validée, pas encore essayée sur le robot</span></td></tr>
+          <tr><th>État</th><td><span class="status-tag pending">compile, pas encore essayé sur le robot</span></td></tr>
         </table>
       </div>
 
@@ -92,7 +92,7 @@
 
       <p class="hatnote">C'est le firmware de robot qui fait suite à la <a href="cam-plugin-esphome.html">validation de la carte d'extension</a>. Le banc de test a prouvé chaque partie séparément ; ce fichier les fait travailler ensemble, en un robot qu'on pilote depuis un téléphone.</p>
       <div class="ambox"><strong>Avant de mettre un accu 18650 :</strong> sur le PCB v2, les deux pastilles du support de pile BH1 sont sur le réseau GND &mdash; y compris la pastille &laquo;&nbsp;+&nbsp;&raquo;. Un accu dans le support serait en court-circuit. Vérifiez au multimètre d'abord, et alimentez le robot par l'USB-C ou par J7/J8 tant que ce n'est pas réglé.</div>
-      <div class="ambox ambox-notice"><strong>État :</strong> la configuration passe <code>esphome config</code> en 2026.7.3. Elle n'a pas encore été compilée sous Linux ni essayée sur le robot ; cette page sera mise à jour après le premier tour de roue.</div>
+      <div class="ambox ambox-notice"><strong>État :</strong> le firmware compile avec ESPHome 2026.7.3 (1,06&nbsp;Mo, 35&nbsp;% de RAM, 58&nbsp;% de flash, aucun avertissement dans le code généré). Il n'a pas encore été flashé ni essayé sur le robot ; cette page sera mise à jour après le premier tour de roue.</div>
 
       <div class="toc">
         <div class="toc-title">Sommaire</div>
@@ -168,7 +168,7 @@
         <tr><td>9</td><td>&#127760; Open robot page</td><td>Ouvre la page de commande et la vidéo dans le navigateur</td></tr>
         <tr><td>10</td><td>&#129529; Clean</td><td>Supprime les fichiers de compilation</td></tr>
       </table>
-      <p>Le menu est en anglais. Mettez <code>ROBOT_IP=192.168.1.42</code> devant la commande pour ne pas retaper l'adresse. Sous Windows (MSYS2), le menu vérifie quand même la configuration, montre le journal et ouvre la page, mais refuse de compiler ou de flasher et explique pourquoi.</p>
+      <p>Le menu est en anglais. Mettez <code>ROBOT_IP=192.168.1.42</code> devant la commande pour ne pas retaper l'adresse. Le même script tourne sous Linux et dans Git Bash sous Windows ; là, les ports USB s'appellent <code>COM3</code>, <code>COM4</code>&hellip; et esphome est lancé sans <code>MSYSTEM</code> (voir <a href="#traps">Pièges</a>).</p>
 
       <h2 id="flash">Installer &amp; flasher à la main</h2>
       <ol>
@@ -255,7 +255,7 @@ curl -X POST "http://192.168.1.42/button/stop/press"</code></pre>
       <p>Fixer l'adresse d'un nombre avec <code>object_id: drive_x</code> est rejeté comme option invalide. L'adresse vient du nom : <em>Drive X</em> donne <code>/number/drive_x</code>.</p>
 
       <h3>&laquo;&nbsp;Successfully compiled&nbsp;&raquo; sous Windows</h3>
-      <p>Sous MSYS2, ESPHome 2026 affiche <em>MSys/Mingw is no longer supported</em>, ne compile rien, puis annonce quand même <em>Successfully compiled program</em>. Seul <code>esphome config</code> a un sens là-bas. C'est précisément pour cela que <code>launch.sh</code> vérifie le fichier firmware après la compilation.</p>
+      <p>Depuis Git Bash (MSYS2), ESPHome 2026 affiche <em>MSys/Mingw is no longer supported</em>, ne compile rien, puis annonce quand même <em>Successfully compiled program</em>. La cause est la variable <code>MSYSTEM</code> que pose Git Bash : ESP-IDF la voit et saute la compilation. Depuis PowerShell ou <code>cmd</code>, où elle n'existe pas, la même commande compile normalement. Git Bash remet même <code>MSYSTEM</code> dans chaque programme qu'il lance, donc <code>env -u MSYSTEM</code> ne suffit pas ; <code>launch.sh</code> lance esphome par une petite étape Python qui la supprime, et vérifie le fichier firmware après la compilation.</p>
 
       <h2 id="troubleshooting">Dépannage</h2>
 

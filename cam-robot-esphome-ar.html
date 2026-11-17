@@ -71,13 +71,13 @@
           <tr><th>المحرّكات</th><td><bdi dir="ltr">TB6612FNG</bdi> على لوحة الروبوت (<bdi dir="ltr">J1, J3</bdi>)</td></tr>
           <tr><th>الأضواء</th><td>4 صمامات RGB طراز TX1812 (الحالة)، و D1 مع صمام الفلاش (المصباح الأمامي)</td></tr>
           <tr><th>الشاشة</th><td>OLED طراز SSD1306 مقاس 0.96 بوصة على لوحة التوسعة</td></tr>
-          <tr><th>البرنامج الثابت</th><td>ESPHome <strong dir="ltr">2026.7.3</strong>، إطار Arduino، على Linux</td></tr>
+          <tr><th>البرنامج الثابت</th><td>ESPHome <strong dir="ltr">2026.7.3</strong>، إطار Arduino، على Linux أو Windows</td></tr>
           <tr><th>صفحة الويب</th><td>المنفذ 80: أزرار القيادة، منزلقات، السجلّ</td></tr>
           <tr><th>الفيديو</th><td>MJPEG على المنفذ 8080</td></tr>
           <tr><th>الإعدادات</th><td><a href="files/esp32_cam_robot.yaml" dir="ltr">esp32_cam_robot.yaml</a></td></tr>
           <tr><th>المساعد</th><td><a href="files/launch.sh" dir="ltr">launch.sh</a> (قائمة للأطفال)</td></tr>
           <tr><th>ملفات KiCad</th><td><a href="https://github.com/abourdim/wiki/tree/main/files/esp32_cam_robot_v2" dir="ltr">esp32_cam_robot_v2</a>، <a href="https://github.com/abourdim/wiki/tree/main/files/esp32_cam_plugin_v3" dir="ltr">esp32_cam_plugin_v3</a></td></tr>
-          <tr><th>الحالة</th><td><span class="status-tag pending">الإعدادات صحيحة، لم تُجرَّب على الروبوت بعد</span></td></tr>
+          <tr><th>الحالة</th><td><span class="status-tag pending">يُترجَم بنجاح، لم يُجرَّب على الروبوت بعد</span></td></tr>
         </table>
       </div>
 
@@ -92,7 +92,7 @@
 
       <p class="hatnote">هذا برنامج الروبوت الذي يأتي بعد <a href="cam-plugin-esphome-ar.html">التحقق من لوحة التوسعة</a>. منصّة الاختبار أثبتت كل جزء وحده؛ وهذا الملف يجعلها تعمل معًا روبوتًا تقوده من الهاتف.</p>
       <div class="ambox"><strong>قبل وضع بطارية 18650:</strong> على لوحة <bdi dir="ltr">v2</bdi>، طرفا حامل البطارية <bdi dir="ltr">BH1</bdi> كلاهما على شبكة <bdi dir="ltr">GND</bdi> &mdash; بما فيه طرف &laquo;+&raquo;. أي بطارية في الحامل ستكون في دارة قصر. افحص ذلك بالمِلتيميتر أولًا، وغذِّ الروبوت من <bdi dir="ltr">USB-C</bdi> أو عبر <bdi dir="ltr">J7/J8</bdi> إلى أن يُصلَح.</div>
-      <div class="ambox ambox-notice"><strong>الحالة:</strong> الإعدادات تجتاز <code dir="ltr">esphome config</code> على الإصدار <bdi dir="ltr">2026.7.3</bdi>. لم تُترجَم بعد على Linux ولم تُجرَّب على الروبوت؛ ستُحدَّث هذه الصفحة بعد أول قيادة.</div>
+      <div class="ambox ambox-notice"><strong>الحالة:</strong> البرنامج يُترجَم بنجاح بـ ESPHome <bdi dir="ltr">2026.7.3</bdi> (<bdi dir="ltr">1.06 MB</bdi>، <bdi dir="ltr">35 %</bdi> من الذاكرة RAM، <bdi dir="ltr">58 %</bdi> من الفلاش، دون أي تحذير في الشيفرة المولَّدة). لم يُحمَّل بعد على الروبوت ولم يُجرَّب؛ ستُحدَّث هذه الصفحة بعد أول قيادة.</div>
 
       <div class="toc">
         <div class="toc-title">المحتويات</div>
@@ -168,7 +168,7 @@
         <tr><td>9</td><td dir="ltr">&#127760; Open robot page</td><td>يفتح صفحة التحكّم والفيديو في المتصفّح</td></tr>
         <tr><td>10</td><td dir="ltr">&#129529; Clean</td><td>يحذف ملفات الترجمة</td></tr>
       </table>
-      <p>القائمة بالإنجليزية. ضع <code dir="ltr">ROBOT_IP=192.168.1.42</code> قبل الأمر كي لا تكتب العنوان كل مرة. على Windows ‏(MSYS2) تفحص القائمة الإعدادات، وتعرض السجلّ، وتفتح الصفحة، لكنها ترفض الترجمة والتحميل وتشرح السبب.</p>
+      <p>القائمة بالإنجليزية. ضع <code dir="ltr">ROBOT_IP=192.168.1.42</code> قبل الأمر كي لا تكتب العنوان كل مرة. السكربت نفسه يعمل على Linux وفي Git Bash على Windows؛ وهناك تظهر منافذ USB باسم <code dir="ltr">COM3</code>، <code dir="ltr">COM4</code>&hellip; ويُشغَّل esphome دون <code dir="ltr">MSYSTEM</code> (انظر <a href="#traps">الفخاخ</a>).</p>
 
       <h2 id="flash">التثبيت والتحميل يدويًا</h2>
       <ol>
@@ -255,7 +255,7 @@ curl -X POST "http://192.168.1.42/button/stop/press"</code></pre>
       <p>تحديد عنوان رقم بـ <code dir="ltr">object_id: drive_x</code> يُرفض كخيار غير صالح. العنوان يأتي من الاسم: <em dir="ltr">Drive X</em> يعطي <code dir="ltr">/number/drive_x</code>.</p>
 
       <h3>&laquo;Successfully compiled&raquo; على Windows</h3>
-      <p>تحت MSYS2 يطبع ESPHome 2026 الرسالة <em dir="ltr">MSys/Mingw is no longer supported</em>، ولا يترجم شيئًا، ثم يعلن رغم ذلك <em dir="ltr">Successfully compiled program</em>. هناك لا معنى إلا لـ <code dir="ltr">esphome config</code>. ولهذا بالضبط يتحقّق <code dir="ltr">launch.sh</code> من ملف البرنامج بعد الترجمة.</p>
+      <p>من Git Bash ‏(MSYS2) يطبع ESPHome 2026 الرسالة <em dir="ltr">MSys/Mingw is no longer supported</em>، ولا يترجم شيئًا، ثم يعلن رغم ذلك <em dir="ltr">Successfully compiled program</em>. السبب هو المتغيّر <code dir="ltr">MSYSTEM</code> الذي يضعه Git Bash: يراه ESP-IDF فيتخطّى الترجمة. ومن PowerShell أو <code dir="ltr">cmd</code>، حيث لا يوجد، يترجم الأمر نفسه بشكل عادي. بل إن Git Bash يعيد <code dir="ltr">MSYSTEM</code> إلى كل برنامج يشغّله، فلا يكفي <code dir="ltr">env -u MSYSTEM</code>؛ لذلك يشغّل <code dir="ltr">launch.sh</code> الأمر esphome عبر خطوة Python صغيرة تحذفه، ثم يتحقّق من ملف البرنامج بعد الترجمة.</p>
 
       <h2 id="troubleshooting">حلّ المشكلات</h2>
 

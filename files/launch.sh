@@ -69,27 +69,48 @@ for p in python3 python; do
   if command -v "$p" >/dev/null 2>&1; then PY="$p"; break; fi
 done
 
+# Programs inside the ESPHome folder (venv): bin/ on Linux, Scripts/ on Windows
+if [ "$WINDOWS" = 1 ]; then VBIN="$VENV/Scripts"; EXE=".exe"; else VBIN="$VENV/bin"; EXE=""; fi
+
 find_esphome() {
-  if   [ -x "$VENV/bin/esphome" ];         then ESPHOME="$VENV/bin/esphome"
-  elif [ -x "$VENV/Scripts/esphome.exe" ]; then ESPHOME="$VENV/Scripts/esphome.exe"
+  if   [ -x "$VBIN/esphome$EXE" ];         then ESPHOME="$VBIN/esphome$EXE"
   elif command -v esphome >/dev/null 2>&1; then ESPHOME="$(command -v esphome)"
   else ESPHOME=""
   fi
 }
 find_esphome
 
+# On Windows, Git Bash sets MSYSTEM and puts it back into every program it
+# starts ("env -u" can't remove it). ESP-IDF sees it and builds nothing, while
+# ESPHome still says "Successfully compiled". So on Windows, esphome is started
+# by a tiny Python step that deletes MSYSTEM first.
+NOMSYS='import os, subprocess, sys; os.environ.pop("MSYSTEM", None); sys.exit(subprocess.call(sys.argv[1:]))'
+esp_quiet() {   # esp_quiet <args>: run esphome <args>
+  if [ "$WINDOWS" = 1 ]; then "$(esphome_python)" -c "$NOMSYS" "$ESPHOME" "$@"
+  else "$ESPHOME" "$@"; fi
+}
+esp_run() {     # esp_run <args>: show "esphome <args>", then run it
+  show_cmd esphome "$@"
+  [ "$WINDOWS" = 1 ] && printf '%s     (Windows: started without MSYSTEM, so the build really happens)%s\n' "$DIM" "$OFF"
+  esp_quiet "$@"
+  local rc=$?
+  if [ $rc -ne 0 ]; then bad "That command failed (code $rc)"; fi
+  return $rc
+}
+
+# The Python that ESPHome runs on (it brings pyserial, used to list COM ports)
+esphome_python() {
+  if [ -x "$VBIN/python$EXE" ]; then echo "$VBIN/python$EXE"
+  elif [ "$WINDOWS" = 1 ] && [ -x "$(dirname "$(dirname "$ESPHOME")")/python.exe" ]; then
+    echo "$(dirname "$(dirname "$ESPHOME")")/python.exe"
+  else echo "$PY"
+  fi
+}
+
 need_esphome() {
   if [ -z "$ESPHOME" ]; then
     bad "ESPHome is not installed yet."
     info "Choose 2 (Install) first."
-    return 1
-  fi
-}
-
-need_linux() {   # need_linux "Compiling"
-  if [ "$WINDOWS" = 1 ]; then
-    bad "$1 does not work on Windows (MSYS2): ESPHome $ESPHOME_VERSION can't build here."
-    info "Use the Linux computer for this step."
     return 1
   fi
 }
@@ -107,7 +128,13 @@ firmware_file() {   # newest firmware .bin in the build folder
        -newer "$YAML" 2>/dev/null | head -n 1
 }
 
-usb_ports() { ls /dev/ttyUSB* /dev/ttyACM* 2>/dev/null; }
+usb_ports() {
+  if [ "$WINDOWS" = 1 ]; then
+    "$(esphome_python)" -m serial.tools.list_ports -q 2>/dev/null | awk '{print $1}'
+  else
+    ls /dev/ttyUSB* /dev/ttyACM* 2>/dev/null
+  fi
+}
 
 ask_robot() {
   local a
@@ -127,8 +154,8 @@ do_check() {
   else warn "No ESPHome folder at ${VENV/$HOME/\~} (Install makes it)"; fi
 
   if [ -n "$ESPHOME" ]; then
-    show_cmd "$ESPHOME" version
-    v="$("$ESPHOME" version 2>/dev/null | sed 's/.*: //')"
+    show_cmd esphome version
+    v="$(esp_quiet version 2>/dev/null | sed 's/.*: //')"
     if [ "$v" = "$ESPHOME_VERSION" ]; then ok "ESPHome $v (the right version)"
     else bad "ESPHome is $v, but this robot needs $ESPHOME_VERSION"; problems=$((problems + 1)); fi
   else
@@ -136,43 +163,40 @@ do_check() {
   fi
 
   if [ "$WINDOWS" = 1 ]; then
-    warn "This is Windows: you can check the config and watch logs, but not compile or flash"
-  else
-    if id -nG | grep -qw dialout; then ok "You may use USB ports (dialout group)"
-    else bad "You are not in the dialout group yet (Install can fix it)"; problems=$((problems + 1)); fi
-    local ports; ports="$(usb_ports)"
-    if [ -n "$ports" ]; then ok "USB board plugged in: $(echo $ports)"
-    else warn "No USB board plugged in (only needed for the first flash)"; fi
-  fi
+    ok "Windows: esphome is started without MSYSTEM, so compiling works"
+  elif id -nG | grep -qw dialout; then ok "You may use USB ports (dialout group)"
+  else bad "You are not in the dialout group yet (Install can fix it)"; problems=$((problems + 1)); fi
+  local ports; ports="$(usb_ports)"
+  if [ -n "$ports" ]; then ok "USB port found: $(echo $ports)"
+  else warn "No USB board plugged in (only needed for the first flash)"; fi
 
   if [ -s secrets.yaml ] && ! grep -q "your-ssid" secrets.yaml; then ok "Wi-Fi settings found"
   else bad "Wi-Fi settings missing (choose 3)"; problems=$((problems + 1)); fi
 
   echo
-  if [ $problems -eq 0 ] && [ "$WINDOWS" = 1 ]; then ok "Ready to check the config and watch logs (compile on Linux)"
-  elif [ $problems -eq 0 ]; then ok "Everything is ready! 🎉"
+  if [ $problems -eq 0 ]; then ok "Everything is ready! 🎉"
   else warn "$problems thing(s) to fix"; fi
 }
 
 do_install() {
   title "📦 Install"
-  need_linux "Installing" || return 1
   if [ -z "$PY" ]; then
     bad "Python 3 is missing"
-    info "Ask an adult to run: sudo apt install python3 python3-venv"
+    if [ "$WINDOWS" = 1 ]; then info "Ask an adult to install Python from python.org (tick 'Add to PATH')"
+    else info "Ask an adult to run: sudo apt install python3 python3-venv"; fi
     return 1
   fi
-  if [ ! -x "$VENV/bin/python" ]; then
-    run "$PY" -m venv "$VENV" || { info "Try: sudo apt install python3-venv"; return 1; }
+  if [ ! -x "$VBIN/python$EXE" ]; then
+    run "$PY" -m venv "$VENV" || { [ "$WINDOWS" = 1 ] || info "Try: sudo apt install python3-venv"; return 1; }
   else
     ok "ESPHome folder already there"
   fi
-  run "$VENV/bin/pip" install --upgrade pip || return 1
-  run "$VENV/bin/pip" install "esphome==$ESPHOME_VERSION" || return 1
+  run "$VBIN/python$EXE" -m pip install --upgrade pip || return 1
+  run "$VBIN/python$EXE" -m pip install "esphome==$ESPHOME_VERSION" || return 1
   find_esphome
   ok "ESPHome $ESPHOME_VERSION installed"
 
-  if ! id -nG | grep -qw dialout; then
+  if [ "$WINDOWS" = 0 ] && ! id -nG | grep -qw dialout; then
     echo
     info "To flash over USB you must be in the 'dialout' group. This needs the admin password."
     if ask_yes "Add $USER to dialout now?"; then
@@ -203,8 +227,8 @@ do_config() {
   need_secrets || return 1
   local log rc
   log="$(mktemp)"
-  show_cmd "$ESPHOME" config "$YAML"
-  "$ESPHOME" config "$YAML" > "$log" 2>&1
+  show_cmd esphome config "$YAML"
+  esp_quiet config "$YAML" > "$log" 2>&1
   rc=$?
   if [ $rc -eq 0 ]; then
     ok "The config is valid"
@@ -218,11 +242,10 @@ do_config() {
 
 do_compile() {
   title "🛠️  Compile"
-  need_linux "Compiling" || return 1
   need_esphome || return 1
   need_secrets || return 1
-  info "The first time takes 5-10 minutes. Time for a snack 🍪"
-  run "$ESPHOME" compile "$YAML" || return 1
+  info "The first time takes 5-15 minutes. Time for a snack 🍪"
+  esp_run compile "$YAML" || return 1
   local bin; bin="$(firmware_file)"
   if [ -n "$bin" ]; then
     ok "Firmware ready: $bin ($(( $(wc -c < "$bin") / 1024 )) kB)"
@@ -240,7 +263,6 @@ ensure_compiled() {
 
 do_usb() {
   title "🔌 Flash over USB"
-  need_linux "Flashing" || return 1
   need_esphome || return 1
   ensure_compiled || return 1
 
@@ -264,7 +286,7 @@ do_usb() {
     select port in "${ports[@]}"; do [ -n "$port" ] && break; done
   fi
   ok "Using $port"
-  run "$ESPHOME" upload "$YAML" --device "$port" || return 1
+  esp_run upload "$YAML" --device "$port" || return 1
   ok "Flashed! 🎉"
   printf '%s   Now remove the J6 jumper and press reset.%s\n' "$YELLOW$BOLD" "$OFF"
   info "The OLED will show the robot's address in a few seconds."
@@ -272,11 +294,10 @@ do_usb() {
 
 do_ota() {
   title "📡 Update over Wi-Fi"
-  need_linux "Updating" || return 1
   need_esphome || return 1
   ensure_compiled || return 1
   ask_robot
-  run "$ESPHOME" upload "$YAML" --device "$ROBOT" || return 1
+  esp_run upload "$YAML" --device "$ROBOT" || return 1
   ok "Robot updated! 🎉"
 }
 
@@ -285,7 +306,7 @@ do_logs() {
   need_esphome || return 1
   ask_robot
   info "Press Ctrl+C to stop."
-  run "$ESPHOME" logs "$YAML" --device "$ROBOT"
+  esp_run logs "$YAML" --device "$ROBOT"
 }
 
 open_url() {
@@ -308,7 +329,7 @@ do_clean() {
   title "🧹 Clean"
   need_esphome || return 1
   if ask_yes "Delete the build files? (the next compile will be slow)"; then
-    run "$ESPHOME" clean "$YAML" && ok "All clean ✨"
+    esp_run clean "$YAML" && ok "All clean ✨"
   fi
 }
 
