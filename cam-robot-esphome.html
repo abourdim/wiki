@@ -72,12 +72,13 @@
           <tr><th>Lumières</th><td>4 &times; RGB TX1812 (état), D1 + LED flash (phare)</td></tr>
           <tr><th>Écran</th><td>OLED SSD1306 0,96&Prime; sur la carte d'extension</td></tr>
           <tr><th>Firmware</th><td>ESPHome <strong>2026.7.3</strong>, framework Arduino, sous Linux ou Windows</td></tr>
-          <tr><th>Page web</th><td>Port 80 : boutons de conduite, curseurs, journal</td></tr>
-          <tr><th>Vidéo</th><td>MJPEG sur le port 8080</td></tr>
+          <tr><th>Page web</th><td>Port 80 : caméra, boutons de conduite, Dance, couleurs et effets des LED, journal</td></tr>
+          <tr><th>Vidéo</th><td>MJPEG sur le port 8080, aussi affichée sur la page</td></tr>
           <tr><th>Configuration</th><td><a href="files/esp32_cam_robot.yaml">esp32_cam_robot.yaml</a></td></tr>
           <tr><th>Assistant</th><td><a href="files/launch.sh">launch.sh</a> (menu pour enfants)</td></tr>
+          <tr><th>Ajout à la page</th><td><a href="files/robot_page.js">robot_page.js</a> (vue caméra)</td></tr>
           <tr><th>Fichiers KiCad</th><td><a href="https://github.com/abourdim/wiki/tree/main/files/esp32_cam_robot_v2">esp32_cam_robot_v2</a>, <a href="https://github.com/abourdim/wiki/tree/main/files/esp32_cam_plugin_v3">esp32_cam_plugin_v3</a></td></tr>
-          <tr><th>État</th><td><span class="status-tag pending">compile, pas encore essayé sur le robot</span></td></tr>
+          <tr><th>État</th><td><span class="status-tag pending">tourne sur le robot : Wi-Fi, page, caméra ; conduite à vérifier</span></td></tr>
         </table>
       </div>
 
@@ -114,7 +115,7 @@
       <p>Trois cartes s'empilent. L'ESP32-CAM s'enfiche sur la carte d'extension (v3), dont le connecteur 12 broches J4 s'enfiche sur J2 de la carte robot (v2). La carte robot apporte le pilote moteur, quatre LED RGB, les accus et l'interrupteur ; la carte d'extension apporte l'OLED et la LED D1. Les deux pilotes L9110 de la carte d'extension (U1, U3) <strong>ne sont pas montés</strong> sur ce robot : le TB6612 est le seul pilote moteur.</p>
       <p class="hatnote">L'<a href="cam-plugin-esphome.html">article de la carte d'extension</a> l'appelle &laquo;&nbsp;rév. v4&nbsp;&raquo; : c'est le même circuit migré vers KiCad 9. La carte réellement fabriquée est la v3 &mdash; mêmes réseaux, mêmes GPIO.</p>
       <div class="diagram" style="text-align:center"><a href="cam-robot-esphome-3d.jpg"><img src="cam-robot-esphome-3d.jpg" alt="Vue 3D de la carte robot ESP32-CAM v2" width="1100" height="900" style="max-width:100%;height:auto;display:block;margin:0 auto"></a><div style="font-size:0.85rem;color:#54595d;margin-top:8px">La carte robot v2 (vue 3D KiCad). Le module TB6612 se place en U1, les moteurs sur M2 (J1) et M1 (J3), la carte d'extension sur J2.</div></div>
-      <p>Le firmware tient en un seul fichier ESPHome. Une fois flashé, le robot rejoint le Wi-Fi, affiche son adresse sur l'OLED et sert une page avec des boutons de conduite, un curseur de vitesse et le journal en direct. La vidéo est sur le port 8080.</p>
+      <p>Le firmware tient en un seul fichier ESPHome. Une fois flashé, le robot rejoint le Wi-Fi, affiche son adresse sur l'OLED et sert une page avec la caméra en haut, des boutons de conduite, un bouton Dance, les couleurs et effets des LED, et le journal en direct. La vidéo est aussi sur le port 8080.</p>
 
       <h2 id="stack">L'empilement et son brochage</h2>
       <p>Chaque broche ci-dessous vient de la netlist des deux cartes. La carte d'extension transmet les broches de l'ESP32 telles quelles à J2 : les deux cartes voient les mêmes signaux.</p>
@@ -198,6 +199,8 @@ esphome compile esp32_cam_robot.yaml</code></pre></li>
         <tr><td>Forward / Back</td><td>Les deux roues dans le même sens</td></tr>
         <tr><td>Left / Right</td><td>Rotation sur place, roues en sens opposés</td></tr>
         <tr><td>Stop</td><td>Freine immédiatement</td></tr>
+        <tr><td>Dance</td><td>Se tortille à gauche et à droite pendant 3&nbsp;s avec les LED en arc-en-ciel ; Stop l'arrête</td></tr>
+        <tr><td>Speed preset</td><td>Slow (35&nbsp;%), Normal (60&nbsp;%) ou Turbo (100&nbsp;%) en un clic</td></tr>
         <tr><td>Speed</td><td>20&ndash;100&nbsp;%, s'applique à tout, conservée au redémarrage</td></tr>
         <tr><td>Drive timeout</td><td>0,3&ndash;5&nbsp;s, 1&nbsp;s par défaut : durée d'une commande</td></tr>
         <tr><td>Drive X / Drive Y</td><td>&minus;100&hellip;100 : entrée joystick pour une page perso ou Home Assistant</td></tr>
@@ -225,11 +228,13 @@ curl -X POST "http://192.168.1.42/button/stop/press"</code></pre>
         <tr><td style="color:#ad6c00"><strong>Ambre</strong></td><td>En marche</td></tr>
         <tr><td style="color:#d33"><strong>Rouge</strong></td><td>Arrêté parce que la liaison a été perdue</td></tr>
       </table>
-      <p>Désactivez <em>Status LEDs auto</em> pour régler vous-même les <em>RGB LEDs</em>. Le <em>Headlight</em> est la LED D1 de la carte d'extension ; la LED flash blanche du module partage sa ligne de données et s'allume avec.</p>
+      <p>Pour régler vous-même les <em>RGB LEDs</em>, choisissez une couleur dans <em>LED colour</em> (Red, Orange, Yellow, Green, Cyan, Blue, Purple, Pink, White, Off), utilisez la roue des couleurs, ou choisissez un effet : Rainbow, Colour wipe, Scanner, Twinkle, Fireworks, Police, Strobe, Pulse. Chacune de ces actions désactive <em>Status LEDs auto</em> toute seule, pour que les couleurs d'état n'écrasent pas votre choix ; réactivez-le pour les retrouver.</p>
+      <p> Le <em>Headlight</em> est la LED D1 de la carte d'extension ; la LED flash blanche du module partage sa ligne de données et s'allume avec.</p>
       <p>L'OLED alterne deux pages toutes les 4&nbsp;secondes : <strong>réseau</strong> (signal Wi-Fi, adresse IP, nom, port vidéo) et <strong>conduite</strong> (roue gauche et droite en %, état, vitesse, temps de fonctionnement). Réglez <code>oled_model</code> et <code>oled_address</code> en haut du fichier, comme pour la carte d'extension.</p>
 
       <h2 id="camera">La caméra</h2>
       <p>La vidéo est sur <code>http://&lt;IP&gt;:8080</code>, un seul spectateur à la fois. Elle tourne en 320&times;240 et jusqu'à 15 images par seconde : une petite image arrive plus vite, ce qui compte plus que la netteté pour conduire. Changez <code>cam_resolution</code> et <code>cam_fps</code> en haut du fichier. <em>Cam vertical flip</em> et <em>Cam horizontal mirror</em> redressent l'image selon le montage du module.</p>
+      <p>La page affiche la vidéo en haut (c'est <a href="files/robot_page.js">robot_page.js</a>, intégré au firmware). La caméra sait seulement retourner ou inverser l'image, pas la tourner d'un quart de tour : un module monté de côté est donc tourné dans le navigateur. <em>Turn picture</em> la tourne de 90&deg; à chaque clic et chaque téléphone retient son choix. <em>Camera off</em> libère le flux pour un autre spectateur.</p>
 
       <h2 id="traps">Pièges de cette carte</h2>
 
@@ -270,6 +275,12 @@ curl -X POST "http://192.168.1.42/button/stop/press"</code></pre>
 
       <h3>Les LED restent rouges</h3>
       <p>La liaison a été perdue pendant la conduite. N'importe quelle nouvelle commande l'efface.</p>
+
+      <h3>Le robot ne rejoint pas le Wi-Fi (4-Way Handshake Timeout)</h3>
+      <p>Il ouvre alors son propre point d'accès, <em>esp32-cam-robot fallback</em>. Vérifiez le mot de passe dans <code>secrets.yaml</code> et que la box accepte le WPA2 (pas seulement le WPA3). Le firmware coupe l'économie d'énergie Wi-Fi (<code>power_save_mode: none</code>) : activée, elle faisait rater la poignée de main à ce robot.</p>
+
+      <h3>La page est blanche</h3>
+      <p>La page charge son interface depuis <code>oi.esphome.io</code> : le téléphone ou le PC doit avoir Internet, ce qui n'est pas le cas sur le point d'accès de secours. <code>local: true</code> stockerait l'interface dans le robot, mais ESPHome sert alors sa propre page et la vue caméra disparaît.</p>
 
       <h3>Pas de vidéo sur le port 8080</h3>
       <p>Un seul spectateur à la fois : fermez les autres onglets avec le flux. Voir le <a href="cam-plugin-esphome.html#troubleshooting">dépannage de la carte d'extension</a> pour les pannes de caméra et d'alimentation.</p>

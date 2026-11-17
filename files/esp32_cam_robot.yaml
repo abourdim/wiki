@@ -106,8 +106,31 @@ api:
 ota:
   - platform: esphome
 
+# Web page, version 3: cards in groups, colour wheel for the LEDs.
+# robot_page.js adds the camera view (with a rotate button) on top.
+# The page's app comes from oi.esphome.io, so the phone/PC needs internet.
+# "local: true" would store it in the robot instead, but ESPHome then serves
+# its own page and robot_page.js (the camera view) is never loaded.
 web_server:
   port: 80
+  version: 3
+  js_include: "robot_page.js"
+  sorting_groups:
+    - id: g_drive
+      name: "🚗 Drive"
+      sorting_weight: 10
+    - id: g_lights
+      name: "🌈 Lights"
+      sorting_weight: 20
+    - id: g_camera
+      name: "📷 Camera"
+      sorting_weight: 30
+    - id: g_settings
+      name: "⚙️ Settings"
+      sorting_weight: 40
+    - id: g_health
+      name: "❤️ Health"
+      sorting_weight: 50
 
 # ---------------------------------------------------------------- State
 globals:
@@ -135,6 +158,12 @@ globals:
   - id: status_shown       # last colour written to the RGB chain (-1 = none)
     type: int
     initial_value: "-1"
+  - id: status_rgb         # that colour, to tell it apart from a user's colour
+    type: std::array<float, 3>
+    initial_value: "{0, 0, 0}"
+  - id: dance_was_auto     # "Status LEDs auto" before the dance started
+    type: bool
+    initial_value: "false"
 
 # ---------------------------------------------------------------- I2C + OLED
 i2c:
@@ -289,7 +318,9 @@ interval:
           if (s == id(status_shown)) return;
           id(status_shown) = s;
           static const float col[4][3] = {{0, 0, 1}, {1, 0, 0}, {1, 0.45, 0}, {0, 1, 0}};
+          id(status_rgb) = {col[s][0], col[s][1], col[s][2]};
           auto call = id(rgb_chain).turn_on();
+          call.set_effect("None");
           call.set_rgb(col[s][0], col[s][1], col[s][2]);
           call.set_brightness(${status_brightness});
           call.set_transition_length(0);
@@ -318,6 +349,7 @@ script:
   - id: stop_all
     mode: restart
     then:
+      - script.stop: dance
       - lambda: |-
           id(drive_x) = 0; id(drive_y) = 0;
           id(cur_l) = 0;   id(cur_r) = 0;
@@ -341,10 +373,39 @@ script:
             - globals.set: { id: link_lost, value: "true" }
       - script.execute: stop_all
 
+  # Wiggle left/right for 3 s with rainbow LEDs. Each step is a normal drive
+  # command, so Speed, the watchdog and Stop all still apply.
+  - id: dance
+    mode: single
+    then:
+      - lambda: |-
+          id(dance_was_auto) = id(status_auto).state;
+          id(status_auto).publish_state(false);   // take the LEDs without turning them off
+          auto call = id(rgb_chain).turn_on();
+          call.set_brightness(0.6);
+          call.set_effect("Rainbow");
+          call.perform();
+      - repeat:
+          count: 6
+          then:
+            - script.execute: { id: drive, x: -1, y: 0 }
+            - delay: 250ms
+            - script.execute: { id: drive, x: 1, y: 0 }
+            - delay: 250ms
+      - if:
+          condition:
+            lambda: "return id(dance_was_auto);"
+          then:
+            - switch.turn_on: status_auto
+          else:
+            - light.turn_off: rgb_chain
+      - script.execute: stop_all
+
 # ---------------------------------------------------------------- Controls
 button:
   - platform: template
     name: "Forward"
+    web_server: { sorting_group_id: g_drive, sorting_weight: 1 }
     icon: mdi:arrow-up-bold
     on_press:
       - script.execute:
@@ -353,6 +414,7 @@ button:
           y: 1
   - platform: template
     name: "Back"
+    web_server: { sorting_group_id: g_drive, sorting_weight: 2 }
     icon: mdi:arrow-down-bold
     on_press:
       - script.execute:
@@ -361,6 +423,7 @@ button:
           y: -1
   - platform: template
     name: "Left"
+    web_server: { sorting_group_id: g_drive, sorting_weight: 3 }
     icon: mdi:rotate-left
     on_press:
       - script.execute:
@@ -369,6 +432,7 @@ button:
           y: 0
   - platform: template
     name: "Right"
+    web_server: { sorting_group_id: g_drive, sorting_weight: 4 }
     icon: mdi:rotate-right
     on_press:
       - script.execute:
@@ -377,16 +441,25 @@ button:
           y: 0
   - platform: template
     name: "Stop"
+    web_server: { sorting_group_id: g_drive, sorting_weight: 5 }
     icon: mdi:stop
     on_press:
       - script.execute: stop_all
+  - platform: template
+    name: "Dance"
+    web_server: { sorting_group_id: g_drive, sorting_weight: 6 }
+    icon: mdi:human-handsup
+    on_press:
+      - script.execute: dance
   - platform: restart
     name: "Restart"
+    web_server: { sorting_group_id: g_settings, sorting_weight: 9 }
 
 number:
   - platform: template
     id: speed_pct
     name: "Speed"
+    web_server: { sorting_group_id: g_drive, sorting_weight: 7 }
     icon: mdi:speedometer
     unit_of_measurement: "%"
     mode: slider
@@ -399,6 +472,7 @@ number:
   - platform: template
     id: drive_timeout_s
     name: "Drive timeout"
+    web_server: { sorting_group_id: g_settings, sorting_weight: 1 }
     icon: mdi:timer-stop
     unit_of_measurement: "s"
     mode: box
@@ -411,6 +485,7 @@ number:
   - platform: template
     id: num_drive_x
     name: "Drive X"
+    web_server: { sorting_group_id: g_drive, sorting_weight: 20 }
     mode: slider
     optimistic: true
     min_value: -100
@@ -425,6 +500,7 @@ number:
   - platform: template
     id: num_drive_y
     name: "Drive Y"
+    web_server: { sorting_group_id: g_drive, sorting_weight: 21 }
     mode: slider
     optimistic: true
     min_value: -100
@@ -437,10 +513,52 @@ number:
           x: !lambda "return id(drive_x);"
           y: !lambda "return x / 100.0f;"
 
+select:
+  # Quick speed choice; the Speed slider still allows anything in between
+  - platform: template
+    name: "Speed preset"
+    web_server: { sorting_group_id: g_drive, sorting_weight: 8 }
+    icon: mdi:speedometer-medium
+    optimistic: true
+    options: ["Slow 🐢", "Normal", "Turbo 🚀"]
+    initial_option: "Normal"
+    set_action:
+      - lambda: |-
+          float v = x == "Slow 🐢" ? 35 : x == "Turbo 🚀" ? 100 : 60;
+          auto call = id(speed_pct).make_call();
+          call.set_value(v);
+          call.perform();
+  # One click colours for the RGB LEDs (no colour wheel needed)
+  - platform: template
+    id: led_preset
+    name: "LED colour"
+    web_server: { sorting_group_id: g_lights, sorting_weight: 2 }
+    icon: mdi:palette
+    optimistic: true
+    options: ["Off", "Red", "Orange", "Yellow", "Green", "Cyan", "Blue", "Purple", "Pink", "White"]
+    initial_option: "Off"
+    set_action:
+      - lambda: |-
+          static const struct { const char *n; float r, g, b; } cols[] = {
+            {"Red", 1, 0, 0},    {"Orange", 1, 0.35, 0}, {"Yellow", 1, 0.8, 0},
+            {"Green", 0, 1, 0},  {"Cyan", 0, 1, 1},      {"Blue", 0, 0, 1},
+            {"Purple", 0.6, 0, 1}, {"Pink", 1, 0.2, 0.6}, {"White", 1, 1, 1}};
+          id(status_auto).publish_state(false);   // keep the status colours away
+          if (x == "Off") { auto c = id(rgb_chain).turn_off(); c.perform(); return; }
+          for (auto &c : cols) {
+            if (x != c.n) continue;
+            auto call = id(rgb_chain).turn_on();
+            call.set_effect("None");
+            call.set_rgb(c.r, c.g, c.b);
+            call.set_brightness(0.6);
+            call.perform();
+          }
+
 switch:
   - platform: template
     id: status_auto
     name: "Status LEDs auto"
+    web_server: { sorting_group_id: g_lights, sorting_weight: 1 }
     icon: mdi:led-on
     optimistic: true
     restore_mode: RESTORE_DEFAULT_ON
@@ -451,6 +569,7 @@ switch:
   # Camera orientation, depending on how the module is mounted
   - platform: template
     name: "Cam vertical flip"
+    web_server: { sorting_group_id: g_camera, sorting_weight: 1 }
     optimistic: true
     restore_mode: ALWAYS_OFF          # must match vertical_flip below
     turn_on_action:
@@ -459,6 +578,7 @@ switch:
       - lambda: 'sensor_t *s = esp_camera_sensor_get(); if (s) s->set_vflip(s, 0);'
   - platform: template
     name: "Cam horizontal mirror"
+    web_server: { sorting_group_id: g_camera, sorting_weight: 2 }
     optimistic: true
     restore_mode: ALWAYS_OFF          # must match horizontal_mirror below
     turn_on_action:
@@ -472,6 +592,7 @@ light:
   - platform: esp32_rmt_led_strip
     id: headlight
     name: "Headlight"
+    web_server: { sorting_group_id: g_lights, sorting_weight: 10 }
     icon: mdi:car-light-high
     pin: ${pin_headlight}
     num_leds: 1
@@ -479,11 +600,13 @@ light:
     rgb_order: ${led_rgb_order}
     default_transition_length: 0s
     restore_mode: ALWAYS_OFF
-  # Robot board D2-D5. Shows the status colour while "Status LEDs auto" is on;
-  # switch that off to set colours yourself.
+  # Robot board D2-D5. Shows the status colour while "Status LEDs auto" is on.
+  # Any colour, effect or on/off chosen by hand turns "Status LEDs auto" off
+  # (see on_state); turn it back on to get the status colours again.
   - platform: esp32_rmt_led_strip
     id: rgb_chain
     name: "RGB LEDs"
+    web_server: { sorting_group_id: g_lights, sorting_weight: 3 }
     pin:
       number: ${pin_rgb}
       ignore_strapping_warning: true
@@ -492,16 +615,70 @@ light:
     rgb_order: ${led_rgb_order}
     default_transition_length: 0s
     restore_mode: ALWAYS_OFF
+    effects:
+      - addressable_rainbow:
+          name: "Rainbow"
+          width: 8
+      - addressable_color_wipe:
+          name: "Colour wipe"
+          add_led_interval: 120ms
+      - addressable_scan:
+          name: "Scanner"
+          move_interval: 120ms
+      - addressable_twinkle:
+          name: "Twinkle"
+      - addressable_fireworks:
+          name: "Fireworks"
+      - addressable_lambda:
+          name: "Police"
+          update_interval: 150ms
+          lambda: |-
+            static bool flip = false;
+            flip = !flip;
+            for (int i = 0; i < it.size(); i++) {
+              bool left = i < it.size() / 2;
+              it[i] = (left == flip) ? Color(255, 0, 0) : Color(0, 0, 255);
+            }
+      - strobe:
+          name: "Strobe"
+          colors:
+            - state: true
+              brightness: 100%
+              duration: 80ms
+            - state: false
+              duration: 120ms
+      - pulse:
+          name: "Pulse"
+          transition_length: 1s
+          update_interval: 1s
+    # The status loop writes exactly status_rgb at status_brightness with no
+    # effect. Anything else came from a person: let them keep it.
+    on_state:
+      - lambda: |-
+          if (!id(boot_done) || !id(status_auto).state || id(status_shown) < 0) return;
+          auto &v = id(rgb_chain).remote_values;
+          auto near = [](float a, float b) { return fabsf(a - b) < 0.02f; };
+          bool ours = v.is_on() && id(rgb_chain).get_current_effect_index() == 0 &&
+                      near(v.get_brightness(), ${status_brightness}) &&
+                      near(v.get_red(), id(status_rgb)[0]) &&
+                      near(v.get_green(), id(status_rgb)[1]) &&
+                      near(v.get_blue(), id(status_rgb)[2]);
+          if (!ours) {
+            ESP_LOGI("leds", "LEDs set by hand: Status LEDs auto off");
+            id(status_auto).publish_state(false);
+          }
 
 # ---------------------------------------------------------------- Health
 sensor:
   - platform: wifi_signal
     id: rssi
     name: "Wi-Fi RSSI"
+    web_server: { sorting_group_id: g_health, sorting_weight: 1 }
     update_interval: 10s
   - platform: uptime
     id: up
     name: "Uptime"            # drops to 0 after a brownout reset
+    web_server: { sorting_group_id: g_health, sorting_weight: 2 }
     update_interval: 10s
 
 text_sensor:
@@ -509,8 +686,10 @@ text_sensor:
     ip_address:
       id: ip
       name: "IP"
+      web_server: { sorting_group_id: g_health, sorting_weight: 3 }
   - platform: version
     name: "ESPHome version"
+    web_server: { sorting_group_id: g_health, sorting_weight: 4 }
 
 # ---------------------------------------------------------------- Camera
 esp32_camera:

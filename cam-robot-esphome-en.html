@@ -72,12 +72,13 @@
           <tr><th>Lights</th><td>4 &times; TX1812 RGB (status), D1 + flash LED (headlight)</td></tr>
           <tr><th>Screen</th><td>0.96&Prime; SSD1306 OLED on the plugin board</td></tr>
           <tr><th>Firmware</th><td>ESPHome <strong>2026.7.3</strong>, Arduino framework, on Linux or Windows</td></tr>
-          <tr><th>Web page</th><td>Port 80: drive buttons, sliders, logs</td></tr>
-          <tr><th>Video</th><td>MJPEG on port 8080</td></tr>
+          <tr><th>Web page</th><td>Port 80: camera, drive buttons, Dance, LED colours and effects, logs</td></tr>
+          <tr><th>Video</th><td>MJPEG on port 8080, also shown on the page</td></tr>
           <tr><th>Configuration</th><td><a href="files/esp32_cam_robot.yaml">esp32_cam_robot.yaml</a></td></tr>
           <tr><th>Helper</th><td><a href="files/launch.sh">launch.sh</a> (menu for kids)</td></tr>
+          <tr><th>Page add-on</th><td><a href="files/robot_page.js">robot_page.js</a> (camera view)</td></tr>
           <tr><th>KiCad files</th><td><a href="https://github.com/abourdim/wiki/tree/main/files/esp32_cam_robot_v2">esp32_cam_robot_v2</a>, <a href="https://github.com/abourdim/wiki/tree/main/files/esp32_cam_plugin_v3">esp32_cam_plugin_v3</a></td></tr>
-          <tr><th>Status</th><td><span class="status-tag pending">compiles, not yet run on the robot</span></td></tr>
+          <tr><th>Status</th><td><span class="status-tag pending">runs on the robot: Wi-Fi, page, camera; driving to check</span></td></tr>
         </table>
       </div>
 
@@ -114,7 +115,7 @@
       <p>Three boards stack up. The ESP32-CAM plugs into the plugin board (v3), whose 12-pin header J4 plugs into J2 of the robot board (v2). The robot board brings the motor driver, four RGB LEDs, the batteries and the power switch; the plugin board brings the OLED and LED D1. The plugin's two L9110 drivers (U1, U3) are <strong>not fitted</strong> on this build: the TB6612 is the only motor driver.</p>
       <p class="hatnote">The <a href="cam-plugin-esphome-en.html">plugin article</a> calls its board &ldquo;rev v4&rdquo;: that is the same circuit migrated to KiCad 9. The board actually made is v3 &mdash; same nets, same GPIOs.</p>
       <div class="diagram" style="text-align:center"><a href="cam-robot-esphome-3d.jpg"><img src="cam-robot-esphome-3d.jpg" alt="3D view of the ESP32-CAM robot board v2" width="1100" height="900" style="max-width:100%;height:auto;display:block;margin:0 auto"></a><div style="font-size:0.85rem;color:#54595d;margin-top:8px">The robot board v2 (KiCad 3D view). The TB6612 module sits in U1, the motors on M2 (J1) and M1 (J3), the plugin board on J2.</div></div>
-      <p>The firmware is one ESPHome file. Once flashed, the robot joins the Wi-Fi network, shows its address on the OLED, and serves a page with drive buttons, a speed slider and the live log. The video is on port 8080.</p>
+      <p>The firmware is one ESPHome file. Once flashed, the robot joins the Wi-Fi network, shows its address on the OLED, and serves a page with the camera on top, drive buttons, a Dance button, LED colours and effects, and the live log. The video is also on port 8080.</p>
 
       <h2 id="stack">The stack and its pinout</h2>
       <p>Every pin below comes from the netlist of both boards. The plugin board passes the ESP32 pins straight through to J2, so both boards see the same signals.</p>
@@ -192,12 +193,14 @@ esphome compile esp32_cam_robot.yaml</code></pre></li>
       <p>If the robot does not join the network, look for the access point <code>esp32-cam-robot fallback</code>: wrong password, or a 5&nbsp;GHz-only network.</p>
 
       <h2 id="driving">Driving</h2>
-      <p>Open <code>http://&lt;IP&gt;</code>. The page has five buttons and three sliders:</p>
+      <p>Open <code>http://&lt;IP&gt;</code>. The camera is at the top, then the controls in groups: &#128663; Drive, &#127752; Lights, &#128247; Camera, &#9881;&#65039; Settings and &#10084;&#65039; Health. The page itself comes from <code>oi.esphome.io</code>, so the phone or PC needs internet (see <a href="#troubleshooting">Troubleshooting</a>).</p>
       <table class="wikitable">
         <tr><th>Control</th><th>Effect</th></tr>
         <tr><td>Forward / Back</td><td>Both wheels the same way</td></tr>
         <tr><td>Left / Right</td><td>Spin in place, wheels in opposite directions</td></tr>
         <tr><td>Stop</td><td>Brakes at once</td></tr>
+        <tr><td>Dance</td><td>Wiggles left and right for 3&nbsp;s with rainbow LEDs; Stop ends it</td></tr>
+        <tr><td>Speed preset</td><td>Slow (35&nbsp;%), Normal (60&nbsp;%) or Turbo (100&nbsp;%) in one click</td></tr>
         <tr><td>Speed</td><td>20&ndash;100&nbsp;%, scales everything, remembered across reboots</td></tr>
         <tr><td>Drive timeout</td><td>0.3&ndash;5&nbsp;s, default 1&nbsp;s: how long one command lasts</td></tr>
         <tr><td>Drive X / Drive Y</td><td>&minus;100&hellip;100: joystick input for a custom page or Home Assistant</td></tr>
@@ -225,11 +228,13 @@ curl -X POST "http://192.168.1.42/button/stop/press"</code></pre>
         <tr><td style="color:#ad6c00"><strong>Amber</strong></td><td>Driving</td></tr>
         <tr><td style="color:#d33"><strong>Red</strong></td><td>Stopped because the link was lost</td></tr>
       </table>
-      <p>Switch <em>Status LEDs auto</em> off to set the <em>RGB LEDs</em> yourself. The <em>Headlight</em> is the plugin's LED D1; the module's white flash LED shares its data line and lights with it.</p>
+      <p>To set the <em>RGB LEDs</em> yourself, pick a colour in <em>LED colour</em> (Red, Orange, Yellow, Green, Cyan, Blue, Purple, Pink, White, Off), use the colour wheel, or choose an effect: Rainbow, Colour wipe, Scanner, Twinkle, Fireworks, Police, Strobe, Pulse. Doing any of these switches <em>Status LEDs auto</em> off on its own, so the status colours do not paint over your choice; switch it back on to get them again.</p>
+      <p> The <em>Headlight</em> is the plugin's LED D1; the module's white flash LED shares its data line and lights with it.</p>
       <p>The OLED alternates two pages every 4&nbsp;seconds: <strong>network</strong> (Wi-Fi signal, IP address, name, video port) and <strong>drive</strong> (left and right wheel in %, state, speed, uptime). Set <code>oled_model</code> and <code>oled_address</code> at the top of the file as for the plugin board.</p>
 
       <h2 id="camera">The camera</h2>
       <p>The video is at <code>http://&lt;IP&gt;:8080</code>, one viewer at a time. It runs at 320&times;240 and up to 15 frames per second: a small picture arrives sooner, which matters more when driving than sharpness does. Change <code>cam_resolution</code> and <code>cam_fps</code> at the top of the file. <em>Cam vertical flip</em> and <em>Cam horizontal mirror</em> fix the image for the way the module is mounted.</p>
+      <p>The page shows the video at the top (that is <a href="files/robot_page.js">robot_page.js</a>, built into the firmware). The camera can only flip or mirror, not turn by a quarter, so a module mounted sideways is turned in the browser: <em>Turn picture</em> rotates it 90&deg; at a time and each phone remembers its choice. <em>Camera off</em> frees the stream for another viewer.</p>
 
       <h2 id="traps">Traps on this board</h2>
 
@@ -270,6 +275,12 @@ curl -X POST "http://192.168.1.42/button/stop/press"</code></pre>
 
       <h3>The LEDs stay red</h3>
       <p>The link was lost while driving. Any new drive command clears it.</p>
+
+      <h3>The robot does not join the Wi-Fi (4-Way Handshake Timeout)</h3>
+      <p>It then opens its own hotspot, <em>esp32-cam-robot fallback</em>. Check the password in <code>secrets.yaml</code> and that the box allows WPA2 (not WPA3 only). The firmware turns Wi-Fi power saving off (<code>power_save_mode: none</code>): with it on, this robot kept missing the handshake.</p>
+
+      <h3>The page is blank</h3>
+      <p>The page loads its interface from <code>oi.esphome.io</code>: the phone or PC needs internet, which it does not have on the fallback hotspot. <code>local: true</code> would store the interface in the robot, but ESPHome then serves its own page and the camera view is lost.</p>
 
       <h3>No video on port 8080</h3>
       <p>Only one viewer at a time: close other tabs with the stream. See the <a href="cam-plugin-esphome-en.html#troubleshooting">plugin board troubleshooting</a> for camera and power faults.</p>

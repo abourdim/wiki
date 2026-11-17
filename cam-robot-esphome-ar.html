@@ -72,12 +72,13 @@
           <tr><th>الأضواء</th><td>4 صمامات RGB طراز TX1812 (الحالة)، و D1 مع صمام الفلاش (المصباح الأمامي)</td></tr>
           <tr><th>الشاشة</th><td>OLED طراز SSD1306 مقاس 0.96 بوصة على لوحة التوسعة</td></tr>
           <tr><th>البرنامج الثابت</th><td>ESPHome <strong dir="ltr">2026.7.3</strong>، إطار Arduino، على Linux أو Windows</td></tr>
-          <tr><th>صفحة الويب</th><td>المنفذ 80: أزرار القيادة، منزلقات، السجلّ</td></tr>
-          <tr><th>الفيديو</th><td>MJPEG على المنفذ 8080</td></tr>
+          <tr><th>صفحة الويب</th><td>المنفذ 80: الكاميرا، أزرار القيادة، Dance، ألوان الصمامات ومؤثّراتها، السجلّ</td></tr>
+          <tr><th>الفيديو</th><td>MJPEG على المنفذ 8080، ويظهر أيضًا في الصفحة</td></tr>
           <tr><th>الإعدادات</th><td><a href="files/esp32_cam_robot.yaml" dir="ltr">esp32_cam_robot.yaml</a></td></tr>
           <tr><th>المساعد</th><td><a href="files/launch.sh" dir="ltr">launch.sh</a> (قائمة للأطفال)</td></tr>
+          <tr><th>إضافة للصفحة</th><td><a href="files/robot_page.js" dir="ltr">robot_page.js</a> (عرض الكاميرا)</td></tr>
           <tr><th>ملفات KiCad</th><td><a href="https://github.com/abourdim/wiki/tree/main/files/esp32_cam_robot_v2" dir="ltr">esp32_cam_robot_v2</a>، <a href="https://github.com/abourdim/wiki/tree/main/files/esp32_cam_plugin_v3" dir="ltr">esp32_cam_plugin_v3</a></td></tr>
-          <tr><th>الحالة</th><td><span class="status-tag pending">يُترجَم بنجاح، لم يُجرَّب على الروبوت بعد</span></td></tr>
+          <tr><th>الحالة</th><td><span class="status-tag pending">يعمل على الروبوت: Wi-Fi والصفحة والكاميرا؛ القيادة لم تُفحص بعد</span></td></tr>
         </table>
       </div>
 
@@ -114,7 +115,7 @@
       <p>ثلاث لوحات فوق بعضها. تُركَّب <bdi dir="ltr">ESP32-CAM</bdi> على لوحة التوسعة (<bdi dir="ltr">v3</bdi>)، التي يُركَّب موصلها ذو الأطراف الاثني عشر <bdi dir="ltr">J4</bdi> على <bdi dir="ltr">J2</bdi> في لوحة الروبوت (<bdi dir="ltr">v2</bdi>). لوحة الروبوت تجلب مشغّل المحرّكات، وأربعة صمامات RGB، والبطاريات، والمفتاح؛ ولوحة التوسعة تجلب شاشة OLED والصمام D1. مشغّلا <bdi dir="ltr">L9110</bdi> على لوحة التوسعة (<bdi dir="ltr">U1, U3</bdi>) <strong>غير مركّبين</strong> في هذا الروبوت: <bdi dir="ltr">TB6612</bdi> هو مشغّل المحرّكات الوحيد.</p>
       <p class="hatnote"><a href="cam-plugin-esphome-ar.html">مقال لوحة التوسعة</a> يسمّيها &laquo;<bdi dir="ltr">rev v4</bdi>&raquo;: وهي الدارة نفسها منقولة إلى KiCad 9. اللوحة المصنوعة فعلًا هي <bdi dir="ltr">v3</bdi> &mdash; الشبكات نفسها والأطراف نفسها.</p>
       <div class="diagram" style="text-align:center"><a href="cam-robot-esphome-3d.jpg"><img src="cam-robot-esphome-3d.jpg" alt="منظر ثلاثي الأبعاد للوحة روبوت ESP32-CAM v2" width="1100" height="900" style="max-width:100%;height:auto;display:block;margin:0 auto"></a><div style="font-size:0.85rem;color:#54595d;margin-top:8px">لوحة الروبوت <bdi dir="ltr">v2</bdi> (منظر KiCad ثلاثي الأبعاد). وحدة <bdi dir="ltr">TB6612</bdi> مكانها <bdi dir="ltr">U1</bdi>، والمحرّكان على <bdi dir="ltr">M2 (J1)</bdi> و <bdi dir="ltr">M1 (J3)</bdi>، ولوحة التوسعة على <bdi dir="ltr">J2</bdi>.</div></div>
-      <p>البرنامج الثابت ملف ESPHome واحد. بعد تحميله ينضمّ الروبوت إلى شبكة Wi-Fi، ويعرض عنوانه على شاشة OLED، ويقدّم صفحة فيها أزرار القيادة ومنزلق السرعة والسجلّ المباشر. الفيديو على المنفذ 8080.</p>
+      <p>البرنامج الثابت ملف ESPHome واحد. بعد تحميله ينضمّ الروبوت إلى شبكة Wi-Fi، ويعرض عنوانه على شاشة OLED، ويقدّم صفحة فيها الكاميرا في الأعلى، وأزرار القيادة، وزرّ Dance، وألوان الصمامات ومؤثّراتها، والسجلّ المباشر. الفيديو أيضًا على المنفذ 8080.</p>
 
       <h2 id="stack">التركيب وتوزيع الأطراف</h2>
       <p>كل طرف أدناه مأخوذ من قائمة الشبكات (netlist) للّوحتين. لوحة التوسعة تمرّر أطراف ESP32 كما هي إلى <bdi dir="ltr">J2</bdi>، فترى اللوحتان الإشارات نفسها.</p>
@@ -198,6 +199,8 @@ esphome compile esp32_cam_robot.yaml</code></pre></li>
         <tr><td dir="ltr">Forward / Back</td><td>العجلتان في الاتجاه نفسه</td></tr>
         <tr><td dir="ltr">Left / Right</td><td>دوران في المكان، العجلتان في اتجاهين متعاكسين</td></tr>
         <tr><td dir="ltr">Stop</td><td>كبح فوري</td></tr>
+        <tr><td dir="ltr">Dance</td><td>يتمايل يمينًا ويسارًا 3 ثوانٍ مع صمامات بألوان قوس قزح؛ زرّ Stop يوقفه</td></tr>
+        <tr><td dir="ltr">Speed preset</td><td>بطيء (35&nbsp;%) أو عادي (60&nbsp;%) أو سريع (100&nbsp;%) بنقرة واحدة</td></tr>
         <tr><td dir="ltr">Speed</td><td><bdi dir="ltr">20&ndash;100 %</bdi>، تنطبق على كل شيء، وتُحفظ بعد إعادة التشغيل</td></tr>
         <tr><td dir="ltr">Drive timeout</td><td><bdi dir="ltr">0.3&ndash;5 s</bdi>، والافتراضي ثانية واحدة: مدّة الأمر الواحد</td></tr>
         <tr><td dir="ltr">Drive X / Drive Y</td><td><bdi dir="ltr">&minus;100&hellip;100</bdi>: مدخل عصا تحكّم لصفحة خاصة أو لـ Home Assistant</td></tr>
@@ -225,11 +228,13 @@ curl -X POST "http://192.168.1.42/button/stop/press"</code></pre>
         <tr><td style="color:#ad6c00"><strong>كهرماني</strong></td><td>يسير</td></tr>
         <tr><td style="color:#d33"><strong>أحمر</strong></td><td>توقّف لأن الاتصال فُقد</td></tr>
       </table>
-      <p>عطّل <em dir="ltr">Status LEDs auto</em> لتضبط <em dir="ltr">RGB LEDs</em> بنفسك. أما <em dir="ltr">Headlight</em> فهو الصمام D1 على لوحة التوسعة؛ وصمام الفلاش الأبيض في الوحدة يشاركه خطّ البيانات ويضيء معه.</p>
+      <p>لتضبط <em dir="ltr">RGB LEDs</em> بنفسك، اختر لونًا من <em dir="ltr">LED colour</em>، أو استعمل دائرة الألوان، أو اختر مؤثّرًا: <span dir="ltr">Rainbow, Colour wipe, Scanner, Twinkle, Fireworks, Police, Strobe, Pulse</span>. كلّ واحد من هذه يعطّل <em dir="ltr">Status LEDs auto</em> تلقائيًا حتى لا تمحو ألوان الحالة اختيارك؛ أعد تفعيله لتعود ألوان الحالة.</p>
+      <p> أما <em dir="ltr">Headlight</em> فهو الصمام D1 على لوحة التوسعة؛ وصمام الفلاش الأبيض في الوحدة يشاركه خطّ البيانات ويضيء معه.</p>
       <p>تتناوب شاشة OLED بين صفحتين كل 4 ثوانٍ: <strong>الشبكة</strong> (قوّة إشارة Wi-Fi، عنوان IP، الاسم، منفذ الفيديو) و<strong>القيادة</strong> (العجلة اليسرى واليمنى بالنسبة المئوية، الحالة، السرعة، مدّة التشغيل). اضبط <code dir="ltr">oled_model</code> و <code dir="ltr">oled_address</code> في أعلى الملف كما في لوحة التوسعة.</p>
 
       <h2 id="camera">الكاميرا</h2>
       <p>الفيديو على <code dir="ltr">http://&lt;IP&gt;:8080</code>، لمشاهد واحد في كل مرّة. يعمل بدقّة <bdi dir="ltr">320&times;240</bdi> وحتى 15 صورة في الثانية: الصورة الصغيرة تصل أسرع، وهذا أهمّ من الوضوح عند القيادة. غيّر <code dir="ltr">cam_resolution</code> و <code dir="ltr">cam_fps</code> في أعلى الملف. و <em dir="ltr">Cam vertical flip</em> و <em dir="ltr">Cam horizontal mirror</em> يعدّلان الصورة حسب طريقة تركيب الوحدة.</p>
+      <p>تعرض الصفحة الفيديو في أعلاها (هذا هو <a href="files/robot_page.js" dir="ltr">robot_page.js</a> المدمج في البرنامج الثابت). الكاميرا تقلب الصورة أو تعكسها فقط ولا تديرها ربع دورة، لذا تُدار صورة الوحدة المركّبة على جنبها في المتصفّح: زرّ <em dir="ltr">Turn picture</em> يديرها 90&deg; في كل نقرة، ويتذكّر كل هاتف اختياره. وزرّ <em dir="ltr">Camera off</em> يحرّر البثّ لمشاهد آخر.</p>
 
       <h2 id="traps">فخاخ هذه اللوحة</h2>
 
@@ -270,6 +275,12 @@ curl -X POST "http://192.168.1.42/button/stop/press"</code></pre>
 
       <h3>الصمامات تبقى حمراء</h3>
       <p>فُقد الاتصال أثناء القيادة. أيّ أمر قيادة جديد يمحو ذلك.</p>
+
+      <h3>الروبوت لا ينضمّ إلى شبكة Wi-Fi <span dir="ltr">(4-Way Handshake Timeout)</span></h3>
+      <p>عندها يفتح نقطة اتصاله الخاصة <em dir="ltr">esp32-cam-robot fallback</em>. تحقّق من كلمة المرور في <code dir="ltr">secrets.yaml</code> ومن أن الموجّه يقبل WPA2 (لا WPA3 وحده). البرنامج الثابت يوقف توفير طاقة Wi-Fi <code dir="ltr">(power_save_mode: none)</code>: حين كان مفعّلًا كان هذا الروبوت يفوّت المصافحة.</p>
+
+      <h3>الصفحة فارغة</h3>
+      <p>تحمّل الصفحة واجهتها من <code dir="ltr">oi.esphome.io</code>: يحتاج الهاتف أو الحاسوب إلى الإنترنت، وهو غير متاح على نقطة الاتصال الاحتياطية. الخيار <code dir="ltr">local: true</code> يخزّن الواجهة في الروبوت، لكن ESPHome حينها يقدّم صفحته الخاصة ويختفي عرض الكاميرا.</p>
 
       <h3>لا فيديو على المنفذ 8080</h3>
       <p>مشاهد واحد في كل مرّة: أغلق الألسنة الأخرى التي فيها البثّ. راجع <a href="cam-plugin-esphome-ar.html#troubleshooting">حلّ مشكلات لوحة التوسعة</a> لأعطال الكاميرا والتغذية.</p>
