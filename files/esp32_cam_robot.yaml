@@ -87,6 +87,11 @@ logger:
 wifi:
   ssid: !secret wifi_ssid
   password: !secret wifi_password
+  # Power saving can make the ESP32-CAM miss the WPA handshake replies
+  # ("4-Way Handshake Timeout"); it also adds lag to the drive commands.
+  power_save_mode: none
+  # Connect straight to the SSID instead of scanning first.
+  fast_connect: true
   ap:
     ssid: "${name} fallback"
   on_disconnect:
