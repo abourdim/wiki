@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Robot ESP32-CAM v2 &mdash; firmware ESPHome - Wiki</title>
+<link rel="stylesheet" href="wiki.css">
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-inner">
+    <a class="wiki-logo" href="https://workshop-diy.org"><img src="logo.png" alt="Logo du Wiki"></a>
+    <a class="masthead-site-link" href="https://workshop-diy.org">workshop-diy.org</a>
+    <div class="masthead-title">
+      Wiki
+      <span class="sub">La base de connaissances personnelle et gratuite</span>
+    </div>
+    <div class="masthead-actions">
+      <div class="lang-switch" role="group" aria-label="Langue">
+        <a href="cam-robot-esphome.html" class="lang-switch-btn active" title="Français"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="20" height="40" fill="#002395"/><rect x="20" width="20" height="40" fill="#fff"/><rect x="40" width="20" height="40" fill="#ED2939"/></svg></a>
+        <a href="cam-robot-esphome-en.html" class="lang-switch-btn" title="English"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="60" height="40" fill="#012169"/><path d="M0 0L60 40M60 0L0 40" stroke="#fff" stroke-width="6.5"/><path d="M0 0L60 40M60 0L0 40" stroke="#C8102E" stroke-width="3.5"/><path d="M30 0V40M0 20H60" stroke="#fff" stroke-width="11"/><path d="M30 0V40M0 20H60" stroke="#C8102E" stroke-width="6.5"/></svg></a>
+        <a href="cam-robot-esphome-ar.html" class="lang-switch-btn" title="العربية"><svg width="24" height="16" viewBox="0 0 900 600"><defs><clipPath id="glCamRobotEsphomeFr"><rect width="450" height="600"/></clipPath></defs><rect width="450" height="600" fill="#006233"/><rect x="450" width="450" height="600" fill="#FFF"/><g fill="#D21034" transform="translate(450,300)"><circle r="125"/><circle cx="25" r="100" fill="#FFF"/><g clip-path="url(#glCamRobotEsphomeFr)" transform="translate(-450,-300)"><circle cx="475" cy="300" r="100" fill="#006233"/></g><path d="M85-12l22 67h71l-57 42 22 67-58-42-57 42 21-67-57-42h71z"/></g></svg></a>
+      </div>
+      <div class="masthead-search">
+        <input type="text" placeholder="Rechercher" disabled>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wiki-layout">
+
+  <div class="sidebar">
+    <h3>Navigation</h3>
+    <ul>
+      <li><a href="index.html">Page principale</a></li>
+      <li><a href="#">Modifications récentes</a></li>
+      <li><a href="#">Page au hasard</a></li>
+    </ul>
+    <h3>Catégories</h3>
+    <ul>
+      <li><a href="index.html">Réseau</a></li>
+      <li><a href="index.html">Linux</a></li>
+      <li><a href="index.html">Windows</a></li>
+      <li><a href="index.html">Électronique</a></li>
+      <li><a href="index.html">ESP32</a></li>
+      <li><a href="index.html">micro:bit</a></li>
+    </ul>
+    <h3>Outils</h3>
+    <ul>
+      <li><a href="https://github.com/abourdim/wiki/blob/main/files/esp32_cam_robot.yaml">Voir la configuration</a></li>
+      <li><a href="https://github.com/abourdim/wiki/blob/main/files/launch.sh">Voir launch.sh</a></li>
+    </ul>
+  </div>
+
+  <div class="content-wrap">
+    <div class="article-tabs">
+      <span class="active">Article</span>
+      <span>Discussion</span>
+    </div>
+
+    <article>
+      <h1 class="page-title">Robot ESP32-CAM v2 &mdash; firmware ESPHome</h1>
+
+      <div class="infobox">
+        <div class="infobox-title">Robot ESP32-CAM v2</div>
+        <table>
+          <tr><th>Type</th><td>Firmware de robot : conduite, vidéo, LED d'état et écran, depuis une page web</td></tr>
+          <tr><th>Empilement</th><td>ESP32-CAM AI-Thinker &rarr; carte d'extension v3 &rarr; carte robot v2</td></tr>
+          <tr><th>Moteurs</th><td>TB6612FNG sur la carte robot (J1, J3)</td></tr>
+          <tr><th>Lumières</th><td>4 &times; RGB TX1812 (état), D1 + LED flash (phare)</td></tr>
+          <tr><th>Écran</th><td>OLED SSD1306 0,96&Prime; sur la carte d'extension</td></tr>
+          <tr><th>Firmware</th><td>ESPHome <strong>2026.7.3</strong>, framework Arduino, sous Linux</td></tr>
+          <tr><th>Page web</th><td>Port 80 : boutons de conduite, curseurs, journal</td></tr>
+          <tr><th>Vidéo</th><td>MJPEG sur le port 8080</td></tr>
+          <tr><th>Configuration</th><td><a href="files/esp32_cam_robot.yaml">esp32_cam_robot.yaml</a></td></tr>
+          <tr><th>Assistant</th><td><a href="files/launch.sh">launch.sh</a> (menu pour enfants)</td></tr>
+          <tr><th>Fichiers KiCad</th><td><a href="https://github.com/abourdim/wiki/tree/main/files/esp32_cam_robot_v2">esp32_cam_robot_v2</a>, <a href="https://github.com/abourdim/wiki/tree/main/files/esp32_cam_plugin_v3">esp32_cam_plugin_v3</a></td></tr>
+          <tr><th>État</th><td><span class="status-tag pending">config validée, pas encore essayée sur le robot</span></td></tr>
+        </table>
+      </div>
+
+      <div class="applink">
+        <a href="https://abourdim.github.io/wiki/cam-robot-esphome.html"><img class="applink-qr" src="qr/page-cam-robot-esphome.svg" alt="QR: https://abourdim.github.io/wiki/cam-robot-esphome.html" width="104" height="104"></a>
+        <div class="applink-text">
+          <div class="applink-title">Ouvrir cette page sur un téléphone</div>
+          <div class="applink-url"><a href="https://abourdim.github.io/wiki/cam-robot-esphome.html">https://abourdim.github.io/wiki/cam-robot-esphome.html</a></div>
+          <div class="applink-hint">Rien à installer : le robot sert sa propre page. Scannez ce code pour garder le guide à côté du robot.</div>
+        </div>
+      </div>
+
+      <p class="hatnote">C'est le firmware de robot qui fait suite à la <a href="cam-plugin-esphome.html">validation de la carte d'extension</a>. Le banc de test a prouvé chaque partie séparément ; ce fichier les fait travailler ensemble, en un robot qu'on pilote depuis un téléphone.</p>
+      <div class="ambox"><strong>Avant de mettre un accu 18650 :</strong> sur le PCB v2, les deux pastilles du support de pile BH1 sont sur le réseau GND &mdash; y compris la pastille &laquo;&nbsp;+&nbsp;&raquo;. Un accu dans le support serait en court-circuit. Vérifiez au multimètre d'abord, et alimentez le robot par l'USB-C ou par J7/J8 tant que ce n'est pas réglé.</div>
+      <div class="ambox ambox-notice"><strong>État :</strong> la configuration passe <code>esphome config</code> en 2026.7.3. Elle n'a pas encore été compilée sous Linux ni essayée sur le robot ; cette page sera mise à jour après le premier tour de roue.</div>
+
+      <div class="toc">
+        <div class="toc-title">Sommaire</div>
+        <ol>
+          <li><a href="#overview">Vue d'ensemble</a></li>
+          <li><a href="#stack">L'empilement et son brochage</a></li>
+          <li><a href="#kicad">Fichiers KiCad et de fabrication</a></li>
+          <li><a href="#launch">launch.sh : un menu pour les enfants</a></li>
+          <li><a href="#flash">Installer &amp; flasher à la main</a></li>
+          <li><a href="#driving">Conduire</a></li>
+          <li><a href="#lights">Lumières et écran</a></li>
+          <li><a href="#camera">La caméra</a></li>
+          <li><a href="#traps">Pièges de cette carte</a></li>
+          <li><a href="#troubleshooting">Dépannage</a></li>
+        </ol>
+      </div>
+
+      <h2 id="overview">Vue d'ensemble</h2>
+      <p>Trois cartes s'empilent. L'ESP32-CAM s'enfiche sur la carte d'extension (v3), dont le connecteur 12 broches J4 s'enfiche sur J2 de la carte robot (v2). La carte robot apporte le pilote moteur, quatre LED RGB, les accus et l'interrupteur ; la carte d'extension apporte l'OLED et la LED D1. Les deux pilotes L9110 de la carte d'extension (U1, U3) <strong>ne sont pas montés</strong> sur ce robot : le TB6612 est le seul pilote moteur.</p>
+      <p class="hatnote">L'<a href="cam-plugin-esphome.html">article de la carte d'extension</a> l'appelle &laquo;&nbsp;rév. v4&nbsp;&raquo; : c'est le même circuit migré vers KiCad 9. La carte réellement fabriquée est la v3 &mdash; mêmes réseaux, mêmes GPIO.</p>
+      <div class="diagram" style="text-align:center"><a href="cam-robot-esphome-3d.jpg"><img src="cam-robot-esphome-3d.jpg" alt="Vue 3D de la carte robot ESP32-CAM v2" width="1100" height="900" style="max-width:100%;height:auto;display:block;margin:0 auto"></a><div style="font-size:0.85rem;color:#54595d;margin-top:8px">La carte robot v2 (vue 3D KiCad). Le module TB6612 se place en U1, les moteurs sur M2 (J1) et M1 (J3), la carte d'extension sur J2.</div></div>
+      <p>Le firmware tient en un seul fichier ESPHome. Une fois flashé, le robot rejoint le Wi-Fi, affiche son adresse sur l'OLED et sert une page avec des boutons de conduite, un curseur de vitesse et le journal en direct. La vidéo est sur le port 8080.</p>
+
+      <h2 id="stack">L'empilement et son brochage</h2>
+      <p>Chaque broche ci-dessous vient de la netlist des deux cartes. La carte d'extension transmet les broches de l'ESP32 telles quelles à J2 : les deux cartes voient les mêmes signaux.</p>
+      <table class="wikitable">
+        <tr><th>Partie</th><th>Carte</th><th>Signal</th><th>GPIO</th><th>Remarque</th></tr>
+        <tr><td rowspan="2">Moteur A &rarr; J1 (sérigraphie &laquo;&nbsp;M2&nbsp;&raquo;)</td><td rowspan="4">robot</td><td>AI1</td><td>GPIO13</td><td>broche 14 du TB6612</td></tr>
+        <tr><td>AI2</td><td>GPIO2</td><td>broche de strapping</td></tr>
+        <tr><td rowspan="2">Moteur B &rarr; J3 (sérigraphie &laquo;&nbsp;M1&nbsp;&raquo;)</td><td>BI1</td><td>GPIO15</td><td>broche de strapping</td></tr>
+        <tr><td>BI2</td><td>GPIO14</td><td>broche 11 du TB6612</td></tr>
+        <tr><td>RGB D5&rarr;D4&rarr;D3&rarr;D2</td><td>robot</td><td>DIN</td><td>GPIO12</td><td>broche de strapping ; D7 y est aussi reliée</td></tr>
+        <tr><td rowspan="2">OLED</td><td rowspan="2">extension</td><td>SDA</td><td>GPIO3</td><td>UART0 &mdash; journal série coupé</td></tr>
+        <tr><td>SCL</td><td>GPIO1</td><td>UART0</td></tr>
+        <tr><td>LED D1 + LED flash</td><td>extension</td><td>DIN</td><td>GPIO4</td><td>sert de phare</td></tr>
+        <tr><td>LED d'état D1 (robot)</td><td>robot</td><td>&mdash;</td><td>GPIO16</td><td><strong>non utilisée</strong> : sélection de la PSRAM</td></tr>
+        <tr><td>Bouton BOOT SW1, cavalier J6</td><td>robot</td><td>IO0</td><td>GPIO0</td><td><strong>non utilisé</strong> : horloge caméra</td></tr>
+        <tr><td>Connecteurs servo S1&ndash;S4</td><td>robot</td><td>signal</td><td>15, 13, 2, 14</td><td>mêmes broches que les moteurs</td></tr>
+      </table>
+      <p>Sur la carte robot, les broches <code>STBY</code>, <code>PWMA</code> et <code>PWMB</code> du TB6612 sont reliées au 3V3. Le pilote est toujours actif et la vitesse se règle par PWM sur les broches IN &mdash; exactement comme un L9110, donc le ventilateur <code>hbridge</code> d'ESPHome le pilote sans changement. Les emplacements L9110 de la carte d'extension restent vides : ses borniers moteur J1/J3/J5 et son pont d'alimentation moteur J6/JP2 ne servent pas.</p>
+      <p>Alimentation : l'accu (ou J7/J8) passe par D6 et l'interrupteur vers <code>VCC</code>, qui alimente les moteurs (<code>VM</code>) et l'AMS1117-5.0. L'USB-C alimente directement le +5&nbsp;V. Sur l'USB seul, les moteurs ne tournent que si J13 relie le +5&nbsp;V à VCC.</p>
+
+      <h2 id="kicad">Fichiers KiCad et de fabrication</h2>
+      <p>Le projet KiCad 9 complet de la carte robot v2 est rangé à côté de cet article, dans <a href="https://github.com/abourdim/wiki/tree/main/files/esp32_cam_robot_v2">files/esp32_cam_robot_v2</a> :</p>
+      <ul>
+        <li><a href="files/esp32_cam_robot_v2/esp32_cam_robot.kicad_sch">esp32_cam_robot.kicad_sch</a> &mdash; le schéma, et <a href="files/esp32_cam_robot_v2/esp32_cam_robot_schematic.pdf">sa version PDF</a>.</li>
+        <li><a href="files/esp32_cam_robot_v2/esp32_cam_robot.kicad_pcb">esp32_cam_robot.kicad_pcb</a> &mdash; la carte, 110 &times; 110&nbsp;mm.</li>
+        <li><a href="files/esp32_cam_robot_v2/esp32_cam_robot.kicad_pro">esp32_cam_robot.kicad_pro</a> et <code>.kicad_prl</code> &mdash; le projet. Mettez les fichiers dans un même dossier et ouvrez le <code>.kicad_pro</code>.</li>
+        <li><a href="https://github.com/abourdim/wiki/tree/main/files/esp32_cam_robot_v2/production">production/</a> &mdash; ce qui a été envoyé au fabricant : zip Gerber, nomenclature, positions de placement, repères, netlist IPC.</li>
+      </ul>
+      <p>La carte d'extension v3 posée dessus est rangée de la même façon, dans <a href="https://github.com/abourdim/wiki/tree/main/files/esp32_cam_plugin_v3">files/esp32_cam_plugin_v3</a> : <a href="files/esp32_cam_plugin_v3/esp32_cam_plugin.kicad_sch">schéma</a>, <a href="files/esp32_cam_plugin_v3/esp32_cam_plugin.kicad_pcb">carte</a>, <a href="files/esp32_cam_plugin_v3/esp32_cam_plugin.kicad_pro">projet</a> et <a href="https://github.com/abourdim/wiki/tree/main/files/esp32_cam_plugin_v3/production">fichiers de fabrication</a>. Ses images sont dans l'<a href="cam-plugin-esphome.html#kicad">article de la carte d'extension</a>.</p>
+      <div class="diagram" style="text-align:center"><a href="cam-robot-esphome-schematic.svg"><img src="cam-robot-esphome-schematic.svg" alt="Schéma de la carte robot ESP32-CAM v2" width="1123" height="794" style="max-width:100%;height:auto;display:block;margin:0 auto;background:#fff"></a><div style="font-size:0.85rem;color:#54595d;margin-top:8px">Le schéma. Cliquez pour l'ouvrir en grand.</div></div>
+      <div class="diagram" style="display:flex;flex-wrap:wrap;gap:16px;justify-content:center;text-align:center">
+        <div style="flex:1 1 260px;max-width:380px"><a href="cam-robot-esphome-top.jpg"><img src="cam-robot-esphome-top.jpg" alt="Vue de dessus de la carte robot ESP32-CAM v2" width="900" height="1100" style="max-width:100%;height:auto;display:block;margin:0 auto"></a><div style="font-size:0.85rem;color:#54595d;margin-top:8px">Vue de dessus.</div></div>
+        <div style="flex:1 1 260px;max-width:380px"><a href="cam-robot-esphome-pcb.svg"><img src="cam-robot-esphome-pcb.svg" alt="Routage du PCB de la carte robot ESP32-CAM v2" width="416" height="416" style="max-width:100%;height:auto;display:block;margin:0 auto;background:#fff"></a><div style="font-size:0.85rem;color:#54595d;margin-top:8px">Routage : cuivre, contour et sérigraphie.</div></div>
+      </div>
+
+      <h2 id="launch">launch.sh : un menu pour les enfants</h2>
+      <p><a href="files/launch.sh">launch.sh</a> regroupe chaque étape dans un menu en couleurs. Avant d'exécuter quoi que ce soit, il <strong>affiche la commande exacte</strong> après un &#9654; jaune : les enfants voient ce que fait l'ordinateur au lieu d'une boîte noire. Placez-le à côté de <code>esp32_cam_robot.yaml</code>, puis :</p>
+      <pre><code>chmod +x launch.sh
+./launch.sh              # le menu
+./launch.sh compile      # ou une étape directement</code></pre>
+      <table class="wikitable">
+        <tr><th>#</th><th>Option</th><th>Ce qu'elle fait</th></tr>
+        <tr><td>1</td><td>&#128269; Check install</td><td>Python, le venv, la version exacte d'ESPHome, le groupe <code>dialout</code>, les réglages Wi-Fi, une carte USB branchée</td></tr>
+        <tr><td>2</td><td>&#128230; Install</td><td>Crée <code>~/esphome-venv</code>, installe <code>esphome==2026.7.3</code>, propose d'ajouter l'utilisateur à <code>dialout</code></td></tr>
+        <tr><td>3</td><td>&#128246; Set Wi-Fi</td><td>Demande le réseau et le mot de passe (masqué) et écrit <code>secrets.yaml</code></td></tr>
+        <tr><td>4</td><td>&#129514; Check config</td><td><code>esphome config</code> ; n'affiche que la partie en erreur s'il y en a une</td></tr>
+        <tr><td>5</td><td>&#128736; Compile</td><td><code>esphome compile</code>, puis vérifie qu'un fichier firmware existe vraiment</td></tr>
+        <tr><td>6</td><td>&#128268; Flash over USB</td><td>Liste de contrôle (moteurs éteints, cavalier J6, adaptateur sur J5), trouve le port, téléverse</td></tr>
+        <tr><td>7</td><td>&#128225; Update over Wi-Fi</td><td>Téléverse vers <code>esp32-cam-robot.local</code> ou l'adresse affichée sur l'OLED</td></tr>
+        <tr><td>8</td><td>&#128220; Watch logs</td><td>Journal en direct par le Wi-Fi</td></tr>
+        <tr><td>9</td><td>&#127760; Open robot page</td><td>Ouvre la page de commande et la vidéo dans le navigateur</td></tr>
+        <tr><td>10</td><td>&#129529; Clean</td><td>Supprime les fichiers de compilation</td></tr>
+      </table>
+      <p>Le menu est en anglais. Mettez <code>ROBOT_IP=192.168.1.42</code> devant la commande pour ne pas retaper l'adresse. Sous Windows (MSYS2), le menu vérifie quand même la configuration, montre le journal et ouvre la page, mais refuse de compiler ou de flasher et explique pourquoi.</p>
+
+      <h2 id="flash">Installer &amp; flasher à la main</h2>
+      <ol>
+        <li>Installez ESPHome dans son propre environnement virtuel, en fixant la version :
+          <pre><code>python3 -m venv ~/esphome-venv
+source ~/esphome-venv/bin/activate
+pip install esphome==2026.7.3
+sudo usermod -aG dialout $USER    # une fois, puis se déconnecter et se reconnecter</code></pre></li>
+        <li>Téléchargez <a href="files/esp32_cam_robot.yaml">esp32_cam_robot.yaml</a>. À côté, créez <code>secrets.yaml</code> pour un réseau <strong>2,4&nbsp;GHz</strong> :
+          <pre><code>wifi_ssid: "VotreWiFi"
+wifi_password: "VotreMotDePasse"</code></pre></li>
+        <li>Vérifiez et compilez :
+          <pre><code>esphome config esp32_cam_robot.yaml
+esphome compile esp32_cam_robot.yaml</code></pre></li>
+        <li><strong>Premier flash par USB :</strong> moteurs éteints, cavalier sur J6 (IO0 à la masse), adaptateur USB-série sur J5 (<code>gnd</code>, <code>ftx</code>, <code>frx</code>), USB-C pour l'alimentation. Puis :
+          <pre><code>esphome upload esp32_cam_robot.yaml --device /dev/ttyUSB0</code></pre>
+          Retirez le cavalier J6 et appuyez sur reset. L'OLED affiche l'adresse une vingtaine de secondes plus tard.</li>
+        <li><strong>Les mises à jour suivantes passent par le Wi-Fi :</strong>
+          <pre><code>esphome upload esp32_cam_robot.yaml --device 192.168.1.42</code></pre></li>
+      </ol>
+      <p>Si le robot ne rejoint pas le réseau, cherchez le point d'accès <code>esp32-cam-robot fallback</code> : mauvais mot de passe, ou réseau uniquement en 5&nbsp;GHz.</p>
+
+      <h2 id="driving">Conduire</h2>
+      <p>Ouvrez <code>http://&lt;IP&gt;</code>. La page a cinq boutons et trois curseurs :</p>
+      <table class="wikitable">
+        <tr><th>Commande</th><th>Effet</th></tr>
+        <tr><td>Forward / Back</td><td>Les deux roues dans le même sens</td></tr>
+        <tr><td>Left / Right</td><td>Rotation sur place, roues en sens opposés</td></tr>
+        <tr><td>Stop</td><td>Freine immédiatement</td></tr>
+        <tr><td>Speed</td><td>20&ndash;100&nbsp;%, s'applique à tout, conservée au redémarrage</td></tr>
+        <tr><td>Drive timeout</td><td>0,3&ndash;5&nbsp;s, 1&nbsp;s par défaut : durée d'une commande</td></tr>
+        <tr><td>Drive X / Drive Y</td><td>&minus;100&hellip;100 : entrée joystick pour une page perso ou Home Assistant</td></tr>
+      </table>
+      <p>X et Y sont mélangés sur les deux roues : <code>gauche = Y + X</code>, <code>droite = Y &minus; X</code>, puis multipliés par Speed. Une page joystick ou un script n'a besoin que de deux appels REST :</p>
+      <pre><code>curl -X POST "http://192.168.1.42/number/drive_y/set?value=60"
+curl -X POST "http://192.168.1.42/number/drive_x/set?value=-30"
+curl -X POST "http://192.168.1.42/button/stop/press"</code></pre>
+      <h3>Sécurité</h3>
+      <ul>
+        <li><strong>Chaque commande expire.</strong> Sans nouvelle commande pendant <em>Drive timeout</em>, le robot s'arrête. Un appui sur un bouton fait donc rouler une seconde ; rappuyez pour continuer. Une page joystick renvoie ses valeurs plus souvent que ça.</li>
+        <li><strong>Perdre la liaison arrête le robot.</strong> Une coupure Wi-Fi, ou la déconnexion du client API (Home Assistant), arrête les moteurs ; les LED RGB passent au rouge jusqu'à la commande suivante.</li>
+        <li><strong>S'arrêter, c'est freiner.</strong> Les deux broches IN à l'état haut, c'est le frein court-circuit du TB6612 : le robot s'arrête net au lieu de rouler sur son élan.</li>
+        <li><strong>Démarrer se fait en rampe.</strong> La vitesse monte de 10&nbsp;% toutes les 40&nbsp;ms (0 à 100&nbsp;% en 0,4&nbsp;s), ce qui adoucit l'appel de courant qui fait redémarrer la carte. Ralentir et inverser sont immédiats.</li>
+        <li><strong>Moteurs arrêtés au démarrage</strong>, quoi qu'ils faisaient avant.</li>
+      </ul>
+      <p>Si Forward recule, ou si Left tourne à droite, changez les réglages en haut du fichier : <code>invert_left</code> / <code>invert_right</code> inversent une roue, <code>left_motor</code> / <code>right_motor</code> échangent les côtés.</p>
+
+      <h2 id="lights">Lumières et écran</h2>
+      <p>Les quatre LED RGB de la carte robot montrent l'état tant que <em>Status LEDs auto</em> est activé :</p>
+      <table class="wikitable">
+        <tr><th>Couleur</th><th>Signification</th></tr>
+        <tr><td style="color:#3366cc"><strong>Bleu</strong></td><td>Connexion au Wi-Fi</td></tr>
+        <tr><td style="color:#14866d"><strong>Vert</strong></td><td>Prêt</td></tr>
+        <tr><td style="color:#ad6c00"><strong>Ambre</strong></td><td>En marche</td></tr>
+        <tr><td style="color:#d33"><strong>Rouge</strong></td><td>Arrêté parce que la liaison a été perdue</td></tr>
+      </table>
+      <p>Désactivez <em>Status LEDs auto</em> pour régler vous-même les <em>RGB LEDs</em>. Le <em>Headlight</em> est la LED D1 de la carte d'extension ; la LED flash blanche du module partage sa ligne de données et s'allume avec.</p>
+      <p>L'OLED alterne deux pages toutes les 4&nbsp;secondes : <strong>réseau</strong> (signal Wi-Fi, adresse IP, nom, port vidéo) et <strong>conduite</strong> (roue gauche et droite en %, état, vitesse, temps de fonctionnement). Réglez <code>oled_model</code> et <code>oled_address</code> en haut du fichier, comme pour la carte d'extension.</p>
+
+      <h2 id="camera">La caméra</h2>
+      <p>La vidéo est sur <code>http://&lt;IP&gt;:8080</code>, un seul spectateur à la fois. Elle tourne en 320&times;240 et jusqu'à 15 images par seconde : une petite image arrive plus vite, ce qui compte plus que la netteté pour conduire. Changez <code>cam_resolution</code> et <code>cam_fps</code> en haut du fichier. <em>Cam vertical flip</em> et <em>Cam horizontal mirror</em> redressent l'image selon le montage du module.</p>
+
+      <h2 id="traps">Pièges de cette carte</h2>
+
+      <h3>Le support de pile est relié à la masse</h3>
+      <p>Sur le PCB, la pastille 1 de BH1 (côté &laquo;&nbsp;+&nbsp;&raquo;, sous les signes +) et la pastille 2 (&laquo;&nbsp;&minus;&nbsp;&raquo;) sont toutes deux sur GND. Vérifiez au multimètre avant de mettre un accu ; en attendant, amenez l'accu par J7 ou J8, qui passent bien par D6 et l'interrupteur.</p>
+
+      <h3>Le moteur B peut tressauter à la mise sous tension</h3>
+      <p>STBY est relié au 3V3 : le TB6612 est actif dès la première microseconde. Pendant le démarrage en ROM, GPIO15 est tiré à l'état haut et GPIO14 bascule, avant que le firmware puisse les fixer. ESPHome met les quatre broches moteur à l'état bas dès qu'il le peut ; un bref à-coup reste possible, et seule une modification matérielle sur STBY l'éliminerait.</p>
+
+      <h3>Le bouton BOOT ne peut pas servir d'arrêt d'urgence</h3>
+      <p>SW1 et J6 tirent GPIO0 à la masse &mdash; utile pour flasher. En fonctionnement, GPIO0 est l'horloge 20&nbsp;MHz de la caméra : appuyer sur SW1 la court-circuite à la masse. N'appuyez pas dessus pendant que le robot tourne.</p>
+
+      <h3>GPIO16 appartient à la PSRAM</h3>
+      <p>La carte robot place une LED d'état (D1, via R3) sur GPIO16, et une note du schéma prévoit un capteur IR à cet endroit. Sur le module AI-Thinker, GPIO16 est la sélection de la PSRAM ; la piloter casse les tampons de la caméra. Le firmware n'y touche pas.</p>
+
+      <h3>GPIO12 doit être à l'état bas au démarrage</h3>
+      <p>GPIO12 fixe la tension de la flash au reset : à l'état haut, c'est 1,8&nbsp;V et le module ne démarre pas. L'entrée de données de la chaîne RGB et D7 (via R5 vers la masse) la maintiennent basse, ce qui convient &mdash; n'y ajoutez pas de résistance de tirage vers le haut.</p>
+
+      <h3>Le connecteur FTDI partage le bus de l'OLED</h3>
+      <p>J5 porte l'UART0, qui est aussi le bus I&sup2;C de l'OLED. Branchez l'adaptateur pour flasher, puis débranchez-le : resté connecté, il perturbe l'écran.</p>
+
+      <h3><code>object_id</code> a disparu dans ESPHome 2026</h3>
+      <p>Fixer l'adresse d'un nombre avec <code>object_id: drive_x</code> est rejeté comme option invalide. L'adresse vient du nom : <em>Drive X</em> donne <code>/number/drive_x</code>.</p>
+
+      <h3>&laquo;&nbsp;Successfully compiled&nbsp;&raquo; sous Windows</h3>
+      <p>Sous MSYS2, ESPHome 2026 affiche <em>MSys/Mingw is no longer supported</em>, ne compile rien, puis annonce quand même <em>Successfully compiled program</em>. Seul <code>esphome config</code> a un sens là-bas. C'est précisément pour cela que <code>launch.sh</code> vérifie le fichier firmware après la compilation.</p>
+
+      <h2 id="troubleshooting">Dépannage</h2>
+
+      <h3>Le robot roule une seconde, puis s'arrête</h3>
+      <p>C'est le délai de conduite qui fait son travail avec les boutons. Rappuyez, ou augmentez <em>Drive timeout</em>. Un client joystick doit renvoyer ses valeurs plus vite que ce délai.</p>
+
+      <h3>Les moteurs ne tournent pas sur l'USB</h3>
+      <p>L'alimentation moteur du TB6612 est VCC, le côté accu. Sur l'USB-C seul, reliez J13 (+5&nbsp;V à VCC), ou branchez un accu sur J7/J8.</p>
+
+      <h3>Le temps de fonctionnement retombe à 0 au démarrage du robot</h3>
+      <p>Un reset par chute de tension. Baissez <em>Speed</em>, baissez <code>ramp_step</code> pour un départ plus doux, et ajoutez 220&ndash;470&nbsp;&micro;F plus 10&nbsp;&micro;F céramique sur le +5&nbsp;V près de l'ESP32-CAM.</p>
+
+      <h3>Les LED restent rouges</h3>
+      <p>La liaison a été perdue pendant la conduite. N'importe quelle nouvelle commande l'efface.</p>
+
+      <h3>Pas de vidéo sur le port 8080</h3>
+      <p>Un seul spectateur à la fois : fermez les autres onglets avec le flux. Voir le <a href="cam-plugin-esphome.html#troubleshooting">dépannage de la carte d'extension</a> pour les pannes de caméra et d'alimentation.</p>
+
+      <hr>
+      <p class="hatnote">Articles liés : <a href="cam-plugin-esphome.html">Carte d'extension ESP32-CAM &mdash; validation avec ESPHome</a> &middot; <a href="cam-robot.html">ESP32-CAM Robot (m2)</a> &middot; <a href="cam-robot-m1.html">ESP32-CAM Robot m1</a> &middot; <a href="workshop.html">Atelier robot ESP32-CAM</a></p>
+
+</article>
+  </div>
+</div>
+
+</body>
+</html>

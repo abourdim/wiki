@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>روبوت ESP32-CAM v2 &mdash; برنامج ESPHome - Wiki</title>
+<link rel="stylesheet" href="wiki.css">
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-inner">
+    <a class="wiki-logo" href="https://workshop-diy.org"><img src="logo.png" alt="شعار الويكي"></a>
+    <a class="masthead-site-link" href="https://workshop-diy.org">workshop-diy.org</a>
+    <div class="masthead-title">
+      Wiki
+      <span class="sub">قاعدة المعرفة الشخصية والمجانية</span>
+    </div>
+    <div class="masthead-actions">
+      <div class="lang-switch" role="group" aria-label="اللغة">
+        <a href="cam-robot-esphome.html" class="lang-switch-btn" title="Français"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="20" height="40" fill="#002395"/><rect x="20" width="20" height="40" fill="#fff"/><rect x="40" width="20" height="40" fill="#ED2939"/></svg></a>
+        <a href="cam-robot-esphome-en.html" class="lang-switch-btn" title="English"><svg width="24" height="16" viewBox="0 0 60 40"><rect width="60" height="40" fill="#012169"/><path d="M0 0L60 40M60 0L0 40" stroke="#fff" stroke-width="6.5"/><path d="M0 0L60 40M60 0L0 40" stroke="#C8102E" stroke-width="3.5"/><path d="M30 0V40M0 20H60" stroke="#fff" stroke-width="11"/><path d="M30 0V40M0 20H60" stroke="#C8102E" stroke-width="6.5"/></svg></a>
+        <a href="cam-robot-esphome-ar.html" class="lang-switch-btn active" title="العربية"><svg width="24" height="16" viewBox="0 0 900 600"><defs><clipPath id="glCamRobotEsphomeAr"><rect width="450" height="600"/></clipPath></defs><rect width="450" height="600" fill="#006233"/><rect x="450" width="450" height="600" fill="#FFF"/><g fill="#D21034" transform="translate(450,300)"><circle r="125"/><circle cx="25" r="100" fill="#FFF"/><g clip-path="url(#glCamRobotEsphomeAr)" transform="translate(-450,-300)"><circle cx="475" cy="300" r="100" fill="#006233"/></g><path d="M85-12l22 67h71l-57 42 22 67-58-42-57 42 21-67-57-42h71z"/></g></svg></a>
+      </div>
+      <div class="masthead-search">
+        <input type="text" placeholder="بحث" disabled>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wiki-layout">
+
+  <div class="sidebar">
+    <h3>التصفح</h3>
+    <ul>
+      <li><a href="index-ar.html">الصفحة الرئيسية</a></li>
+      <li><a href="#">أحدث التغييرات</a></li>
+      <li><a href="#">صفحة عشوائية</a></li>
+    </ul>
+    <h3>التصنيفات</h3>
+    <ul>
+      <li><a href="index-ar.html">شبكات</a></li>
+      <li><a href="index-ar.html">Linux</a></li>
+      <li><a href="index-ar.html">Windows</a></li>
+      <li><a href="index-ar.html">إلكترونيات</a></li>
+      <li><a href="index-ar.html">ESP32</a></li>
+      <li><a href="index-ar.html">micro:bit</a></li>
+    </ul>
+    <h3>أدوات</h3>
+    <ul>
+      <li><a href="https://github.com/abourdim/wiki/blob/main/files/esp32_cam_robot.yaml">عرض الإعدادات</a></li>
+      <li><a href="https://github.com/abourdim/wiki/blob/main/files/launch.sh">عرض <bdi dir="ltr">launch.sh</bdi></a></li>
+    </ul>
+  </div>
+
+  <div class="content-wrap">
+    <div class="article-tabs">
+      <span class="active">المقال</span>
+      <span>نقاش</span>
+    </div>
+
+    <article>
+      <h1 class="page-title">روبوت ESP32-CAM v2 &mdash; برنامج ESPHome</h1>
+
+      <div class="infobox">
+        <div class="infobox-title">روبوت ESP32-CAM v2</div>
+        <table>
+          <tr><th>النوع</th><td>برنامج روبوت: القيادة والفيديو وصمامات الحالة والشاشة، من صفحة ويب</td></tr>
+          <tr><th>التركيب</th><td><bdi dir="ltr">ESP32-CAM AI-Thinker</bdi> &larr; لوحة التوسعة <bdi dir="ltr">v3</bdi> &larr; لوحة الروبوت <bdi dir="ltr">v2</bdi></td></tr>
+          <tr><th>المحرّكات</th><td><bdi dir="ltr">TB6612FNG</bdi> على لوحة الروبوت (<bdi dir="ltr">J1, J3</bdi>)</td></tr>
+          <tr><th>الأضواء</th><td>4 صمامات RGB طراز TX1812 (الحالة)، و D1 مع صمام الفلاش (المصباح الأمامي)</td></tr>
+          <tr><th>الشاشة</th><td>OLED طراز SSD1306 مقاس 0.96 بوصة على لوحة التوسعة</td></tr>
+          <tr><th>البرنامج الثابت</th><td>ESPHome <strong dir="ltr">2026.7.3</strong>، إطار Arduino، على Linux</td></tr>
+          <tr><th>صفحة الويب</th><td>المنفذ 80: أزرار القيادة، منزلقات، السجلّ</td></tr>
+          <tr><th>الفيديو</th><td>MJPEG على المنفذ 8080</td></tr>
+          <tr><th>الإعدادات</th><td><a href="files/esp32_cam_robot.yaml" dir="ltr">esp32_cam_robot.yaml</a></td></tr>
+          <tr><th>المساعد</th><td><a href="files/launch.sh" dir="ltr">launch.sh</a> (قائمة للأطفال)</td></tr>
+          <tr><th>ملفات KiCad</th><td><a href="https://github.com/abourdim/wiki/tree/main/files/esp32_cam_robot_v2" dir="ltr">esp32_cam_robot_v2</a>، <a href="https://github.com/abourdim/wiki/tree/main/files/esp32_cam_plugin_v3" dir="ltr">esp32_cam_plugin_v3</a></td></tr>
+          <tr><th>الحالة</th><td><span class="status-tag pending">الإعدادات صحيحة، لم تُجرَّب على الروبوت بعد</span></td></tr>
+        </table>
+      </div>
+
+      <div class="applink">
+        <a href="https://abourdim.github.io/wiki/cam-robot-esphome-ar.html"><img class="applink-qr" src="qr/page-cam-robot-esphome-ar.svg" alt="QR: https://abourdim.github.io/wiki/cam-robot-esphome-ar.html" width="104" height="104"></a>
+        <div class="applink-text">
+          <div class="applink-title">افتح هذه الصفحة على الهاتف</div>
+          <div class="applink-url"><a href="https://abourdim.github.io/wiki/cam-robot-esphome-ar.html" dir="ltr">https://abourdim.github.io/wiki/cam-robot-esphome-ar.html</a></div>
+          <div class="applink-hint">لا شيء لتثبيته: الروبوت يقدّم صفحته بنفسه. امسح هذا الرمز لتُبقي الدليل بجانب الروبوت.</div>
+        </div>
+      </div>
+
+      <p class="hatnote">هذا برنامج الروبوت الذي يأتي بعد <a href="cam-plugin-esphome-ar.html">التحقق من لوحة التوسعة</a>. منصّة الاختبار أثبتت كل جزء وحده؛ وهذا الملف يجعلها تعمل معًا روبوتًا تقوده من الهاتف.</p>
+      <div class="ambox"><strong>قبل وضع بطارية 18650:</strong> على لوحة <bdi dir="ltr">v2</bdi>، طرفا حامل البطارية <bdi dir="ltr">BH1</bdi> كلاهما على شبكة <bdi dir="ltr">GND</bdi> &mdash; بما فيه طرف &laquo;+&raquo;. أي بطارية في الحامل ستكون في دارة قصر. افحص ذلك بالمِلتيميتر أولًا، وغذِّ الروبوت من <bdi dir="ltr">USB-C</bdi> أو عبر <bdi dir="ltr">J7/J8</bdi> إلى أن يُصلَح.</div>
+      <div class="ambox ambox-notice"><strong>الحالة:</strong> الإعدادات تجتاز <code dir="ltr">esphome config</code> على الإصدار <bdi dir="ltr">2026.7.3</bdi>. لم تُترجَم بعد على Linux ولم تُجرَّب على الروبوت؛ ستُحدَّث هذه الصفحة بعد أول قيادة.</div>
+
+      <div class="toc">
+        <div class="toc-title">المحتويات</div>
+        <ol>
+          <li><a href="#overview">نظرة عامة</a></li>
+          <li><a href="#stack">التركيب وتوزيع الأطراف</a></li>
+          <li><a href="#kicad">ملفات KiCad والتصنيع</a></li>
+          <li><a href="#launch"><bdi dir="ltr">launch.sh</bdi>: قائمة للأطفال</a></li>
+          <li><a href="#flash">التثبيت والتحميل يدويًا</a></li>
+          <li><a href="#driving">القيادة</a></li>
+          <li><a href="#lights">الأضواء والشاشة</a></li>
+          <li><a href="#camera">الكاميرا</a></li>
+          <li><a href="#traps">فخاخ هذه اللوحة</a></li>
+          <li><a href="#troubleshooting">حلّ المشكلات</a></li>
+        </ol>
+      </div>
+
+      <h2 id="overview">نظرة عامة</h2>
+      <p>ثلاث لوحات فوق بعضها. تُركَّب <bdi dir="ltr">ESP32-CAM</bdi> على لوحة التوسعة (<bdi dir="ltr">v3</bdi>)، التي يُركَّب موصلها ذو الأطراف الاثني عشر <bdi dir="ltr">J4</bdi> على <bdi dir="ltr">J2</bdi> في لوحة الروبوت (<bdi dir="ltr">v2</bdi>). لوحة الروبوت تجلب مشغّل المحرّكات، وأربعة صمامات RGB، والبطاريات، والمفتاح؛ ولوحة التوسعة تجلب شاشة OLED والصمام D1. مشغّلا <bdi dir="ltr">L9110</bdi> على لوحة التوسعة (<bdi dir="ltr">U1, U3</bdi>) <strong>غير مركّبين</strong> في هذا الروبوت: <bdi dir="ltr">TB6612</bdi> هو مشغّل المحرّكات الوحيد.</p>
+      <p class="hatnote"><a href="cam-plugin-esphome-ar.html">مقال لوحة التوسعة</a> يسمّيها &laquo;<bdi dir="ltr">rev v4</bdi>&raquo;: وهي الدارة نفسها منقولة إلى KiCad 9. اللوحة المصنوعة فعلًا هي <bdi dir="ltr">v3</bdi> &mdash; الشبكات نفسها والأطراف نفسها.</p>
+      <div class="diagram" style="text-align:center"><a href="cam-robot-esphome-3d.jpg"><img src="cam-robot-esphome-3d.jpg" alt="منظر ثلاثي الأبعاد للوحة روبوت ESP32-CAM v2" width="1100" height="900" style="max-width:100%;height:auto;display:block;margin:0 auto"></a><div style="font-size:0.85rem;color:#54595d;margin-top:8px">لوحة الروبوت <bdi dir="ltr">v2</bdi> (منظر KiCad ثلاثي الأبعاد). وحدة <bdi dir="ltr">TB6612</bdi> مكانها <bdi dir="ltr">U1</bdi>، والمحرّكان على <bdi dir="ltr">M2 (J1)</bdi> و <bdi dir="ltr">M1 (J3)</bdi>، ولوحة التوسعة على <bdi dir="ltr">J2</bdi>.</div></div>
+      <p>البرنامج الثابت ملف ESPHome واحد. بعد تحميله ينضمّ الروبوت إلى شبكة Wi-Fi، ويعرض عنوانه على شاشة OLED، ويقدّم صفحة فيها أزرار القيادة ومنزلق السرعة والسجلّ المباشر. الفيديو على المنفذ 8080.</p>
+
+      <h2 id="stack">التركيب وتوزيع الأطراف</h2>
+      <p>كل طرف أدناه مأخوذ من قائمة الشبكات (netlist) للّوحتين. لوحة التوسعة تمرّر أطراف ESP32 كما هي إلى <bdi dir="ltr">J2</bdi>، فترى اللوحتان الإشارات نفسها.</p>
+      <table class="wikitable">
+        <tr><th>الجزء</th><th>اللوحة</th><th>الإشارة</th><th>GPIO</th><th>ملاحظة</th></tr>
+        <tr><td rowspan="2">المحرّك A &larr; <bdi dir="ltr">J1</bdi> (مكتوب &laquo;M2&raquo;)</td><td rowspan="4">الروبوت</td><td dir="ltr">AI1</td><td dir="ltr">GPIO13</td><td>الطرف 14 في <bdi dir="ltr">TB6612</bdi></td></tr>
+        <tr><td dir="ltr">AI2</td><td dir="ltr">GPIO2</td><td>طرف إقلاع (strapping)</td></tr>
+        <tr><td rowspan="2">المحرّك B &larr; <bdi dir="ltr">J3</bdi> (مكتوب &laquo;M1&raquo;)</td><td dir="ltr">BI1</td><td dir="ltr">GPIO15</td><td>طرف إقلاع (strapping)</td></tr>
+        <tr><td dir="ltr">BI2</td><td dir="ltr">GPIO14</td><td>الطرف 11 في <bdi dir="ltr">TB6612</bdi></td></tr>
+        <tr><td><bdi dir="ltr">RGB D5&rarr;D4&rarr;D3&rarr;D2</bdi></td><td>الروبوت</td><td dir="ltr">DIN</td><td dir="ltr">GPIO12</td><td>طرف إقلاع؛ والصمام D7 متصل به أيضًا</td></tr>
+        <tr><td rowspan="2">OLED</td><td rowspan="2">التوسعة</td><td dir="ltr">SDA</td><td dir="ltr">GPIO3</td><td><bdi dir="ltr">UART0</bdi> &mdash; السجلّ التسلسلي معطَّل</td></tr>
+        <tr><td dir="ltr">SCL</td><td dir="ltr">GPIO1</td><td dir="ltr">UART0</td></tr>
+        <tr><td>الصمام D1 + صمام الفلاش</td><td>التوسعة</td><td dir="ltr">DIN</td><td dir="ltr">GPIO4</td><td>يُستعمل مصباحًا أماميًا</td></tr>
+        <tr><td>صمام الحالة D1 (الروبوت)</td><td>الروبوت</td><td>&mdash;</td><td dir="ltr">GPIO16</td><td><strong>غير مستعمل</strong>: اختيار ذاكرة PSRAM</td></tr>
+        <tr><td>زر BOOT ‏(SW1)، الوصلة J6</td><td>الروبوت</td><td dir="ltr">IO0</td><td dir="ltr">GPIO0</td><td><strong>غير مستعمل</strong>: ساعة الكاميرا</td></tr>
+        <tr><td>موصلات المحرّكات المؤازرة <bdi dir="ltr">S1&ndash;S4</bdi></td><td>الروبوت</td><td>إشارة</td><td dir="ltr">15, 13, 2, 14</td><td>الأطراف نفسها التي للمحرّكات</td></tr>
+      </table>
+      <p>على لوحة الروبوت، الأطراف <code dir="ltr">STBY</code> و <code dir="ltr">PWMA</code> و <code dir="ltr">PWMB</code> في <bdi dir="ltr">TB6612</bdi> موصولة بـ <bdi dir="ltr">3V3</bdi>. المشغّل مفعَّل دائمًا والسرعة تُضبط بنبضات PWM على أطراف IN &mdash; تمامًا كالـ <bdi dir="ltr">L9110</bdi>، فيقوده مكوّن <code dir="ltr">hbridge</code> في ESPHome دون تغيير. مكانا <bdi dir="ltr">L9110</bdi> على لوحة التوسعة فارغان، فلا تُستعمل أطراف المحرّكات <bdi dir="ltr">J1/J3/J5</bdi> فيها ولا وصلة تغذية المحرّكات <bdi dir="ltr">J6/JP2</bdi>.</p>
+      <p>التغذية: البطارية (أو <bdi dir="ltr">J7/J8</bdi>) تمرّ عبر D6 والمفتاح إلى <code dir="ltr">VCC</code>، الذي يغذّي المحرّكات (<code dir="ltr">VM</code>) والمنظّم <bdi dir="ltr">AMS1117-5.0</bdi>. ومنفذ <bdi dir="ltr">USB-C</bdi> يغذّي خطّ <bdi dir="ltr">+5 V</bdi> مباشرة. على USB وحده لا تدور المحرّكات إلا إذا وصلت <bdi dir="ltr">J13</bdi> خطَّ <bdi dir="ltr">+5 V</bdi> بـ <bdi dir="ltr">VCC</bdi>.</p>
+
+      <h2 id="kicad">ملفات KiCad والتصنيع</h2>
+      <p>مشروع KiCad 9 الكامل للوحة الروبوت <bdi dir="ltr">v2</bdi> محفوظ بجانب هذا المقال، في <a href="https://github.com/abourdim/wiki/tree/main/files/esp32_cam_robot_v2" dir="ltr">files/esp32_cam_robot_v2</a>:</p>
+      <ul>
+        <li><a href="files/esp32_cam_robot_v2/esp32_cam_robot.kicad_sch" dir="ltr">esp32_cam_robot.kicad_sch</a> &mdash; المخطّط، و<a href="files/esp32_cam_robot_v2/esp32_cam_robot_schematic.pdf">نسخته بصيغة PDF</a>.</li>
+        <li><a href="files/esp32_cam_robot_v2/esp32_cam_robot.kicad_pcb" dir="ltr">esp32_cam_robot.kicad_pcb</a> &mdash; اللوحة، <bdi dir="ltr">110 &times; 110 mm</bdi>.</li>
+        <li><a href="files/esp32_cam_robot_v2/esp32_cam_robot.kicad_pro" dir="ltr">esp32_cam_robot.kicad_pro</a> و <code dir="ltr">.kicad_prl</code> &mdash; المشروع. ضع الملفات في مجلد واحد وافتح ملف <code dir="ltr">.kicad_pro</code>.</li>
+        <li><a href="https://github.com/abourdim/wiki/tree/main/files/esp32_cam_robot_v2/production" dir="ltr">production/</a> &mdash; ما أُرسل إلى المصنع: ملف Gerber المضغوط، قائمة المكوّنات، مواضع التركيب، المعرّفات، وقائمة الشبكات IPC.</li>
+      </ul>
+      <p>ولوحة التوسعة <bdi dir="ltr">v3</bdi> التي فوقها محفوظة بالطريقة نفسها، في <a href="https://github.com/abourdim/wiki/tree/main/files/esp32_cam_plugin_v3" dir="ltr">files/esp32_cam_plugin_v3</a>: <a href="files/esp32_cam_plugin_v3/esp32_cam_plugin.kicad_sch">المخطّط</a>، و<a href="files/esp32_cam_plugin_v3/esp32_cam_plugin.kicad_pcb">اللوحة</a>، و<a href="files/esp32_cam_plugin_v3/esp32_cam_plugin.kicad_pro">المشروع</a>، و<a href="https://github.com/abourdim/wiki/tree/main/files/esp32_cam_plugin_v3/production">ملفات التصنيع</a>. وصورها في <a href="cam-plugin-esphome-ar.html#kicad">مقال لوحة التوسعة</a>.</p>
+      <div class="diagram" style="text-align:center"><a href="cam-robot-esphome-schematic.svg"><img src="cam-robot-esphome-schematic.svg" alt="مخطّط لوحة روبوت ESP32-CAM v2" width="1123" height="794" style="max-width:100%;height:auto;display:block;margin:0 auto;background:#fff"></a><div style="font-size:0.85rem;color:#54595d;margin-top:8px">المخطّط. انقر لفتحه بالحجم الكامل.</div></div>
+      <div class="diagram" style="display:flex;flex-wrap:wrap;gap:16px;justify-content:center;text-align:center">
+        <div style="flex:1 1 260px;max-width:380px"><a href="cam-robot-esphome-top.jpg"><img src="cam-robot-esphome-top.jpg" alt="منظر علوي للوحة روبوت ESP32-CAM v2" width="900" height="1100" style="max-width:100%;height:auto;display:block;margin:0 auto"></a><div style="font-size:0.85rem;color:#54595d;margin-top:8px">منظر من الأعلى.</div></div>
+        <div style="flex:1 1 260px;max-width:380px"><a href="cam-robot-esphome-pcb.svg"><img src="cam-robot-esphome-pcb.svg" alt="مسارات لوحة روبوت ESP32-CAM v2" width="416" height="416" style="max-width:100%;height:auto;display:block;margin:0 auto;background:#fff"></a><div style="font-size:0.85rem;color:#54595d;margin-top:8px">المسارات: النحاس والحدود والطباعة.</div></div>
+      </div>
+
+      <h2 id="launch"><bdi dir="ltr">launch.sh</bdi>: قائمة للأطفال</h2>
+      <p><a href="files/launch.sh" dir="ltr">launch.sh</a> يجمع كل خطوة في قائمة ملوّنة. قبل تشغيل أي شيء <strong>يعرض الأمر الدقيق</strong> بعد علامة &#9654; صفراء، فيرى الأطفال ما يفعله الحاسوب بدل صندوق أسود. ضعه بجانب <code dir="ltr">esp32_cam_robot.yaml</code>، ثم:</p>
+      <pre dir="ltr"><code>chmod +x launch.sh
+./launch.sh              # the menu
+./launch.sh compile      # or one step directly</code></pre>
+      <table class="wikitable">
+        <tr><th>#</th><th>الخيار</th><th>ماذا يفعل</th></tr>
+        <tr><td>1</td><td dir="ltr">&#128269; Check install</td><td>Python، والبيئة الافتراضية، والإصدار الدقيق لـ ESPHome، ومجموعة <code dir="ltr">dialout</code>، وإعدادات Wi-Fi، ولوحة USB موصولة</td></tr>
+        <tr><td>2</td><td dir="ltr">&#128230; Install</td><td>ينشئ <code dir="ltr">~/esphome-venv</code>، ويثبّت <code dir="ltr">esphome==2026.7.3</code>، ويعرض إضافة المستخدم إلى <code dir="ltr">dialout</code></td></tr>
+        <tr><td>3</td><td dir="ltr">&#128246; Set Wi-Fi</td><td>يسأل عن الشبكة وكلمة المرور (مخفية) ويكتب <code dir="ltr">secrets.yaml</code></td></tr>
+        <tr><td>4</td><td dir="ltr">&#129514; Check config</td><td><code dir="ltr">esphome config</code>؛ يعرض جزء الخطأ وحده إن وُجد</td></tr>
+        <tr><td>5</td><td dir="ltr">&#128736; Compile</td><td><code dir="ltr">esphome compile</code>، ثم يتأكّد أن ملف البرنامج الثابت موجود فعلًا</td></tr>
+        <tr><td>6</td><td dir="ltr">&#128268; Flash over USB</td><td>قائمة تحقّق (المحرّكات مطفأة، الوصلة J6، المحوّل على J5)، يجد المنفذ، ويحمّل</td></tr>
+        <tr><td>7</td><td dir="ltr">&#128225; Update over Wi-Fi</td><td>يحمّل إلى <code dir="ltr">esp32-cam-robot.local</code> أو العنوان الظاهر على OLED</td></tr>
+        <tr><td>8</td><td dir="ltr">&#128220; Watch logs</td><td>السجلّ المباشر عبر Wi-Fi</td></tr>
+        <tr><td>9</td><td dir="ltr">&#127760; Open robot page</td><td>يفتح صفحة التحكّم والفيديو في المتصفّح</td></tr>
+        <tr><td>10</td><td dir="ltr">&#129529; Clean</td><td>يحذف ملفات الترجمة</td></tr>
+      </table>
+      <p>القائمة بالإنجليزية. ضع <code dir="ltr">ROBOT_IP=192.168.1.42</code> قبل الأمر كي لا تكتب العنوان كل مرة. على Windows ‏(MSYS2) تفحص القائمة الإعدادات، وتعرض السجلّ، وتفتح الصفحة، لكنها ترفض الترجمة والتحميل وتشرح السبب.</p>
+
+      <h2 id="flash">التثبيت والتحميل يدويًا</h2>
+      <ol>
+        <li>ثبّت ESPHome في بيئته الافتراضية الخاصة، مع تثبيت الإصدار:
+          <pre dir="ltr"><code>python3 -m venv ~/esphome-venv
+source ~/esphome-venv/bin/activate
+pip install esphome==2026.7.3
+sudo usermod -aG dialout $USER    # once, then log out and back in</code></pre></li>
+        <li>نزّل <a href="files/esp32_cam_robot.yaml" dir="ltr">esp32_cam_robot.yaml</a>. وبجانبه أنشئ <code dir="ltr">secrets.yaml</code> لشبكة <strong dir="ltr">2.4 GHz</strong>:
+          <pre dir="ltr"><code>wifi_ssid: "YourWiFi"
+wifi_password: "YourPassword"</code></pre></li>
+        <li>افحص ثم ترجم:
+          <pre dir="ltr"><code>esphome config esp32_cam_robot.yaml
+esphome compile esp32_cam_robot.yaml</code></pre></li>
+        <li><strong>التحميل الأول عبر USB:</strong> المحرّكات مطفأة، الوصلة على J6 ‏(IO0 إلى الأرضي)، محوّل USB-تسلسلي على J5 ‏(<code dir="ltr">gnd</code>، <code dir="ltr">ftx</code>، <code dir="ltr">frx</code>)، و USB-C للتغذية. ثم:
+          <pre dir="ltr"><code>esphome upload esp32_cam_robot.yaml --device /dev/ttyUSB0</code></pre>
+          انزع وصلة J6 واضغط إعادة التشغيل. تعرض شاشة OLED العنوان بعد نحو 20 ثانية.</li>
+        <li><strong>التحديثات اللاحقة عبر Wi-Fi:</strong>
+          <pre dir="ltr"><code>esphome upload esp32_cam_robot.yaml --device 192.168.1.42</code></pre></li>
+      </ol>
+      <p>إن لم ينضمّ الروبوت إلى الشبكة فابحث عن نقطة الوصول <code dir="ltr">esp32-cam-robot fallback</code>: كلمة مرور خاطئة، أو شبكة بتردّد 5 GHz فقط.</p>
+
+      <h2 id="driving">القيادة</h2>
+      <p>افتح <code dir="ltr">http://&lt;IP&gt;</code>. في الصفحة خمسة أزرار وثلاثة منزلقات:</p>
+      <table class="wikitable">
+        <tr><th>الأداة</th><th>الأثر</th></tr>
+        <tr><td dir="ltr">Forward / Back</td><td>العجلتان في الاتجاه نفسه</td></tr>
+        <tr><td dir="ltr">Left / Right</td><td>دوران في المكان، العجلتان في اتجاهين متعاكسين</td></tr>
+        <tr><td dir="ltr">Stop</td><td>كبح فوري</td></tr>
+        <tr><td dir="ltr">Speed</td><td><bdi dir="ltr">20&ndash;100 %</bdi>، تنطبق على كل شيء، وتُحفظ بعد إعادة التشغيل</td></tr>
+        <tr><td dir="ltr">Drive timeout</td><td><bdi dir="ltr">0.3&ndash;5 s</bdi>، والافتراضي ثانية واحدة: مدّة الأمر الواحد</td></tr>
+        <tr><td dir="ltr">Drive X / Drive Y</td><td><bdi dir="ltr">&minus;100&hellip;100</bdi>: مدخل عصا تحكّم لصفحة خاصة أو لـ Home Assistant</td></tr>
+      </table>
+      <p>يُمزج X و Y على العجلتين: <code dir="ltr">left = Y + X</code> و <code dir="ltr">right = Y &minus; X</code>، ثم يُضربان في Speed. صفحة عصا تحكّم أو سكربت لا تحتاج إلا نداءين REST:</p>
+      <pre dir="ltr"><code>curl -X POST "http://192.168.1.42/number/drive_y/set?value=60"
+curl -X POST "http://192.168.1.42/number/drive_x/set?value=-30"
+curl -X POST "http://192.168.1.42/button/stop/press"</code></pre>
+      <h3>الأمان</h3>
+      <ul>
+        <li><strong>كل أمر ينتهي.</strong> إن لم يصل أمر جديد خلال <em dir="ltr">Drive timeout</em> يتوقّف الروبوت. ضغطة زر واحدة تسيّره إذن ثانية واحدة؛ اضغط مجدّدًا لتستمرّ. صفحة عصا التحكّم ترسل قيمها أسرع من ذلك.</li>
+        <li><strong>فقدان الاتصال يوقف الروبوت.</strong> انقطاع Wi-Fi أو انفصال عميل API ‏(Home Assistant) يوقف المحرّكات، وتصبح صمامات RGB حمراء حتى الأمر التالي.</li>
+        <li><strong>التوقّف كبح.</strong> طرفا IN في الحالة العالية هما كبح القصر في <bdi dir="ltr">TB6612</bdi>: يقف الروبوت فورًا بدل أن ينزلق.</li>
+        <li><strong>الانطلاق تدريجي.</strong> ترتفع السرعة 10 % كل 40 ميلي ثانية (من 0 إلى 100 % في 0.4 ثانية)، فيلين اندفاع التيار الذي يعيد تشغيل اللوحة. التباطؤ وعكس الاتجاه فوريّان.</li>
+        <li><strong>المحرّكات متوقّفة عند الإقلاع</strong>، أيًّا كان ما كانت تفعله قبله.</li>
+      </ul>
+      <p>إن رجع الروبوت إلى الخلف عند Forward، أو دار يمينًا عند Left، فغيّر الإعدادات في أعلى الملف: <code dir="ltr">invert_left</code> / <code dir="ltr">invert_right</code> تعكسان عجلة، و <code dir="ltr">left_motor</code> / <code dir="ltr">right_motor</code> تبدّلان الجانبين.</p>
+
+      <h2 id="lights">الأضواء والشاشة</h2>
+      <p>تُظهر صمامات RGB الأربعة على لوحة الروبوت الحالة ما دام <em dir="ltr">Status LEDs auto</em> مفعَّلًا:</p>
+      <table class="wikitable">
+        <tr><th>اللون</th><th>المعنى</th></tr>
+        <tr><td style="color:#3366cc"><strong>أزرق</strong></td><td>الاتصال بشبكة Wi-Fi</td></tr>
+        <tr><td style="color:#14866d"><strong>أخضر</strong></td><td>جاهز</td></tr>
+        <tr><td style="color:#ad6c00"><strong>كهرماني</strong></td><td>يسير</td></tr>
+        <tr><td style="color:#d33"><strong>أحمر</strong></td><td>توقّف لأن الاتصال فُقد</td></tr>
+      </table>
+      <p>عطّل <em dir="ltr">Status LEDs auto</em> لتضبط <em dir="ltr">RGB LEDs</em> بنفسك. أما <em dir="ltr">Headlight</em> فهو الصمام D1 على لوحة التوسعة؛ وصمام الفلاش الأبيض في الوحدة يشاركه خطّ البيانات ويضيء معه.</p>
+      <p>تتناوب شاشة OLED بين صفحتين كل 4 ثوانٍ: <strong>الشبكة</strong> (قوّة إشارة Wi-Fi، عنوان IP، الاسم، منفذ الفيديو) و<strong>القيادة</strong> (العجلة اليسرى واليمنى بالنسبة المئوية، الحالة، السرعة، مدّة التشغيل). اضبط <code dir="ltr">oled_model</code> و <code dir="ltr">oled_address</code> في أعلى الملف كما في لوحة التوسعة.</p>
+
+      <h2 id="camera">الكاميرا</h2>
+      <p>الفيديو على <code dir="ltr">http://&lt;IP&gt;:8080</code>، لمشاهد واحد في كل مرّة. يعمل بدقّة <bdi dir="ltr">320&times;240</bdi> وحتى 15 صورة في الثانية: الصورة الصغيرة تصل أسرع، وهذا أهمّ من الوضوح عند القيادة. غيّر <code dir="ltr">cam_resolution</code> و <code dir="ltr">cam_fps</code> في أعلى الملف. و <em dir="ltr">Cam vertical flip</em> و <em dir="ltr">Cam horizontal mirror</em> يعدّلان الصورة حسب طريقة تركيب الوحدة.</p>
+
+      <h2 id="traps">فخاخ هذه اللوحة</h2>
+
+      <h3>حامل البطارية موصول بالأرضي</h3>
+      <p>على اللوحة، الطرف 1 من <bdi dir="ltr">BH1</bdi> (جهة &laquo;+&raquo;، تحت علامات +) والطرف 2 (&laquo;&minus;&raquo;) كلاهما على <bdi dir="ltr">GND</bdi>. افحص بالمِلتيميتر قبل وضع بطارية؛ وفي الأثناء أوصل البطارية عبر <bdi dir="ltr">J7</bdi> أو <bdi dir="ltr">J8</bdi>، فهما يمرّان فعلًا عبر D6 والمفتاح.</p>
+
+      <h3>قد يرتجّ المحرّك B عند التشغيل</h3>
+      <p><code dir="ltr">STBY</code> موصول بـ <bdi dir="ltr">3V3</bdi>، فيكون <bdi dir="ltr">TB6612</bdi> مفعَّلًا من أول لحظة. أثناء إقلاع ROM يُسحب GPIO15 إلى الحالة العالية ويتبدّل GPIO14، قبل أن يتمكّن البرنامج من ضبطهما. يضع ESPHome أطراف المحرّكات الأربعة في الحالة المنخفضة بأسرع ما يمكن؛ وتبقى رجّة قصيرة ممكنة، ولا يزيلها إلا تعديل في العتاد على <code dir="ltr">STBY</code>.</p>
+
+      <h3>زر BOOT لا يصلح للإيقاف الطارئ</h3>
+      <p>‏SW1 و J6 يسحبان GPIO0 إلى الأرضي &mdash; وهذا مفيد للتحميل. أثناء العمل يكون GPIO0 ساعة الكاميرا بتردّد 20 MHz: الضغط على SW1 يقصرها إلى الأرضي. لا تضغطه والروبوت يعمل.</p>
+
+      <h3>GPIO16 ملك لذاكرة PSRAM</h3>
+      <p>تضع لوحة الروبوت صمام حالة (D1 عبر R3) على GPIO16، وملاحظة في المخطّط تخطّط لحسّاس أشعة تحت حمراء هناك. على وحدة AI-Thinker، GPIO16 هو طرف اختيار PSRAM؛ وقيادته تُفسد ذاكرة الكاميرا المؤقتة. البرنامج لا يلمسه.</p>
+
+      <h3>يجب أن يكون GPIO12 منخفضًا عند الإقلاع</h3>
+      <p>‏GPIO12 يحدّد جهد ذاكرة الفلاش عند إعادة التشغيل: في الحالة العالية يصبح 1.8 V ولا تُقلع الوحدة. مدخل بيانات سلسلة RGB والصمام D7 (عبر R5 إلى الأرضي) يُبقيانه منخفضًا، وهذا جيّد &mdash; لا تضف مقاومة سحب إلى الأعلى هناك.</p>
+
+      <h3>موصل FTDI يشارك ناقل شاشة OLED</h3>
+      <p>‏J5 يحمل UART0، وهو أيضًا ناقل I&sup2;C لشاشة OLED. صِل المحوّل للتحميل ثم افصله: إن بقي موصولًا شوّش على الشاشة.</p>
+
+      <h3>اختفى <code dir="ltr">object_id</code> في ESPHome 2026</h3>
+      <p>تحديد عنوان رقم بـ <code dir="ltr">object_id: drive_x</code> يُرفض كخيار غير صالح. العنوان يأتي من الاسم: <em dir="ltr">Drive X</em> يعطي <code dir="ltr">/number/drive_x</code>.</p>
+
+      <h3>&laquo;Successfully compiled&raquo; على Windows</h3>
+      <p>تحت MSYS2 يطبع ESPHome 2026 الرسالة <em dir="ltr">MSys/Mingw is no longer supported</em>، ولا يترجم شيئًا، ثم يعلن رغم ذلك <em dir="ltr">Successfully compiled program</em>. هناك لا معنى إلا لـ <code dir="ltr">esphome config</code>. ولهذا بالضبط يتحقّق <code dir="ltr">launch.sh</code> من ملف البرنامج بعد الترجمة.</p>
+
+      <h2 id="troubleshooting">حلّ المشكلات</h2>
+
+      <h3>يسير الروبوت ثانية ثم يتوقّف</h3>
+      <p>هذه مهلة القيادة تؤدّي عملها مع الأزرار. اضغط مجدّدًا، أو ارفع <em dir="ltr">Drive timeout</em>. وعميل عصا التحكّم يجب أن يرسل أسرع من هذه المهلة.</p>
+
+      <h3>المحرّكات لا تدور على USB</h3>
+      <p>تغذية محرّكات <bdi dir="ltr">TB6612</bdi> هي VCC، جهة البطارية. على USB-C وحده صِل <bdi dir="ltr">J13</bdi> (‏<bdi dir="ltr">+5 V</bdi> إلى VCC)، أو صِل بطارية على <bdi dir="ltr">J7/J8</bdi>.</p>
+
+      <h3>مدّة التشغيل تعود إلى 0 عند انطلاق الروبوت</h3>
+      <p>إعادة تشغيل بسبب هبوط الجهد. خفّض <em dir="ltr">Speed</em>، وخفّض <code dir="ltr">ramp_step</code> لانطلاق ألطف، وأضف مكثّفًا <bdi dir="ltr">220&ndash;470 &micro;F</bdi> مع <bdi dir="ltr">10 &micro;F</bdi> سيراميكي على <bdi dir="ltr">+5 V</bdi> قرب <bdi dir="ltr">ESP32-CAM</bdi>.</p>
+
+      <h3>الصمامات تبقى حمراء</h3>
+      <p>فُقد الاتصال أثناء القيادة. أيّ أمر قيادة جديد يمحو ذلك.</p>
+
+      <h3>لا فيديو على المنفذ 8080</h3>
+      <p>مشاهد واحد في كل مرّة: أغلق الألسنة الأخرى التي فيها البثّ. راجع <a href="cam-plugin-esphome-ar.html#troubleshooting">حلّ مشكلات لوحة التوسعة</a> لأعطال الكاميرا والتغذية.</p>
+
+      <hr>
+      <p class="hatnote">مقالات ذات صلة: <a href="cam-plugin-esphome-ar.html">لوحة توسعة ESP32-CAM &mdash; التحقق بواسطة ESPHome</a> &middot; <a href="cam-robot-ar.html">روبوت ESP32-CAM ‏(m2)</a> &middot; <a href="cam-robot-m1-ar.html">روبوت ESP32-CAM m1</a> &middot; <a href="workshop-ar.html">ورشة روبوت ESP32-CAM</a></p>
+
+</article>
+  </div>
+</div>
+
+</body>
+</html>
