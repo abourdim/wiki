@@ -64,13 +64,67 @@ case "$(uname -s)" in
   *) WINDOWS=0 ;;
 esac
 
-PY=""
-for p in python3 python; do
-  if command -v "$p" >/dev/null 2>&1; then PY="$p"; break; fi
-done
+# The Python used to make the ESPHome folder. On Windows it must be a normal
+# Windows Python (python.org): MSYS2's own python3 (UCRT64, MINGW64...) makes
+# a different kind of folder, and ESPHome cannot build with it.
+PY=()
+MSYS_PY=""
+WINHOME=""
+if [ "$WINDOWS" = 1 ]; then
+  # The Windows user folder (C:\Users\<name>). An MSYS2 shell may hide
+  # USERPROFILE, so ask Windows itself when it is missing.
+  if [ -n "${USERPROFILE:-}" ]; then
+    WINHOME="$(cygpath -u "$USERPROFILE")"
+  else
+    WINHOME="$(powershell.exe -NoProfile -Command '[Environment]::GetFolderPath("UserProfile")' 2>/dev/null | tr -d '\r')"
+    [ -n "$WINHOME" ] && WINHOME="$(cygpath -u "$WINHOME")"
+  fi
+  [ -d "$WINHOME" ] || WINHOME="/c/Users/$USER"
+  # ESP-IDF's tools (ccache) refuse to run without these Windows variables
+  if [ -z "${USERPROFILE:-}" ] && [ -d "$WINHOME" ]; then
+    export USERPROFILE; USERPROFILE="$(cygpath -w "$WINHOME")"
+    export LOCALAPPDATA="${LOCALAPPDATA:-$USERPROFILE\\AppData\\Local}"
+    export APPDATA="${APPDATA:-$USERPROFILE\\AppData\\Roaming}"
+  fi
 
-# Programs inside the ESPHome folder (venv): bin/ on Linux, Scripts/ on Windows
+  try_py() {   # try_py <command...>: keep it if it is a Windows Python
+    local plat
+    plat="$("$@" -c 'import sysconfig; print(sysconfig.get_platform())' 2>/dev/null | tr -d '\r')"
+    case "$plat" in
+      win-*) PY=("$@"); return 0 ;;
+      ?*)    MSYS_PY="$1" ;;
+    esac
+    return 1
+  }
+  # 1. on the PATH (Git Bash usually has these)
+  for c in py python python3; do
+    command -v "$c" >/dev/null 2>&1 || continue
+    if [ "$c" = py ]; then try_py py -3 && break; else try_py "$c" && break; fi
+  done
+  # 2. the usual python.org install folders (MSYS2 shells don't see them)
+  if [ ${#PY[@]} -eq 0 ]; then
+    for f in "$WINHOME"/AppData/Local/Programs/Python/Launcher/py.exe \
+             $(ls -d "$WINHOME"/AppData/Local/Programs/Python/Python3*/python.exe 2>/dev/null | sort -rV) \
+             $(ls -d /c/Program\ Files/Python3*/python.exe 2>/dev/null | sort -rV | tr ' ' '?'); do
+      f="${f//\?/ }"
+      [ -x "$f" ] || continue
+      case "$f" in */py.exe) try_py "$f" -3 && break ;; *) try_py "$f" && break ;; esac
+    done
+  fi
+else
+  for c in python3 python; do
+    if command -v "$c" >/dev/null 2>&1; then PY=("$c"); break; fi
+  done
+fi
+
+# The ESPHome folder (venv). On Windows it lives in the Windows user folder,
+# so Git Bash and MSYS2 (which have different home folders) share one copy.
+# Programs inside it: bin/ on Linux, Scripts/ on Windows.
+if [ "$WINDOWS" = 1 ] && [ -d "$WINHOME" ]; then
+  VENV="$WINHOME/esphome-venv"
+fi
 if [ "$WINDOWS" = 1 ]; then VBIN="$VENV/Scripts"; EXE=".exe"; else VBIN="$VENV/bin"; EXE=""; fi
+venv_broken() { [ -d "$VENV" ] && [ ! -x "$VBIN/python$EXE" ]; }
 
 find_esphome() {
   if   [ -x "$VBIN/esphome$EXE" ];         then ESPHOME="$VBIN/esphome$EXE"
@@ -103,7 +157,16 @@ esphome_python() {
   if [ -x "$VBIN/python$EXE" ]; then echo "$VBIN/python$EXE"
   elif [ "$WINDOWS" = 1 ] && [ -x "$(dirname "$(dirname "$ESPHOME")")/python.exe" ]; then
     echo "$(dirname "$(dirname "$ESPHOME")")/python.exe"
-  else echo "$PY"
+  else echo "${PY[0]:-python}"
+  fi
+}
+
+no_python_help() {
+  if [ "$WINDOWS" = 1 ]; then
+    [ -n "$MSYS_PY" ] && warn "Only MSYS2's Python was found ($MSYS_PY): ESPHome can't build with it"
+    info "Ask an adult to install Python from python.org (tick 'Add python.exe to PATH')"
+  else
+    info "Ask an adult to run: sudo apt install python3 python3-venv"
   fi
 }
 
@@ -147,10 +210,16 @@ do_check() {
   title "🔍 Check install"
   local problems=0 v
 
-  if [ -n "$PY" ]; then ok "Python found: $($PY --version 2>&1)"
-  else bad "Python 3 is missing"; problems=$((problems + 1)); fi
+  if [ ${#PY[@]} -gt 0 ]; then
+    ok "Python found: $("${PY[@]}" -c 'import sys; print("Python %d.%d.%d" % sys.version_info[:3], sys.executable)' 2>&1)"
+  else
+    bad "No usable Python 3"; no_python_help; problems=$((problems + 1))
+  fi
 
-  if [ -d "$VENV" ]; then ok "ESPHome folder found: ${VENV/$HOME/\~}"
+  if venv_broken; then
+    bad "The ESPHome folder ${VENV/$HOME/\~} is broken (made by another Python). Install can rebuild it"
+    problems=$((problems + 1))
+  elif [ -d "$VENV" ]; then ok "ESPHome folder found: ${VENV/$HOME/\~}"
   else warn "No ESPHome folder at ${VENV/$HOME/\~} (Install makes it)"; fi
 
   if [ -n "$ESPHOME" ]; then
@@ -180,14 +249,21 @@ do_check() {
 
 do_install() {
   title "📦 Install"
-  if [ -z "$PY" ]; then
-    bad "Python 3 is missing"
-    if [ "$WINDOWS" = 1 ]; then info "Ask an adult to install Python from python.org (tick 'Add to PATH')"
-    else info "Ask an adult to run: sudo apt install python3 python3-venv"; fi
+  if [ ${#PY[@]} -eq 0 ]; then
+    bad "No usable Python 3"
+    no_python_help
     return 1
   fi
+  if venv_broken; then
+    warn "The ESPHome folder ${VENV/$HOME/\~} is broken: it was made by another Python."
+    if ask_yes "Delete it and make a new one?"; then
+      run rm -rf "$VENV" || return 1
+    else
+      return 1
+    fi
+  fi
   if [ ! -x "$VBIN/python$EXE" ]; then
-    run "$PY" -m venv "$VENV" || { [ "$WINDOWS" = 1 ] || info "Try: sudo apt install python3-venv"; return 1; }
+    run "${PY[@]}" -m venv "$VENV" || { [ "$WINDOWS" = 1 ] || info "Try: sudo apt install python3-venv"; return 1; }
   else
     ok "ESPHome folder already there"
   fi
